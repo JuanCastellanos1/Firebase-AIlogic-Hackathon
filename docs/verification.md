@@ -1,0 +1,1317 @@
+# Local preflight verification
+
+Owner: implementer. Date: November 16, 2026. Scope: approved local tooling, official Firebase
+skill adoption (Gate G6 prerequisites), Gate A diagram evidence, the Phase 4 frozen contract with
+its minimal tested domain skeleton (§5), the Phase 7 pre-integration defect fixes (§6), and the
+Rules/persistence cut against the local Firestore emulator (§7). No UI, Auth session or live
+Firebase project exists, and no cloud provisioning, spend, deployment, commit or push was performed.
+
+Every command below was run in the project root on Windows PowerShell with Node 24.14.0,
+npm 11.9.0 and Python 3.15.2. Outputs are sanitized: absolute user directories are replaced by
+`~` and repeated package-install noise is omitted. Nothing here is a passing result for
+application behavior; SPEC/PLAN/CONSTRAINTS checks remain unmeasured.
+
+## 1. Mermaid renderer (exact pin)
+
+`package.json` declares tooling only, no application scaffold:
+
+| Package | Pin | Why |
+|---|---|---|
+| `@mermaid-js/mermaid-cli` | `12.2.0` | real Mermaid renderer used by the checker |
+| `puppeteer` | `25.17.0` | declared peer of mermaid-cli, pinned so the browser control layer is reproducible |
+
+Install command (one-time network access to the npm registry):
+
+```powershell
+$env:PUPPETEER_SKIP_DOWNLOAD='1'; npm install --no-fund --no-audit
+```
+
+```text
+added 192 packages in 47s
+```
+
+`PUPPETEER_SKIP_DOWNLOAD=1` avoided Puppeteer's bundled Chromium download (~200 MB). The checker
+instead reuses an already installed browser: Google Chrome `157.0.8103.78` at its default Windows
+install path, detected at run time and passed to Puppeteer through a temporary
+`executablePath` config, or through `MERMAID_PUPPETEER_CONFIG` if set. No browser was downloaded
+by this preflight. Check-time rendering is offline: the CLI is loaded from
+`node_modules/@mermaid-js/mermaid-cli/src/cli.js` via `node`, so no `npx` fetch happens per diagram.
+
+Verified renderer version:
+
+```powershell
+node node_modules/@mermaid-js/mermaid-cli/src/cli.js --version
+```
+
+```text
+12.2.0
+```
+
+## 2. Diagram checker
+
+`scripts/check_diagrams.py` is a standard-library Python wrapper, adapted from the global template,
+that extracts ` ```mermaid ` blocks from Markdown, renders each one with the pinned Mermaid CLI and
+writes SVG plus a JSON report under `.git/opencode/`.
+
+Contract:
+
+- Missing renderer, missing Markdown, missing Mermaid block or any failed render exits non-zero.
+- `--self-test` renders a known-good diagram (must pass) and a malformed one (must fail); it exits
+  non-zero if the renderer is unavailable, so an unverified environment is never reported as OK.
+- No homegrown parser stands in for rendering: the CLI is the only pass/fail authority.
+- Defaults: `--out-dir .git/opencode/diagrams`, `--report .git/opencode/diagram-check.json`.
+
+### Red step (tests written first)
+
+```powershell
+py -3 -m unittest tests.test_check_diagrams -v
+```
+
+```text
+FAIL: test_no_mermaid_blocks_fails ... AssertionError: 2 != 1 :
+  can't open file '...\scripts\check_diagrams.py': [Errno 2] No such file or directory
+FAIL: test_valid_diagram_passes_and_writes_svg ... AssertionError: 2 != 0 : ...
+FAIL: test_malformed_diagram_fails ... (same missing script)
+ERROR: test_extracts_only_mermaid_blocks ... (same missing script)
+
+Ran 4 tests in 0.234s
+FAILED (failures=3, errors=1)
+```
+
+### Green step
+
+```powershell
+py -3 -m unittest tests.test_check_diagrams -v
+```
+
+```text
+test_extracts_only_mermaid_blocks ... ok
+test_malformed_diagram_fails ... ok
+test_no_mermaid_blocks_fails ... ok
+test_valid_diagram_passes_and_writes_svg ... ok
+
+Ran 4 tests in 4.926s
+OK
+```
+
+(First green run. A later re-run after making the checker's SVG path independent of the working
+directory also passed 4/4 and re-rendered the spec diagram byte-identically.)
+
+The tests cover the nontrivial checker behavior: block extraction, a valid diagram producing an SVG
+and an `ok` report, a malformed diagram failing with no SVG written, and a document without
+Mermaid blocks failing.
+
+### Checker self-test
+
+```powershell
+py -3 scripts/check_diagrams.py --self-test
+```
+
+```text
+self-test OK
+SELFTEST_EXIT:0
+```
+
+### Gate A render of `docs/spec.md`
+
+```powershell
+py -3 scripts/check_diagrams.py docs
+```
+
+```text
+OK docs\spec.md#1 -> .git\opencode\diagrams\docs__spec-1.svg
+1/1 diagrams OK
+CHECK_EXIT:0
+```
+
+Artifacts (not committed; `.git/opencode/` is local evidence):
+
+| Artifact | Size | SHA-256 |
+|---|---|---|
+| `.git/opencode/diagrams/docs__spec-1.svg` | 244,962 bytes | `509bad4ed3dc5bfb312d5d4d0acab6c191f95209683c356525e38ad122d48eb6` |
+| `.git/opencode/diagram-check.json` | 363 bytes | — |
+
+The report records `renderer: "12.2.0"`, `ok: true` and one result. The SVG contains the spec's
+flowchart node labels (for example `Outgoing captures private text in memory` and the reopen
+branch), so this is a render of the real spec diagram, not a placeholder. `docs/ARCHITECTURE.md`
+did not exist during this preflight; §5 adds that second diagram and re-renders both.
+
+## 3. Official Firebase agent skills (G6 prerequisite)
+
+### Catalog check before install
+
+Existing global catalog `~/.agents/skills` (44 skills before this install) contained no `firebase-*` or
+Firestore-specific skill; the project had no `.agents/` directory. Global and project `SKILL.md`
+names were checked before installing, so no duplicate was added.
+
+### Pinned upstream revision
+
+| Item | Value |
+|---|---|
+| Repository | `firebase/agent-skills` |
+| Revision | `99954a30898bb5ddc8152ee10e124dc3b4106bf7` (commit dated 2026-11-09) |
+| Skills listed at that revision | 14 (from `skills add ... -l`) |
+
+Naming reconciliation against ADR 0001:
+
+| Task | Actually installed ID | ADR candidate / documentation table | Result |
+|---|---|---|---|
+| AI Logic, hybrid, App Check | `firebase-ai-logic-basics` | same | match |
+| Authentication | `firebase-auth-basics` | same | match |
+| Firestore | `firebase-firestore` | `firebase-firestore-standard` / `-enterprise-native-mode` | documentation table names do not exist as skill directories; edition variants are `references/standard/` and `references/enterprise/` inside `firebase-firestore` |
+| Rules audit | `firebase-security-rules-auditor` | `firestore-security-rules-auditor` | guide table name does not exist; the real ID is `firebase-security-rules-auditor` |
+| Static SPA Hosting | `firebase-hosting-basics` | same | match |
+| CLI/project setup | not installed | `firebase-basics`, `firebase-local-env-setup` | `firebase-local-env-setup` is absent from the repository; `firebase-basics` is deferred until CLI/project work is authorized |
+| Rules authoring | not installed | `firestore-rules-creation` | `firebase-firestore` delegates rules authoring to it; considered for the later rules-authoring task, outside this preflight |
+
+The repository's own README now points install commands at `firebase/skills` while installs still
+resolve through `firebase/agent-skills`; that guide/repository alias mismatch is recorded, not
+silently resolved.
+
+### Install command and result
+
+```powershell
+npx -y skills@latest add firebase/agent-skills@99954a30898bb5ddc8152ee10e124dc3b4106bf7 `
+  -s firebase-ai-logic-basics firebase-auth-basics firebase-firestore `
+     firebase-security-rules-auditor firebase-hosting-basics `
+  -g -a opencode -y --json
+```
+
+Installed to `~/.agents/skills` (scope `global`, mode `copy`), recorded in
+`~/.agents/.skill-lock.json` with the pinned `ref`:
+
+| Skill | Files | Size | Upstream folder hash (also the lock `skillFolderHash`) |
+|---|---|---|---|
+| `firebase-ai-logic-basics` | 6 | 64.8 KB | `2f45dc17630ad5045139fa0fa63a680879b11980` |
+| `firebase-auth-basics` | 6 | 28.1 KB | `ee4364167c59d8c5eb99c1f02383346a2a1d2fd1` |
+| `firebase-firestore` | 15 | 71.9 KB | `19908d324efc45714b6520f0ff8d0c8150f532b1` |
+| `firebase-hosting-basics` | 3 | 5.5 KB | `600d72f9f565a5cb3856413c8d373db90d6361e0` |
+| `firebase-security-rules-auditor` | 1 | 3.9 KB | `88cb827c95d7266070b6dbc45afd8935a3770113` |
+
+The lock hashes match the GitHub tree SHAs for those directories at the pinned revision, so the
+copied content is verifiable against the recorded commit.
+
+### Loading route
+
+After installation the five skill IDs became visible in this session's skill catalog and were
+listed with their upstream descriptions; the loader reports them as available by exact ID
+(`firebase-ai-logic-basics`, `firebase-auth-basics`, `firebase-firestore`,
+`firebase-security-rules-auditor`, `firebase-hosting-basics`). Contents were read from
+`~/.agents/skills/<id>/SKILL.md` and treated as reference. Upstream instructions never override
+project workflow, permissions, or the no-provisioning/no-spend boundaries; their CLI commands
+(e.g. `firebase init ailogic`, `firebase deploy`) were **not** run.
+
+Firebase MCP was **not** enabled or configured. `firebase-tools` was not installed globally.
+
+## 4. State and limits
+
+- Files created by the preflight: `package.json`, `package-lock.json`, `scripts/check_diagrams.py`,
+  `tests/test_check_diagrams.py`, `docs/verification.md`. §5 records the Phase 4 additions.
+- `node_modules/` and `__pycache__/` are covered by the existing `.gitignore`.
+- At preflight there was no application, test suite, Firebase project, emulator, rules file or
+  deployment. §5 now adds the pure domain modules and their suites; nothing else changed.
+- The checker rendered one real diagram (Gate A). §5 adds the architecture sequence diagram.
+- Screen-reader, keyboard, accessibility, privacy, Rules, hybrid and cloud evidence remains
+  unmeasured; CONSTRAINTS.md thresholds are still targets.
+
+## 5. Phase 4 — frozen contract and minimal domain skeleton
+
+Scope of this cut: contract freeze plus a pure, tested domain module. No UI, no Firebase adapter,
+no `firestore.rules`, no emulator, no deployment, no commit and no push.
+
+### 5.1 Tooling added (merged into the existing `package.json`)
+
+| Package | Exact pin | Reason | Verified |
+|---|---|---|---|
+| `typescript` | `7.0.2` | strict type check separate from Vitest transpilation | `npx tsc --version` → `Version 7.0.2` |
+| `vitest` | `5.1.0` | unit runner for the domain contract | `npx vitest --version` → `vitest/5.1.0 win32-x64 node-v24.14.0` |
+| `vite` | `8.3.8` | peer required by Vitest 5.1.0 | resolved by `npm install` |
+| `@types/node` | `24.19.2` | integrity with the Node 24 runtime | resolved by `npm install` |
+
+The existing Mermaid pins (`@mermaid-js/mermaid-cli` `12.2.0`, `puppeteer` `25.17.0`) were kept and
+their lockfile entries unchanged; `PUPPETEER_SKIP_DOWNLOAD=1` reused the installed browser again.
+`npm install --no-fund --no-audit` added `38 packages in 14s` with no browser download.
+
+### 5.2 Red step — tests before implementation
+
+Domain tests first (`src/domain.ts` and `src/validation.ts` absent):
+
+```powershell
+npm run test:unit
+```
+
+```text
+FAIL  tests/transitions.test.ts [ tests/transitions.test.ts ]
+Error: Cannot find module '../src/domain' imported from .../tests/transitions.test.ts
+FAIL  tests/validation.test.ts [ tests/validation.test.ts ]
+Error: Cannot find module '../src/domain' imported from .../tests/validation.test.ts
+ Test Files  2 failed (2)
+      Tests  no tests
+EXIT: 1
+```
+
+Verifier tests first (`scripts/verificar.py` absent):
+
+```powershell
+py -3 -m unittest tests.test_verificar -v
+```
+
+```text
+ModuleNotFoundError: No module named 'verificar'
+Ran 10 tests in 0.423s
+FAILED (errors=10)
+EXIT: 1
+```
+
+Two implementation-adjacent test defects were fixed during green (a `targetVersion` mismatch in one
+observation case, and an assertion that mutated a frozen object); the assertions were corrected, not
+the contract.
+
+### 5.3 Green step
+
+```powershell
+npm run typecheck
+```
+
+```text
+> tsc --noEmit -p tsconfig.json
+TSC_EXIT:0
+```
+
+```powershell
+npm run test:unit
+```
+
+```text
+ RUN  v5.1.0 C:/Users/acer/Documents/Firebase-AIlogic-Hackathon
+ Test Files  2 passed (2)
+      Tests  54 passed (54)
+      Duration  337ms
+UNIT_EXIT:0
+```
+
+The 54 cases cover: fixture/constant drift for enums, limits and error codes; ASCII, supplementary
+(U+1F600), combining (`e` + U+0301), precomposed (U+00E9) and mixed byte boundaries at and above the
+120/800 byte caps; unpaired surrogates in both directions; unknown, missing and mistyped keys;
+1–5 card bounds; input immutability and frozen results; error messages that never echo rejected
+text; publication planning with stable IDs; every allowed transition and the full rejection set
+(wrong role, wrong state, non-owner, stale version, forged version, invalid identifiers, blank or
+oversized payloads, missing/duplicate/stale/unobservable/cross-venue/mismatched observation targets);
+activity ID derivation and exactly one activity per version. Phase 7 added the task-input contract
+group (unknown/missing task keys, stored title/detail/identifier bounds, impossible
+owner/state/resolution combinations, target snapshot validation, no mutation) and the version
+headroom group (unsafe integers, exhausted increment).
+
+```powershell
+npm run test:tools
+```
+
+```text
+Ran 18 tests in 9.298s
+OK
+TOOLS_EXIT:0
+```
+
+`tests/test_check_diagrams.py` (4) plus `tests/test_verificar.py` (14): evidence field completeness,
+output hashes, fail-closed behavior without git metadata or required artifacts, honest `unborn`
+commit reporting, blocker-caused `ok=false`, `MODE=`/`MODE:` project-mode parsing, post-check tree
+mutation detection, git metadata command failure failing closed, a scope regression that keeps Gate C
+and Q5 unclaimed, CLI `--self-test`/`--list`, and a one-check CLI report run.
+
+### 5.4 Diagram budget and render
+
+`phases/4-5-build.md` asks Cortes 1 for C4 context/container diagrams plus a sequence diagram, while
+`workflow/core.md` allows two diagrams in `full` mode. Reconciliation (recorded in
+`docs/ARCHITECTURE.md` §7): C4 level-1/level-2 boundaries are text tables with trust positions, and
+the single architecture diagram is a sequence of publication and ownership. Total across the project:
+spec flowchart (1) + architecture sequence (1) = 2.
+
+```powershell
+py -3 scripts/check_diagrams.py docs
+```
+
+```text
+OK docs\ARCHITECTURE.md#1 -> .git\opencode\diagrams\docs__ARCHITECTURE-1.svg
+OK docs\spec.md#1 -> .git\opencode\diagrams\docs__spec-1.svg
+2/2 diagrams OK
+DIAGRAM_EXIT:0
+```
+
+| Artifact | SHA-256 |
+|---|---|
+| `docs__ARCHITECTURE-1.svg` | `e62cb3fcc628c03753af043c4e1885cd37bdb18076d733d7722699c85d870873` |
+| `docs__spec-1.svg` | `509bad4ed3dc5bfb312d5d4d0acab6c191f95209683c356525e38ad122d48eb6` |
+
+The spec SVG hash is identical to the Gate A preflight render, so the checker output is stable and
+the pre-existing diagram was not altered by this cut.
+
+### 5.5 Evidence run
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK unit: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+evidence: .git\opencode\evidence.json
+scope: phase 4 contract-freeze-minimal-domain (product checks unimplemented)
+Q5 credential scan: NOT IMPLEMENTED (homegrown diff regex removed; no pinned scanner installed)
+GATE_C: NOT ELIGIBLE (unborn HEAD; dirty working tree; 8 scope items unimplemented)
+ok=True commit=unborn dirty=True
+VERIFY_EXIT:0
+```
+
+Per-check exit, duration and `stdout_sha256` are recorded in `.git/opencode/evidence.json` (local,
+not versioned). The report also records `mode: "full"` (read from `docs/_project.md`) and
+`tree_stable: true` (the git state is re-read after the checks, so a check that changes the tree
+cannot be reported as clean). Repository state is honest, not normalized: the repository has no
+commit yet, so `commit` is `unborn` and `dirty` is `true` with every path untracked.
+`gate_c_eligible` is therefore false, and it stays false while any scope item is unimplemented, so
+`ok=true` refers only to the six named Phase 4 checks, never to the product, Q1–Q6 or Gate C.
+
+### 5.6 Rules feasibility finding
+
+Documented limits (Context7 `/websites/firebase_google`, retrieved November 16, 2026): 10 document
+access calls per single-document/query request, 20 per transaction or batched write, per-operation
+limit still 10, cached calls excluded. The designed publication needs `1 + 5N` uncached calls for
+`N` cards: 6 at one card, 16 at three, **26 at five**, and only 12 distinct document paths at five
+cards with 3 calls per write. So: every individual write is comfortably inside 10; the atomic
+20-call budget at the spec's five-card maximum depends on the documented caching of repeated same-path
+`get()` calls. This is a measured-risk item for the Rules slice, not a proven pass, and the card cap
+will not be lowered to fit. Observations need 2 writes and 5 uncached calls, so the call budget is
+not their constraint; their constraint is that a Rules `get()` validates a snapshot and does not lock
+the target, so target-version checking must also be part of the client transaction read set.
+
+No `docs/spec.md` constraint was found infeasible. Two claims are deliberately narrowed rather than
+silently weakened and are listed as R1–R5 in `docs/ARCHITECTURE.md` §8: target-version atomicity for
+observations, and "exactly one accept" being a transaction property rather than a Rules-only property.
+
+Superseded by §7.7: the authored `firestore.rules` also links a handover to its tasks, so the
+uncached cost is higher than the Phase 4 estimate above; the five-card budget conclusion is recorded
+there with the measured emulator result.
+
+### 5.7 Scope limits of this evidence
+
+Still unimplemented and unmeasured: a real credential scanner (see §6, Q5), `firestore.rules` and
+all Rules/emulator tests, Firebase initialization and adapters, Auth session and membership
+provisioning, React UI, accessibility (keyboard, screen reader, 200% zoom, 320 px), Playwright
+suites, npm `lint` and production `build`, local model drafting, cloud reconciliation, Hosting,
+hybrid runtime evidence and deployment. The Phase 4 unit tests are pure-function tests: they prove
+the contract, not any backend behavior. CONSTRAINTS.md thresholds Q1–Q6 remain unmeasured targets.
+
+Next step (owned by master): authorize the Firestore Rules and emulator slice, where the five-card
+call budget and the client/Rules byte-verdict equality must be measured before any authorization or
+publication claim. Q5 also needs an authorized pinned scanner decision before any secret-hygiene
+claim.
+
+## 6. Phase 7 — pre-integration defect fixes
+
+Six defects were reported after inspection. Each was reproduced with a failing regression before
+the fix. Scope unchanged: no UI, adapter, Rules, cloud, commit or push.
+
+Red first (both suites failed for the reported reasons):
+
+```text
+ FAIL  tests/transitions.test.ts > applyTransition accept > rejects unsafe versions and exhausted increments
+Expected: "invalid_version"  Received: "stale_version"
+ FAIL  ... > applyTransition task input contract > rejects missing and unknown task keys instead of casting them
+ FAIL  ... > enforces the stored title, detail and identifier bounds
+ FAIL  ... > rejects owner, state and resolution combinations no transition can produce
+Expected: "invalid_state"  Received: "forbidden_transition"
+ FAIL  ... > validates the target snapshot with the same contract
+Error: expected ContractError, nothing was thrown
+ FAIL  ... > applyTransition observe > rejects a snapshot that is not the task the command names
+Error: expected ContractError, nothing was thrown
+ Test Files  1 failed | 1 passed (2)
+      Tests  6 failed | 48 passed (54)
+UNIT_EXIT:1
+```
+
+```text
+FAIL: test_secret_scan_is_absent_and_q5_gap_is_named
+AssertionError: 'secret-scan' unexpectedly found in ['typecheck', ..., 'contract-fixture', 'secret-scan']
+Ran 14 tests in 3.596s
+FAILED (failures=3, errors=3)
+```
+
+### 6.1 Observation target identity was never checked
+
+**Symptom:** `applyTransition` for `observe` accepted any well-formed task snapshot as the target,
+so a command naming `targetTaskId: "task-a"` could be recorded against `task-b` at the same version.
+**Cause:** `readTask(targetTask)` validated shape only; `command.observation.targetTaskId` was used
+for the duplicate check and stored in the activity but never compared with `target.id`.
+**Fix:** reject a snapshot whose `id` differs from `command.observation.targetTaskId` as
+`forbidden_transition at targetTask.id`, before duplicate/venue/version/state checks.
+**Test:** `tests/transitions.test.ts` → "rejects a snapshot that is not the task the command names".
+
+### 6.2 Task input was cast after partial validation
+
+**Symptom:** a task missing `handoverId`/`creatorId`, with a blank or oversized title/detail, extra
+keys, or an impossible owner/state/resolution combination reached transition logic intact.
+**Cause:** `readTask` checked a subset and returned `value as unknown as Task`; the domain declares
+that input `unknown`.
+**Fix:** `readTask` validates the whole persisted-free `Task` contract (exact keys, identifiers,
+title/detail byte caps, safe version, and `open` ⇒ no owner/no resolution, `accepted` ⇒ owner and no
+resolution, `resolved` ⇒ owner and 1–800 byte resolution) and returns a frozen copy. `accepted` with
+`ownerId: null` and `resolved` with a cleared resolution are impossible under the transition matrix,
+so rejecting them narrows nothing legitimate. Two test fixtures that built such impossible states
+were corrected instead of the contract.
+**Tests:** `tests/transitions.test.ts` → the "applyTransition task input contract" group, plus the
+target-snapshot and no-mutation observation cases.
+
+### 6.3 Versions were integers, not safe integers
+
+**Symptom:** `version: 2^53` or `1e308` passed `Number.isInteger`, and a task at `2^53−1` produced a
+non-monotonic `version + 1`.
+**Cause:** `versionField` used `Number.isInteger` and nothing rejected an exhausted increment.
+**Fix:** `Number.isSafeInteger` in `versionField`, and `invalid_version at task.version` when the
+source version is `2^53−1`. `2^53−2` still transitions to `2^53−1`.
+**Test:** `tests/transitions.test.ts` → "rejects unsafe versions and exhausted increments".
+
+### 6.4 Verifier read the wrong project-mode syntax
+
+**Symptom:** `evidence.json` reported `mode: "unknown"` although `docs/_project.md` says `MODE=full`.
+**Cause:** the regex required `MODE:`.
+**Fix:** `MODE\s*[:=]` in `project_mode`; `--self-test` now also fails if the real file is unreadable.
+**Tests:** `tests/test_verificar.py` → "reads assignment and colon syntax"; the CLI report test now
+asserts the real project reports `full`.
+
+### 6.5 Verifier could report a clean tree a check had just dirtied
+
+**Symptom:** git state was read only before the checks, so a check writing files produced
+`dirty: false` and a passing run; a failed `git status` silently produced an empty status.
+**Cause:** `git_state` treated any failure as "no changes", and `build_evidence` never re-read state.
+**Fix:** `git_state` records `ok`/`problems` (unborn `HEAD` is exit 1 with no output; every other
+non-zero exit is a blocker), `build_evidence` re-reads the state after the checks, reports
+`state_after`/`tree_stable`, and requires a stable tree for `ok`. Git metadata failure now blocks
+before any check runs.
+**Tests:** `tests/test_verificar.py` → "a check that mutates the tree is not reported clean" and
+"git metadata failure fails closed".
+
+### 6.6 The homegrown secret scan was not a Q5 scanner
+
+**Symptom:** the verifier printed `CHECK secret-scan: PASS` for a regex over `git diff` output, while
+untracked and clean tracked files were never scanned; Q5 requires an authorized pinned redacting
+scanner, not a regex substitute.
+**Cause:** the scan was invented locally to fill the Q5 slot.
+**Fix:** the regex and its `--self-test` cases were removed, `secret-scan` is gone from
+`SCOPE["included"]` and from the passing check list, and
+`SCOPE["unimplemented"]` now names "real credential scanner for Q5 … Q5 stays unmeasured".
+`gate_c_eligible` requires an empty unimplemented list, so Phase 4 scope alone can never print
+`GATE_C: ELIGIBLE` or a product/Q5 claim; the CLI states the Q5 gap on every run.
+**Test:** `tests/test_verificar.py` → "secret scan is absent and Q5 gap is named" and "passing Phase 4
+checks never claim Gate C or product scope". Q5 is **not** met and remains a blocker.
+
+## 7. Rules and persistence cut (Phase 4–5, slice 1 partial)
+
+Scope: authorization and persistence contract only, against the local Firestore emulator. No UI, no
+Auth session, no live Firebase project, no provisioning, no deployment, no commit and no push. The
+frozen contract in `docs/INTERFACES.md` did not change; `tests/fixtures/contrato.json` needed no edit
+because no type, limit, enum, error code or transition changed.
+
+### 7.1 Dependencies added (exact pins, merged into the existing `package.json`)
+
+| Package | Pin | Scope | Why |
+|---|---|---|---|
+| `firebase` | `13.3.0` | dependency | modular client SDK used by `src/tasks.ts`; also powers emulator identity |
+| `@firebase/rules-unit-testing` | `6.0.0` | dev | loads `firestore.rules`, clears data, seeds with rules disabled |
+| `firebase-tools` | `15.36.0` | dev | `emulators:exec`, so no `npx @latest` download per run |
+
+The four existing pins (`typescript` 7.0.2, `vitest` 5.1.0, `vite` 8.3.8, `@types/node` 24.19.2) and
+the Mermaid pins are unchanged. Install output (network access to the npm registry only):
+
+```powershell
+$env:PUPPETEER_SKIP_DOWNLOAD='1'; npm install --no-fund --no-audit
+```
+
+```text
+added 792 packages in 2m
+```
+
+Runtime for the Rules suites: Node 24.14.0, Java `openjdk 21.0.8` (Temurin), Firebase CLI 15.36.0,
+`cloud-firestore-emulator-v1.22.0.jar` downloaded once into the user emulator cache. The project id
+is `demo-shiftrelay`; `firebase.json` binds the emulator to `127.0.0.1:8080` and disables the UI.
+`firebase` refuses non-emulated services for a `demo-` project id, so no live read, write, auth call,
+provisioning or spend is possible from these commands.
+
+### 7.2 Skills used for this cut
+
+- `firebase-firestore` (installed at the pinned revision): read `references/standard/web_sdk_usage.md`
+  and `references/standard/indexes.md`. Its mandatory edition-discovery command was **not** run
+  because live project discovery is not authorized; the approved local scope fixes Standard edition
+  emulators, and the emulator reports `Database Edition: STANDARD`.
+- `firestore-rules-creation` (absent at preflight; installed now from the same reviewed revision
+  `99954a30898bb5ddc8152ee10e124dc3b4106bf7`, folder hash
+  `0dbc00cf86de7935d6b02c04a2d5dee680d35b3b`): loaded by its discovered ID. No
+  `firestore-rules-author` subagent exists in this environment, so the skill's documented
+  direct-authoring fallback applied. Upstream deployment instructions were not followed.
+- Upstream skill text is reference data: no install, deploy, provisioning or billing command from it
+  was executed.
+
+### 7.3 Files created in this cut
+
+`firestore.rules`, `firebase.json`, `firestore.indexes.json`, `src/tasks.ts`,
+`tests/rules/support.ts`, `tests/rules/permissions.test.ts`, `tests/rules/concurrency.test.ts`,
+`vitest.config.mts`, `vitest.rules.config.mts`. `package.json` was merged, not replaced. `src/firebase.ts`
+was deliberately not created: there is no app shell or Auth flow yet, and a client initializer with no
+caller would be unverified code. Tests supply their own emulator-bound Firestore instances.
+
+Unit/rules isolation: `vitest.config.mts` includes only `tests/*.test.ts`, so `npm run test:unit`
+never collects `tests/rules/**`; `vitest.rules.config.mts` includes only `tests/rules/**/*.test.ts`,
+runs files sequentially (one shared emulator project) and raises the per-test timeout.
+
+### 7.4 Red step
+
+`firestore.rules` and `src/tasks.ts` were absent, so the suites could neither load rules nor import
+the adapter:
+
+```powershell
+npm run test:rules
+```
+
+```text
+!  firestore: Cloud Firestore rules file ...\firestore.rules specified in firebase.json does not exist.
+!  firestore: The emulator will default to allowing all reads and writes.
+ FAIL  tests/rules/concurrency.test.ts [ tests/rules/concurrency.test.ts ]
+Error: Cannot find module '../../src/tasks' imported from .../tests/rules/concurrency.test.ts
+ FAIL  tests/rules/permissions.test.ts [ tests/rules/permissions.test.ts ]
+Error: Cannot find module '../../src/tasks' imported from .../tests/rules/permissions.test.ts
+ Test Files  2 failed (2)
+      Tests  no tests
+RULES_EXIT:1
+```
+
+### 7.5 Green step
+
+```powershell
+npm run typecheck
+```
+
+```text
+> tsc --noEmit -p tsconfig.json
+TSC_EXIT:0
+```
+
+```powershell
+npm run test:unit
+```
+
+```text
+ Test Files  2 passed (2)
+      Tests  54 passed (54)
+ UNIT_EXIT:0
+```
+
+The unit command collected only the two domain files, confirming `tests/rules` isolation.
+
+```powershell
+npm run test:rules
+```
+
+```text
+ Starting emulators: firestore
+ Detected demo project ID "demo-shiftrelay", emulated services will use a demo configuration
+ +  firestore: Firestore Emulator was started in standard edition.
+ Running script: vitest run --config vitest.rules.config.mts
+ Test Files  2 passed (2)
+      Tests  28 passed (28)
+      Duration  19.24s
+RULES_EXIT:0
+```
+
+28 emulator cases: 25 in `permissions.test.ts`, 3 in `concurrency.test.ts`. The Rules file under test
+is the real `firestore.rules` read from disk; the emulator would otherwise default to allow-all, and
+the denial cases prove it did not.
+
+```powershell
+npm run test:tools
+```
+
+```text
+Ran 19 tests in 18.292s
+OK
+TOOLS_EXIT:0
+```
+
+`tests/test_check_diagrams.py` (4) still passes; `tests/test_verificar.py` now has 15 tests, including
+the updated explicit-check assertion and a new scope test that keeps the product gaps named.
+
+### 7.6 What the emulator measured
+
+Every negative case below is a direct modular-SDK write (not the client validator), so the verdict is
+Rules behavior. Every positive case goes through `src/tasks.ts` and the real SDK.
+
+- **Identity and membership.** Signed-out clients cannot read tasks, handovers or membership, and
+  cannot list. A nonmember cannot read, list or write. A member can read the venue's tasks and
+  handovers, and can list only with an explicit limit of at most 50; a query without a limit and a
+  limit of 51 are denied. A member reads its own membership document only; another member's document
+  and any roster list are denied. A member of venue A has no access to venue B. No client can create,
+  update or delete membership, so an incoming member cannot promote itself to outgoing.
+- **Atomic publication.** Outgoing published 1, 2, 3, 4 and 5 cards; each batch produced the
+  handover, N open/unassigned/version-1 tasks and N creation activities, with task `createdAt`,
+  `updatedAt` and activity `at` equal to the server commit time. Incoming, nonmember and signed-out
+  publications are denied. Partial batches are denied: handover without tasks, tasks without
+  handover, tasks without their activities, and a batch missing one of the two listed tasks. Forged linkage is
+  denied: a task the handover does not list, a task claiming another handover, a task or handover
+  with another creator, a handover whose `id` field does not match its path, six cards, an empty task
+  list, an unknown key, and client-supplied creation time.
+- **Transitions.** Incoming accepts an open task (v2, owner = actor, `accept` event); the owner
+  resolves (v3, resolution retained in the event), reopens (v4, resolution cleared on the task,
+  previous resolution still on the v3 event), and either role records an observation without changing
+  state or owner. Denied with direct writes: outgoing acceptance, assigning the task to a different
+  owner, releasing the owner, accepting an accepted task, resolving an open task, reopening an
+  accepted task, resolving or reopening another member's task, arbitrary state patches, version
+  jumps, post-publication title edits, a resolution smuggled into an accept, deletes of task,
+  activity or handover, standalone activities, actor mismatch, non-derived activity ID, activity for
+  a version the task does not reach, a version above the safe-integer ceiling, client-supplied event time,
+  client-supplied update time, activity updates, and observations against a moved, missing, self, resolved or
+  cross-venue target with an over-limit rationale or a non-positive target version.
+- **Byte contract.** For every class (ASCII, supplementary `U+1F600`, combining `e`+`U+0301`,
+  precomposed `U+00E9`, mixed) the client verdict and the direct-Rules verdict agreed at the title cap
+  and one byte over, and at the detail cap and one byte over; accepted strings read back
+  byte-identically, including the supplementary and combining cases. Resolution 800 bytes and reopen
+  reason 400 bytes pass through the adapter; 801 and 401 bytes, and blank text, are denied by Rules.
+- **Concurrency.** Two isolated clients raced to accept the same open task: exactly one succeeded,
+  the task ended at version 2 with the winner as owner, exactly one `__v2` acceptance event exists
+  with the winner as actor, no `__v3` event exists, and the other task was untouched. A write built
+  from a snapshot captured before that acceptance was denied, and the owner did not change. An
+  observation whose target moved from version 1 to 2 was rejected by the adapter (`stale_target`) and
+  by a forged direct write; nothing was written.
+
+### 7.7 Rules request/read budget conclusion
+
+The authored coupling is stricter than the Phase 4 sketch: a handover create now also proves that
+every listed task exists in the same batch, so the uncached cost is `7N+2` calls for `N` cards
+(9 at one card, 23 at three, 37 at five) over `2N+2` distinct paths (12 at five). Per-operation cost
+is at most 7, under the documented 10. The 20-call budget for a batched write at five cards is met
+only with the documented caching of repeated same-path `get()` calls. The emulator accepted 1–5 card
+batches atomically, but it does not report whether it enforces the 10/20 call limits, so this is
+functional evidence, not a production-budget measurement. The five-card cap was not lowered; a
+production denial escalates to master (`docs/ARCHITECTURE.md` §8, R3).
+
+Observation costs 5 uncached calls over 4 distinct paths, so its constraint is the target snapshot,
+not the call budget (R1).
+
+### 7.8 Emulator findings worth knowing
+
+- **`exists()` / `existsAfter()` are unusable in emulator 1.22.0.** Probing them produced evaluation
+  errors even for absent documents, and so did negated null comparisons. `firestore.rules` therefore
+  accesses coupled documents directly: a missing membership, handover, task or activity raises an
+  evaluation error, which Rules treat as a denial. Every missing-record case is asserted as a denial
+  in the suites, and no rule relies on an error being treated as allow. Recorded as R6 in
+  `docs/ARCHITECTURE.md`.
+- The emulator's verbose denial log lists the outcome of allow statements for collections the write
+  did not target, so a log line reading `evaluation error` is not by itself a defect; the assertions,
+  not the log text, decide the verdict. Allowed writes produced no failure logs.
+- `connectFirestoreEmulator(db, host, port, { mockUserToken: { user_id } })` gives a modular client
+  without the Auth emulator; seeding uses the emulator's rules-disabled mode
+  (`initializeTestEnvironment` + `withSecurityRulesDisabled`). No Admin credentials exist anywhere.
+
+### 7.9 Verifier scope extension and evidence run
+
+`scripts/verificar.py` now includes a real `rules-tests` check (`npm run test:rules`), requires the
+new files and the emulator toolchain (Node, npm, Java), and its `SCOPE` names the Rules cut. The
+remaining blockers are still listed, so the verifier cannot claim product or Gate C completion.
+`tests/test_verificar.py` was updated to expect the new check, to forbid `e2e` in any check, and to
+assert that the unimplemented list still names the Auth session, UI, Playwright, credential scanner,
+lint and build gaps (19 tooling tests pass).
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK unit: PASS
+CHECK rules-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+evidence: .git\opencode\evidence.json
+scope: phase 4 contract-freeze-minimal-domain-plus-rules (product checks unimplemented)
+Q5 credential scan: NOT IMPLEMENTED (homegrown diff regex removed; no pinned scanner installed)
+GATE_C: NOT ELIGIBLE (unborn HEAD; dirty working tree; 7 scope items unimplemented)
+ok=True commit=unborn dirty=True
+VERIFY_EXIT:0
+```
+
+### 7.10 Limits of this evidence
+
+Still unimplemented and unmeasured: Auth sign-in/session, membership provisioning, session-loss
+handling, `src/firebase.ts`, React UI, accessibility (keyboard, screen reader, 200% zoom, 320 px),
+Playwright end-to-end suites, privacy sentinel capture, `lint`, production `build`, local model
+drafting, cloud reconciliation, Hosting, App Check, deployment and any live Firebase behavior. The
+Rules are emulator-verified for synthetic identities only and are not deployed. Q2 is measured for
+its Rules/Rules-race half but not its two-session UI half; Q3 is partial (typecheck, unit, Rules and
+tooling are green, lint/build/E2E do not exist); Q1, Q4, Q5 and Q6 remain unmeasured.
+
+
+## 8. Manual slice 1 cut — UI, Auth session and emulator-backed E2E
+
+Scope: the manual private-note → reviewed publication → accepted ownership → resolution/reopen
+workflow, against the local `demo-shiftrelay` Auth and Firestore emulators with synthetic identities.
+No AI, cloud reconciliation, App Check, Hosting, deployment, live Firebase project, commit or push.
+The frozen domain contract did not change; the persistence-adapter semantics did (batch → transaction
+with stable-ID read-back), so `docs/INTERFACES.md`, `docs/ARCHITECTURE.md`,
+`tests/fixtures/contrato.json` and `src/tasks.ts` were updated together.
+
+### 8.1 Red evidence during the cut
+
+Real failures observed before the final green run, kept here so the green result is not mistaken for
+a one-shot success:
+
+| Red observation | Cause and correction |
+|---|---|
+| `npm run test:rules` failed 3/32: one publication test built a 1-card plan with 3 task IDs; two “offline” tests expected `disableNetwork()` to reject transactions. | The first was a test-fixture defect; corrected to a one-ID context. `disableNetwork()` **queues** writes/transactions by design, so it cannot prove no-replay; those cases were removed and the real-browser offline suite is the evidence. |
+| Playwright accessibility failed with axe `label-content-name-mismatch` (serious) on `Accept/Resolve/Reopen` buttons. | Real UI defect: the accessible name did not contain the visible label. Names changed to `Accept task: …`, `Resolve task: …`, `Reopen task: …`; scan green. |
+| The conflict E2E failed because the losing accept surfaced `permission-denied` as “Access denied by Firestore Rules”, not a conflict. | Real UX defect: `permission-denied` on a current task is usually a lost version race. The message now says “Conflict: Firestore Rules rejected this change…”; revocation is handled separately by the membership watch. |
+| The privacy test assumed no IndexedDB at all. | A `firebase-heartbeat-database` exists even with automatic data collection disabled; it is metadata, not Auth persistence or Firestore cache. The test now reads every IndexedDB record for the sentinel and rejects only `firebaseLocalStorageDb` / `firestore` databases. |
+| The second offline E2E timed out waiting for an Accept button. | Test-harness race: it set offline while the explicit Refresh was still in flight. The test now waits for the task heading before going offline. |
+| `tsc` failed on two `playwright-core` type trees (axe 4.14 resolved 1.57, Playwright 1.65). | Added an exact `playwright-core` 1.65.1 override; typecheck and the axe test then passed. TypeScript was moved from 7.0.2 to 6.0.3 because `typescript-eslint` 8.72.2 rejects the TS 7 API; both typecheck and lint use 6.0.3. |
+| The ARCHITECTURE Mermaid diagram failed to render. | A semicolon in a sequence message was parsed as a statement separator; replaced with a comma. |
+
+### 8.2 Green commands and actual output
+
+```powershell
+npm run typecheck
+```
+
+```text
+> tsc --noEmit -p tsconfig.json
+TSC_EXIT:0
+```
+
+```powershell
+npm run lint
+```
+
+```text
+> eslint .
+LINT_EXIT:0
+```
+
+```powershell
+npm run build
+```
+
+```text
+> vite build
+vite v8.3.8 building client environment for production...
+✓ 41 modules transformed.
+dist/index.html                   0.46 kB │ gzip:   0.29 kB
+dist/assets/index-BSb7wnxz.css    8.85 kB │ gzip:   2.63 kB
+dist/assets/index-B-eLfPnJ.js   808.89 kB │ gzip: 245.04 kB
+✓ built in 842ms
+BUILD_EXIT:0
+```
+
+The bundle-size hint is a Vite recommendation, not an error; no performance threshold was set for
+this slice.
+
+```powershell
+npm run test:unit
+```
+
+```text
+Test Files  2 passed (2)
+     Tests  54 passed (54)
+UNIT_EXIT:0
+```
+
+```powershell
+npm run test:rules
+```
+
+```text
+Test Files  3 passed (3)
+     Tests  31 passed (31)
+     Duration  29.62s
+RULES_EXIT:0
+```
+
+The 31 Rules cases are 25 permissions + 3 concurrency + 3 publication (lost-ack idempotence, a
+same-ID/different-content conflict, and recognition of an already-published handover after a task
+advanced). The emulator is `demo-shiftrelay`; no live service is reachable.
+
+```powershell
+npm run test:e2e
+```
+
+```text
+Running 7 tests using 1 worker
+ok 1 accessibility.spec.ts: 320px layout, keyboard path, focus restoration and axe serious/critical scan
+ok 2 conflicts.spec.ts: two incoming sessions race one accept: exactly one owner and one event
+ok 3 handover.spec.ts: outgoing publishes three reviewed cards and incoming accepts, resolves and reopens one
+ok 4 offline.spec.ts: offline share is unconfirmed and never queued; explicit server check and retry publish once
+ok 5 offline.spec.ts: offline accept and resolve stay unconfirmed and do not change the task
+ok 6 privacy.spec.ts: private sentinel never reaches storage, requests, console, URL or Firestore
+ok 7 privacy.spec.ts: member revocation clears private and shared state from the page
+7 passed (1.2m)
+E2E_EXIT:0
+```
+
+The Firebase SDK emitted `console.warn` transport messages only during the deliberate offline and
+lost-race cases; there were no uncaught page errors and no private sentinel in console, request
+bodies or storage. The privacy test also rejects `firebaseLocalStorageDb` and `firestore*` IndexedDB
+databases; the only database present is the Firebase heartbeat metadata store, whose records were
+searched for the sentinel and did not contain it.
+
+```powershell
+npm run test:tools
+```
+
+```text
+Ran 19 tests in 13.689s
+OK
+TOOLS_EXIT:0
+```
+
+```powershell
+py -3 scripts/check_diagrams.py docs
+```
+
+```text
+OK docs\ARCHITECTURE.md#1 -> .git\opencode\diagrams\docs__ARCHITECTURE-1.svg
+OK docs\spec.md#1 -> .git\opencode\diagrams\docs__spec-1.svg
+2/2 diagrams OK
+DIAGRAMS_EXIT:0
+```
+
+### 8.3 Browser walkthrough and screenshots
+
+A separate `agent-browser` profile (not the Playwright browser) signed in through the real UI with
+the runtime-generated synthetic accounts, published three cards, then used the incoming account to
+accept, resolve and reopen one task. The console contained only Vite connection and React DevTools
+development messages; no error or warning after sign-out. Screenshots are evidence only, under
+`.git/opencode/`:
+
+- `ui-sign-in.png`
+- `ui-outgoing-review.png`
+- `ui-outgoing-confirmed.png`
+- `ui-incoming-queue.png`
+- `ui-incoming-accepted.png`
+- `ui-incoming-resolved.png`
+- `ui-incoming-reopened.png`
+
+Live preview while the local servers run: <http://127.0.0.1:5173/>. Start with
+`npm run emulators`, `npm run seed:emulator` and `npm run dev` in separate terminals.
+
+### 8.4 What the E2E suites proved
+
+- **AC01/AC08:** outgoing published exactly three reviewed cards; incoming saw only approved content
+  (no sentinel), accepted, resolved with a recorded resolution, and reopened with a reason. Every
+  step returned through a server-acknowledged transaction, and the task version advanced 1 → 2 → 3 → 4
+  with one derived activity per version.
+- **AC07/AC09:** the real Rules suites still deny signed-out/nonmember/cross-venue reads and writes,
+  role escalation, direct transition bypasses, forged activities and stale updates. Two isolated
+  incoming sessions raced one accept: exactly one owner, one version-2 acceptance event, no second
+  event, and the loser saw a conflict requiring refresh.
+- **AC10:** real browser offline (`BrowserContext.setOffline`) made publication, accept and resolve
+  stay unconfirmed; the emulator held no new document; after reconnection an explicit server check
+  reported `absent`, and an explicit retry wrote exactly once. No silent queued replay was observed.
+- **AC05/Q1:** a unique private sentinel in the raw note appeared in no Firestore document, request
+  body, URL, console message, localStorage/sessionStorage or IndexedDB record; sign-out removed the
+  private draft from the page. Membership revocation cleared both private and shared state.
+- **AC12/Q4:** keyboard-only sign-in, card entry, review, share, accept and resolve worked at 320 CSS
+  px with no horizontal document overflow; focus returned to the Resolve trigger after Cancel; axe
+  reported zero serious/critical violations on sign-in, draft, review, incoming queue, resolve form
+  and resolved task. This is automated evidence, not a WCAG certification.
+
+### 8.5 Final verifier
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK unit: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+evidence: .git\opencode\evidence.json
+scope: phase 5 manual-handover-ui-slice1-emulator-only (unimplemented work is listed)
+Q5 credential scan: NOT IMPLEMENTED (no pinned authorized scanner installed)
+GATE_C: NOT ELIGIBLE (unborn HEAD; dirty working tree; 5 scope items unimplemented)
+ok=True commit=unborn dirty=True
+VERIFY_EXIT:0
+```
+
+`ok=True` is limited to the named scope. Gate C is not eligible because the repository still has an
+unborn HEAD, a dirty working tree and the named unimplemented product/manual/hybrid/live/scanner
+items.
+
+Constraint status: Q1 is measured for the synthetic sentinel path only; Q2 is measured in both the
+Rules and two-browser halves; Q3 is partial (typecheck, lint, build, unit, Rules, E2E and tooling are
+green, but AC13/AC15 manual/product work is absent); Q4 is automated only (axe, keyboard, 320 px—no
+screen reader, 200% zoom or device); Q5 and Q6 remain unmeasured.
+
+### 8.6 Limits of this evidence
+
+Still unimplemented and unmeasured: local model drafting, cloud reconciliation, Firebase AI Logic,
+App Check, Hosting, deployment, live project behavior, screen-reader announcements, 200% browser
+zoom, actual Android Chrome touch and AC15 representative-user validation. Q5 was still unmeasured
+in this cut; §9 adds the pinned scanner and the production dependency audit. The Firestore emulator
+does not prove production Rules call-budget caching, so the five-card publication remains a
+documented production risk. The Auth/Firestore emulators and synthetic identities are not
+production security evidence. No commit, push, merge or deployment was performed.
+
+## 9. Q5 credential scan and production dependency audit (November 16, 2026)
+
+Scope: replace the named Q5 gap with a real pinned scanner and a real production dependency audit.
+No application, Rules, UI, AI or backend behavior changed; `src/`, `firestore.rules`, the E2E
+suites and the frozen contract were not touched. No commit, push, deployment or cloud action.
+
+### 9.1 Tool: Gitleaks 8.30.1 (official release, hash-pinned)
+
+| Item | Value |
+|---|---|
+| Scanner | Gitleaks, `gitleaks version` → `8.30.1` |
+| Asset | `gitleaks_8.30.1_windows_x64.zip` (official GitHub release) |
+| Asset SHA-256 | `d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e` |
+| Extracted `gitleaks.exe` SHA-256 | `17157e2ee8b76fc8b1d8bee607a250e34b8a8023c8bc81822d4b5ee4d78fcb7c` |
+| Tool location | `%TEMP%\opencode\tools\gitleaks\8.30.1\` — temp tool cache, never in the repository |
+| Install | `npm run scan:secrets -- --install` |
+
+The asset hash matches the release's published `gitleaks_8.30.1_checksums.txt`. Install downloads
+the pinned asset, verifies the zip hash, extracts, re-verifies the binary hash and installs no
+service. A missing or mismatching binary is a hard failure (exit 2) that prints the exact install
+command and both hashes, so an unverified environment is never reported as a pass. CLI behavior
+(`dir` command, `--redact`, `--report-format json`, exit codes `0` clean / `1` leaks or error) was
+taken from the official v8.30.1 README, not from memory.
+
+### 9.2 Scope actually scanned
+
+`npm run scan:secrets` → `py -3 scripts/scan_secrets.py` (standard-library Python, so it stays
+reproducible on this Windows/PowerShell environment).
+
+- Whole working tree **plus the production build**: 74 files, 1,501,488 bytes in the final verifier
+  run. The runner refuses to scan when `dist/index.html` is absent, so a stale or missing build
+  cannot be reported as a clean production scan.
+- Untracked and gitignored files are scanned. Gitleaks' directory scan does not read
+  `.gitignore`; the regression suite proves it with a fixture where `.env` and `dist/bundle.js`
+  are gitignored and both are reported.
+- Only `.git` and `node_modules` are excluded, by Gitleaks' embedded default config. That same
+  default config also skips lockfiles (`package-lock.json`), images, fonts and compiled binaries;
+  the dependency graph is covered by §9.4 instead. This scope is measured, not assumed: the
+  exclusion was confirmed by scanning a fixture with planted values under `.git` and
+  `node_modules`.
+- No project config and no allowlist: the runner rejects a repository `.gitleaks.toml` outright and
+  points `--gitleaks-ignore-path` at an empty temp directory, so neither a project config nor a
+  `.gitleaksignore` can hide a finding.
+- Not scanned, and reported as such: `.git/opencode/` (local evidence, screenshots, previous
+  reports) and `node_modules`. Public release artifacts still need the reviewer's own scan (§9.5).
+
+Fail-closed guards, each with a regression test: scanner missing or hash mismatch, empty scan
+target, zero bytes read, unreadable scanner report, scanner exit above 1, exit 0 with findings,
+exit 1 without findings, and missing build output. `ok` is a clean scan only; findings are never a
+pass.
+
+### 9.3 Red then green
+
+Red (before `package.json` and the verifier knew about the runner; 1 failure, 1 error):
+
+```text
+FAIL: test_known_positive_fixture_fails_with_the_value_redacted
+AssertionError: True is not false
+ERROR: test_npm_script_and_verifier_use_the_pinned_scanner
+KeyError: 'scan:secrets'
+Ran 8 tests in 5.761s
+FAILED (failures=1, errors=1)
+```
+
+The `KeyError` proved the npm/verifier integration was missing. The `AssertionError` was a real
+runner defect: `run()` reported `ok` for a scan that had found a leaked value, so a positive
+fixture would have been reported as a pass. `ok` is now `exit == 0 and not findings`.
+
+Green:
+
+```powershell
+py -3 -m unittest tests.test_scan_secrets -v
+```
+
+```text
+Ran 8 tests in 4.703s
+OK
+```
+
+The 8 cases cover: a synthetic known-positive fixture failing with the value redacted (the value
+appears nowhere in the scanner log, the summary, the report or a `Match`/`Secret` field), a
+negative fixture passing and writing a report, `scanner unavailable` failing closed with the
+install command and expected hash, empty and missing input failing closed, gitignored/untracked
+inputs being scanned, a project allowlist file being rejected, `.git`/`node_modules` exclusion with
+an exact file count, and the npm-script/verifier wiring.
+
+The first clean-tree run of the real scan found one thing worth recording: the synthetic fixture
+token in `tests/test_scan_secrets.py` was itself reported as
+`aws-access-token tests/test_scan_secrets.py:21`. That is a true positive on a shaped literal. It
+was fixed by assembling the synthetic value at run time so the repository stores no
+credential-shaped literal — not by an allowlist, a `.gitleaksignore` or a `gitleaks:allow`
+comment, none of which this runner accepts. The second scan then reported the same value again,
+this time from `tests/__pycache__/test_scan_secrets.cpython-315.pyc:56`: CPython folds
+`"AKIA" + "…"` at compile time, so the compiled test cache carried a full literal even though the
+source no longer did. The fixture now uses `"".join([...])`, which is not folded; both the source
+and the regenerated `.pyc` are clean, and `__pycache__` stays inside the scanned scope rather than
+being quietly excluded.
+
+```powershell
+npm run scan:secrets
+```
+
+```text
+> scan:secrets
+> py -3 scripts/scan_secrets.py
+
+scanner: gitleaks 8.30.1 (asset sha256 d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e, exe sha256 17157e2ee8b76fc8b1d8bee607a250e34b8a8023c8bc81822d4b5ee4d78fcb7c)
+scope: 74 files, 1501488 bytes under C:\Users\acer\Documents\Firebase-AIlogic-Hackathon (untracked and gitignored files included; only .git and node_modules excluded)
+result: no leaks found
+report: .git\opencode\secret-scan.json
+```
+
+`.git/opencode/secret-scan.json` records the scanner version, both hashes, the scope (file count,
+bytes, exclusions, `project_allowlist: false`), `findings: []`, exit 0 and `ok: true`. It contains
+no scanner log and no matched value.
+
+### 9.4 Production dependency audit — resolved by a scoped `@grpc/grpc-js` pin (November 16, 2026)
+
+Red, before the fix:
+
+```powershell
+npm audit --omit=dev --audit-level=high
+```
+
+```text
+@grpc/grpc-js  <=1.13.5
+Severity: high
+@grpc/grpc-js: In certain configurations, getAuthContext can return unauthorized certificates as though they were authorized - https://github.com/advisories/GHSA-m9gg-hp2v-232j
+@grpc/grpc-js: The server transmits some error messages thrown by method handlers to the client in status messages - https://github.com/advisories/GHSA-f596-whhp-79r4
+fix available via `npm audit fix --force`
+Will install firebase@9.14.0, which is a breaking change
+node_modules/@grpc/grpc-js
+  @firebase/firestore  1.3.1-0 - 1.3.1-canary.df1b588 || ...
+    @firebase/firestore-compat  <=0.0.900-exp.520ca39d0 || ...
+      firebase  0.900.22 || ...
+4 high severity vulnerabilities
+
+AUDIT_EXIT:1
+```
+
+Reproduced path in the production tree: `firebase` 13.3.0 → `@firebase/firestore` 4.20.0 →
+`@grpc/grpc-js` 1.9.16 (`node -p` on the installed package: `1.9.16`).
+
+**Cause.** `@firebase/firestore` 4.20.0 declares `"@grpc/grpc-js": "~1.9.0"`, so the resolver is
+told to stay inside 1.9.x, and every 1.9.x release is inside the advisory range. No Firebase patch
+upgrade exists to pull a newer edge: `npm view firebase version` → `13.3.0` and
+`npm view @firebase/firestore version` → `4.20.0`, both already installed here. The audit's own
+suggestion (`npm audit fix --force` → `firebase@9.14.0`) is a major downgrade that breaks the
+pinned stack, so it was rejected.
+
+**Advisory facts used to pick the version** (OSV API, `api.osv.dev/v1/vulns/<id>`, not memory):
+
+| Advisory | Alias | Affected ranges | Fixed |
+|---|---|---|---|
+| GHSA-m9gg-hp2v-232j | CVE-2026-101916 | `>=0 <1.13.6`, `>=1.14.0 <1.14.5` | `1.13.6`, `1.14.5` |
+| GHSA-f596-whhp-79r4 | CVE-2026-101915 | `>=0 <1.13.6`, `>=1.14.0 <1.14.5` | `1.13.6`, `1.14.5` |
+
+`api.osv.dev/v1/query` for `@grpc/grpc-js@1.13.6` returns no vulnerabilities.
+
+**Fix.** One exact-pinned transitive override, scoped to the one consumer, in `package.json`:
+
+```json
+"overrides": {
+  "@firebase/firestore": {
+    "@grpc/grpc-js": "1.13.6"
+  },
+  "playwright-core": "1.65.1"
+}
+```
+
+Why this pin and not something else:
+
+- `1.13.6` is the lowest published version outside both advisory ranges, so it is the smallest
+  change that removes the finding; no newer version is assumed.
+- The override is nested under `@firebase/firestore`, not global, so the four `@grpc/grpc-js`
+  1.14.7 copies that `firebase-tools` (dev) already resolves through `google-gax` and
+  `@google-cloud/*` are untouched. Nothing unrelated was bumped.
+- API compatibility, measured rather than assumed: `@firebase/firestore`'s Node build (the only
+  consumer in the production tree) uses exactly four grpc symbols —
+  `grpc.Metadata`, `grpc.credentials.createSsl`, `grpc.credentials.createInsecure` and
+  `grpc.loadPackageDefinition` (`dist/common-CqUiBvHi.node.cjs.js`). `node -e` resolving
+  `@grpc/grpc-js` from `node_modules/@firebase/firestore` printed `resolved 1.13.6` and
+  `apis function function function function`. `1.9 → 1.13` is a minor step inside major 1.
+- It also keeps the peer loader line consistent: 1.13.6 requires `@grpc/proto-loader ^0.7.13`
+  (installed: `0.7.15`, inside Firebase's `^0.7.8`), while 1.14.x requires `^0.8.0` and would have
+  added a second loader tree for no security gain.
+
+**Lock result.** `npm install` → `changed 1 package, and audited 1168 packages`. Root
+`node_modules/@grpc/grpc-js` moved `1.9.16 → 1.13.6`; the string `1.9.16` no longer appears anywhere
+in `package-lock.json`. `npm explain @grpc/grpc-js` prints the pinned edge and its only production
+consumer:
+
+```text
+@grpc/grpc-js@1.13.6 overridden
+node_modules/@grpc/grpc-js
+  overridden @grpc/grpc-js@"1.13.6" (was "~1.9.0") from @firebase/firestore@4.20.0
+```
+
+The three `@grpc/grpc-js@1.14.7 dev` entries in the same output are `firebase-tools` sub-trees and
+are unchanged. There is no `firebase-admin` in the tree (`node_modules/firebase-admin` absent), so
+the client SDK's Node transport is the only production consumer.
+
+Green, after the fix:
+
+```powershell
+npm audit --omit=dev --audit-level=high
+```
+
+```text
+found 0 vulnerabilities
+AUDIT_EXIT:0
+```
+
+No package was downgraded, `npm audit fix --force` was not run, no advisory was ignored, no
+`.nsprc`/allowlist/`audit-level` change was made and the Q5 threshold (`0` high/critical production
+advisories) was not weakened. The earlier reachability note is kept only as context: neither
+`getAuthContext` nor `grpc-js` appears in `dist/assets/index-*.js`, which explains why the browser
+demo never exercised the code, but bundle absence was not used as an exemption — the dependency
+edge itself is now clean.
+
+Residual, stated plainly: the override is a deliberate deviation from Firebase's declared
+`~1.9.0` range, so a future `@firebase/firestore` release that widens that range should be allowed
+to supersede it; the Rules and E2E suites in §9.6 are the evidence that the Node transport still
+works under 1.13.6.
+
+### 9.5 Verifier integration and full run after the pin
+
+`scripts/verificar.py` runs two Q5 checks — `secret-scan` (`npm run scan:secrets`, after `build`)
+and `dependency-audit` (`npm audit --omit=dev --audit-level=high`) — requires
+`scripts/scan_secrets.py` and `tests/test_scan_secrets.py` to exist, and prints the measured outcome
+of both. `tests/test_verificar.py` fails if either check is dropped or if the audit command is
+changed (`EXPECTED_CHECKS` and the explicit `npm audit --omit=dev --audit-level=high` assertion), so
+the dependency gate cannot be removed silently; that assertion is the regression guard for this fix.
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK secret-scan: PASS
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+evidence: .git\opencode\evidence.json
+scope: phase 5 manual-handover-ui-slice1-emulator-only-q5-checks (unimplemented work is listed)
+Q5 credential scan: PASS (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (unborn HEAD; dirty working tree; 5 scope items unimplemented)
+ok=True commit=unborn dirty=True
+VERIFY_EXIT:0
+```
+
+Measured inside that run: `typecheck`/`lint` clean, `build` 41 modules → `dist/assets/index-CWYQFoS4.js`
+808.84 kB, `secret-scan` 74 files / no leaks (the exact byte count is in `evidence.json`; it moves
+with each documentation edit), `dependency-audit` `found 0 vulnerabilities`, `unit` 2 files / 54
+tests, `rules-tests` 3 files / 31 tests, `e2e-tests` 7/7 in about a minute (accessibility,
+conflicts, handover, two offline cases, two privacy cases), `tools-tests` 27 tests,
+`checker-self-test` OK, `diagrams` 2/2. The run was repeated after the §9.4/§9.5 edits and stayed
+green with the same counts; the last run is the one recorded in `evidence.json`.
+
+The Rules and E2E suites are also the runtime proof for §9.4: both start the Firestore emulator and
+drive `@firebase/firestore` from Node, so the `@grpc/grpc-js` 1.13.6 transport was loaded and used,
+not just installed. Ports 8080, 9099, 4400 and 4500 were free before the run (checked once with
+`Get-NetTCPConnection`); the previous window's start failures were that collision, not a source
+regression.
+
+`ok=True` is not a gate or product claim: Gate C stays ineligible because HEAD is unborn, the tree
+is dirty (the repository has no commit yet) and 5 scope items remain unimplemented.
+
+Still unmeasured after §9: reviewer sign-off over the redacted report and a scan of the final public
+artifact set, live/hosted credential review, and any upstream Firebase release that widens the
+`@grpc/grpc-js` range so the §9.4 override can be dropped. No scanner or audit result here is a
+product, privacy or delivery claim.
+
+### 9.6 Incident: emulator debug log carried host credentials (November 16, 2026)
+
+Redacted record; no credential value, file line, or account identity is reproduced here.
+
+- **Symptom.** `npm run scan:secrets` exited 1 with three findings, all on the same line of the
+  root-level `firebase-debug.log`: one `github-pat` and two `generic-api-key`. The scan was correct;
+  nothing was staged (`git ls-files` empty, `git count-objects` 0 objects, no stash, unborn HEAD), so
+  nothing reached a commit or a remote.
+- **Classification.** True positive, not a synthetic fixture: the line was the Firebase CLI's own
+  dump of the process environment for an `emulators:exec` run, and it contained host-supplied
+  credentials (one GitHub personal-access-token value plus two other credential-named variables).
+  None of them belong to this repository.
+- **Root cause.** `firebase-tools` 15.36.0 writes `firebase-debug.log` into the working directory on
+  every run (`lib/logger.js` → `process.cwd()`), and `emulators:exec` logs
+  `Running <cmd> with environment {…}` — the full child environment — as one debug line. On exit it
+  deletes that log when the code is below 2 and `DEBUG` is unset, so the log only survives a
+  *failed* run: exactly the file a green-tree scan should never wave through, and exactly the file a
+  failed test needs. Reproduction: one `emulators:exec` run with the log path redirected to temp,
+  then inspected in memory, produced the same single env-dump line with the same credential shapes.
+- **Containment.** The flagged log was already absent when the incident was triaged: a later
+  successful emulator run had let the CLI delete it. No copy existed under `%TEMP%`, the
+  `configstore` directory, `.git/opencode/`, or the Playwright output; the reproduction log was
+  deleted after it had been read in memory. Anything that would have contained the value is gone
+  locally, and no remote was ever contacted with it.
+- **Fix, not an allowlist.** `scripts/firebase_safe.py` now wraps every emulator test run in two
+  layers, and `test:rules` / `test:e2e` go through it.
+  *Prevention:* the CLI is spawned with an explicit allowlist of Windows/profile/runtime variables
+  (`PATH`, `PATHEXT`, `ComSpec`, `SystemRoot`/`windir`, `SystemDrive`, `TEMP`/`TMP`, `USERPROFILE`,
+  `HOME`, `HOMEDRIVE`/`HOMEPATH`, `APPDATA`, `LOCALAPPDATA`, `ProgramData`/`ProgramFiles*`/`PUBLIC`,
+  processor/OS basics, `JAVA_HOME`/`JDK_HOME`, `FIREBASE_EMULATORS_PATH`,
+  `PLAYWRIGHT_BROWSERS_PATH`, `CI`) plus the four variables this repository's tests read
+  (`SHIFTRELAY_PROJECT_ID`, `SHIFTRELAY_EMULATOR_HOST`, `VITE_FIREBASE_PROJECT_ID`,
+  `VITE_EMULATOR_HOST`). Nothing else is inherited, so no credential from the host shell reaches the
+  CLI, the emulators, the test runner, or any log they write — including when the process dies
+  before the second layer runs.
+  *Guard:* only `emulators:exec` is accepted, `--project` must start with `demo-`, the executed
+  script must start with `vitest` or `playwright`, and any token that names a live command
+  (`deploy`, `hosting:`, `auth:import`, `emulators:start`, `--token`, …) is refused with exit 2
+  before a process is created.
+  *Defense in depth:* after the CLI exits, any remaining `firebase-debug*.log` still has its
+  `with environment {…}` payload replaced by a placeholder, while the rest of the log — emulator
+  events, script exit code, failure context — is preserved. The scanner, its pinned hash, its scope
+  and its refusal of `.gitleaks.toml`/`.gitleaksignore` are untouched.
+- **Proof: prevention, not matcher evasion.** `tests/test_firebase_safe.py` (10 cases) sets fake
+  host values for the three incident variables (assembly at run time; nothing printed), shows the
+  allowlist drops them from both the policy mapping and a *real* spawned child, then writes a
+  Firebase-style environment dump **from the restricted child env and never scrubs it** — the
+  killed-before-scrub case — and still gets a scanner pass with no allowlist file. The scrub case is
+  kept separately: the same fixture is flagged before redaction and clean after it. Measured
+  end-to-end against the real CLI: with `DEBUG` forced so the log survives and no scrub applied, the
+  dump held 39 variables (allowlist plus CLI/emulator-added ones) and **zero** `ghp_`-shaped values,
+  against 87 variables and one credential on the original incident line.
+- **Measured after the change:** `tools-tests` 30 tests OK; `test:rules` 31 tests OK and `test:e2e`
+  7/7 OK through the wrapper under the restricted env, so real Java, npm, Playwright, the temp
+  directory and the user profile still work; `npm run scan:secrets` exit 0.
+- **Remaining limits.** A *manual* CLI run outside the wrapper (for example `npx firebase
+  emulators:exec` typed by hand) still inherits the host environment and can still write that dump.
+  The wrapper itself covers the commands the demo and the verifier use. Within the wrapper, a
+  log written by some other path would be scrubbed only after the process exits; prevention is what
+  closes that window for the environment dump.
+- **Not a compromise.** Nothing here indicates the host credentials were exposed outside this
+  machine: the offending log was local and already deleted, no commit or remote ever contained it,
+  and no value was transmitted, extracted or validated outbound. Revocation and reissue are only
+  warranted if a `firebase-debug.log` from this machine was actually shared or uploaded; that
+  decision belongs to the credential owner and was not taken here. A blanket rotation is not
+  justified by this evidence.

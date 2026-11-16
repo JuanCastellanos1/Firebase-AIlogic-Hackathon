@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "phase": 4,
+  "status": "frozen",
+  "frozenAt": "2026-11-16",
+  "authority": "docs/INTERFACES.md",
+  "enums": {
+    "role": ["outgoing", "incoming"],
+    "taskState": ["open", "accepted", "resolved"],
+    "activityAction": ["create", "accept", "resolve", "reopen", "observe"],
+    "observationKind": ["duplicate", "contradiction"]
+  },
+  "limits": {
+    "titleBytes": { "min": 1, "max": 120 },
+    "detailBytes": { "min": 0, "max": 800 },
+    "resolutionBytes": { "min": 1, "max": 800 },
+    "reopenReasonBytes": { "min": 1, "max": 400 },
+    "observationRationaleBytes": { "min": 1, "max": 400 },
+    "cardsPerPublication": { "min": 1, "max": 5 }
+  },
+  "idPattern": "^[A-Za-z0-9_-]{1,64}$",
+  "activityIdTemplate": "{taskId}__v{toVersion}",
+  "adapter": {
+    "publication": "transaction-with-stable-id-readback",
+    "publicationStatus": ["created", "existing"],
+    "publicationConflict": "publication id conflict",
+    "readBackStatus": ["published", "absent", "mismatch"],
+    "offline": "reject-no-queue",
+    "publicationWritesMax": 11
+  },
+  "collections": {
+    "member": "venues/{venueId}/members/{uid}",
+    "handover": "venues/{venueId}/handovers/{handoverId}",
+    "task": "venues/{venueId}/tasks/{taskId}",
+    "activity": "venues/{venueId}/activities/{activityId}"
+  },
+  "errors": [
+    "not_an_object",
+    "unknown_key",
+    "missing_key",
+    "invalid_type",
+    "invalid_identifier",
+    "duplicate_identifier",
+    "identifier_count_mismatch",
+    "card_count_out_of_range",
+    "blank_required",
+    "byte_limit_exceeded",
+    "unpaired_surrogate",
+    "invalid_role",
+    "invalid_state",
+    "invalid_action",
+    "invalid_version",
+    "stale_version",
+    "forbidden_transition",
+    "actor_not_owner",
+    "invalid_observation_kind",
+    "missing_target",
+    "duplicate_target",
+    "stale_target",
+    "target_state_not_observable"
+  ],
+  "transitions": [
+    {
+      "action": "accept",
+      "roles": ["incoming"],
+      "from": "open",
+      "owner": "none",
+      "to": "accepted",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "resolve",
+      "roles": ["incoming"],
+      "from": "accepted",
+      "owner": "actor",
+      "to": "resolved",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "reopen",
+      "roles": ["incoming"],
+      "from": "resolved",
+      "owner": "actor",
+      "to": "accepted",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "observe",
+      "roles": ["outgoing", "incoming"],
+      "from": "open",
+      "owner": "any",
+      "to": "open",
+      "ownerAfter": "unchanged",
+      "versionDelta": 1
+    },
+    {
+      "action": "observe",
+      "roles": ["outgoing", "incoming"],
+      "from": "accepted",
+      "owner": "any",
+      "to": "accepted",
+      "ownerAfter": "unchanged",
+      "versionDelta": 1
+    }
+  ],
+  "rulesBudget": {
+    "atomicOperationAccessCallLimit": 20,
+    "singleDocumentAccessCallLimit": 10,
+    "publicationWritesPerCards": "2N + 1",
+    "publicationUncachedCallsPerCards": "5N + 1",
+    "publicationDistinctPathsPerCards": "2N + 2",
+    "observationWrites": 2,
+    "observationUncachedCalls": 5,
+    "observationDistinctPaths": 4
+  },
+  "outOfScopeThisPhase": [
+    "private draft capture and raw note limits",
+    "local model output contract and 12000 byte response cap",
+    "cloud reconciliation request/response contract and brief limit",
+    "firestore.rules authoring",
+    "Firebase adapters, UI, emulator wiring"
+  ]
+}

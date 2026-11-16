@@ -1,0 +1,184 @@
+# ShiftRelay — Three-slice implementation plan
+
+Status: slice 1 manual workflow implemented locally (November 16, 2026), emulator-only; slices 2–3
+and all cloud/hosted work remain unimplemented. Skills applied: writing-plans and
+constraint-driven-development. Workflow-specified location and three-slice checklist override skill
+defaults. No calendar or delivery-duration promise.
+
+**Goal:** Demonstrate private capture → reviewed shared tasks → explicit ownership → recorded resolution/reopening, with genuine local drafting and separately consented cloud reconciliation.
+
+**Architecture:** React/strict TypeScript/Vite static SPA with minimal semantic HTML/CSS and component state. Modular Firebase AI Logic/App Check/Auth/Firestore and Hosting; Rules enforce the domain contract, not client UI or AI. Private context lives only in page memory.
+
+**Spec:** `docs/spec.md`; **quality contract:** root `CONSTRAINTS.md`; **stack and sources:** `docs/adr/0001-shiftrelay-stack.md`. Read all three before building. No unapproved implementation, installs, provisioning, commits, push, merge or deployment. Future commands and paths below do not exist yet.
+
+## Shared execution rules and dependencies
+
+- [ ] Master obtains G0/G4 approval, assigns people to checkpoint roles and confirms budget/effort. Native Android required means replan; responsive web is the default. Master reconciles operational `_project`, `_presupuesto`, HANDOFF and ADR status after this framing; planner does not overwrite those concurrent-owned files.
+- [ ] Gate A remains pending: separately authorized implementer preflight creates `scripts/check_diagrams.py`, uses a reviewed available renderer and captures real render/check output **before entering slice 1**. Its path is included below for file accounting, not to make product implementation a prerequisite for Gate A. Do not install anything or write that checker under this framing brief.
+- [ ] Before relevant Firebase tasks, satisfy G6: review official Firebase agent skills, discover exact current metadata/names and revision, get installation authorization, install/load only relevant skills. None are installed now. Split Auth/Firestore, AI/App Check, Rules audit and Hosting into separate task contexts (maximum 3 skills per task); do not blindly use ADR candidate names. Firebase MCP is optional, not a substitute for runtime use.
+- [ ] Phase 4: implementer authors `docs/ARCHITECTURE.md` and `docs/INTERFACES.md` from the spec, with fixture and contract review before code. Confirm Rules can enforce publication/event coupling, ownership, versions and observation target checks within limits; if not, stop for architecture review, not a weaker permission contract or an unapproved server.
+- [ ] Recheck official APIs via Context7, resolve compatible exact versions and runtime/emulator prerequisites, then request authorized tooling/setup. Do not invent a local model ID, pin a tutorial model or assume hosted availability. Real calls depend on G3 access/attestation/budget; local commitment depends on G1/G2 evidence.
+- [ ] Every slice: write the named failing tests, record red, implement only that slice, run green + lint/typecheck/build, exercise a real UI path and update contracts/fixtures/docs together. Final `scripts/verificar.py` must aggregate checks with actual exit/output hashes per workflow; it is implementer-owned, not created here. Evidence goes to `.git/opencode/` only once repository state supports it; no fake commit SHA for unborn history.
+
+## Review focus (pin tests in their owning slice)
+
+1. A lost acknowledgment must not duplicate publication/events (slice 1, offline tests).
+2. A role/membership change must clear session content and deny direct writes (slice 1, permissions/handover tests).
+3. A valid-looking AI output can still invent facts or contain private asides (slice 2, bad-output and sentinel tests; human review stays required).
+4. A late result must not repopulate a signed-out/edited/canceled session (slices 2–3, privacy/reconciliation tests).
+5. Cloud comparison over a bounded subset must not be presented as exhaustive or merge unrelated records (slice 3, context and confirmation tests).
+
+## Phase 4 — frozen contract paths (created November 16, 2026)
+
+Phase 4 delivered the contract before any shared-data code. Files created or merged in this cut:
+
+- `docs/ARCHITECTURE.md` — C4 level-1/level-2 boundaries as text tables, one sequence diagram, Rules request/read budget, diagram-budget reconciliation, residual risks R1–R5.
+- `docs/INTERFACES.md` — frozen records, packet contract, transition matrix, activity coupling, error taxonomy, function signatures.
+- `tests/fixtures/contrato.json` — machine-readable mirror of the contract (enums, limits, errors, transitions, Rules budget); drift-tested from `tests/validation.test.ts`.
+- `tests/fixtures/handover.ts` — synthetic builders plus UTF-8 boundary string helpers.
+- `src/domain.ts`, `src/validation.ts` — pure strict-TypeScript contract: no SDK import, no clock, no I/O.
+- `tests/validation.test.ts`, `tests/transitions.test.ts` — 54 Vitest cases (ASCII, supplementary, combining, precomposed and mixed boundaries; every allowed and rejected transition; task-input contract and version headroom; immutability).
+- `tsconfig.json` — strict, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noEmit`.
+- `package.json` — merged: `typescript` `7.0.2`, `vitest` `5.1.0`, `vite` `8.3.8`, `@types/node` `24.19.2` added; the existing Mermaid pins (`@mermaid-js/mermaid-cli` `12.2.0`, `puppeteer` `25.17.0`) are unchanged. The later Rules cut added `firebase` `13.3.0`, `@firebase/rules-unit-testing` `6.0.0` and `firebase-tools` `15.36.0`.
+- `scripts/verificar.py`, `tests/test_verificar.py` — evidence aggregator and its regression tests (15 after the Rules-cut scope update). The aggregator has no secret scanner: Q5 requires an authorized pinned scanner (Phase 7 removed the homegrown regex and records the gap). The Q5 cut below now provides that pinned scanner.
+- `docs/verification.md` — updated with real red/green output and scope limits.
+
+Not created in that Phase 4 cut, by design: `firestore.rules`, `firebase.json`, emulator config, React files, Firebase adapters, Playwright suites, `lint`/`build` scripts. The Rules cut below added the Rules, emulator config and the persistence adapter; React, Auth and Playwright remain open.
+
+## Slice 1 manual UI cut (implemented November 16, 2026, emulator-only)
+
+Delivered on top of the Rules/persistence cut, without a live project, deployment, commit or push:
+
+- Contract/runtime: `src/domain.ts`, `src/validation.ts` (added `validateTask` for server reads),
+  `src/tasks.ts` rewritten so publication is a transaction with stable-ID read-back rather than a
+  `writeBatch` (a batch is persisted by the SDK and replayed after reconnection).
+- Firebase/session: `src/firebase.ts` (explicit `demo-shiftrelay` + local emulators; in-memory Auth
+  persistence; Firestore memory cache; non-demo/non-local configuration fails closed),
+  `src/session.ts` (membership reads/watch, bounded task/activity reads, stale-result guard).
+- UI: `src/main.tsx`, `src/App.tsx`, `src/PrivateDraft.tsx`, `src/Handover.tsx`, `src/styles.css`,
+  `index.html`, `src/vite-env.d.ts`, `vite.config.ts`, `eslint.config.js`, `playwright.config.ts`,
+  merged `tsconfig.json`, `.env.example`.
+- E2E: `e2e/support.ts`, `e2e/global-setup.ts`, `e2e/handover.spec.ts`, `e2e/conflicts.spec.ts`,
+  `e2e/offline.spec.ts`, `e2e/accessibility.spec.ts`, `e2e/privacy.spec.ts`.
+- Rules/offline tests: `tests/rules/publication.test.ts` (lost-ack idempotence, ID conflict and
+  read-back after a task advanced).
+- Local operation/delivery: `scripts/seed-emulator.mjs`, `README.md`, Apache-2.0 `LICENSE`.
+- Tooling pins: added React `19.3.1`, React DOM `19.3.1`, Playwright `1.65.1`, axe-core
+  `4.14.0`, ESLint `10.15.0`, `@eslint/js` `10.0.1`, `typescript-eslint` `8.72.2`,
+  `eslint-plugin-react-hooks` `7.1.1`, `globals` `17.14.0`, `@types/react` `19.3.0` and
+  `@types/react-dom` `19.3.0`, all exact. TypeScript moved from `7.0.2` to `6.0.3` because
+  `typescript-eslint` 8.72.2 rejects the TS 7 API; typecheck and lint now share the same supported
+  compiler. Vite, Vitest, Firebase and the Mermaid pins are unchanged.
+- Verifier: explicit `lint`, `build` and `e2e-tests` checks added; product/manual-accessibility/
+  hybrid/live/credential-scanner gaps remain named as unimplemented.
+
+Evidence and limits are in `docs/verification.md` §8. Still unimplemented in slice 1: no AI, no
+cloud reconciliation, no App Check, no Hosting/deployment, no screen-reader/200%-zoom/Android-device
+manual checks, no credential scanner and no AC15 product validation.
+
+## Q5 credential scan and dependency audit (implemented November 16, 2026)
+
+Replaces the named Q5 gap with a pinned upstream scanner and a real production audit. No
+application, Rules or UI behavior changed; evidence and limits are in `docs/verification.md` §9.
+
+- `scripts/scan_secrets.py` — runner for Gitleaks `8.30.1` (Windows x64), pinned to the official
+  release asset `gitleaks_8.30.1_windows_x64.zip` with SHA-256
+  `d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e` and binary SHA-256
+  `17157e2ee8b76fc8b1d8bee607a250e34b8a8023c8bc81822d4b5ee4d78fcb7c`. `--install` downloads,
+  hash-verifies and unpacks into `%TEMP%\opencode\tools\gitleaks\8.30.1\`; the binary is never
+  committed and no service is installed. Missing or mismatching tooling exits 2 with the install
+  command instead of reporting a pass.
+- Scan scope: whole working tree plus `dist/` (untracked and gitignored files included), with only
+  `.git` and `node_modules` excluded by Gitleaks' embedded default config. No project config and no
+  allowlist: a repository `.gitleaks.toml` is rejected and `.gitleaksignore` lookups are pointed at
+  an empty temp directory. The runner refuses to run without `dist/index.html`, without files, or
+  when the scanner reports zero bytes, no report, an unexpected exit, or findings with exit 0.
+- `tests/test_scan_secrets.py` — 8 regression cases: known-positive fixture fails with the value
+  redacted everywhere, negative fixture passes, missing scanner fails closed, empty/missing input
+  fails closed, gitignored/untracked inputs are scanned, a project allowlist is rejected,
+  `.git`/`node_modules` exclusion, and the npm/verifier wiring. Fixtures are generated in the
+  approved temp directory; the synthetic token is assembled at run time so the repository stores no
+  credential-shaped literal.
+- `package.json` — `scan:secrets` script (`py -3 scripts/scan_secrets.py`); `test:tools` includes
+  the new suite.
+- `scripts/firebase_safe.py` — emulator wrapper used by `test:rules` and `test:e2e`. It spawns the
+  CLI with an explicit allowlist of Windows/profile/runtime variables plus the four test-read
+  variables instead of inheriting the host environment, so host credentials never reach the child or
+  its debug log; it refuses anything but `emulators:exec` against a `demo-*` project running
+  `vitest`/`playwright`; and it still scrubs any `with environment {…}` payload from a leftover log
+  as defense in depth. `tests/test_firebase_safe.py` proves the drop, the kill-before-scrub case
+  with the pinned scanner, and the command guard. Incident and residual risk:
+  `docs/verification.md` §9.6.
+- `scripts/verificar.py` — new `secret-scan` (after `build`) and `dependency-audit`
+  (`npm audit --omit=dev --audit-level=high`) checks, both required files, and a measured Q5 line
+  instead of the static "not implemented" one. Q5 reviewer closure over the redacted report and the
+  pre-deploy public artifact set stays listed as unimplemented.
+- Evidence: `.git/opencode/secret-scan.json` (redacted: scanner, hashes, scope, findings, exit).
+- Measured status: the scan is clean. The production audit first reported 4 high `@grpc/grpc-js`
+  advisories through `@firebase/firestore` 4.20.0 and now reports `found 0 vulnerabilities` after a
+  single exact-pinned, consumer-scoped override (`@firebase/firestore` → `@grpc/grpc-js` `1.13.6`,
+  the lowest version outside both advisory ranges). No Firebase downgrade, no
+  `npm audit fix --force`, no advisory suppression and no unrelated package was touched; the pin,
+  the advisory ranges and the API-compatibility check are recorded in `docs/verification.md` §9.4.
+
+## Slice 1 — Demonstrate a secure manual handover through closure
+
+**Demo:** outgoing manually creates/reviews/shares three synthetic tasks; a separate incoming session accepts, resolves and reopens one; a second incoming test client loses a simultaneous acceptance race. No AI required to complete the core workflow.
+
+**Dependencies:** G0/G4 scope/build permission, Gate A evidence, reviewed Phase 4 contract; G6 Auth/Firestore and Rules task prerequisites. Emulator-only work still requires setup authorization; real Auth/Firestore configuration requires G3. No deployment in this slice.
+
+**Planned files (create unless already introduced by an authorized setup):**
+- Tooling: `package.json`, `package-lock.json`, `index.html`, `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`, `vite.config.ts`, `vitest.config.mts`, `vitest.rules.config.mts`, `eslint.config.js`, `playwright.config.ts`, `firebase.json`, `firestore.rules`, `firestore.indexes.json`, `.env.example` (public configuration placeholders only), `src/vite-env.d.ts`. Merge `.gitignore`, never replace existing content.
+- Contract/UI: `docs/ARCHITECTURE.md`, `docs/INTERFACES.md`, `src/main.tsx`, `src/App.tsx`, `src/styles.css`, `src/domain.ts`, `src/validation.ts`, `src/firebase.ts`, `src/session.ts`, `src/tasks.ts`, `src/PrivateDraft.tsx`, `src/Handover.tsx`. Keep private editor state out of data/session serialization.
+- Tests/fixtures: `tests/fixtures/handover.ts`, `tests/validation.test.ts`, `tests/transitions.test.ts`, `tests/rules/support.ts`, `tests/rules/permissions.test.ts`, `tests/rules/concurrency.test.ts`, `e2e/handover.spec.ts`, `e2e/conflicts.spec.ts`, `e2e/offline.spec.ts`, `e2e/accessibility.spec.ts`, `e2e/privacy.spec.ts` (manual boundary first).
+- Evidence/check contracts: `scripts/check_diagrams.py`, `scripts/verificar.py` (implementer writes later), `docs/verification.md` (reproduction steps and non-sensitive results); update spec/PLAN/constraints only to reflect approved decisions, not weaker checks.
+
+**Produces:** reviewed packet validator, immutable shared fields, membership/session boundary, atomic publication with stable IDs, versioned accept/resolve/reopen + matching activity, denied direct writes, and reusable synthetic fixtures. Exact types/SDK interfaces are fixed in reviewed INTERFACES before code, not guessed as SDK APIs here.
+
+**Implemented in the Rules/persistence cut (November 16, 2026), emulator-only:** `firestore.rules`, `firebase.json` (Firestore emulator, no hosting block), `firestore.indexes.json`, `src/tasks.ts` (batch publication and transaction adapter), `tests/rules/support.ts`, `tests/rules/permissions.test.ts` (25 cases), `tests/rules/concurrency.test.ts` (3 cases), and isolated `vitest.config.mts` / `vitest.rules.config.mts` so `npm run test:unit` never starts an emulator. The later manual UI cut added the Auth session, `src/firebase.ts`, `src/session.ts`, React UI, Playwright suites, lint, build and the publication/offline tests above. Evidence and limits are in `docs/verification.md` §7 and §8. No live Firebase access, provisioning, deployment or push exists.
+
+- [ ] Write fixture and red validation/transition/Rules tests for AC01/02/07/08/09; include every allowed and rejected action, creation linkage, missing/forged activity and role escalation. Pin AC02's UTF-8 byte contract in both client and direct emulator tests: ASCII, supplementary `U+1F600`, combining `e` + `U+0301`, precomposed `U+00E9`, and mixed strings at/one byte over each shared-field cap, with identical verdicts and exact read-back. Do not use JS `.length` or Rules `String.size()` for byte limits, or normalize text silently; client rejects unpaired surrogates.
+- [ ] Implement manual memory-only capture/preview, authenticated roles, Rules and transactions; no optimistic confirmed states, queues, private storage or telemetry.
+- [ ] Add red then green two-session workflow, concurrent acceptance, offline/lost-acknowledgment retry and keyboard/narrow-layout tests (AC10/12). Test session loss/member revocation and publication idempotence.
+- [ ] Create documented npm scripts matching the spec's command contracts. Run `npm run test:unit`, `npm run test:rules`, `npm run test:e2e -- e2e/handover.spec.ts`, conflict/offline/accessibility/privacy specs, `npm run typecheck`, `npm run lint`, `npm run build` and production dependency check. Never present mocked network failure tests as deployed access proof.
+- [ ] Evidence: red/green outputs; emulator denied/allowed cases; exact race result (one owner/event); two-session UI walkthrough with console checks; memory/storage sentinel captures; accessibility scan and manual keyboard/screen-reader/zoom results; diagram render output. Aggregate via `py -3 scripts/verificar.py --report .git/opencode/evidence.json` when available. No slice completion if a critical check is skipped.
+
+## Slice 2 — Demonstrate genuinely local private drafting with safe manual fallback
+
+**Demo:** explicit local setup/generation on a verified desktop turns synthetic messy notes into editable draft cards; remove a private aside and share through slice 1. Show local-unavailable/failing state with the same usable manual workflow and no upload.
+
+**Dependencies:** slice 1 contracts and green checks; G1 exact Nano 4/hardware and G2 origin feasibility before local/hybrid claims; G6 AI Logic/App Check skill review/adoption; G3 for authorized runtime App Check configuration. A failed feasibility checkpoint goes to master, not an automatic cloud substitute.
+
+**Files:** create `src/localDraft.ts`, `src/aiValidation.ts`, `tests/ai-output.test.ts`, `e2e/local-draft.spec.ts`; extend `src/PrivateDraft.tsx`, `src/validation.ts`, `src/firebase.ts`, `tests/fixtures/handover.ts`, `e2e/privacy.spec.ts`, `e2e/accessibility.spec.ts`, `docs/INTERFACES.md`, `docs/verification.md`, and verification aggregation. No native files, new service or persistent private collection.
+
+**Consumes/produces:** consumes slice 1 allowlisted reviewed-card contract; produces only validated memory draft proposals and capability/error states. Local adapter never invokes cloud, shares, assigns or resolves tasks.
+
+- [ ] Write failing tests for AC03/04/05: UTF-8 byte schema/response boundaries including supplementary and combining text; valid private UTF-16 source offsets that do not split surrogate pairs; refused/oversized/injected output, download/unavailable/error state, manual preservation, late result/session invalidation.
+- [ ] Implement explicit strictly-local setup/request and editable suggestions, with no prefer-local fallback. Discard stale responses, retain human review and construct a fresh publication object.
+- [ ] Run named local-draft/privacy/AI-output suites plus regression suite, typecheck/lint/build. Unit/browser capability mocks are useful only for failure branches, clearly labeled.
+- [ ] Device-test implementer follows AC13 on actual installed supported desktop Chrome, localhost and authorized HTTPS origin; records device/OS/browser/SDK, model compatibility provenance, observed local source, enablement and download behavior. Run sentinel checks during success/failure/manual fallback; retain sanitized captures without credentials/prompt logging. Hosted testing needs explicit setup/deploy authorization, not granted by this plan.
+- [ ] Evidence: actual local request + authoritative exact-model compatibility, no-private-content network/storage/log captures, manual fallback walkthrough, regression results and any unresolved compatibility discrepancy. If only mocks or localhost work, mark genuine hosted-local capability **unverified/no-go**, not complete.
+
+## Slice 3 — Demonstrate separately consented cloud reconciliation and honest delivery evidence
+
+**Demo:** reviewed projector/supply tasks from successive handovers yield a real source-linked duplicate/contradiction suggestion and incoming brief; a human confirms or dismisses without automatic state/owner changes, then accepts/resolves. Declining cloud gives the same manual ownership path.
+
+**Dependencies:** slices 1–2, G3 approved cloud model/access/budget/judging window, G6 AI Logic/App Check and later Hosting skill tasks, G5 coordinator access/value checkpoint. Production/public availability and deployment need separate master/user authorization. Do not treat a mock as real cloud/hybrid evidence.
+
+**Files:** create `src/reconciliation.ts`, `src/Reconciliation.tsx`, `tests/reconciliation.test.ts`, `e2e/reconciliation.spec.ts`, `docs/PUBLISH.md`, root `README.md` and `LICENSE` only after authorized license choice; extend `src/App.tsx`, `src/tasks.ts`, `src/aiValidation.ts`, `firestore.rules`, Rules/concurrency tests, synthetic fixture, privacy/accessibility/handover tests, `firebase.json`, `docs/INTERFACES.md`, `docs/verification.md`, and verification aggregation. Master later updates `docs/HANDOFF.md`, `_project.md`, `_presupuesto.md` and delivery records; no silent modifications by planner.
+
+**Consumes/produces:** consumes only current authorized published task snapshots; produces validated ephemeral proposals and one human-confirmed versioned observation activity, never merged records or automatic task writes. Preview, one-shot consent, request and late-result invalidation share an exact immutable snapshot.
+
+- [ ] Write failing AC04/06/11 tests: context selection at >20, distinct consent, packet equality, stale source/target, invalid identifiers/schema, refusal/quota/timeout, cancel/sign-out and late responses. Add Rules tests for exact observation updates with target-version checks and no forged event.
+- [ ] Implement bounded preview + explicit cloud action, validated suggestions and manual confirm/dismiss; no automatic retry, raw source, telemetry, owner changes or destructive merge. Confirm rejects stale versions instead of silently recomputing consent or intent.
+- [ ] Run all unit/Rules/E2E checks, typecheck/lint/build, dependency review and constraint checks. Add contrast/serious-critical accessibility scan plus real Android Chrome touch, keyboard/screen-reader/200%-zoom walkthrough; mobile emulation alone does not establish actual device support.
+- [ ] Complete AC13 real hosted hybrid protocol with App Check enforcement and approved real cloud model. Repeat sentinel/packet capture, denied/failed consent and end-to-end closure. Record local and cloud source/model provenance separately; privacy evidence must not expose tokens or credentials.
+- [ ] Product lead completes AC15 two-coordinator comparison, times the three-task acceptance path and records cloud utility against deterministic matching. Master closes G5 or explicitly records no-go/unvalidated product claims; do not invent impact or interview results.
+- [ ] Prepare reproducible setup/judge-access/rollback instructions, license/public-repository review, English public demo <=3 minutes and availability plan through December 16. Private credentials use separately approved access instructions; no live secrets or demo passwords in source/build/public materials. A limited sprint quota alone is insufficient.
+- [ ] Evidence: all actual verifier outputs + reviewed commit/clean-tree evidence when history exists, sanitized hosted network checks, real runtime provenance, device/accessibility results, representative-user decision and authorized delivery walkthrough. Reviewer/master close subsequent gates; this checklist grants no commit/push/merge/deploy permission.
+
+## Current verification and Gate A
+
+Implementer preflight (authorized November 16, 2026) added local tooling only: `package.json`/`package-lock.json` pin `@mermaid-js/mermaid-cli` 12.2.0 with `puppeteer` 25.17.0, `scripts/check_diagrams.py` renders with that pinned CLI, `tests/test_check_diagrams.py` holds its regression tests, and `docs/verification.md` records real commands and exits. Gate A diagram evidence now exists at `.git/opencode/diagrams/docs__spec-1.svg`; master still owns Gate A closure. When the app scaffold is authorized, merge `package.json`/`package-lock.json` (never replace them) and keep `tests/test_check_diagrams.py` as a tooling test, separate from the named application suites.
+
+Framing documents and directory state were inspected; official Rules String/Bytes references were researched through Context7 for the Unicode correction. No application, scripts or node_modules were present in the inspected root. Planner's earlier renderer/checker/git-hygiene probe was **permission-denied**; that historical result does not mean master shell is blocked. Master subsequently reported shell confirmation of **15 criteria, 3 slices and 6 thresholds**, with **`mmdc` and `scripts/check_diagrams.py` absent**. No diagram render or Unicode/emulator/application test has run. Checkers remain implementer-owned; no script or dependency was created/installed here. Mermaid source is not validated rendering evidence. **Gate A pending** real checker/render output and master review of owned checkpoints; all application checks remain planned/unmeasured.

@@ -1,0 +1,424 @@
+rules_version = '2';
+
+// ===============================================================
+// ShiftRelay — assumed data model (docs/INTERFACES.md is authoritative)
+// ===============================================================
+//
+// Collection: venues/{venueId}/members/{uid}
+//   uid: string (required, == document id)  venueId: string (required)  role: outgoing | incoming
+//   Administrator-provisioned. No client create/update/delete and no roster listing.
+//
+// Collection: venues/{venueId}/handovers/{handoverId}
+//   id, venueId, creatorId: string identifiers; createdAt: server timestamp;
+//   taskIds: list of 1-5 distinct task ids created in the same batch. Immutable.
+//
+// Collection: venues/{venueId}/tasks/{taskId}
+//   id, venueId, handoverId, creatorId: string identifiers; createdAt: server timestamp;
+//   title: 1-120 UTF-8 bytes nonblank; detail: 0-800 UTF-8 bytes; state: open | accepted | resolved;
+//   ownerId: string or null; version: int >= 1; updatedAt: server timestamp;
+//   resolution: null, or 1-800 UTF-8 bytes nonblank when state is resolved.
+//   Published content and identity are immutable; only a listed transition changes
+//   state/owner/version/resolution/updatedAt, together with exactly one activity.
+//
+// Collection: venues/{venueId}/activities/{activityId}
+//   id, taskId, venueId, actorId: string identifiers; at: server timestamp;
+//   action: create | accept | resolve | reopen | observe; fromState/toState; fromVersion/toVersion;
+//   resolution/reason/observation: action-scoped, null elsewhere.
+//   Append-only; id is always "<taskId>__v<toVersion>"; one event per task version.
+//
+// Everything not explicitly allowed below is denied. Identity comes from request.auth.uid,
+// time from request.time, and every task change is accepted only together with its activity.
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- identity and membership ----------
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function membershipPath(venueId) {
+      return /databases/$(database)/documents/venues/$(venueId)/members/$(request.auth.uid);
+    }
+
+    // Missing records deny by evaluation error: this emulator (1.22.0) has no working
+    // exists()/existsAfter() and a negated null comparison also errors, so every guard
+    // below relies on the documented fail-closed behavior of document access.
+    function isMember(venueId) {
+      return isAuthenticated() && get(membershipPath(venueId)).data.uid == request.auth.uid;
+    }
+
+    function isIncoming(venueId) {
+      return isMember(venueId) && get(membershipPath(venueId)).data.role == 'incoming';
+    }
+
+    function isOutgoing(venueId) {
+      return isMember(venueId) && get(membershipPath(venueId)).data.role == 'outgoing';
+    }
+
+    // Rules are not filters: a list must declare a bounded limit.
+    function boundedList() {
+      return request.query.limit != null && request.query.limit <= 50;
+    }
+
+    // ---------- value helpers ----------
+
+    function isId(value) {
+      return value is string && value.size() <= 64 && value.matches('^[A-Za-z0-9_-]+$');
+    }
+
+    // Every text cap is UTF-8 bytes of the exact string (never String.size()).
+    function isText(value, minBytes, maxBytes) {
+      return value is string
+        && value.toUtf8().size() >= minBytes
+        && value.toUtf8().size() <= maxBytes;
+    }
+
+    function isNonBlankText(value, minBytes, maxBytes) {
+      return isText(value, minBytes, maxBytes) && value.trim().size() > 0;
+    }
+
+    function isServerTime(value) {
+      return value is timestamp && value == request.time;
+    }
+
+    function isState(value) {
+      return value in ['open', 'accepted', 'resolved'];
+    }
+
+    // The contract caps versions at the JavaScript safe-integer ceiling.
+    function isSafeVersion(value) {
+      return value is int && value >= 1 && value <= 9007199254740991;
+    }
+
+    // ---------- paths ----------
+
+    function taskPath(venueId, taskId) {
+      return /databases/$(database)/documents/venues/$(venueId)/tasks/$(taskId);
+    }
+
+    function activityPath(venueId, activityId) {
+      return /databases/$(database)/documents/venues/$(venueId)/activities/$(activityId);
+    }
+
+    function handoverPath(venueId, handoverId) {
+      return /databases/$(database)/documents/venues/$(venueId)/handovers/$(handoverId);
+    }
+
+    function activityId(taskId, version) {
+      return taskId + '__v' + string(version);
+    }
+
+    // ---------- record validators ----------
+
+    function keysAre(data, keys) {
+      return data.keys().hasOnly(keys) && data.keys().hasAll(keys);
+    }
+
+    function isStateOwnerResolution(state, ownerId, resolution) {
+      return (state == 'open' && ownerId == null && resolution == null)
+        || (state == 'accepted' && ownerId != null && resolution == null)
+        || (state == 'resolved' && ownerId != null && resolution != null);
+    }
+
+    function validTaskCommon(task) {
+      return keysAre(task, ['id', 'venueId', 'handoverId', 'creatorId', 'createdAt', 'title', 'detail', 'state', 'ownerId', 'version', 'updatedAt', 'resolution'])
+        && isId(task.id)
+        && isId(task.venueId)
+        && isId(task.handoverId)
+        && isId(task.creatorId)
+        && isNonBlankText(task.title, 1, 120)
+        && isText(task.detail, 0, 800)
+        && isState(task.state)
+        && (task.ownerId == null || isId(task.ownerId))
+        && isSafeVersion(task.version)
+        && isServerTime(task.updatedAt)
+        && (task.resolution == null || isNonBlankText(task.resolution, 1, 800))
+        && isStateOwnerResolution(task.state, task.ownerId, task.resolution);
+    }
+
+    function validTaskOnCreate(task) {
+      return validTaskCommon(task) && isServerTime(task.createdAt);
+    }
+
+    function validTaskOnUpdate(task) {
+      return validTaskCommon(task) && task.createdAt == resource.data.createdAt;
+    }
+
+    function validHandover(handover) {
+      return keysAre(handover, ['id', 'venueId', 'creatorId', 'createdAt', 'taskIds'])
+        && isId(handover.id)
+        && isId(handover.venueId)
+        && isId(handover.creatorId)
+        && isServerTime(handover.createdAt)
+        && handover.taskIds is list
+        && handover.taskIds.size() >= 1
+        && handover.taskIds.size() <= 5;
+    }
+
+    function validObservation(observation) {
+      return keysAre(observation, ['kind', 'targetTaskId', 'targetVersion', 'rationale'])
+        && observation.kind in ['duplicate', 'contradiction']
+        && isId(observation.targetTaskId)
+        && isSafeVersion(observation.targetVersion)
+        && isNonBlankText(observation.rationale, 1, 400);
+    }
+
+    // The action scopes which fields may be populated; other actions must leave them null.
+    function actionShapeIsConsistent(activity) {
+      return activity.id == activityId(activity.taskId, activity.toVersion)
+        && (activity.action == 'create'
+          ? activity.fromState == null
+            && activity.fromVersion == null
+            && activity.toState == 'open'
+            && activity.toVersion == 1
+            && activity.resolution == null
+            && activity.reason == null
+            && activity.observation == null
+          : activity.action == 'accept'
+            ? activity.fromState == 'open'
+              && activity.fromVersion == activity.toVersion - 1
+              && activity.toState == 'accepted'
+              && activity.resolution == null
+              && activity.reason == null
+              && activity.observation == null
+            : activity.action == 'resolve'
+              ? activity.fromState == 'accepted'
+                && activity.fromVersion == activity.toVersion - 1
+                && activity.toState == 'resolved'
+                && activity.resolution != null
+                && activity.reason == null
+                && activity.observation == null
+              : activity.action == 'reopen'
+                ? activity.fromState == 'resolved'
+                  && activity.fromVersion == activity.toVersion - 1
+                  && activity.toState == 'accepted'
+                  && activity.resolution == null
+                  && activity.reason != null
+                  && activity.observation == null
+                : activity.action == 'observe'
+                  && (activity.fromState == 'open' || activity.fromState == 'accepted')
+                  && activity.fromVersion == activity.toVersion - 1
+                  && activity.toState == activity.fromState
+                  && activity.resolution == null
+                  && activity.reason == null
+                  && activity.observation != null);
+    }
+
+    function validActivity(activity) {
+      return keysAre(activity, ['id', 'taskId', 'venueId', 'actorId', 'at', 'action', 'fromState', 'toState', 'fromVersion', 'toVersion', 'resolution', 'reason', 'observation'])
+        && isId(activity.id)
+        && isId(activity.taskId)
+        && isId(activity.venueId)
+        && isId(activity.actorId)
+        && isServerTime(activity.at)
+        && activity.action in ['create', 'accept', 'resolve', 'reopen', 'observe']
+        && activity.toState in ['open', 'accepted', 'resolved']
+        && (activity.fromState == null || isState(activity.fromState))
+        && isSafeVersion(activity.toVersion)
+        && (activity.fromVersion == null || isSafeVersion(activity.fromVersion))
+        && (activity.resolution == null || isNonBlankText(activity.resolution, 1, 800))
+        && (activity.reason == null || isNonBlankText(activity.reason, 1, 400))
+        && (activity.observation == null || validObservation(activity.observation))
+        && actionShapeIsConsistent(activity);
+    }
+
+    // ---------- publication coupling ----------
+
+    function linkedHandover(venueId, task) {
+      let handover = getAfter(handoverPath(venueId, task.handoverId));
+      return handover.data.id == task.handoverId
+        && handover.data.venueId == venueId
+        && handover.data.creatorId == request.auth.uid
+        && isServerTime(handover.data.createdAt)
+        && handover.data.taskIds.hasAll([task.id]);
+    }
+
+    function linkedTask(venueId, handoverId, taskId) {
+      let task = getAfter(taskPath(venueId, taskId));
+      return task.data.id == taskId
+        && task.data.venueId == venueId
+        && task.data.handoverId == handoverId
+        && task.data.creatorId == request.auth.uid
+        && task.data.state == 'open'
+        && task.data.ownerId == null
+        && task.data.version == 1;
+    }
+
+    // Written out because Rules have no loops; each guard short-circuits the index access.
+    function distinctTaskIds(ids) {
+      return (ids.size() < 2 || ids[0] != ids[1])
+        && (ids.size() < 3 || (ids[0] != ids[2] && ids[1] != ids[2]))
+        && (ids.size() < 4 || (ids[0] != ids[3] && ids[1] != ids[3] && ids[2] != ids[3]))
+        && (ids.size() < 5 || (ids[0] != ids[4] && ids[1] != ids[4] && ids[2] != ids[4] && ids[3] != ids[4]));
+    }
+
+    function allTasksLinked(venueId, handoverId, ids) {
+      return (ids.size() < 1 || linkedTask(venueId, handoverId, ids[0]))
+        && (ids.size() < 2 || linkedTask(venueId, handoverId, ids[1]))
+        && (ids.size() < 3 || linkedTask(venueId, handoverId, ids[2]))
+        && (ids.size() < 4 || linkedTask(venueId, handoverId, ids[3]))
+        && (ids.size() < 5 || linkedTask(venueId, handoverId, ids[4]));
+    }
+
+    function creationActivityMatches(venueId, task) {
+      let id = activityId(task.id, 1);
+      let activity = getAfter(activityPath(venueId, id));
+      return activity.data.id == id
+        && activity.data.taskId == task.id
+        && activity.data.venueId == venueId
+        && activity.data.actorId == request.auth.uid
+        && activity.data.action == 'create'
+        && activity.data.fromState == null
+        && activity.data.fromVersion == null
+        && activity.data.toState == 'open'
+        && activity.data.toVersion == 1
+        && activity.data.resolution == null
+        && activity.data.reason == null
+        && activity.data.observation == null
+        && activity.data.at == request.time;
+    }
+
+    // ---------- transition coupling ----------
+
+    function observationTargetMatches(venueId, task, observation) {
+      let target = get(taskPath(venueId, observation.targetTaskId));
+      return observation.targetTaskId != task.id
+        && target.data.id == observation.targetTaskId
+        && target.data.venueId == venueId
+        && target.data.version == observation.targetVersion
+        && (target.data.state == 'open' || target.data.state == 'accepted');
+    }
+
+    function actionAllowed(venueId, previous, task, activity) {
+      return (activity.action == 'accept'
+          && isIncoming(venueId)
+          && previous.state == 'open'
+          && previous.ownerId == null
+          && task.state == 'accepted'
+          && task.ownerId == request.auth.uid
+          && task.resolution == null)
+        || (activity.action == 'resolve'
+          && isIncoming(venueId)
+          && previous.state == 'accepted'
+          && previous.ownerId == request.auth.uid
+          && task.state == 'resolved'
+          && task.ownerId == previous.ownerId
+          && task.resolution != null
+          && activity.resolution == task.resolution)
+        || (activity.action == 'reopen'
+          && isIncoming(venueId)
+          && previous.state == 'resolved'
+          && previous.ownerId == request.auth.uid
+          && task.state == 'accepted'
+          && task.ownerId == previous.ownerId
+          && task.resolution == null)
+        || (activity.action == 'observe'
+          && (previous.state == 'open' || previous.state == 'accepted')
+          && task.state == previous.state
+          && task.ownerId == previous.ownerId
+          && task.resolution == previous.resolution
+          && observationTargetMatches(venueId, task, activity.observation));
+    }
+
+    function transitionActivityMatches(venueId, task) {
+      let id = activityId(task.id, task.version);
+      let activity = getAfter(activityPath(venueId, id));
+      return activity.data.id == id
+        && activity.data.taskId == task.id
+        && activity.data.venueId == venueId
+        && activity.data.actorId == request.auth.uid
+        && activity.data.at == request.time
+        && activity.data.fromState == resource.data.state
+        && activity.data.fromVersion == resource.data.version
+        && activity.data.toState == task.state
+        && activity.data.toVersion == task.version
+        && actionAllowed(venueId, resource.data, task, activity.data);
+    }
+
+    // The activity side of the same coupling: the task must be written in this request
+    // (updatedAt is server time) and must end in the state/version the event names.
+    function activityCoupledToTask(venueId, activity) {
+      let task = getAfter(taskPath(venueId, activity.taskId));
+      return task.data.id == activity.taskId
+        && task.data.venueId == venueId
+        && task.data.updatedAt == request.time
+        && task.data.version == activity.toVersion
+        && task.data.state == activity.toState
+        && (activity.action == 'create'
+          ? task.data.creatorId == activity.actorId
+          : activity.action == 'observe'
+            ? true
+            : task.data.ownerId == activity.actorId);
+    }
+
+    // ---------- members (administrator-provisioned) ----------
+
+    match /venues/{venueId}/members/{uid} {
+      allow get: if isAuthenticated() && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+
+    // ---------- handovers ----------
+
+    match /venues/{venueId}/handovers/{handoverId} {
+      allow get: if isMember(venueId);
+      allow list: if isMember(venueId) && boundedList();
+
+      allow create: if isOutgoing(venueId)
+        && validHandover(request.resource.data)
+        && request.resource.data.id == handoverId
+        && request.resource.data.venueId == venueId
+        && request.resource.data.creatorId == request.auth.uid
+        && distinctTaskIds(request.resource.data.taskIds)
+        && allTasksLinked(venueId, handoverId, request.resource.data.taskIds);
+
+      allow update, delete: if false;
+    }
+
+    // ---------- tasks ----------
+
+    match /venues/{venueId}/tasks/{taskId} {
+      allow get: if isMember(venueId);
+      allow list: if isMember(venueId) && boundedList();
+
+      allow create: if isOutgoing(venueId)
+        && validTaskOnCreate(request.resource.data)
+        && request.resource.data.id == taskId
+        && request.resource.data.venueId == venueId
+        && request.resource.data.creatorId == request.auth.uid
+        && request.resource.data.state == 'open'
+        && request.resource.data.ownerId == null
+        && request.resource.data.version == 1
+        && request.resource.data.resolution == null
+        && linkedHandover(venueId, request.resource.data)
+        && creationActivityMatches(venueId, request.resource.data);
+
+      allow update: if isMember(venueId)
+        && validTaskOnUpdate(request.resource.data)
+        && request.resource.data.version == resource.data.version + 1
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['state', 'ownerId', 'version', 'updatedAt', 'resolution'])
+        && transitionActivityMatches(venueId, request.resource.data);
+
+      allow delete: if false;
+    }
+
+    // ---------- activities ----------
+
+    match /venues/{venueId}/activities/{activityId} {
+      allow get: if isMember(venueId);
+      allow list: if isMember(venueId) && boundedList();
+
+      allow create: if isMember(venueId)
+        && validActivity(request.resource.data)
+        && request.resource.data.venueId == venueId
+        && request.resource.data.id == activityId
+        && request.resource.data.actorId == request.auth.uid
+        && activityCoupledToTask(venueId, request.resource.data);
+
+      allow update, delete: if false;
+    }
+  }
+}

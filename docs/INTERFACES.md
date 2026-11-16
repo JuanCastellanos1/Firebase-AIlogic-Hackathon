@@ -1,0 +1,242 @@
+# ShiftRelay — frozen interfaces (Phase 4)
+
+Status: **frozen** for Phase 4, November 16, 2026. Authority: this file describes the contract;
+`src/domain.ts` and `src/validation.ts` implement it; `tests/fixtures/contrato.json` is its
+machine-readable mirror, and `tests/validation.test.ts` fails if the three drift apart.
+
+Change rule: any change to a type, limit, enum, error code or transition updates this file, the
+fixture and the code **in the same commit**. Nothing in this file is an SDK API; no Firebase import
+appears in the domain modules. Unimplemented pieces are named in §10, not implied.
+
+Requirements source: `docs/spec.md`. Boundaries and Rules feasibility: `docs/ARCHITECTURE.md`.
+
+## 1. Shared records
+
+Standard-edition Firestore, one venue per demonstration. Paths are fixed; the venue is always an
+explicit path segment, never inferred from client state.
+
+| Record | Path | Fields |
+|---|---|---|
+| Membership | `venues/{venueId}/members/{uid}` | `uid`, `venueId`, `role` (`outgoing` \| `incoming`) |
+| Handover | `venues/{venueId}/handovers/{handoverId}` | `id`, `venueId`, `creatorId`, `createdAt` (server timestamp), `taskIds` (array of 1–5 task IDs) |
+| Task | `venues/{venueId}/tasks/{taskId}` | `id`, `venueId`, `handoverId`, `creatorId`, `createdAt` (server timestamp), `title` (1–120 bytes), `detail` (0–800 bytes), `state` (`open` \| `accepted` \| `resolved`), `ownerId` (string \| null), `version` (safe integer ≥ 1), `updatedAt` (server timestamp), `resolution` (string 1–800 bytes, `null` unless `state` is `resolved`) |
+| Activity | `venues/{venueId}/activities/{activityId}` | `id`, `taskId`, `venueId`, `actorId`, `at` (server timestamp), `action` (`create` \| `accept` \| `resolve` \| `reopen` \| `observe`), `fromState` (state \| null), `toState`, `fromVersion` (integer \| null), `toVersion`, `resolution` (string \| null), `reason` (string \| null), `observation` (object \| null) |
+
+`Task` input is a trust boundary, never cast: unknown or missing keys fail, `title`/`detail` obey the
+byte caps above, `version` is a safe integer (`≤ 2^53−1`), and the state fixes the other two fields —
+`open` has `ownerId: null` and `resolution: null`; `accepted` has an owner and `resolution: null`;
+`resolved` has an owner and a 1–800 byte resolution. A combination no transition can produce is
+`invalid_state`.
+
+Observation object (only on `action: "observe"`): `kind` (`duplicate` \| `contradiction`),
+`targetTaskId`, `targetVersion` (integer ≥ 1), `rationale` (1–400 bytes).
+
+Rules for every record: no client deletes, no membership writes, no activity updates or deletes,
+`createdAt`/`updatedAt`/`at` equal to `request.time`. Only the transitions in §3 change task fields.
+Membership is provisioned out of band by an administrator; the app has no path to create it.
+
+Document IDs (including `handoverId`, `taskId`, `targetTaskId`, `venueId`, `creatorId`, `uid` when
+used as a path segment) must match `^[A-Za-z0-9_-]{1,64}$`. Arbitrary text is rejected with
+`invalid_identifier` before it can become a path segment.
+
+Timestamps are absent from the pure TypeScript types on purpose: `src/domain.ts` has no clock, and
+the adapter/Rules layer supplies `request.time`. `Task` in code is the authoritative subset that
+transitions read and write.
+
+## 2. Reviewed packet (publication input)
+
+Exactly this shape, no extra keys at packet or card level:
+
+```ts
+interface ReviewedCard { readonly title: string; readonly detail: string }
+interface ReviewedPacket { readonly cards: readonly ReviewedCard[] }
+```
+
+- 1–5 cards; `title` 1–120 UTF-8 bytes, nonblank; `detail` 0–800 UTF-8 bytes.
+- No `ownerId`, `state`, `version`, `actorId`, `createdAt` or model metadata: the AI cannot supply
+  authority fields, and the validator rejects them as `unknown_key`.
+- Accepted strings are preserved byte for byte: no trimming, no Unicode normalization, no encoding
+  repair, no truncation. Over-limit input is rejected, never shortened.
+- Unpaired UTF-16 surrogates are rejected (`unpaired_surrogate`) before any byte counting, because
+  `TextEncoder` would otherwise substitute U+FFFD and silently change the string.
+- The packet returned to the caller is a new, deeply frozen object; the input is never mutated.
+
+Byte contract: a limit means UTF-8 bytes of the exact string, never `.length`, code points or
+graphemes. Conformance cases in `tests/validation.test.ts` (title cap 120): 120 ASCII pass / 121 fail;
+30 U+1F600 = 120 bytes pass / 31 = 124 fail; 40 × (`e` + U+0301) = 120 pass / 41 = 123 fail;
+60 U+00E9 = 120 pass / 61 = 122 fail; mixed precomposed + supplementary padded to 120 pass / 121 fail.
+The same mixed classes are applied to `detail` (800) and `resolution` (800).
+
+## 3. Transitions (frozen matrix)
+
+Every transition increments `version` by exactly 1 and emits exactly one activity whose
+`toVersion` equals the new task version. Any other request fails without mutation.
+
+| Action | Actor | From state | Owner precondition | To state | Owner after | Extra payload |
+|---|---|---|---|---|---|---|
+| `create` (publication) | `outgoing` | — | — | `open` | `null` | card fields; `version` 1 |
+| `accept` | `incoming` | `open` | `ownerId` is `null` | `accepted` | actor | — |
+| `resolve` | `incoming` | `accepted` | `ownerId === actorId` | `resolved` | unchanged | `resolution` 1–800 bytes |
+| `reopen` | `incoming` | `resolved` | `ownerId === actorId` | `accepted` | unchanged | `reason` 1–400 bytes; task `resolution` cleared |
+| `observe` | either role | `open` or `accepted` | target is a distinct current task in this venue, `open` or `accepted`, whose `id` equals the command's `targetTaskId` | unchanged | unchanged | `kind`, `targetTaskId`, `targetVersion`, `rationale` 1–400 bytes |
+
+Rejected by design, each with its code: self-assignment or any publish by `outgoing`; accepting an
+`accepted` or `resolved` task; resolving an `open` task; resolving or reopening another member's
+task; owner replacement or release; arbitrary state patches; forged version jumps; deleting shared
+records; editing or deleting activities; a standalone activity.
+
+Clearing a resolution on `reopen` does not lose history: the earlier `resolve` activity keeps its
+`resolution` value, and `reopen` records `reason` with `resolution: null` (§4).
+
+## 4. Activity coupling
+
+- `activityId = "{taskId}__v{toVersion}"` (`activityIdFor`), so one retry cannot fork a history and
+  a duplicate activity for the same version is a document ID collision, not a second event.
+- `create`: `fromState: null`, `fromVersion: null`, `toState: "open"`, `toVersion: 1`, actor is the
+  handover creator.
+- `accept`/`resolve`/`reopen`: `fromState` is the previous task state, `fromVersion` the previous
+  version, `actorId` the authenticated actor for that request.
+- Action-scoped fields are `null` everywhere else: `resolution` only on `resolve`, `reason` only on
+  `reopen`, `observation` only on `observe`. No reconciliation or resolution text is smuggled into
+  another action.
+- The atomic requirement is authored in `firestore.rules` and measured in the local emulator:
+  handover, tasks and creation activities commit in one transaction; each task create requires the
+  handover and its creation activity in the post-state; each activity requires the task in the
+  post-state; each task update requires its matching activity by derived ID. The call budget is in
+  `docs/ARCHITECTURE.md` §6.
+
+## 5. Public functions
+
+```ts
+// src/domain.ts
+activityIdFor(taskId: string, version: number): string;
+// constants: ROLES, TASK_STATES, ACTIVITY_ACTIONS, OBSERVATION_KINDS, ID_PATTERN, LIMITS
+
+// src/validation.ts
+utf8Bytes(value: string): number;                       // throws unpaired_surrogate
+hasUnpairedSurrogate(value: string): boolean;
+validateReviewedPacket(input: unknown): ReviewedPacket; // frozen copy or ContractError
+validateTask(input: unknown): Task;                     // same task-input rules, for server reads
+planPublication(packet: unknown, context: unknown): PublicationPlan;
+applyTransition(task: unknown, command: unknown, targetTask?: unknown): TransitionResult;
+```
+
+`planPublication` takes `{ venueId, handoverId, creatorId, taskIds }` and returns a frozen
+`{ handover, tasks, activities }` plan: tasks are `open`, unassigned, version 1, with the reviewed
+text untouched and the caller's stable IDs (so a retry reuses the same IDs, matching the spec's
+no-duplicate-publication rule). It validates the packet itself, so it cannot be bypassed.
+
+`applyTransition` returns `{ task, activity }` with the new task and the single matching activity,
+both frozen. `targetTask` is required for `observe` and ignored otherwise; `null` produces
+`missing_target`, and a snapshot whose `id` is not `command.targetTaskId` is
+`forbidden_transition` (the caller cannot observe one task while recording another). Both the task
+and the target snapshot are validated against §1 before any transition logic, so malformed or
+partially shaped input is rejected instead of cast. It does not mutate its arguments and does not
+read a clock or a database: the caller persists the result inside a transaction with the server
+timestamps.
+
+### 5.1 Persistence adapter (implemented, `src/tasks.ts`)
+
+```ts
+publishHandover(db: Firestore, plan: PublicationPlan): Promise<"created" | "existing">;
+readPublication(
+  db: Firestore,
+  venueId: string,
+  handoverId: string,
+  expectedTaskIds: readonly string[],
+): Promise<
+  | { readonly status: "published"; readonly tasks: readonly Task[] }
+  | { readonly status: "absent" }
+  | { readonly status: "mismatch" }
+>;
+runTaskTransition(db: Firestore, venueId: string, taskId: string, command: TransitionCommand): Promise<TransitionResult>;
+taskFromData(id: string, data: Record<string, unknown>): Task;
+```
+
+`publishHandover` runs inside `runTransaction`, not `writeBatch`. It first reads the handover,
+task and activity documents by the caller's stable IDs. If the handover already exists with the
+same IDs and unchanged reviewed content, it returns `"existing"` without writing, so a retry after
+an uncertain acknowledgment cannot duplicate records. A reused ID with different content throws
+`publication id conflict`. Offline, Firestore rejects the transaction; the adapter has no retry
+queue and never calls `disableNetwork`, so it never queues a publication for silent replay. A
+five-card publication is 11 writes (handover, five tasks, five activities), inside the transaction
+write limit.
+
+`readPublication` reads the handover and tasks from the server, never from the local cache, and
+reports `published`, `absent` or `mismatch`. It is the explicit recovery path after an uncertain
+acknowledgment.
+
+`taskFromData` strips the server timestamps and validates the persisted task through `validateTask`
+(the exported form of the same task-input contract) before the UI displays it.
+
+`runTaskTransition` reads the current task (and the observation target) inside `runTransaction`,
+calls `applyTransition`, then writes the task change and its single activity together with
+`serverTimestamp()`. A stale expected version or a changed read set aborts it; offline it rejects
+rather than queuing a replay. Neither function performs authorization of its own: Rules decide, and
+both fail closed. The module holds no configuration, credentials, clock, retry queue or emulator
+switch, so the caller must supply the client instance (tests connect it to `127.0.0.1:8080`).
+
+
+## 6. Errors
+
+One error type: `ContractError { code, path, limit? }`, message `"<code> at <path>"`. The message
+never contains the rejected text, so a validation failure cannot leak private content into a log.
+
+| Code | Condition |
+|---|---|
+| `not_an_object` | Input (or a nested card/command/task) is not a plain object |
+| `unknown_key` | Key outside the allowlist at packet, card, context, command or task level |
+| `missing_key` | Required key absent |
+| `invalid_type` | Wrong runtime type (e.g. non-string title, non-array `cards`) |
+| `invalid_identifier` | ID or path segment fails `^[A-Za-z0-9_-]{1,64}$` |
+| `duplicate_identifier` | The same task ID appears twice in one publication |
+| `identifier_count_mismatch` | `taskIds.length` differs from the card count |
+| `card_count_out_of_range` | Fewer than 1 or more than 5 cards |
+| `blank_required` | Required text is empty or whitespace only |
+| `byte_limit_exceeded` | UTF-8 byte length exceeds the field cap (`limit` is set) |
+| `unpaired_surrogate` | Lone UTF-16 surrogate in any validated text |
+| `invalid_role` | Role is not `outgoing` or `incoming` |
+| `invalid_state` | State is not `open`, `accepted` or `resolved`, or the owner/resolution combination is impossible for that state |
+| `invalid_action` | Action is not one of the four command actions |
+| `invalid_version` | Version or expected version is not a safe integer ≥ 1, or the source version is `2^53−1` so incrementing it would stop being exact |
+| `stale_version` | `expectedVersion` differs from the current task version |
+| `forbidden_transition` | Role, state, owner, venue or observation-target identity precondition fails |
+| `actor_not_owner` | Owner-only action attempted by another member |
+| `invalid_observation_kind` | Kind is not `duplicate` or `contradiction` |
+| `missing_target` | `observe` without a target snapshot |
+| `duplicate_target` | Target equals the source task |
+| `stale_target` | Target version differs from `targetVersion` |
+| `target_state_not_observable` | Target is `resolved` |
+
+## 7. Order of checks
+
+`applyTransition` evaluates in this fixed order, so a test failure points at one cause: task
+shape/keys → task types, byte limits, identifiers, state and version → command shape/keys → types
+and byte limits → identifiers → role enum → action → version validity → increment headroom →
+`expectedVersion` vs task version (`stale_version`) → role permission → state → owner → target
+(read, identity, duplicate, venue, version, state). `validateReviewedPacket` evaluates: packet shape
+and keys → `cards` type and count → each card's shape, keys, types, text limits.
+
+## 8. Rules-facing summary
+
+`firestore.rules` enforces, and the emulator suites measure: venue membership on every read and
+write, `request.auth.uid` as `actorId`/owner, `request.time` as all timestamps, immutability of
+published task content and identity fields, the transition matrix above, one activity per version
+with matching post-state in both directions, byte caps with `toUtf8().size()`, and bounded
+venue-scoped list queries (Rules are not filters). Membership documents are readable only by their
+own uid and writable by no client. Budget for the design and its measured result are in
+`docs/ARCHITECTURE.md` §6, including the five-card caching risk.
+
+## 9. Deliberately deferred (not frozen here)
+
+`brief` (0–1,200 bytes), the 12,000-byte model-response cap, source spans, local capability states,
+reconciliation request/response shapes, and the 20-other-task context bound belong to slices 2–3 and
+will be frozen with their own tests. This file does not define them, and no code in this cut accepts
+or returns them.
+
+## 10. Out of scope for this phase
+
+Local model drafting, cloud reconciliation, Firebase AI Logic, App Check, Hosting, deployment and
+any live Firebase behavior. The Firestore Rules, emulator configuration, persistence adapter, Auth
+emulator session and responsive web UI above are implemented and measured locally against synthetic
+data; nothing here is deployed or connected to a live project.
