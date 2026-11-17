@@ -1,10 +1,12 @@
 # ShiftRelay — frozen interfaces (Phase 4)
 
 Status: **frozen** for Phase 4, November 16, 2026; the local-draft contract in §9 was frozen in
-slice 2 the same day. Authority: this file describes the contract;
+slice 2 the same day, and the cloud reconciliation contract in §10 on November 17, 2026. Authority:
+this file describes the contract;
 `src/domain.ts` and `src/validation.ts` implement it; `tests/fixtures/contrato.json` is its
 machine-readable mirror, and `tests/validation.test.ts` fails if the three drift apart. The §9
-mirror is `contrato.json` `localDraft`, checked by `tests/ai-output.test.ts`.
+mirror is `contrato.json` `localDraft`, checked by `tests/ai-output.test.ts`; the §10 mirror is
+`contrato.json` `reconciliation`, checked by `tests/reconciliation.test.ts`.
 
 Change rule: any change to a type, limit, enum, error code or transition updates this file, the
 fixture and the code **in the same commit**. Nothing in this file is an SDK API; no Firebase import
@@ -313,7 +315,8 @@ generateLocalDraft(note: string, signal?: AbortSignal): Promise<{
 - `generateContent` is only reached when availability is already `available`; an absent
   `LanguageModel` never constructs a request. The model is created with
   `InferenceMode.ONLY_ON_DEVICE`, and the response is rejected unless
-  `response.inferenceSource === "on_device"`. No module path calls a cloud model.
+  `response.inferenceSource === "on_device"`. No local-drafting module path calls a cloud model; the
+  separate consent-gated cloud path is §10 and never handles private note text.
 - One generation is in flight at a time. The UI aborts session creation with the documented
   `AbortSignal`, ignores late results after edit, cancel, sign-out or membership loss, and keeps the
   raw note in component memory only. The SDK exposes no public model-dispose call; dropping the
@@ -323,13 +326,127 @@ generateLocalDraft(note: string, signal?: AbortSignal): Promise<{
 
 ### 9.5 Deliberately deferred (not frozen here)
 
-Cloud reconciliation request/response shapes, `brief` (0–1,200 bytes), the 20-other-task context
-bound and the observation workflow belong to slice 3 and will be frozen with their own tests. No
-code in this cut accepts or returns them.
+Cloud reconciliation is frozen separately in §10. No code in this cut accepts or returns cloud
+reconciliation packet or response shapes, and the local adapter has no cloud path.
 
-## 10. Out of scope for this phase
+## 10. Cloud reconciliation contract (slice 3, frozen November 17, 2026)
 
-Cloud reconciliation, App Check, Hosting, deployment and any live Firebase behavior. The Firestore
-Rules, emulator configuration, persistence adapter, Auth emulator session, responsive web UI and
-strictly local drafting above are implemented and measured locally against synthetic data; nothing
-here is deployed or connected to a live project.
+Optional, separately consented comparison of already-shared tasks. The packet is assembled from a
+fresh authorized read, is shown verbatim before approval, and is sent only by an explicit one-shot
+action. Suggestions are ephemeral; only a human confirmation records one ordinary observation.
+
+### 10.1 Bounded context and exact packet
+
+- Sources: **1–5** selected tasks. Context: **0–20** other tasks. Only `open` or `accepted` tasks are
+  eligible for either role; `resolved` tasks are excluded and cannot be selected.
+- When more than 20 other eligible tasks exist, the caller must pass an explicit visible
+  `contextTaskIds` selection (`context_selection_required` otherwise). Nothing is omitted silently;
+  the UI shows how many eligible tasks exist and how many are included.
+- The packet is exactly `{ sources: TaskSnapshot[], context: TaskSnapshot[] }`, and a snapshot has
+  exactly `id`, `version`, `title`, `detail`, `state`. No `ownerId`, `resolution`, `creatorId`,
+  `handoverId`, `venueId`, member roster, activity, private note, source span or model authority
+  field exists in the packet.
+- Outgoing bytes are `JSON.stringify` of that object in the fixed field order above. The preview
+  renders the same string the consent stores and the adapter receives, so preview/request byte
+  equality is asserted, not assumed.
+- The preview also displays the model (`gemini-3.5-flash-lite`), the recipient purpose and the full
+  system instruction. These are constants, not model output.
+
+### 10.2 One-shot consent and freshness
+
+- A consent is an immutable snapshot: exact packet bytes, model, purpose, system instruction and
+  each included task version.
+- Before the request the UI performs a fresh server read, re-plans with the same selection and
+  compares the new packet bytes with the consent (`consentStatus`). A difference, a newly required
+  context selection, an edit, a context change, a cancel or a sign-out invalidates the consent; the
+  user must preview and approve again.
+- At most one request is in flight. There is no automatic retry; a failed attempt also consumes the
+  consent. After the response arrives, the same fresh-read comparison runs again, and a result from a
+  changed context is discarded rather than applied. An aborted request's late result is dropped by
+  the page-level operation token.
+- Viewing, previewing, refreshing and sharing never generate a cloud call.
+
+### 10.3 Model output (untrusted JSON text)
+
+```json
+{ "brief": "…", "suggestions": [
+  { "kind": "duplicate|contradiction", "taskId": "…", "taskVersion": 1,
+    "targetTaskId": "…", "targetVersion": 1, "rationale": "…" } ] }
+```
+
+- Raw response capped at **12,000 UTF-8 bytes before parsing**. Empty/whitespace output is
+  `empty_response`; prose/refusal is `invalid_json`.
+- Root keys exactly `brief`, `suggestions`; 0–5 suggestions; each suggestion keys exactly the six
+  above. `brief` is 0–1,200 UTF-8 bytes; `rationale` is 1–400 UTF-8 bytes and nonblank.
+- Both IDs must be distinct and present in the approved packet at exactly the approved versions
+  (`unknown_task_id`, `duplicate_target`, `stale_task_version`). Unknown authority fields
+  (`ownerId`, `action`, `state`, …) are `unknown_key`.
+- Strings are preserved byte for byte, rendered as plain text, never executed. HTML and
+  instruction-shaped text are data. `brief` may be empty; `suggestions` may be empty.
+- Accepted output is a new deeply frozen object; the raw text and packet are not mutated.
+
+### 10.4 Errors
+
+`ReconcileError { code, path, limit? }`, message `"<code> at <path>"`; rejected text is never echoed.
+Output codes: `not_an_object`, `unknown_key`, `missing_key`, `invalid_type`, `invalid_identifier`,
+`invalid_version`, `invalid_observation_kind`, `duplicate_target`, `unknown_task_id`,
+`stale_task_version`, `blank_required`, `byte_limit_exceeded`, `unpaired_surrogate`, `empty_response`,
+`invalid_json`, `response_too_large`, `suggestion_count_out_of_range`.
+Plan codes (returned as `{ status: "invalid", code }`): `invalid_input`,
+`source_count_out_of_range`, `context_count_out_of_range`, `unknown_task_id`, `duplicate_task_id`,
+`task_state_not_reconcilable`.
+
+### 10.5 Public functions
+
+```ts
+// src/reconciliation.ts (pure: no SDK, clock, storage or network)
+const CLOUD_MODEL; const CLOUD_PURPOSE; const CLOUD_SYSTEM_INSTRUCTION;
+const RECONCILE_LIMITS; const RECONCILE_PLAN_CODES; const RECONCILE_OUTPUT_CODES;
+planReconciliation(input: unknown):
+  | { status: "ready"; preview: ReconciliationPreview; eligibleContextIds: readonly string[] }
+  | { status: "context_selection_required"; eligibleContextIds: readonly string[] }
+  | { status: "invalid"; code: ReconcilePlanCode };
+serializeCloudPacket(packet: CloudPacket): string;
+createCloudConsent(preview: ReconciliationPreview): CloudConsent;
+consentStatus(consent: CloudConsent, preview: ReconciliationPreview): "valid" | "changed";
+validateReconcileOutput(raw: unknown, packet: CloudPacket): ReconcileResult;
+observationCommandFor(suggestion: ReconcileSuggestion, actorId: string, actorRole: Role): TransitionCommand;
+
+// src/cloudReconcile.ts
+cloudReconciliationProvider():
+  | { status: "ready"; label: "firebase-ai-logic-only-in-cloud" | "test-network-mock";
+      generate(packetText: string, signal?: AbortSignal): Promise<{ text: string }> }
+  | { status: "notconfigured"; reason: string };
+```
+
+### 10.6 Human confirmation and adapter rules
+
+- Confirming a suggestion sends one existing `observe` command through `applyTransition` and
+  `runTaskTransition` on the source task: `expectedVersion` is the source version from the validated
+  suggestion, the target is a distinct current task, and state/owner/version semantics are §3. The
+  server adds one activity (`observation` only) and increments only the source version; the target
+  and any owner are unchanged. Confirm re-reads fresh versions first and rejects a mismatch with a
+  conflict instead of rebasing.
+- Dismissing writes nothing. No suggestion is ever applied automatically, and no task is merged,
+  closed, reassigned or resolved by reconciliation.
+- `src/cloudReconcile.ts` uses `getGenerativeModel(getAI(app), { mode: InferenceMode.ONLY_IN_CLOUD,
+  inCloudParams: { model: CLOUD_MODEL, systemInstruction, generationConfig: { responseMimeType:
+  "application/json", responseSchema, maxOutputTokens: 2048 } } })` and rejects a response whose
+  `inferenceSource` is not `in_cloud`. There is no on-device fallback.
+- The demo build has no live project/App Check configuration, so
+  `cloudReconciliationProvider()` returns `notconfigured` and no request is possible. A page-injected
+  double is used only when it labels itself `test-network-mock`; the UI shows that label, and those
+  results are never presented as real cloud evidence.
+
+### 10.7 Deliberately deferred
+
+The live cloud request itself (App Check enforcement, real quota/latency/model availability), Hosting
+deployment and real-device checks are not frozen here and are not claimed.
+
+## 11. Out of scope for this phase
+
+Cloud reconciliation runtime (a live cloud request, App Check enforcement, quota/latency/model
+availability), Hosting, deployment and any live Firebase behavior. The Firestore Rules, emulator
+configuration, persistence adapter, Auth emulator session, responsive web UI, strictly local drafting
+and the consented reconciliation contract above are implemented and measured locally against synthetic
+data; nothing here is deployed or connected to a live project.

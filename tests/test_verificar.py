@@ -23,6 +23,7 @@ EXPECTED_CHECKS = {
     "dependency-audit",
     "unit",
     "ai-output",
+    "reconciliation",
     "rules-tests",
     "e2e-tests",
     "tools-tests",
@@ -69,6 +70,10 @@ class VerifierTest(unittest.TestCase):
         self.assertIn("test:rules", " ".join(rules["command"]))
         e2e = next(check for check in self.verificar.CHECKS if check["name"] == "e2e-tests")
         self.assertIn("test:e2e", " ".join(e2e["command"]))
+        reconciliation = next(
+            check for check in self.verificar.CHECKS if check["name"] == "reconciliation"
+        )
+        self.assertIn("tests/reconciliation.test.ts", " ".join(reconciliation["command"]))
 
     def test_run_check_records_exit_duration_and_output_hash(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -105,6 +110,7 @@ class VerifierTest(unittest.TestCase):
         self.assertIn("docs/INTERFACES.md", joined)
         self.assertIn("tests/fixtures/contrato.json", joined)
         self.assertIn("tests/ai-output.test.ts", joined)
+        self.assertIn("tests/reconciliation.test.ts", joined)
         self.assertIn("scripts/scan_secrets.py", joined)
         self.assertIn("node_modules", joined)
         self.assertNotIn("not a git repository", joined)

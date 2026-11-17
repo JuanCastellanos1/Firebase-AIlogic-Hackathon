@@ -19,6 +19,7 @@ import {
   ROLES,
   type ActivityAction,
   type ActivityRecord,
+  type ObservationRecord,
   type Role,
   type Task,
 } from "./domain";
@@ -107,6 +108,29 @@ export async function readTasks(db: Firestore): Promise<Task[]> {
     .sort((left, right) => left.title.localeCompare(right.title) || left.id.localeCompare(right.id));
 }
 
+/** Display-only parse of a persisted observation; anything malformed stays hidden. */
+function asObservation(value: unknown): ObservationRecord | null {
+  if (typeof value !== "object" || value === null) {
+    return null;
+  }
+  const record = value as Record<string, unknown>;
+  const kind = record.kind;
+  if (
+    (kind !== "duplicate" && kind !== "contradiction") ||
+    typeof record.targetTaskId !== "string" ||
+    typeof record.targetVersion !== "number" ||
+    typeof record.rationale !== "string"
+  ) {
+    return null;
+  }
+  return {
+    kind,
+    targetTaskId: record.targetTaskId,
+    targetVersion: record.targetVersion,
+    rationale: record.rationale,
+  };
+}
+
 export async function readActivities(db: Firestore): Promise<ActivityView[]> {
   const snapshot = await getDocsFromServer(
     query(collection(db, "venues", VENUE_ID, "activities"), limit(QUERY_LIMIT)),
@@ -133,7 +157,7 @@ export async function readActivities(db: Firestore): Promise<ActivityView[]> {
       toVersion: typeof data.toVersion === "number" ? data.toVersion : 0,
       resolution: typeof data.resolution === "string" ? data.resolution : null,
       reason: typeof data.reason === "string" ? data.reason : null,
-      observation: null,
+      observation: asObservation(data.observation),
       at: (data.at as Timestamp | undefined) ?? null,
     });
   }

@@ -6,9 +6,9 @@ Baseline: user allows 15 days; official submission cutoff is November 30, 2026, 
 |---|---|---:|---|---|
 | Setup | 0 | 5% | Rules summary read; tools and MCP checked; empty remote connected; startup artifacts created | Gate 0 environment checks passed; initial history unborn |
 | Framing | 1–3 | 20% | Stack ADR, 15 criteria, three-slice plan, six thresholds; master reran 4 diagram tests, renderer self-test and 1/1 real render successfully | Gate A approved; live-runtime checkpoints remain owned and unverified |
-| Build | 4–5 | 45% | Slice2 real localdraft request reported; master combinedverifier passes71unit17AI-output31Rules14E2E37tools+scan/audit/type/lint/build/2diagrams. FreecloudWebApp/AI/Auth/AppCheck provisioned; privateconfig moved outside workingtree | Commit Slice2, then Slice3 cloudreconciliation/liveintegration. ExactNano4/hostedruntime/releasevalidation not proven |
+| Build | 4–5 | 45% | Slice2committed92379f9; Slice3 master14checks pass91unit20reconciliation17AI-output31Rules20E2E37tools,scans/audit/type/lint/build/2diagrams. ProductionAppCheck/keyrestrictions/2syntheticmembers provisioned,stillSpark | CommitSlice3; liveconfig/AppCheck/realcloudrequest+QAintegration next. ExactNano4/hostedmanualtests not proven |
 | Quality and fixes | 6–6.5 | 20% | Gitleaks + scopedgRPC fix + minimal emulator child env prevent CLI credential log exposure; post-commit full manual-slice checks pass | Independent finalGateC/reviewer pending later slices and real/manual evidence |
-| Delivery | 8 | 10% | User explicitly authorized specific reviewed Hosting/Rules deployment and PR merge conditional on gates+CI; no billing/terms/submission authorization | Reserve for final gated delivery, public repo, video and human submission |
+| Delivery | 8 | 10% | User authorized authenticatedQAdeploy aftercodereview+automatedchecks to permit final livevalidation; finalreviewedrelease/PRmerge gated. VerifiedSlice2feature pushed; mainbaseline bootstrap unresolved | QA+finaldelivery,CI,review,localvideo pending. No billing/terms/YouTube/hackathonsubmission authorized |
 
 ## Scope policy
 

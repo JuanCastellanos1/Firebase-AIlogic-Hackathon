@@ -1550,3 +1550,152 @@ and must remain restricted to Firebase-related APIs (never the Gemini Developer 
 cloud-mode dev runner must read the private path, fail closed on a missing name, and keep
 `VITE_FIREBASE_APPCHECK_DEBUG_TOKEN` out of production builds; the full production-config rationale
 is in ADR 0003.
+
+## 12. Slice 3 — separately consented cloud reconciliation (November 17, 2026)
+
+Scope: the reconciliation contract, the bounded context/packet, the one-shot consent and the
+confirmed-observation flow, plus an `ONLY_IN_CLOUD` adapter that is deliberately unreachable in this
+demo build. No live cloud request, App Check enforcement, Hosting, deployment, dependency, Rules
+change or new collection was produced. The frozen §1–§8 domain contract did not change;
+`docs/INTERFACES.md` §10 and `contrato.json` `reconciliation` were frozen together with the code and
+tests.
+
+### 12.1 Red then green
+
+Red 1 — the pure suite before `src/reconciliation.ts` existed:
+
+```powershell
+npm run test:unit -- tests/reconciliation.test.ts
+```
+
+```text
+FAIL  tests/reconciliation.test.ts [ tests/reconciliation.test.ts ]
+Error: Cannot find module '../src/reconciliation' imported from
+       .../tests/reconciliation.test.ts
+ Test Files  1 failed (1)
+      Tests  no tests
+```
+
+Red 2 — the first real browser run of `e2e/reconciliation.spec.ts` failed 4 of 6. Both causes were
+real, not test cosmetics:
+
+- The page-injected double initialised `failWith: null`, and the adapter treated any non-`undefined`
+  value as a failure, so a successful mock response surfaced the generic cloud-failure message. The
+  adapter now fails only on a non-empty string code.
+- The suite shared accumulated emulator state, so by the third case more than 20 context tasks
+  existed and the preview was correctly disabled. Each case now starts from a cleared demo venue
+  (`resetDocuments`), which is setup isolation, not a relaxed assertion.
+
+```text
+  4 failed
+    one approved packet yields one confirmed observation ...
+    a stale target rejects confirmation and writes no observation
+    one request in flight, cancel and sign-out ...
+    quota, offline, auth and invalid responses ...
+  2 passed (3.5m)
+```
+
+Green — targeted:
+
+```powershell
+npm run test:unit -- tests/reconciliation.test.ts
+```
+
+```text
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+```
+
+```powershell
+$env:PATH = ((Resolve-Path node_modules\.bin).Path + ';' + $env:PATH)
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/reconciliation.spec.ts"
+```
+
+```text
+Running 6 tests using 1 worker
+  ok 1 the local demo is not configured, previews locally and never contacts a cloud endpoint
+  ok 2 more than twenty eligible tasks require a visible context selection
+  ok 3 one approved packet yields one confirmed observation and a dismissal writes nothing
+  ok 4 a stale target rejects confirmation and writes no observation
+  ok 5 one request in flight, cancel and sign-out discard late results without a retry
+  ok 6 quota, offline, auth and invalid responses never write and keep the manual path
+  6 passed (41.3s)
+```
+
+The `PATH` prefix is needed because `scripts/firebase_safe.py` only accepts a script whose first token
+is `playwright`/`vitest`; `npm run test:e2e -- <file>` appends the file after the quoted script and is
+refused. The wrapper, its environment allowlist and its guard are unchanged.
+
+### 12.2 What the green tests measure
+
+- `tests/reconciliation.test.ts` (20 cases): fixture mirror of limits/model/error codes; packet has
+  exactly `sources`/`context` with only `id`, `version`, `title`, `detail`, `state`; no sentinel and
+  no owner/resolution/creator/handover/venue field; 1–5 sources and 0–20 context; `>20` returns
+  `context_selection_required` and an explicit 20-ID selection is honoured; resolved tasks excluded;
+  input not mutated and snapshots frozen; consent byte equality and invalidation on packet/model/
+  instruction change; the observation command is bounded; exact output acceptance, 0–5 suggestions,
+  1,200-byte brief and 400-byte rationale boundaries in UTF-8, 12,000-byte raw cap before parsing,
+  unknown/extra keys, unknown IDs, stale versions, self-comparison, invalid kind, blank rationale,
+  injection/HTML preserved as plain text, and no rejected text echoed in errors.
+- `e2e/reconciliation.spec.ts` (6 cases, emulator + labelled double): the demo shows `notconfigured`
+  with no send control and zero external requests; preview is local and exact; >20 eligible tasks
+  require checking a visible subset before preview; one approved packet produces exactly one mock
+  call whose received bytes equal the preview; one confirmation records exactly one observation on
+  the source (`version + 1`, owner/state unchanged, target version unchanged) and a dismissal writes
+  nothing; a target or source changed by a second client rejects confirmation with no write; selection
+  edit, cancel and sign-out discard late results with no automatic retry and one call per explicit
+  send; quota/offline/auth failures, extra-field, oversized and non-JSON responses are rejected with
+  no write and the manual accept path still works. The panel is axe-scanned for serious/critical
+  findings and has no horizontal overflow at 320 CSS px.
+
+### 12.3 Full verifier
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK secret-scan: PASS
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK reconciliation: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+Q5 credential scan: PASS (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (dirty working tree; 6 scope items unimplemented)
+ok=True commit=92379f96981b14960cf31e1499175501669b61a8 dirty=True
+```
+
+Measured inside that run: 91 unit tests (4 files), 17 ai-output, 20 reconciliation, 31 Rules tests
+(3 files), 20 E2E, 37 tool tests, 2 diagrams, zero dependency vulnerabilities. `dirty=True` is
+expected: this cut makes no commit, and the tree also holds another agent's untracked
+`docs/adr/0004-production-appcheck.md`. `ok=True` is scoped to these checks, not a product, hybrid,
+accessibility or Gate C claim.
+
+### 12.4 Limits of this evidence
+
+- **No real cloud request was made.** `cloudReconciliationProvider()` returns `notconfigured` in the
+  demo build because the shared app is the `demo-shiftrelay` emulator app with no live App Check
+  configuration. Every suggestion, quota/offline/auth failure and late response in the suites comes
+  from a page-injected double that labels itself `test-network-mock`; the UI shows "TEST MOCK - not a
+  real cloud request". None of it counts as AC13/Q6 hybrid or cloud evidence.
+- The `ONLY_IN_CLOUD` adapter, `gemini-3.5-flash-lite`, the structured-output schema and the
+  `inferenceSource === "in_cloud"` rejection are reviewed code with no live execution; free-tier
+  availability, quota and latency remain unmeasured. Live mode also needs its own live Firebase app
+  and App Check wiring, which this build intentionally does not have.
+- No Rules change was needed; the observation transition, target-version check and coupled activity
+  were already enforced and tested (31 Rules cases). Reconciliation confirmation reuses that exact
+  path, so it inherits the same Rules coupling and the R1 snapshot window.
+- Manual screen-reader, 200%-zoom and actual Android Chrome touch checks are still open; the new
+  panel has only automated axe/keyboard/320px coverage.
+- `docs/PUBLISH.md`, Hosting, deployment, AC15 product validation and the live hybrid protocol remain
+  unimplemented and are named by the verifier scope.

@@ -291,6 +291,13 @@ export function Handover({
                             {activity.reason !== null && (
                               <p className="history-detail">Reopen reason: {activity.reason}</p>
                             )}
+                            {activity.observation !== null && (
+                              <p className="history-detail">
+                                Observation ({activity.observation.kind}) of{" "}
+                                {activity.observation.targetTaskId} v
+                                {activity.observation.targetVersion}: {activity.observation.rationale}
+                              </p>
+                            )}
                           </li>
                         ))}
                       </ol>

@@ -67,12 +67,16 @@ REQUIRED_FILES = [
     "src/Handover.tsx",
     "src/localDraft.ts",
     "src/aiValidation.ts",
+    "src/reconciliation.ts",
+    "src/cloudReconcile.ts",
+    "src/CloudReconciliation.tsx",
     "src/styles.css",
     "tests/fixtures/handover.ts",
     "tests/fixtures/contrato.json",
     "tests/validation.test.ts",
     "tests/transitions.test.ts",
     "tests/ai-output.test.ts",
+    "tests/reconciliation.test.ts",
     "tests/rules/support.ts",
     "tests/rules/permissions.test.ts",
     "tests/rules/concurrency.test.ts",
@@ -85,6 +89,7 @@ REQUIRED_FILES = [
     "e2e/accessibility.spec.ts",
     "e2e/privacy.spec.ts",
     "e2e/local-draft.spec.ts",
+    "e2e/reconciliation.spec.ts",
     "tests/test_check_diagrams.py",
     "tests/test_verificar.py",
     "tests/test_scan_secrets.py",
@@ -106,9 +111,9 @@ REQUIRED_FILES = [
 FIXTURE_CHECK = (
     "import json,pathlib,sys;"
     "d=json.loads(pathlib.Path('tests/fixtures/contrato.json').read_text(encoding='utf-8'));"
-    "keys=('schema','enums','limits','errors','transitions','idPattern','collections','localDraft');"
+    "keys=('schema','enums','limits','errors','transitions','idPattern','collections','localDraft','reconciliation');"
     "missing=[k for k in keys if k not in d];"
-    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] and d['localDraft']['errors'] else 3))"
+    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] and d['localDraft']['errors'] and d['reconciliation']['errors'] else 3))"
 )
 
 CHECKS = [
@@ -128,6 +133,11 @@ CHECKS = [
         "command": [*NPM, "run", "test:unit", "--", "tests/ai-output.test.ts"],
         "timeout": 300,
     },
+    {
+        "name": "reconciliation",
+        "command": [*NPM, "run", "test:unit", "--", "tests/reconciliation.test.ts"],
+        "timeout": 300,
+    },
     {"name": "rules-tests", "command": [*NPM, "run", "test:rules"], "timeout": 900},
     {"name": "e2e-tests", "command": [*NPM, "run", "test:e2e"], "timeout": 1800},
     {"name": "tools-tests", "command": [*NPM, "run", "test:tools"], "timeout": 600},
@@ -138,7 +148,7 @@ CHECKS = [
 
 SCOPE = {
     "phase": PHASE,
-    "name": "strictly-local-drafting-slice2-emulator-plus-localhost-chrome",
+    "name": "consented-cloud-reconciliation-slice3-emulator-and-tested-mock",
     "included": [check["name"] for check in CHECKS],
     "unimplemented": [
         "Q5 reviewer closure: the pinned Gitleaks scan (working tree + dist, no project allowlist) "
@@ -146,9 +156,11 @@ SCOPE = {
         "report and on the pre-deploy public artifact set is still open",
         "genuine local model and hybrid runtime evidence: one localhost Chrome ON_DEVICE request "
         "now runs, but exact Nano 4 identity/provenance, hosted HTTPS, App Check and a separately "
-        "consented cloud comparison are still missing (AC13/Q6)",
-        "cloud reconciliation: request/response contract, bounded context, observation confirmation "
-        "and the separately consented cloud model (slice 3)",
+        "consented real cloud comparison are still missing (AC13/Q6)",
+        "live cloud reconciliation runtime: the ONLY_IN_CLOUD adapter and the explicit free-tier "
+        "model gemini-3.5-flash-lite are implemented and the demo build reports notconfigured, but no "
+        "live Firebase app/App Check configuration, real cloud request, quota, latency or model "
+        "availability was measured; every cloud result in the suites is a labelled test mock",
         "manual accessibility: screen-reader announcements, 200% zoom and actual Android Chrome touch "
         "(automated axe serious/critical, keyboard and 320px checks only)",
         "live Firebase project, Hosting configuration, deployment and cloud provisioning",

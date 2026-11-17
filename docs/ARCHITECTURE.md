@@ -1,15 +1,17 @@
 # ShiftRelay — architecture
 
-Status: Phase 4 contract, extended by the Rules/persistence cut, the manual slice 1 UI cut and the
-strictly local drafting slice 2 cut (November 16, 2026). Owner: implementer. `firestore.rules`,
-emulator configuration, the transaction adapter, the Auth emulator session, the responsive manual UI
-and the on-device draft adapter now exist and were measured against the local `demo-shiftrelay` Auth
-and Firestore emulators plus one real Chrome localhost `ON_DEVICE` request; no live project, cloud
-service or deployment exists. Scope of this cut: boundaries, frozen contract, one sequence diagram,
-the designed Rules and request/read budget, the measured Rules results, the manual
-private-draft → review → publication → accept/resolve/reopen workflow, and the
-`ONLY_ON_DEVICE` local draft path. No cloud AI, cloud reconciliation or Hosting. The domain contract
-did not change; the local draft contract is frozen in `docs/INTERFACES.md` §9.
+Status: Phase 4 contract, extended by the Rules/persistence cut, the manual slice 1 UI cut, the
+strictly local drafting slice 2 cut and the consented cloud reconciliation slice 3 cut (November
+16–17, 2026). Owner: implementer. `firestore.rules`, emulator configuration, the transaction adapter,
+the Auth emulator session, the responsive manual UI, the on-device draft adapter and the
+`ONLY_IN_CLOUD` reconciliation adapter now exist and were measured against the local
+`demo-shiftrelay` Auth and Firestore emulators plus one real Chrome localhost `ON_DEVICE` request;
+no live project, cloud request or deployment exists. Scope of this cut: boundaries, frozen contract,
+one sequence diagram, the designed Rules and request/read budget, the measured Rules results, the
+manual private-draft → review → publication → accept/resolve/reopen workflow, the `ONLY_ON_DEVICE`
+local draft path, and the separately consented reconciliation packet/consent/observation contract.
+No live cloud AI call, App Check enforcement or Hosting. The domain contract did not change; the local
+draft contract is frozen in `docs/INTERFACES.md` §9 and the reconciliation contract in §10.
 
 Read with `docs/spec.md` (requirements), `docs/INTERFACES.md` (the frozen contract), `CONSTRAINTS.md`
 and `docs/adr/0001-shiftrelay-stack.md`. Spec text wins over this file; where this file refines a
@@ -44,8 +46,8 @@ raw source spans and unapproved model output never leave page memory; the bounda
 | Private draft surface | React component state in page memory | Raw note, manual cards, editable review | Nothing shared; no storage or network |
 | Shared handover surface | React component state + Firestore modular SDK | Publication preview, task list, accept/resolve/reopen, pending/conflict states | Auth session, Firestore, Rules |
 | Domain contract module (`src/domain.ts`, `src/validation.ts`) | Strict TypeScript, no SDK import | Frozen types, limits, packet/task/activity validation, transition planning | Nothing (pure) |
-| Local inference adapter (later) | `firebase/ai` with `ONLY_ON_DEVICE` | Single-turn extraction from the private note | Browser capability, explicit user action |
-| Cloud reconciliation adapter (later) | `firebase/ai` with `ONLY_IN_CLOUD` | Bounded duplicate/contradiction suggestions from approved context | Published task snapshots, one-shot consent |
+| Local inference adapter (`src/localDraft.ts`) | `firebase/ai` with `ONLY_ON_DEVICE` | Single-turn extraction from the private note | Browser capability, explicit user action |
+| Cloud reconciliation adapter (`src/reconciliation.ts`, `src/cloudReconcile.ts`, `src/CloudReconciliation.tsx`) | Pure contract + `firebase/ai` with `ONLY_IN_CLOUD` (`gemini-3.5-flash-lite`) | Bounded duplicate/contradiction suggestions from an approved shared-task packet | Published task snapshots, one-shot consent |
 | Identity session | `firebase/auth` with in-memory persistence | Email/password sign-in, UID, membership-derived role, revocation handling | Auth emulator, Firestore membership |
 | Shared store | Cloud Firestore Standard edition + memory cache | Handovers, tasks, activities, memberships | Security Rules |
 
@@ -65,6 +67,7 @@ the private-data surface or move authorization somewhere this scope does not fun
 | Private note never persisted | Page-memory-only design; no private collection; Auth in memory, Firestore memory cache | Any client-side redaction claim |
 | Role is membership, not a toggle | Membership document read at sign-in and watched for revocation; no role control in the UI | UI role switch |
 | Human confirmation of observations | UI review step plus one versioned activity per confirmation | Model output |
+| Cloud packet contents and one-shot consent | Pure `planReconciliation` allowlist, byte-equal preview/consent, fresh-read version checks, operation token | Model output, UI hints, "read-only" promises |
 
 Timestamps are intentionally absent from the pure domain type (`Task` has no `createdAt`/`updatedAt`,
 `ActivityRecord` has no `at`): the persistence boundary supplies `request.time`, and a pure function
@@ -74,8 +77,9 @@ cannot honestly invent server time. `INTERFACES.md` lists the persisted fields.
 
 One diagram only, as the two-diagram budget requires (§7). It shows the publication and ownership
 path that this phase's contract covers; strict local drafting is implemented in `src/localDraft.ts`
-and frozen in `docs/INTERFACES.md` §9, and cloud reconciliation remains sketched in `docs/spec.md`;
-neither is modelled here.
+and frozen in `docs/INTERFACES.md` §9, and consented reconciliation is implemented in
+`src/reconciliation.ts`/`src/CloudReconciliation.tsx` and frozen in §10. Neither AI path is modelled
+here.
 
 ```mermaid
 sequenceDiagram
@@ -122,6 +126,7 @@ sequenceDiagram
 | An uncertain or offline action is never confirmed or silently replayed | Adapter transaction semantics + UI pending/unconfirmed state | Playwright offline suite (green), lost-ack read-back in Rules suite (green) |
 | Only `incoming` accepts; only the owner resolves or reopens; `outgoing` cannot self-assign | `firestore.rules` now, `applyTransition` as the client guard | both suites (green) |
 | Observation never mutates the target | Rules + `applyTransition` | `tests/rules/permissions.test.ts`, `concurrency.test.ts` (green) |
+| Cloud packet is the exact approved allowlist, and consent is one-shot | `src/reconciliation.ts` + UI operation token | `tests/reconciliation.test.ts` and `e2e/reconciliation.spec.ts` (green, labelled mock) |
 | Private text never persisted | Architecture (no collection, memory cache) + UI memory-only state | `e2e/privacy.spec.ts` sentinel checks (green) |
 | Role and revocation come from membership | Auth UID + membership read/watch | `e2e/privacy.spec.ts` revocation (green) |
 
@@ -255,11 +260,21 @@ non-local emulator host or a non-local page origin, and `firebase` refuses non-e
 a `demo-` project. Removing that guard for Hosting is a deployment decision that requires its own
 approval, App Check plan and security review.
 
+**R9 — Cloud reconciliation is implemented, not live.** The pure contract, the `ONLY_IN_CLOUD`
+adapter with the explicit free-tier model `gemini-3.5-flash-lite`, and the one-shot consent/observation
+flow are measured with unit and emulator/browser tests; every cloud result in those tests comes from a
+page-injected double that labels itself `test-network-mock`. The demo build returns `notconfigured`, so
+no real cloud request, quota, latency, model availability or App Check enforcement was measured. The
+fresh server read before and after the request narrows, but cannot eliminate, the window in which
+another client changes a task between the approved packet and the result; the confirmation step
+re-checks both versions and rejects a stale suggestion. Treat R9 as an open live-integration risk, not
+as hybrid evidence.
+
 ## 9. What is not built
 
-Explicitly out of this cut, so no reader mistakes the contract for a product: cloud reconciliation,
-cloud Firebase AI Logic, App Check enforcement, Hosting configuration, deployment, a live Firebase
-project, and the manual screen-reader/200%-zoom/Android-touch checks. The manual private-to-shared
-UI, Auth emulator session, Playwright suites, lint, production build and the strictly local
-`ONLY_ON_DEVICE` draft path exist and are measured locally. Exact Nano 4 identity is unverified, and
-`docs/PLAN.md` lists the owning slice for the rest.
+Explicitly out of this cut, so no reader mistakes the contract for a product: a live cloud AI request,
+cloud Firebase AI Logic runtime evidence, App Check enforcement, Hosting configuration, deployment, a
+live Firebase project, and the manual screen-reader/200%-zoom/Android-touch checks. The manual
+private-to-shared UI, Auth emulator session, Playwright suites, lint, production build, the strictly
+local `ONLY_ON_DEVICE` draft path and the consented reconciliation contract/flow exist and are measured
+locally. Exact Nano 4 identity is unverified, and `docs/PLAN.md` lists the owning slice for the rest.

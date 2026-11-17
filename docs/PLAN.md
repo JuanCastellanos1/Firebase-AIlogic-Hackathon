@@ -2,7 +2,9 @@
 
 Status: slice 1 manual workflow implemented locally (November 16, 2026), emulator-only; slice 2
 strictly-local drafting implemented with mocked failure branches plus one real Chrome 157
-download/ON_DEVICE request on localhost; slice 3 and all cloud/hosted work remain unimplemented.
+download/ON_DEVICE request on localhost; slice 3 consented reconciliation contract, UI, pure tests,
+labelled-mock browser tests and an unimplemented-live `ONLY_IN_CLOUD` adapter implemented locally
+(November 17, 2026). No live cloud request, App Check enforcement, Hosting or deployment exists.
 Skills applied: writing-plans and constraint-driven-development. Workflow-specified location and
 three-slice checklist override skill defaults. No calendar or delivery-duration promise.
 
@@ -19,9 +21,20 @@ three-slice checklist override skill defaults. No calendar or delivery-duration 
   used the pinned reviewed renderer and captured real render/check output before slice 1. Evidence:
   `.git/opencode/diagrams/` and `docs/verification.md` §1–§2, §5.4. Do not re-open Gate A for this
   slice; new diagrams still go through the same checker.
-- [ ] Before relevant Firebase tasks, satisfy G6: review official Firebase agent skills, discover exact current metadata/names and revision, get installation authorization, install/load only relevant skills. None are installed now. Split Auth/Firestore, AI/App Check, Rules audit and Hosting into separate task contexts (maximum 3 skills per task); do not blindly use ADR candidate names. Firebase MCP is optional, not a substitute for runtime use.
-- [ ] Phase 4: implementer authors `docs/ARCHITECTURE.md` and `docs/INTERFACES.md` from the spec, with fixture and contract review before code. Confirm Rules can enforce publication/event coupling, ownership, versions and observation target checks within limits; if not, stop for architecture review, not a weaker permission contract or an unapproved server.
-- [ ] Recheck official APIs via Context7, resolve compatible exact versions and runtime/emulator prerequisites, then request authorized tooling/setup. Do not invent a local model ID, pin a tutorial model or assume hosted availability. Real calls depend on G3 access/attestation/budget; local commitment depends on G1/G2 evidence.
+- [x] G6: official Firebase agent skills were reviewed, pinned to upstream revision
+  `99954a30898bb5ddc8152ee10e124dc3b4106bf7`, authorized and installed; each task loads at most three
+  relevant skills (recorded in `docs/skills.md` and `docs/verification.md` §3). Split Auth/Firestore,
+  AI/App Check, Rules audit and Hosting into separate task contexts; do not blindly use ADR candidate
+  names. Firebase MCP is optional, not a substitute for runtime use.
+- [x] Phase 4: implementer authored `docs/ARCHITECTURE.md` and `docs/INTERFACES.md` from the spec,
+  with fixture and contract review before code. Rules enforce publication/event coupling, ownership,
+  versions and observation target checks within the documented limits (31 emulator cases); see
+  `docs/ARCHITECTURE.md` §6/§8 for the measured budget and residual risks.
+- [ ] Recheck official APIs via Context7, resolve compatible exact versions and runtime/emulator
+  prerequisites, then request authorized tooling/setup. Firebase SDK/API pins for slices 1–3 are
+  resolved and reviewed; the live-call prerequisites (G3 access/attestation/budget) and hosted model
+  availability remain open. Do not invent a local model ID, pin a tutorial model or assume hosted
+  availability.
 - [ ] Every slice: write the named failing tests, record red, implement only that slice, run green + lint/typecheck/build, exercise a real UI path and update contracts/fixtures/docs together. Final `scripts/verificar.py` must aggregate checks with actual exit/output hashes per workflow; it is implementer-owned, not created here. Evidence goes to `.git/opencode/` only once repository state supports it; no fake commit SHA for unborn history.
 
 ## Review focus (pin tests in their owning slice)
@@ -203,20 +216,55 @@ cloud call or deployment was added.
 
 **Dependencies:** slices 1–2, G3 approved cloud model/access/budget/judging window, G6 AI Logic/App Check and later Hosting skill tasks, G5 coordinator access/value checkpoint. Production/public availability and deployment need separate master/user authorization. Do not treat a mock as real cloud/hybrid evidence.
 
-**Files:** create `src/reconciliation.ts`, `src/Reconciliation.tsx`, `tests/reconciliation.test.ts`, `e2e/reconciliation.spec.ts`, `docs/PUBLISH.md`, root `README.md` and `LICENSE` only after authorized license choice; extend `src/App.tsx`, `src/tasks.ts`, `src/aiValidation.ts`, `firestore.rules`, Rules/concurrency tests, synthetic fixture, privacy/accessibility/handover tests, `firebase.json`, `docs/INTERFACES.md`, `docs/verification.md`, and verification aggregation. Master later updates `docs/HANDOFF.md`, `_project.md`, `_presupuesto.md` and delivery records; no silent modifications by planner.
+**Files:** created `src/reconciliation.ts`, `src/cloudReconcile.ts`, `src/CloudReconciliation.tsx`,
+`tests/reconciliation.test.ts`, `e2e/reconciliation.spec.ts`; extended `src/App.tsx`,
+`src/session.ts`, `src/Handover.tsx`, `src/styles.css`, `src/vite-env.d.ts`,
+`tests/fixtures/contrato.json`, `tests/test_verificar.py`, `e2e/support.ts`, `scripts/verificar.py`,
+`docs/INTERFACES.md`, `docs/ARCHITECTURE.md`, `docs/verification.md`. `src/Reconciliation.tsx` cannot
+coexist with `src/reconciliation.ts` on a case-insensitive filesystem (TypeScript rejects a
+case-only file-name clash), so the UI component is `src/CloudReconciliation.tsx` and the real SDK
+adapter is the separate `src/cloudReconcile.ts`.
+`docs/PUBLISH.md` and license changes remain open for their authorized delivery step. No Rules change
+was needed: the existing `observe` transition and Rules already enforce exact observation updates,
+target-version checks and the coupled activity, and its suites already cover them.
 
 **Consumes/produces:** consumes only current authorized published task snapshots; produces validated ephemeral proposals and one human-confirmed versioned observation activity, never merged records or automatic task writes. Preview, one-shot consent, request and late-result invalidation share an exact immutable snapshot.
 
-- [ ] Write failing AC04/06/11 tests: context selection at >20, distinct consent, packet equality, stale source/target, invalid identifiers/schema, refusal/quota/timeout, cancel/sign-out and late responses. Add Rules tests for exact observation updates with target-version checks and no forged event.
-- [ ] Implement bounded preview + explicit cloud action, validated suggestions and manual confirm/dismiss; no automatic retry, raw source, telemetry, owner changes or destructive merge. Confirm rejects stale versions instead of silently recomputing consent or intent.
-- [ ] Run all unit/Rules/E2E checks, typecheck/lint/build, dependency review and constraint checks. Add contrast/serious-critical accessibility scan plus real Android Chrome touch, keyboard/screen-reader/200%-zoom walkthrough; mobile emulation alone does not establish actual device support.
+- [x] Write failing AC04/06/11 tests: context selection at >20, distinct consent, packet equality,
+  stale source/target, invalid identifiers/schema, refusal/quota/timeout, cancel/sign-out and late
+  responses. Red was a missing `../src/reconciliation` module for 20 new unit cases; the browser
+  suite then failed for real causes (a `failWith: null` test double wrongly treated as a failure, and
+  shared emulator state making the >20 bound nondeterministic) before going green. No extra Rules
+  test was added because `tests/rules/permissions.test.ts` and `concurrency.test.ts` already assert
+  the observation transition, target-version checks and forged-event denials.
+- [x] Implement bounded preview + explicit cloud action, validated suggestions and manual
+  confirm/dismiss; no automatic retry, raw source, telemetry, owner changes or destructive merge.
+  Confirm rejects stale versions instead of silently recomputing consent or intent.
+- [ ] Run all unit/Rules/E2E checks, typecheck/lint/build, dependency review and constraint checks.
+  Done in this cut: typecheck/lint/build, 91 unit, 20 E2E (including the consented flow), Rules
+  suites, dependency audit and secret scan via the verifier. Still open: real Android Chrome touch,
+  screen-reader and 200%-zoom walkthrough; mobile emulation alone does not establish actual device
+  support.
 - [ ] Complete AC13 real hosted hybrid protocol with App Check enforcement and approved real cloud model. Repeat sentinel/packet capture, denied/failed consent and end-to-end closure. Record local and cloud source/model provenance separately; privacy evidence must not expose tokens or credentials.
 - [ ] Product lead completes AC15 two-coordinator comparison, times the three-task acceptance path and records cloud utility against deterministic matching. Master closes G5 or explicitly records no-go/unvalidated product claims; do not invent impact or interview results.
 - [ ] Prepare reproducible setup/judge-access/rollback instructions, license/public-repository review, English public demo <=3 minutes and availability plan through December 16. Private credentials use separately approved access instructions; no live secrets or demo passwords in source/build/public materials. A limited sprint quota alone is insufficient.
 - [ ] Evidence: all actual verifier outputs + reviewed commit/clean-tree evidence when history exists, sanitized hosted network checks, real runtime provenance, device/accessibility results, representative-user decision and authorized delivery walkthrough. Reviewer/master close subsequent gates; this checklist grants no commit/push/merge/deploy permission.
 
+Implemented in the slice 3 cut (November 17, 2026, local only): the frozen reconciliation contract in
+`docs/INTERFACES.md` §10 and `contrato.json` `reconciliation`; the pure selection/consent/validation
+module; the `ONLY_IN_CLOUD` adapter with the explicit free-tier model `gemini-3.5-flash-lite` and a
+`notconfigured` demo default; the optional UI panel with exact preview, visible >20 context selection,
+one-shot approval, one in-flight request, cancel/sign-out/late-result invalidation, confirm (one
+`observe` activity) and dismiss (no write); observation history display; and 20 unit plus 6
+emulator-backed E2E cases. No live cloud request, App Check enforcement, Rules change, Hosting or
+deployment was produced; every cloud response in the suites is a labelled `test-network-mock`.
+
 ## Current verification and Gate A
 
 Implementer preflight (authorized November 16, 2026) added local tooling only: `package.json`/`package-lock.json` pin `@mermaid-js/mermaid-cli` 12.2.0 with `puppeteer` 25.17.0, `scripts/check_diagrams.py` renders with that pinned CLI, `tests/test_check_diagrams.py` holds its regression tests, and `docs/verification.md` records real commands and exits. Gate A evidence exists at `.git/opencode/diagrams/docs__spec-1.svg` and `.git/opencode/diagrams/docs__ARCHITECTURE-1.svg`, and master approved Gate A; `docs/HANDOFF.md` records the approval. The two-diagram budget is unchanged.
 
-Framing documents and directory state were inspected; official Rules String/Bytes references were researched through Context7 for the Unicode correction. No application, scripts or node_modules were present in the inspected root. Planner's earlier renderer/checker/git-hygiene probe was **permission-denied**; that historical result does not mean master shell is blocked. Master subsequently reported shell confirmation of **15 criteria, 3 slices and 6 thresholds**, with **`mmdc` and `scripts/check_diagrams.py` absent**. No diagram render or Unicode/emulator/application test has run. Checkers remain implementer-owned; no script or dependency was created/installed here. Mermaid source is not validated rendering evidence. **Gate A pending** real checker/render output and master review of owned checkpoints; all application checks remain planned/unmeasured.
+The preflight paragraph below is historical. It describes the repository before the approved Gate A
+render/checker evidence existed: at that time no application, scripts or `node_modules` were present,
+`mmdc`/`scripts/check_diagrams.py` were absent and Gate A was pending. That is no longer the current
+state; the approved Gate A evidence above supersedes it. Later slices re-render both diagrams through
+the same checker in every verifier run.

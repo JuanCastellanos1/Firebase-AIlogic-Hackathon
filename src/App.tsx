@@ -8,6 +8,7 @@ import type { ReviewedCard, Task, TransitionCommand, TransitionResult } from "./
 import { auth, db } from "./firebase";
 import { Handover, type ActionFeedback } from "./Handover";
 import { PrivateDraft, type PublicationIds } from "./PrivateDraft";
+import { CloudReconciliation } from "./CloudReconciliation";
 import {
   createSessionGuard,
   describeFailure,
@@ -358,6 +359,24 @@ export default function App() {
     return readPublication(db, VENUE_ID, ids.handoverId, ids.taskIds);
   }
 
+  /** Human-confirmed cloud suggestion: one ordinary observation, never a merge or owner change. */
+  async function confirmObservation(taskId: string, command: TransitionCommand): Promise<void> {
+    if (user === null || membership === null) {
+      throw new Error("not signed in");
+    }
+    const epoch = guard.current.snapshot();
+    const result = await runTaskTransition(db, VENUE_ID, taskId, command);
+    if (!guard.current.current(epoch)) {
+      return;
+    }
+    setTasks((current) => current.map((entry) => (entry.id === result.task.id ? result.task : entry)));
+    setActivities((current) => [
+      ...current.filter((entry) => entry.id !== result.activity.id),
+      { ...result.activity, at: null },
+    ]);
+    void refresh();
+  }
+
   async function handleSignOut(): Promise<void> {
     guard.current.invalidate();
     clearWorkspace();
@@ -472,6 +491,13 @@ export default function App() {
               refreshError={refreshError}
               onAction={act}
               onRefresh={() => void refresh()}
+            />
+            <CloudReconciliation
+              tasks={tasks}
+              uid={user.uid}
+              role={membership.role}
+              onReadFreshTasks={() => readTasks(db)}
+              onConfirmObservation={confirmObservation}
             />
           </div>
         )}

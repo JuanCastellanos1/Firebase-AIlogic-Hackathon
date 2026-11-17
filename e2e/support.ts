@@ -39,11 +39,16 @@ async function request(url: string, init: RequestInit = {}): Promise<Response> {
 
 /** Clears only the local demo emulator. Called once per Playwright run. */
 export async function resetEmulator(): Promise<void> {
+  await resetDocuments();
+  await request(`${AUTH_ORIGIN}/emulator/v1/projects/${PROJECT_ID}/accounts`, { method: "DELETE" });
+}
+
+/** Clears Firestore documents but keeps Auth accounts; used to isolate large-context tests. */
+export async function resetDocuments(): Promise<void> {
   await request(`${FIRESTORE_ORIGIN}/emulator/v1/projects/${PROJECT_ID}/databases/(default)/documents`, {
     method: "DELETE",
     headers: OWNER,
   });
-  await request(`${AUTH_ORIGIN}/emulator/v1/projects/${PROJECT_ID}/accounts`, { method: "DELETE" });
 }
 
 function documentUrl(path: string): string {
@@ -232,4 +237,54 @@ export async function readTaskVersions(taskId: string): Promise<number[]> {
 
 export function newTitle(label: string): string {
   return `${label} ${randomUUID().slice(0, 8)}`;
+}
+
+/**
+ * Seeds already-published synthetic tasks through the emulator owner bypass, for tests that
+ * need a large bounded context. Rules are not exercised here; the reconciliation suites read
+ * these as ordinary shared records, and later confirmations still go through Rules.
+ */
+export async function seedPublishedTasks(
+  label: string,
+  cards: readonly CardInput[],
+): Promise<string[]> {
+  const handoverId = `seed-handover-${label}`;
+  const taskIds = cards.map((_, index) => `seed-task-${label}-${index}`);
+  const timestamp = new Date().toISOString();
+  for (const [index, card] of cards.entries()) {
+    await request(documentUrl(`venues/${VENUE}/tasks/${taskIds[index]}`), {
+      method: "PATCH",
+      headers: { ...OWNER, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields: {
+          id: { stringValue: taskIds[index] },
+          venueId: { stringValue: VENUE },
+          handoverId: { stringValue: handoverId },
+          creatorId: { stringValue: "seed-creator" },
+          title: { stringValue: card.title },
+          detail: { stringValue: card.detail },
+          state: { stringValue: "open" },
+          ownerId: { nullValue: null },
+          version: { integerValue: "1" },
+          resolution: { nullValue: null },
+          createdAt: { timestampValue: timestamp },
+          updatedAt: { timestampValue: timestamp },
+        },
+      }),
+    });
+  }
+  await request(documentUrl(`venues/${VENUE}/handovers/${handoverId}`), {
+    method: "PATCH",
+    headers: { ...OWNER, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      fields: {
+        id: { stringValue: handoverId },
+        venueId: { stringValue: VENUE },
+        creatorId: { stringValue: "seed-creator" },
+        createdAt: { timestampValue: timestamp },
+        taskIds: { arrayValue: { values: taskIds.map((id) => ({ stringValue: id })) } },
+      },
+    }),
+  });
+  return taskIds;
 }
