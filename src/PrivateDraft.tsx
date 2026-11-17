@@ -2,13 +2,23 @@
  * Private, memory-only draft surface. The raw note and unreviewed cards never leave this
  * component's state; only an explicitly reviewed, validated packet is handed upward.
  */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReviewedCard } from "./domain";
+import { AiOutputError, type DraftSuggestion } from "./aiValidation";
+import {
+  generateLocalDraft,
+  initializeLocalDraft,
+  probeLocalDraft,
+  LocalDraftError,
+  type LocalDraftCapability,
+} from "./localDraft";
 import type { PublicationRead, PublicationStatus } from "./tasks";
 import { ContractError, utf8Bytes, validateReviewedPacket } from "./validation";
 
 const MAX_CARDS = 5;
 const RAW_NOTE_BYTES = 4000;
+
+type LocalStatus = LocalDraftCapability["status"] | "probing" | "ready";
 
 export interface PublicationIds {
   readonly handoverId: string;
@@ -73,6 +83,42 @@ function describeFieldError(error: unknown): string {
   }
 }
 
+function describeLocalError(error: unknown): string {
+  if (error instanceof AiOutputError) {
+    switch (error.code) {
+      case "response_too_large":
+        return "The on-device model returned more text than this draft accepts. Nothing was changed.";
+      case "invalid_source_span":
+        return "The on-device model cited a source range that does not match the note. Nothing was changed.";
+      case "unpaired_surrogate":
+        return "The on-device model returned an invalid Unicode sequence. Nothing was changed.";
+      case "empty_response":
+      case "invalid_json":
+      case "not_an_object":
+        return "The on-device model did not return a usable draft. Nothing was changed.";
+      default:
+        return "The on-device model returned a draft this app cannot accept. Nothing was changed.";
+    }
+  }
+  if (error instanceof LocalDraftError) {
+    switch (error.code) {
+      case "unsupported":
+        return "This browser does not expose the on-device model. Manual card entry still works.";
+      case "not_ready":
+        return "The on-device model is not ready. Enable it first, then try again.";
+      case "not_on_device":
+        return "The request did not run on this device, so it was discarded. Nothing was uploaded or kept.";
+      case "invalid_note":
+        return "The private note is outside the local drafting limits. Shorten it or enter cards manually.";
+      case "download_failed":
+        return "The on-device model could not be enabled. Manual card entry still works and nothing was uploaded.";
+      default:
+        return "On-device drafting failed. The note and cards are unchanged.";
+    }
+  }
+  return "On-device drafting failed. The note and cards are unchanged.";
+}
+
 export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProps) {
   const nextKey = useRef(2);
   const [rawNote, setRawNote] = useState("");
@@ -80,6 +126,32 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
   const [review, setReview] = useState<Review | null>(null);
   const [status, setStatus] = useState<Status | null>(null);
   const [pending, setPending] = useState<"share" | "check" | null>(null);
+  const [localStatus, setLocalStatus] = useState<LocalStatus>("probing");
+  const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const [suggestions, setSuggestions] = useState<readonly DraftSuggestion[] | null>(null);
+  const mounted = useRef(true);
+  const operation = useRef(0);
+  const controller = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    mounted.current = true;
+    let active = true;
+    void probeLocalDraft().then((capability) => {
+      if (!active) {
+        return;
+      }
+      setLocalStatus(capability.status === "available" ? "ready" : capability.status);
+    });
+    return () => {
+      active = false;
+      mounted.current = false;
+      operation.current += 1;
+      controller.current?.abort();
+      controller.current = null;
+    };
+  }, []);
 
   let rawNoteBytes = 0;
   let rawNoteError: string | null = null;
@@ -97,10 +169,139 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
     setStatus(null);
   }
 
+  function stopLocalWork(): void {
+    operation.current += 1;
+    controller.current?.abort();
+    controller.current = null;
+    setGenerating(false);
+  }
+
+  async function checkLocal(): Promise<void> {
+    const token = ++operation.current;
+    setLocalStatus("probing");
+    setLocalError(null);
+    const capability = await probeLocalDraft();
+    if (!mounted.current || operation.current !== token) {
+      return;
+    }
+    setLocalStatus(capability.status === "available" ? "ready" : capability.status);
+  }
+
+  async function enableLocal(): Promise<void> {
+    const token = ++operation.current;
+    controller.current?.abort();
+    const nextController = new AbortController();
+    controller.current = nextController;
+    setLocalStatus("downloading");
+    setDownloadProgress(null);
+    setLocalError(null);
+    let active = true;
+    try {
+      await initializeLocalDraft((value) => {
+        if (active && mounted.current && operation.current === token) {
+          setDownloadProgress(value);
+        }
+      }, nextController.signal);
+      if (!mounted.current || operation.current !== token) {
+        return;
+      }
+      setDownloadProgress(1);
+      setLocalStatus("ready");
+    } catch (error) {
+      if (!mounted.current || operation.current !== token) {
+        return;
+      }
+      setLocalStatus("error");
+      setLocalError(describeLocalError(error));
+    } finally {
+      active = false;
+      if (operation.current === token) {
+        controller.current = null;
+      }
+    }
+  }
+
+  async function draftLocally(): Promise<void> {
+    if (localStatus !== "ready" || generating || rawNoteError !== null || rawNote.trim() === "") {
+      return;
+    }
+    const token = ++operation.current;
+    const nextController = new AbortController();
+    controller.current = nextController;
+    setGenerating(true);
+    setLocalError(null);
+    setSuggestions(null);
+    setStatus(null);
+    try {
+      const result = await generateLocalDraft(rawNote, nextController.signal);
+      if (!mounted.current || operation.current !== token || !isCurrent()) {
+        return;
+      }
+      setSuggestions(result.suggestions);
+      setStatus({
+        tone: "info",
+        message: `${result.suggestions.length} suggestion${result.suggestions.length === 1 ? "" : "s"} generated on this device (ON_DEVICE). Nothing was uploaded. Use them explicitly to replace the editable cards.`,
+      });
+    } catch (error) {
+      if (!mounted.current || operation.current !== token) {
+        return;
+      }
+      setLocalError(describeLocalError(error));
+      if (
+        error instanceof LocalDraftError &&
+        (error.code === "unsupported" || error.code === "not_ready")
+      ) {
+        setLocalStatus("error");
+      }
+    } finally {
+      if (mounted.current && operation.current === token) {
+        setGenerating(false);
+        controller.current = null;
+      }
+    }
+  }
+
+  function cancelLocalDraft(): void {
+    stopLocalWork();
+    setStatus({ tone: "info", message: "Local drafting was canceled. The note and cards are unchanged." });
+  }
+
+  function acceptSuggestions(): void {
+    if (suggestions === null) {
+      return;
+    }
+    const nextCards = suggestions.map((suggestion, index) => ({
+      key: nextKey.current + index,
+      title: suggestion.title,
+      detail: suggestion.detail,
+    }));
+    nextKey.current += nextCards.length;
+    setCards(nextCards);
+    setSuggestions(null);
+    invalidateReview();
+    setStatus({
+      tone: "info",
+      message: "Suggestions copied into the editable cards. Review and edit them, then review and share separately.",
+    });
+  }
+
+  function updateRawNote(value: string): void {
+    setRawNote(value);
+    setSuggestions(null);
+    if (generating) {
+      stopLocalWork();
+      setStatus({
+        tone: "info",
+        message: "The note changed, so the in-flight local draft was canceled. Nothing was changed.",
+      });
+    }
+  }
+
   function updateCard(key: number, field: "title" | "detail", value: string): void {
     setCards((current) =>
       current.map((card) => (card.key === key ? { ...card, [field]: value } : card)),
     );
+    setSuggestions(null);
     invalidateReview();
   }
 
@@ -113,11 +314,13 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
       { key: nextKey.current, title: "", detail: "" },
     ]);
     nextKey.current += 1;
+    setSuggestions(null);
     invalidateReview();
   }
 
   function removeCard(key: number): void {
     setCards((current) => (current.length === 1 ? current : current.filter((card) => card.key !== key)));
+    setSuggestions(null);
     invalidateReview();
   }
 
@@ -241,13 +444,144 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
         className="input textarea"
         rows={5}
         value={rawNote}
-        onChange={(event) => setRawNote(event.target.value)}
+        onChange={(event) => updateRawNote(event.target.value)}
         aria-describedby="raw-note-help"
         placeholder="Projector bulb is low; cable kit still with Sam; entrance plants need water…"
       />
       <p id="raw-note-help" className={rawNoteError === null ? "field-help" : "field-help field-error"}>
         {rawNoteError ?? `${rawNoteBytes} / ${RAW_NOTE_BYTES} UTF-8 bytes · memory only`}
       </p>
+
+      <section className="local-draft" aria-labelledby="local-draft-heading">
+        <h3 id="local-draft-heading">Local drafting (optional)</h3>
+        <p className="fine-print">
+          Uses this device&apos;s browser model only. No cloud fallback, no upload, no storage.
+          English text, one request at a time.
+        </p>
+
+        {localStatus === "probing" && (
+          <p className="status status-pending" role="status">
+            Checking this device&apos;s local model…
+          </p>
+        )}
+
+        {localStatus === "unsupported" && (
+          <p className="status status-info" role="status">
+            On-device drafting is not available in this browser. Enter cards manually below;
+            nothing is uploaded.
+          </p>
+        )}
+
+        {localStatus === "downloadable" && (
+          <>
+            <p className="status status-info" role="status">
+              The English on-device model is downloadable. Enabling it downloads the model once to
+              this device; the private note is not part of that download.
+            </p>
+            <div className="button-row">
+              <button type="button" className="button button-secondary" onClick={() => void enableLocal()}>
+                Enable on-device drafting
+              </button>
+            </div>
+          </>
+        )}
+
+        {localStatus === "downloading" && (
+          <>
+            <p className="status status-pending" role="status">
+              {downloadProgress === null
+                ? "Preparing the on-device model…"
+                : `Downloading on-device model… ${Math.round(downloadProgress * 100)}%`}
+            </p>
+            <progress
+              aria-label="On-device model download progress"
+              value={downloadProgress ?? undefined}
+              max={1}
+            />
+            <p className="fine-print">
+              Keep this tab open while the browser downloads the model. Manual entry works at any
+              time.
+            </p>
+          </>
+        )}
+
+        {localStatus === "ready" && (
+          <div className="button-row">
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={() => void draftLocally()}
+              disabled={generating || rawNote.trim() === "" || rawNoteError !== null}
+            >
+              {generating ? "Drafting on this device…" : "Draft cards with on-device model"}
+            </button>
+            {generating && (
+              <button type="button" className="button button-quiet" onClick={cancelLocalDraft}>
+                Cancel local drafting
+              </button>
+            )}
+          </div>
+        )}
+
+        {localStatus === "error" && (
+          <>
+            <p className="status status-error" role="alert">
+              {localError ?? "On-device drafting is unavailable. Manual card entry still works."}
+            </p>
+            <div className="button-row">
+              <button type="button" className="button button-secondary" onClick={() => void checkLocal()}>
+                Check local model again
+              </button>
+            </div>
+          </>
+        )}
+
+        {localStatus === "ready" && localError !== null && (
+          <p className="status status-error" role="alert">
+            {localError}
+          </p>
+        )}
+
+        {suggestions !== null && (
+          <section className="review-panel" aria-labelledby="suggestions-heading">
+            <h4 id="suggestions-heading">Local suggestions (not shared)</h4>
+            <p>
+              Generated on this device (ON_DEVICE). None of this is shared until you use it, review
+              the exact fields and share.
+            </p>
+            <ol className="review-list">
+              {suggestions.map((suggestion, index) => (
+                <li key={index}>
+                  <h5>{suggestion.title}</h5>
+                  {suggestion.detail !== "" && <p>{suggestion.detail}</p>}
+                  <p className="byte-note">
+                    {utf8Bytes(suggestion.title)} title bytes · {utf8Bytes(suggestion.detail)} detail
+                    bytes · source {suggestion.sourceStart}–{suggestion.sourceEnd}
+                  </p>
+                </li>
+              ))}
+            </ol>
+            <div className="button-row">
+              <button type="button" className="button button-primary" onClick={acceptSuggestions}>
+                Use these suggestions
+              </button>
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={() => {
+                  setSuggestions(null);
+                  setStatus({
+                    tone: "info",
+                    message: "Suggestions dismissed. The note and editable cards are unchanged.",
+                  });
+                }}
+              >
+                Dismiss suggestions
+              </button>
+            </div>
+          </section>
+        )}
+      </section>
 
       <fieldset className="card-fieldset">
         <legend>Reviewed cards (1–5)</legend>

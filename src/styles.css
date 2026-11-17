@@ -261,6 +261,23 @@ a {
   font-weight: 650;
 }
 
+.local-draft {
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--line);
+}
+
+.local-draft h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.local-draft progress {
+  width: 100%;
+  height: 0.8rem;
+  margin-top: 0.4rem;
+}
+
 .card-fieldset {
   border: 0;
   padding: 0;
@@ -414,6 +431,11 @@ a {
 .review-list h4 {
   margin: 0 0 0.25rem;
   font-size: 1rem;
+}
+
+.review-list h5 {
+  margin: 0 0 0.25rem;
+  font-size: 0.98rem;
 }
 
 .review-list p {

@@ -37,6 +37,7 @@ export const app = initializeApp(
     projectId: config.projectId,
     apiKey: "demo-shiftrelay-local-key",
     authDomain: `${config.emulatorHost}:9099`,
+    appId: "demo-shiftrelay-local-app",
   },
   { automaticDataCollectionEnabled: false },
 );

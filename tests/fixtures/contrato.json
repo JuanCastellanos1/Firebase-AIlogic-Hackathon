@@ -106,6 +106,34 @@
       "versionDelta": 1
     }
   ],
+  "localDraft": {
+    "status": "frozen",
+    "frozenAt": "2026-11-16",
+    "authority": "docs/INTERFACES.md §9",
+    "responseBytes": 12000,
+    "noteBytes": 4000,
+    "cards": { "min": 1, "max": 5 },
+    "cardKeys": ["title", "detail", "sourceStart", "sourceEnd"],
+    "sourceSpan": "utf16-no-surrogate-split",
+    "inferenceMode": "only_on_device",
+    "inferenceSource": "on_device",
+    "errors": [
+      "not_an_object",
+      "unknown_key",
+      "missing_key",
+      "invalid_type",
+      "card_count_out_of_range",
+      "blank_required",
+      "byte_limit_exceeded",
+      "unpaired_surrogate",
+      "empty_response",
+      "invalid_json",
+      "response_too_large",
+      "invalid_source_span",
+      "note_empty",
+      "note_too_large"
+    ]
+  },
   "rulesBudget": {
     "atomicOperationAccessCallLimit": 20,
     "singleDocumentAccessCallLimit": 10,

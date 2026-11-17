@@ -1315,3 +1315,238 @@ Redacted record; no credential value, file line, or account identity is reproduc
   warranted if a `firebase-debug.log` from this machine was actually shared or uploaded; that
   decision belongs to the credential owner and was not taken here. A blanket rotation is not
   justified by this evidence.
+
+## 10. Slice 2 — strictly local private drafting (November 16, 2026)
+
+Scope: one new capability, memory-only local drafting, on top of the slice 1 manual workflow. No
+cloud reconciliation, App Check, Hosting, deployment, live project, dependency, storage collection
+or service was added. The frozen §1–§8 contract did not change; `docs/INTERFACES.md` §9 and
+`tests/fixtures/contrato.json` `localDraft` were frozen together with the new code and tests.
+
+### 10.1 Red then green
+
+Red (the new suite before `src/aiValidation.ts` existed):
+
+```powershell
+npm run test:unit
+```
+
+```text
+FAIL  tests/ai-output.test.ts [ tests/ai-output.test.ts ]
+Error: Cannot find module '../src/aiValidation' imported from .../tests/ai-output.test.ts
+ Test Files  1 failed | 2 passed (3)
+      Tests  54 passed (54)
+UNIT_EXIT:1
+```
+
+The first implementation run then failed 4/17 for test-side fixtures (two span ends were still inside
+the note, one unknown-key case expected `missing_key`, and one non-array `cards` case expected
+`not_an_object`). The assertions were corrected to the contract, not the contract to the tests.
+Green:
+
+```powershell
+npm run test:unit
+```
+
+```text
+ Test Files  3 passed (3)
+      Tests  71 passed (71)
+```
+
+`tests/ai-output.test.ts` alone is 17 cases; `npm run test:unit -- tests/ai-output.test.ts` is also a
+separate verifier check.
+
+### 10.2 Local adapter and UI
+
+- `src/localDraft.ts` reads `globalThis.LanguageModel.availability` with the same English text
+  options used for creation, and reports `unsupported`, `downloadable`, `downloading` or `available`.
+  It constructs `getAI(app, { backend: new GoogleAIBackend() })` and
+  `getGenerativeModel(ai, { mode: InferenceMode.ONLY_ON_DEVICE, onDeviceParams: { createOptions,
+  promptOptions: { responseConstraint: schema } } })`. `getGenerativeModel` internally names a cloud
+  model for hybrid parameters; `ONLY_ON_DEVICE` routing never calls it, and every generation is
+  discarded unless `response.inferenceSource === "on_device"`.
+- `initializeDeviceModel` is called only from the "Enable on-device drafting" button and forwards
+  `onDownloadProgress`. A fresh availability read follows the promise, because the installed SDK can
+  resolve it after its internal download promise rejected first; a non-`available` re-read becomes
+  `download_failed`. The real Chrome run below showed no numeric progress before ready (the UI stayed
+  on "Preparing the on-device model…"), which is an observed limitation, not a hidden successful
+  progress state.
+- `src/aiValidation.ts` caps the raw response at 12,000 UTF-8 bytes before parsing, accepts only the
+  exact card keys, enforces the 120/800-byte fields, and validates UTF-16 source spans against the
+  note without splitting a surrogate pair. It preserves strings exactly and never echoes rejected
+  text in an error.
+- `src/PrivateDraft.tsx` shows the distinct local states, keeps the raw note and existing cards on
+  every local failure, and requires an explicit "Use these suggestions" action before replacing the
+  editable cards. Review and share stay separate. Editing the note, canceling, signing out or losing
+  membership invalidates the in-flight result via an operation token and abort, so a late response
+  cannot repopulate the page.
+- `src/firebase.ts` adds only a local demo `appId` placeholder, because the AI SDK requires the
+  config field; the existing demo/local guards are unchanged. No API key, App Check token, cloud
+  endpoint or credential was added.
+
+### 10.3 Emulator-backed E2E (capability mocks labelled)
+
+```powershell
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/local-draft.spec.ts"
+```
+
+```text
+Running 7 tests using 1 worker
+ok 1 available model drafts through ON_DEVICE and only explicit acceptance changes cards
+ok 2 downloadable model needs a click and reports progress before drafting
+ok 3 download failure keeps the note and the manual workflow usable
+ok 4 unavailable model shows a distinct state and keeps manual entry
+ok 5 unusable model output is rejected without touching the note or cards
+ok 6 editing the note cancels an in-flight local draft
+ok 7 a late local result cannot repopulate a signed-out page
+7 passed (29.6s)
+```
+
+`LanguageModel` is an init-script mock in these seven cases only, because Playwright's Chromium has
+no Prompt API. Every request still goes through the real pinned Firebase AI SDK (13.3.0 /
+`@firebase/ai` 3.1.0), its `ONLY_ON_DEVICE` adapter and the mocked local session. The mocks cover
+capability/failure branches and are **not** counted as hybrid evidence. The first E2E run failed in
+the download-error case because the SDK resolved initialization after a fast internal rejection;
+that real edge case produced the availability re-read fix above. The first success-case assertion
+also matched two ON_DEVICE sentences; the selector was narrowed, not the UI.
+
+### 10.4 Genuine system Chrome 157 on localhost
+
+This is manual evidence on the actual installed browser, separate from the mocks. The system Chrome
+was launched with a dedicated temporary profile and only the ADR 0002 arguments:
+
+```text
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9338
+--user-data-dir="…\slice2-local-standard-20261116" --no-first-run --no-default-browser-check
+--flag-switches-begin --flag-switches-end about:blank
+```
+
+`chrome://version` reported Google Chrome `157.0.8103.78` (official 64-bit) and exactly those
+arguments. The page origin was `http://127.0.0.1:5173` (numeric loopback, not the `localhost`
+hostname). Before any click, `LanguageModel` existed, `navigator.ai` was undefined,
+`isSecureContext` was true, and the English text availability was `downloadable` in about 1.99 s.
+The on-device AI setting in `chrome://settings/ai` was already enabled; it was inspected, not
+changed.
+
+| Observation | Actual result |
+|---|---|
+| Network metered check | `Get-NetConnectionProfile` exposed no cost type; `DefaultMediaCost\WiFi=1` (unrestricted) was readable, the per-network profile cost was not readable without administrator rights; the page reported `navigator.connection.saveData=false`. No metered flag was observed. |
+| User activation | The download began only after the "Enable on-device drafting" click; `navigator.userActivation.hasBeenActive` was true afterwards. |
+| Download | UI showed "Preparing the on-device model…"; Chrome then wrote `OptGuideOnDeviceModel/2025.8.8.1141/weights.bin` (4,269,932,544 bytes) and exposed component `nano_v3_gpu_component` `2025.8.8.1141`. No numeric percentage was observed before the ready button appeared. |
+| Model identity | **UNKNOWN.** The component/version is not an authoritative Gemini Nano 4 identifier; no exact-model claim is made. |
+| Local request | One click produced five suggestions (projector bulb, spare bulbs, cable kit, cable return, entrance plants) with source spans `0–13`, `14–26`, `27–35`, `36–46`, `47–58`; the UI stated "Generated on this device (ON_DEVICE)". |
+| Network during request | Resource timing was cleared before the request; afterwards the only resource entry was the emulator's Firestore Listen channel. No `googleapis.com`, `generativelanguage.googleapis.com` or `aiplatform.googleapis.com` entry. |
+| Storage/console | `localStorage` and `sessionStorage` were `{}`; the only IndexedDB database was `firebase-heartbeat-database`; console contained only Vite connection and React DevTools development messages. |
+| Private sentinel | `HALL-PRIVATE-SENTINEL-9f2c` stayed in the 173-byte note field before acceptance; after explicit acceptance, review and share, the emulator held five tasks and no sentinel. After sign-out the page, localStorage and sessionStorage contained no sentinel. |
+| Manual workflow | Suggestions replaced the cards only after "Use these suggestions"; "Review cards" then showed the exact fields and "Share handover" was a separate server-confirmed action. |
+
+The real model was downloaded into a dedicated temporary profile under the approved temp directory;
+the profile was not the everyday Chrome profile. The Chrome session and the temporary local servers
+were closed afterwards; only this agent's processes were stopped.
+
+### 10.5 Limits of this evidence
+
+- Exact Gemini Nano 4 identity/compatibility is still **UNKNOWN**; no organizer mapping was obtained
+  and no eligibility claim is made.
+- Hosted HTTPS, App Check, a deployed origin, and a separately consented cloud comparison were not
+  exercised. No Firebase AI Logic service provisioning (`init ailogic`) was run; the localhost
+  request is on-device and does not prove cloud setup.
+- The unsupported/download failure paths are browser-capability mocks, not real Chrome failures. A
+  real unsupported Chrome/mobile path and the 4 GB-class GPU/CPU backend selection were not
+  independently measured.
+- No dependency or production bundle performance threshold was set; Vite's existing >500 kB chunk
+  warning is unchanged.
+- Q1 is measured for the synthetic localhost sentinel path, Q3 remains partial, Q4 is automated
+  only, and Q5/Q6 keep the limits recorded in §9 and §10.4. The verifier's `ok` is scoped to the
+  named checks, never a product, eligibility or Gate C claim.
+
+### 10.6 Full verifier state and the Q5 blocker
+
+The full run was executed after the E2E green above:
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK secret-scan: FAIL
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+Q5 credential scan: FAIL (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (checks failed; dirty working tree; 6 scope items unimplemented)
+ok=False commit=b41b0a4e9cc4a69bd07439c3b4cf5793ee75c149 dirty=True
+```
+
+Measured inside that run: `unit` 3 files / 71 tests, `ai-output` 17 tests, `rules-tests` 3 files /
+31 tests, `e2e-tests` 14/14, `tools-tests` 37 tests, `diagrams` 2/2, `dependency-audit` zero
+vulnerabilities. `secret-scan` reported exactly one finding, `gcp-api-key`, at
+`.env.local:4`. That file appeared during concurrent cloud provisioning at 12:21:58, after the
+slice 2 implementation started and while this slice was already running; it is not created or read
+by this slice. It is gitignored local configuration, but the Q5 runner correctly includes ignored
+files and was not weakened, excluded or allowlisted for it. Deleting or rewriting the file belongs
+to its owning provisioning work, so `ok=False` is reported rather than hidden. All slice 2 checks
+themselves pass; the scanner blocker is external to the source change and must be resolved before a
+full green verifier is claimed.
+
+## 11. Q5 credential finding closure - private local Firebase config (November 17, 2026)
+
+Scope: resolution of the single Q5 finding reported at the end of section 10. No application
+source, package, lockfile, scanner, test or fixture changed; no cloud call, deploy, commit or push
+was performed. This section records only sanitized results - no credential value is reproduced.
+
+**Cause.** The pinned Gitleaks runner scans the whole working tree, including gitignored files, as
+designed. The cloud-provisioning work had written the app's Firebase web configuration to the
+gitignored `.env.local`, and `gcp-api-key` matched the commented public `apiKey` line at
+`.env.local:4`. That value is a public-by-design Firebase web key, not a leaked secret, but Q5 has
+no allowlist and the scanner must not be weakened, so the file had to leave the tree.
+
+**Resolution.** The whole file was moved (not copied) to
+`%LOCALAPPDATA%\Temp\opencode\shiftrelay-private\firebase-development.env`, outside the repository
+and therefore outside the Q5 scan root. Before the repository copy was deleted, the destination was
+compared with the source in memory: equal byte count (792), equal SHA-256 and identical parsed
+lines (11) all had to hold; they did. Directory and file ACLs were then reset to the current Windows
+account only (`icacls /inheritance:r`). The repository copy was removed last. No unrelated user
+variables existed in the file, so nothing else was moved or overwritten.
+
+**Index and history.** `git ls-files .env.local` is empty, `git log --all -- .env.local` is empty, and
+`git status` never listed the file. The `.gitignore` rule `.env.*` (line 6) is unchanged and still
+matches `.env.local`, so recreating it by accident cannot stage it.
+
+**Measured after the move** (existing `dist`, adopted as built by slice 2 - no rebuild was run):
+
+```text
+scanner: gitleaks 8.30.1 (asset sha256 d29144de..., exe sha256 17157e2e...)
+scope: 83 files, 1733268 bytes under <repo> (untracked and gitignored files included;
+       only .git and node_modules excluded)
+result: no leaks found
+```
+
+- `npm run scan:secrets`: exit 0, report `ok=true`, zero findings.
+- `py -3 scripts/verificar.py --only secret-scan`: `CHECK secret-scan: PASS`, `ok=True`,
+  `GATE_C: NOT ELIGIBLE (dirty working tree; 6 scope items unimplemented)` - the scoped run is
+  honest about the unimplemented work and is not a gate pass.
+- `py -3 -m unittest tests.test_check_diagrams tests.test_verificar tests.test_scan_secrets
+  tests.test_firebase_safe`: `Ran 37 tests ... OK`, exit 0.
+
+**Unchanged on purpose.** No allowlist, exclusion, `.gitleaks.toml`, `.gitleaksignore` or scanner
+parameter was added; the scan root, redaction and fail-closed rules are identical. No rotation was
+performed: the key is public by design and no exposure outside this machine, the git index or git
+history was established. The active secret in that file is the App Check debug token, which stays
+local and dev-only.
+
+**Residual risk and next constraint.** The Firebase web API key is still present in the moved file
+and must remain restricted to Firebase-related APIs (never the Gemini Developer API). Any future
+cloud-mode dev runner must read the private path, fail closed on a missing name, and keep
+`VITE_FIREBASE_APPCHECK_DEBUG_TOKEN` out of production builds; the full production-config rationale
+is in ADR 0003.

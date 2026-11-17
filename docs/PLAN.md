@@ -1,9 +1,10 @@
 # ShiftRelay — Three-slice implementation plan
 
-Status: slice 1 manual workflow implemented locally (November 16, 2026), emulator-only; slices 2–3
-and all cloud/hosted work remain unimplemented. Skills applied: writing-plans and
-constraint-driven-development. Workflow-specified location and three-slice checklist override skill
-defaults. No calendar or delivery-duration promise.
+Status: slice 1 manual workflow implemented locally (November 16, 2026), emulator-only; slice 2
+strictly-local drafting implemented with mocked failure branches plus one real Chrome 157
+download/ON_DEVICE request on localhost; slice 3 and all cloud/hosted work remain unimplemented.
+Skills applied: writing-plans and constraint-driven-development. Workflow-specified location and
+three-slice checklist override skill defaults. No calendar or delivery-duration promise.
 
 **Goal:** Demonstrate private capture → reviewed shared tasks → explicit ownership → recorded resolution/reopening, with genuine local drafting and separately consented cloud reconciliation.
 
@@ -14,7 +15,10 @@ defaults. No calendar or delivery-duration promise.
 ## Shared execution rules and dependencies
 
 - [ ] Master obtains G0/G4 approval, assigns people to checkpoint roles and confirms budget/effort. Native Android required means replan; responsive web is the default. Master reconciles operational `_project`, `_presupuesto`, HANDOFF and ADR status after this framing; planner does not overwrite those concurrent-owned files.
-- [ ] Gate A remains pending: separately authorized implementer preflight creates `scripts/check_diagrams.py`, uses a reviewed available renderer and captures real render/check output **before entering slice 1**. Its path is included below for file accounting, not to make product implementation a prerequisite for Gate A. Do not install anything or write that checker under this framing brief.
+- [x] Gate A: approved by master after the implementer preflight created `scripts/check_diagrams.py`,
+  used the pinned reviewed renderer and captured real render/check output before slice 1. Evidence:
+  `.git/opencode/diagrams/` and `docs/verification.md` §1–§2, §5.4. Do not re-open Gate A for this
+  slice; new diagrams still go through the same checker.
 - [ ] Before relevant Firebase tasks, satisfy G6: review official Firebase agent skills, discover exact current metadata/names and revision, get installation authorization, install/load only relevant skills. None are installed now. Split Auth/Firestore, AI/App Check, Rules audit and Hosting into separate task contexts (maximum 3 skills per task); do not blindly use ADR candidate names. Firebase MCP is optional, not a substitute for runtime use.
 - [ ] Phase 4: implementer authors `docs/ARCHITECTURE.md` and `docs/INTERFACES.md` from the spec, with fixture and contract review before code. Confirm Rules can enforce publication/event coupling, ownership, versions and observation target checks within limits; if not, stop for architecture review, not a weaker permission contract or an unapproved server.
 - [ ] Recheck official APIs via Context7, resolve compatible exact versions and runtime/emulator prerequisites, then request authorized tooling/setup. Do not invent a local model ID, pin a tutorial model or assume hosted availability. Real calls depend on G3 access/attestation/budget; local commitment depends on G1/G2 evidence.
@@ -153,11 +157,45 @@ application, Rules or UI behavior changed; evidence and limits are in `docs/veri
 
 **Consumes/produces:** consumes slice 1 allowlisted reviewed-card contract; produces only validated memory draft proposals and capability/error states. Local adapter never invokes cloud, shares, assigns or resolves tasks.
 
-- [ ] Write failing tests for AC03/04/05: UTF-8 byte schema/response boundaries including supplementary and combining text; valid private UTF-16 source offsets that do not split surrogate pairs; refused/oversized/injected output, download/unavailable/error state, manual preservation, late result/session invalidation.
-- [ ] Implement explicit strictly-local setup/request and editable suggestions, with no prefer-local fallback. Discard stale responses, retain human review and construct a fresh publication object.
-- [ ] Run named local-draft/privacy/AI-output suites plus regression suite, typecheck/lint/build. Unit/browser capability mocks are useful only for failure branches, clearly labeled.
-- [ ] Device-test implementer follows AC13 on actual installed supported desktop Chrome, localhost and authorized HTTPS origin; records device/OS/browser/SDK, model compatibility provenance, observed local source, enablement and download behavior. Run sentinel checks during success/failure/manual fallback; retain sanitized captures without credentials/prompt logging. Hosted testing needs explicit setup/deploy authorization, not granted by this plan.
-- [ ] Evidence: actual local request + authoritative exact-model compatibility, no-private-content network/storage/log captures, manual fallback walkthrough, regression results and any unresolved compatibility discrepancy. If only mocks or localhost work, mark genuine hosted-local capability **unverified/no-go**, not complete.
+- [x] Write failing tests for AC03/04/05: UTF-8 byte schema/response boundaries including
+  supplementary and combining text; valid private UTF-16 source offsets that do not split surrogate
+  pairs; refused/oversized/injected output, download/unavailable/error state, manual preservation,
+  late result/session invalidation. Red was a missing `../src/aiValidation` module in
+  `tests/ai-output.test.ts`; the 17-case suite is now green and the E2E capability cases pass.
+- [x] Implement explicit strictly-local setup/request and editable suggestions, with no prefer-local
+  fallback. Discard stale responses, retain human review and construct a fresh publication object.
+  `src/localDraft.ts` uses `getAI`/`getGenerativeModel` with `InferenceMode.ONLY_ON_DEVICE` and
+  re-checks `availability` after `initializeDeviceModel`; `PrivateDraft` exposes unsupported,
+  downloadable, downloading (progress), ready and error states, and replaces cards only through an
+  explicit "use suggestions" action.
+- [x] Run named local-draft/privacy/AI-output suites plus regression suite, typecheck/lint/build.
+  Unit/browser capability mocks are useful only for failure branches, clearly labeled. Added
+  `tests/ai-output.test.ts`, `e2e/local-draft.spec.ts`, plus privacy endpoint assertions and an
+  accessibility scan of the local controls. The real Chrome evidence below is not mock evidence.
+- [ ] Device-test implementer follows AC13 on actual installed supported desktop Chrome, localhost
+  and authorized HTTPS origin; records device/OS/browser/SDK, model compatibility provenance,
+  observed local source, enablement and download behavior. Run sentinel checks during
+  success/failure/manual fallback; retain sanitized captures without credentials/prompt logging.
+  Hosted testing needs explicit setup/deploy authorization, not granted by this plan.
+  **Slice 2 progress:** real Chrome `157.0.8103.78` on Windows 10, localhost origin, downloaded
+  component `nano_v3_gpu_component` `2025.8.8.1141` (4.27 GB weights) and made one genuine Firebase
+  AI Logic `ON_DEVICE` request that produced five reviewed cards; no AI endpoint request was
+  observed, storage stayed empty and the note cleared on sign-out. **Still open:** hosted HTTPS,
+  exact Nano 4 identity/provenance, App Check, manual unsupported-chrome path and cloud comparison.
+- [ ] Evidence: actual local request + authoritative exact-model compatibility, no-private-content
+  network/storage/log captures, manual fallback walkthrough, regression results and any unresolved
+  compatibility discrepancy. If only mocks or localhost work, mark genuine hosted-local capability
+  **unverified/no-go**, not complete. **Recorded:** real localhost request, sentinel/network/storage
+  observations, mock-labelled fallback suite and green regressions. **Not met:** authoritative exact
+  Nano 4 compatibility. Exact model identity remains **UNKNOWN**, so the hosted-local and eligibility
+  claim is **unverified/no-go**; see `docs/verification.md` §10.
+
+Implemented files in this cut: `src/localDraft.ts`, `src/aiValidation.ts`,
+`tests/ai-output.test.ts`, `e2e/local-draft.spec.ts`; extended `src/PrivateDraft.tsx`,
+`src/firebase.ts` (local demo `appId` only), `src/styles.css`, `tests/fixtures/contrato.json`
+(`localDraft` block), `e2e/privacy.spec.ts`, `e2e/accessibility.spec.ts`, `docs/INTERFACES.md` §9,
+`docs/verification.md` §10 and `scripts/verificar.py`. No dependency, service, storage collection,
+cloud call or deployment was added.
 
 ## Slice 3 — Demonstrate separately consented cloud reconciliation and honest delivery evidence
 
@@ -179,6 +217,6 @@ application, Rules or UI behavior changed; evidence and limits are in `docs/veri
 
 ## Current verification and Gate A
 
-Implementer preflight (authorized November 16, 2026) added local tooling only: `package.json`/`package-lock.json` pin `@mermaid-js/mermaid-cli` 12.2.0 with `puppeteer` 25.17.0, `scripts/check_diagrams.py` renders with that pinned CLI, `tests/test_check_diagrams.py` holds its regression tests, and `docs/verification.md` records real commands and exits. Gate A diagram evidence now exists at `.git/opencode/diagrams/docs__spec-1.svg`; master still owns Gate A closure. When the app scaffold is authorized, merge `package.json`/`package-lock.json` (never replace them) and keep `tests/test_check_diagrams.py` as a tooling test, separate from the named application suites.
+Implementer preflight (authorized November 16, 2026) added local tooling only: `package.json`/`package-lock.json` pin `@mermaid-js/mermaid-cli` 12.2.0 with `puppeteer` 25.17.0, `scripts/check_diagrams.py` renders with that pinned CLI, `tests/test_check_diagrams.py` holds its regression tests, and `docs/verification.md` records real commands and exits. Gate A evidence exists at `.git/opencode/diagrams/docs__spec-1.svg` and `.git/opencode/diagrams/docs__ARCHITECTURE-1.svg`, and master approved Gate A; `docs/HANDOFF.md` records the approval. The two-diagram budget is unchanged.
 
 Framing documents and directory state were inspected; official Rules String/Bytes references were researched through Context7 for the Unicode correction. No application, scripts or node_modules were present in the inspected root. Planner's earlier renderer/checker/git-hygiene probe was **permission-denied**; that historical result does not mean master shell is blocked. Master subsequently reported shell confirmation of **15 criteria, 3 slices and 6 thresholds**, with **`mmdc` and `scripts/check_diagrams.py` absent**. No diagram render or Unicode/emulator/application test has run. Checkers remain implementer-owned; no script or dependency was created/installed here. Mermaid source is not validated rendering evidence. **Gate A pending** real checker/render output and master review of owned checkpoints; all application checks remain planned/unmeasured.

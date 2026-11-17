@@ -17,7 +17,7 @@ Gate A approved. Manual UI/contract/emulator workflow implemented and independen
 
 ## Permissions and decisions
 
-User approved development/tools/skills, isolated browser testing, local AI/hardware tests, local commits, delegated feature pushes/draft PRs, Apache-2.0, synthetic data, new nonproduction Firebase setup. Free-tier-only: no billing link, Blaze/paid APIs/resources or spending. Responsive Android web now; native port is outside current delivery scope. User separately confirmed permanent Firestore region us-east1, proposed project shiftrelay-hybridai-2026, default Standard database. Check ID availability; stop on collision or missing authentication. Specific public deployment, merge, visibility changes, submission and cloud deletion still need confirmation. Master never pushes.
+User requests continuous execution to finished product. Approved development/tools/skills, isolated browser/local AI testing, local commits, delegated feature pushes/draft PRs, Apache-2.0, synthetic data and nonproduction Firebase setup. Free-tier-only: no billing/Blaze/paid resources. Responsive Android web, not native. Project shiftrelay-hybridai-2026/default Standard us-east1 exists. User EXPLICITLY APPROVED gated public release at https://shiftrelay-hybridai-2026.web.app, reviewed Firestore Rules/indexes deployment and reviewed PR merge into main ONLY after required gates/verification/CI. No account terms acceptance, public test-mode Rules, hackathon submission, visibility changes or deletion implied. Master never pushes; caveman off before irreversible actions.
 
 ## Agent work — do not duplicate active verification
 
@@ -28,7 +28,10 @@ User approved development/tools/skills, isolated browser testing, local AI/hardw
 4. `ses_e1addfe3affesmR200a2KxP0FH` debugger applied exact scoped @firebase/firestore/@grpc/grpc-js1.13.6 override; audit went red→green. Full verifier was launched in background inside that child session; final automatic completion is pending. Do not poll, start competing emulator suites, change app/package/tests or commit before it returns. Master independently ran audit(0vulnerabilities),npm ls(patched edge) and scanner(74files clean) after fix.
 5. `ses_e1b09fc31ffen0CJOCOVSacj43` planner completed docs/adr/0002-on-device-feasibility.md: stock Chrome157 reports English text model downloadable on loopback/official-docs HTTPS; CPU route plausible. No model download/request/identity or hosted-app proof. Browser probes cleaned up.
 
-Wait for automatic completion notifications; do not poll background sessions. Before new delegation verify file ownership. Current source should remain stable until debugger verifier finishes.
+6. `ses_e1ab26953ffeW3ZdZv2jZMpS6f` ACTIVE implementer: Slice2 strictly-local drafting, generation validation, user-activated download, memory/privacy/late-result tests and genuine dedicated-Chrome runtime. Owns app/tests/contracts/package/verifier/verification paths. No cloud provisioning/commit/push/deploy.
+7. `ses_e1ab20121ffeP9ZThXo0ZyYgL1` ACTIVE implementer: isolated approved Spark WebApp/AI/Auth/AppCheck setup, ignored.env.local and ADR0003 only; no source/package/test edits or Rules/Hosting deployment. No billing or terms acceptance.
+
+Earlier debugger work is complete and verifier passed12/12 post-commit; no old background verifier remains. Root requirements baseline538ed9f9a83b6bda18b8fb6e4bacfb712ded575f; main points there. Manual implementationb41b0a4e9cc4a69bd07439c3b4cf5793ee75c149; master post-commit run recordedok=true,dirty=false,matchingSHA. Operational docs have since changed to record approvals. Do not poll active sessions or run competing suites; await automatic completion and respect file ownership.
 
 ## Verified versus reported results
 
@@ -38,7 +41,7 @@ Master subsequently reran the full manual slice with31Rules and7real emulator-ba
 
 ## Exact next steps
 
-Receive debugger's automatic final verifier output; independently verify resulting evidence before commits/gate decisions. No further broad install approval needed. Establish coherent local baseline/implementation commits after clean scanner and full test results, record real BASE_SHA, regenerate evidence after commit before review SHA/patch. Root HEAD still unborn as of latest inspected state. Never treat scoped ok as full product approval. Then delegate Slice2 strictly-local drafting with memory-only edit/review/manual fallback; use ADR0002 proven capability surfaces but keep exact Nano4 claim unresolved. Real cloud web app/AI/App Check setup and specific deployment remain separate authorized-action checks. No cloud data should be connected yet.
+Receive Slice2 and cloud-setup outputs, independently verify, fix real blockers, commit coherent slice and regenerate evidence. Then delegate Slice3 separately consented cloud reconciliation/live-safe integration. Continue implementation, review and gated release without unnecessary routine approval pauses. ExactNano4 identity/manual Android and screen-reader/user-validation evidence remain honest external checks; do not mark them passed from mocks. BeforeGateC commit all reviewed changes then regenerate evidence, reviewSHA and patch from538ed9f/baseoriginmain as appropriate. GateC must haveok=true,dirty=false,matchingSHA; no fabricated product completion. Use safe emulator wrapper: unwrapped FirebaseCLI can log inherited host credentials.
 
 ## Reproduction commands
 

@@ -43,10 +43,18 @@ test.describe("accessible manual workflow", () => {
     await expect(page.getByRole("heading", { name: "Shift handover" })).toBeVisible();
     await page.keyboard.press("Tab");
     await expect(page.getByRole("link", { name: "Skip to workspace" })).toBeFocused();
+    await expect(page.getByRole("heading", { name: "Local drafting (optional)" })).toBeVisible();
+    await expectNoSeriousViolations(page, "outgoing draft with local model state");
 
     await page.getByLabel("Private shift note (not shared)").focus();
     await page.keyboard.type("Keyboard-only private note.");
+    await expect(page.getByText("Checking this device's local model…")).toHaveCount(0);
     await page.keyboard.press("Tab");
+    const enableLocal = page.getByRole("button", { name: "Enable on-device drafting" });
+    if ((await enableLocal.count()) === 1) {
+      await expect(enableLocal).toBeFocused();
+      await page.keyboard.press("Tab");
+    }
     await expect(page.getByLabel("Card 1 title")).toBeFocused();
     const keyboardTitle = `Keyboard task ${Date.now()}`;
     await page.keyboard.type(keyboardTitle);

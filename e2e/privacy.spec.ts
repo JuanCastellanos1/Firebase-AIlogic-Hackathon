@@ -73,6 +73,7 @@ test.describe("privacy boundary", () => {
     expect(storage.databases.filter((name) => /firebaselocalstorage|firestore/i.test(name))).toEqual([]);
 
     expect(requests.join("\n")).not.toContain(sentinel);
+    expect(requests.join("\n")).not.toMatch(/generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com/);
     expect(consoleText.join("\n")).not.toContain(sentinel);
     expect(JSON.stringify(await readTask(taskId!))).not.toContain(sentinel);
     expect(JSON.stringify(await readActivity(taskId!, 1))).not.toContain(sentinel);

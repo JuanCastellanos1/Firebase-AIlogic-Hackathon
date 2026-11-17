@@ -1,8 +1,10 @@
 # ShiftRelay — frozen interfaces (Phase 4)
 
-Status: **frozen** for Phase 4, November 16, 2026. Authority: this file describes the contract;
+Status: **frozen** for Phase 4, November 16, 2026; the local-draft contract in §9 was frozen in
+slice 2 the same day. Authority: this file describes the contract;
 `src/domain.ts` and `src/validation.ts` implement it; `tests/fixtures/contrato.json` is its
-machine-readable mirror, and `tests/validation.test.ts` fails if the three drift apart.
+machine-readable mirror, and `tests/validation.test.ts` fails if the three drift apart. The §9
+mirror is `contrato.json` `localDraft`, checked by `tests/ai-output.test.ts`.
 
 Change rule: any change to a type, limit, enum, error code or transition updates this file, the
 fixture and the code **in the same commit**. Nothing in this file is an SDK API; no Firebase import
@@ -227,16 +229,107 @@ venue-scoped list queries (Rules are not filters). Membership documents are read
 own uid and writable by no client. Budget for the design and its measured result are in
 `docs/ARCHITECTURE.md` §6, including the five-card caching risk.
 
-## 9. Deliberately deferred (not frozen here)
+## 9. Local draft contract (slice 2, frozen November 16, 2026)
 
-`brief` (0–1,200 bytes), the 12,000-byte model-response cap, source spans, local capability states,
-reconciliation request/response shapes, and the 20-other-task context bound belong to slices 2–3 and
-will be frozen with their own tests. This file does not define them, and no code in this cut accepts
-or returns them.
+Strictly local private drafting: one single-turn English request through Firebase AI Logic with
+`InferenceMode.ONLY_ON_DEVICE` (no cloud fallback), returning editable suggestions only. Nothing in
+this section is persisted, shared, logged or sent to a cloud model.
+
+### 9.1 Model output (untrusted JSON text)
+
+```ts
+interface DraftSuggestion {
+  readonly title: string;
+  readonly detail: string;
+  readonly sourceStart: number;
+  readonly sourceEnd: number;
+}
+```
+
+The model must return only:
+
+```json
+{ "cards": [ { "title": "…", "detail": "…", "sourceStart": 0, "sourceEnd": 23 } ] }
+```
+
+- Root and card keys are exact: `cards`, then `title`, `detail`, `sourceStart`, `sourceEnd`.
+  Unknown keys (including `ownerId`, `state`, `version`, `priority`, `actorId`) are
+  `unknown_key`; a missing key is `missing_key`.
+- 1–5 cards. `title` is 1–120 UTF-8 bytes and nonblank; `detail` is 0–800 UTF-8 bytes.
+- The private note is 1–4,000 UTF-8 bytes. `sourceStart`/`sourceEnd` are integers with
+  `0 ≤ start < end ≤ note.length` in **UTF-16 code units**, and neither offset may fall inside a
+  surrogate pair (`invalid_source_span`). They point at the note text that supports the card; they
+  are never reserialized into shared fields.
+- The raw response is capped at **12,000 UTF-8 bytes before JSON parsing**
+  (`response_too_large`). Empty/whitespace-only output is `empty_response`; unparseable or
+  refusal prose is `invalid_json`.
+- Accepted strings are preserved exactly: no trimming, Unicode normalization, encoding repair or
+  truncation. Unpaired UTF-16 surrogates are `unpaired_surrogate`. Text is rendered as plain text;
+  HTML and instruction-shaped strings are never executed and never grant authority.
+- Accepted output is a new deeply frozen array. The input note and response strings are not mutated.
+
+### 9.2 Errors (`AiOutputError`, `src/aiValidation.ts`)
+
+One error type: `{ code, path }`, message `"<code> at <path>"`; the rejected text is never echoed.
+Codes: `not_an_object`, `unknown_key`, `missing_key`, `invalid_type`, `card_count_out_of_range`,
+`blank_required`, `byte_limit_exceeded`, `unpaired_surrogate`, `empty_response`, `invalid_json`,
+`response_too_large`, `invalid_source_span`, `note_empty`, `note_too_large`.
+
+### 9.3 Public functions
+
+```ts
+// src/aiValidation.ts
+const AI_DRAFT_LIMITS: {
+  responseBytes: 12000; noteBytes: 4000; cards: 5; titleBytes: 120; detailBytes: 800;
+};
+const AI_OUTPUT_ERROR_CODES: readonly AiOutputErrorCode[];
+class AiOutputError extends Error { readonly code; readonly path }
+validateDraftOutput(raw: unknown, note: unknown): readonly DraftSuggestion[];
+
+// src/localDraft.ts
+type LocalDraftCapability =
+  | { status: "unsupported" | "downloadable" | "downloading" | "available" | "error" };
+type LocalDraftErrorCode =
+  | "unsupported" | "not_ready" | "download_failed" | "generation_failed"
+  | "not_on_device" | "invalid_note";
+class LocalDraftError extends Error { readonly code }
+const LOCAL_MODEL_OPTIONS; // English text in and out, passed to availability and creation
+probeLocalDraft(): Promise<LocalDraftCapability>;
+initializeLocalDraft(onProgress: (value: number) => void, signal?: AbortSignal): Promise<void>;
+generateLocalDraft(note: string, signal?: AbortSignal): Promise<{
+  readonly suggestions: readonly DraftSuggestion[];
+  readonly inferenceSource: "on_device";
+}>;
+```
+
+### 9.4 Adapter rules measured by the slice
+
+- Capability comes from the documented `globalThis.LanguageModel.availability(options)` only. The
+  three states are shown to the user (`unavailable` maps to `unsupported`).
+- `initializeDeviceModel` runs only from an explicit click/key press, reports
+  `onDownloadProgress`, and is followed by a fresh availability read: the installed SDK can resolve
+  its promise after an internal download rejection, so a non-`available` re-read is a
+  `download_failed`, never a ready state.
+- `generateContent` is only reached when availability is already `available`; an absent
+  `LanguageModel` never constructs a request. The model is created with
+  `InferenceMode.ONLY_ON_DEVICE`, and the response is rejected unless
+  `response.inferenceSource === "on_device"`. No module path calls a cloud model.
+- One generation is in flight at a time. The UI aborts session creation with the documented
+  `AbortSignal`, ignores late results after edit, cancel, sign-out or membership loss, and keeps the
+  raw note in component memory only. The SDK exposes no public model-dispose call; dropping the
+  only adapter/session reference and aborting creation is the documented cleanup available.
+- Suggestions are non-authoritative. Only an explicit "use suggestions" action replaces the
+  editable cards; review and share remain separate, unchanged slice 1 actions.
+
+### 9.5 Deliberately deferred (not frozen here)
+
+Cloud reconciliation request/response shapes, `brief` (0–1,200 bytes), the 20-other-task context
+bound and the observation workflow belong to slice 3 and will be frozen with their own tests. No
+code in this cut accepts or returns them.
 
 ## 10. Out of scope for this phase
 
-Local model drafting, cloud reconciliation, Firebase AI Logic, App Check, Hosting, deployment and
-any live Firebase behavior. The Firestore Rules, emulator configuration, persistence adapter, Auth
-emulator session and responsive web UI above are implemented and measured locally against synthetic
-data; nothing here is deployed or connected to a live project.
+Cloud reconciliation, App Check, Hosting, deployment and any live Firebase behavior. The Firestore
+Rules, emulator configuration, persistence adapter, Auth emulator session, responsive web UI and
+strictly local drafting above are implemented and measured locally against synthetic data; nothing
+here is deployed or connected to a live project.

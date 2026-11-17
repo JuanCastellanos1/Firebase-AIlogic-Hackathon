@@ -1,13 +1,15 @@
 # ShiftRelay — architecture
 
-Status: Phase 4 contract, extended by the Rules/persistence cut and the manual slice 1 UI cut
-(November 16, 2026). Owner: implementer. `firestore.rules`, emulator configuration, the
-transaction adapter, the Auth emulator session and the responsive manual UI now exist and were
-measured against the local `demo-shiftrelay` Auth and Firestore emulators; no live project, cloud
+Status: Phase 4 contract, extended by the Rules/persistence cut, the manual slice 1 UI cut and the
+strictly local drafting slice 2 cut (November 16, 2026). Owner: implementer. `firestore.rules`,
+emulator configuration, the transaction adapter, the Auth emulator session, the responsive manual UI
+and the on-device draft adapter now exist and were measured against the local `demo-shiftrelay` Auth
+and Firestore emulators plus one real Chrome localhost `ON_DEVICE` request; no live project, cloud
 service or deployment exists. Scope of this cut: boundaries, frozen contract, one sequence diagram,
-the designed Rules and request/read budget, the measured Rules results, and the manual
-private-draft → review → publication → accept/resolve/reopen workflow. No AI, cloud reconciliation
-or Hosting. The domain contract did not change.
+the designed Rules and request/read budget, the measured Rules results, the manual
+private-draft → review → publication → accept/resolve/reopen workflow, and the
+`ONLY_ON_DEVICE` local draft path. No cloud AI, cloud reconciliation or Hosting. The domain contract
+did not change; the local draft contract is frozen in `docs/INTERFACES.md` §9.
 
 Read with `docs/spec.md` (requirements), `docs/INTERFACES.md` (the frozen contract), `CONSTRAINTS.md`
 and `docs/adr/0001-shiftrelay-stack.md`. Spec text wins over this file; where this file refines a
@@ -71,8 +73,9 @@ cannot honestly invent server time. `INTERFACES.md` lists the persisted fields.
 ## 4. Interaction sequence
 
 One diagram only, as the two-diagram budget requires (§7). It shows the publication and ownership
-path that this phase's contract covers; local drafting and cloud reconciliation are sketched in
-`docs/spec.md` and are not modelled here.
+path that this phase's contract covers; strict local drafting is implemented in `src/localDraft.ts`
+and frozen in `docs/INTERFACES.md` §9, and cloud reconciliation remains sketched in `docs/spec.md`;
+neither is modelled here.
 
 ```mermaid
 sequenceDiagram
@@ -254,8 +257,9 @@ approval, App Check plan and security review.
 
 ## 9. What is not built
 
-Explicitly out of this cut, so no reader mistakes the contract for a product: local model drafting,
-cloud reconciliation, Firebase AI Logic, App Check enforcement, Hosting configuration, deployment,
-a live Firebase project, and the manual screen-reader/200%-zoom/Android-touch checks. The manual
-private-to-shared UI, Auth emulator session, Playwright suites, lint and production build exist and
-are measured locally. `docs/PLAN.md` lists the owning slice for the rest.
+Explicitly out of this cut, so no reader mistakes the contract for a product: cloud reconciliation,
+cloud Firebase AI Logic, App Check enforcement, Hosting configuration, deployment, a live Firebase
+project, and the manual screen-reader/200%-zoom/Android-touch checks. The manual private-to-shared
+UI, Auth emulator session, Playwright suites, lint, production build and the strictly local
+`ONLY_ON_DEVICE` draft path exist and are measured locally. Exact Nano 4 identity is unverified, and
+`docs/PLAN.md` lists the owning slice for the rest.

@@ -65,11 +65,14 @@ REQUIRED_FILES = [
     "src/App.tsx",
     "src/PrivateDraft.tsx",
     "src/Handover.tsx",
+    "src/localDraft.ts",
+    "src/aiValidation.ts",
     "src/styles.css",
     "tests/fixtures/handover.ts",
     "tests/fixtures/contrato.json",
     "tests/validation.test.ts",
     "tests/transitions.test.ts",
+    "tests/ai-output.test.ts",
     "tests/rules/support.ts",
     "tests/rules/permissions.test.ts",
     "tests/rules/concurrency.test.ts",
@@ -81,6 +84,7 @@ REQUIRED_FILES = [
     "e2e/offline.spec.ts",
     "e2e/accessibility.spec.ts",
     "e2e/privacy.spec.ts",
+    "e2e/local-draft.spec.ts",
     "tests/test_check_diagrams.py",
     "tests/test_verificar.py",
     "tests/test_scan_secrets.py",
@@ -102,9 +106,9 @@ REQUIRED_FILES = [
 FIXTURE_CHECK = (
     "import json,pathlib,sys;"
     "d=json.loads(pathlib.Path('tests/fixtures/contrato.json').read_text(encoding='utf-8'));"
-    "keys=('schema','enums','limits','errors','transitions','idPattern','collections');"
+    "keys=('schema','enums','limits','errors','transitions','idPattern','collections','localDraft');"
     "missing=[k for k in keys if k not in d];"
-    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] else 3))"
+    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] and d['localDraft']['errors'] else 3))"
 )
 
 CHECKS = [
@@ -119,6 +123,11 @@ CHECKS = [
         "timeout": 300,
     },
     {"name": "unit", "command": [*NPM, "run", "test:unit"], "timeout": 300},
+    {
+        "name": "ai-output",
+        "command": [*NPM, "run", "test:unit", "--", "tests/ai-output.test.ts"],
+        "timeout": 300,
+    },
     {"name": "rules-tests", "command": [*NPM, "run", "test:rules"], "timeout": 900},
     {"name": "e2e-tests", "command": [*NPM, "run", "test:e2e"], "timeout": 1800},
     {"name": "tools-tests", "command": [*NPM, "run", "test:tools"], "timeout": 600},
@@ -129,14 +138,17 @@ CHECKS = [
 
 SCOPE = {
     "phase": PHASE,
-    "name": "manual-handover-ui-slice1-emulator-only-q5-checks",
+    "name": "strictly-local-drafting-slice2-emulator-plus-localhost-chrome",
     "included": [check["name"] for check in CHECKS],
     "unimplemented": [
         "Q5 reviewer closure: the pinned Gitleaks scan (working tree + dist, no project allowlist) "
         "and the production dependency audit now run locally, but reviewer sign-off on the redacted "
         "report and on the pre-deploy public artifact set is still open",
-        "full product: local model drafting, cloud reconciliation, Firebase AI Logic, App Check and "
-        "genuine hybrid runtime evidence (slices 2-3)",
+        "genuine local model and hybrid runtime evidence: one localhost Chrome ON_DEVICE request "
+        "now runs, but exact Nano 4 identity/provenance, hosted HTTPS, App Check and a separately "
+        "consented cloud comparison are still missing (AC13/Q6)",
+        "cloud reconciliation: request/response contract, bounded context, observation confirmation "
+        "and the separately consented cloud model (slice 3)",
         "manual accessibility: screen-reader announcements, 200% zoom and actual Android Chrome touch "
         "(automated axe serious/critical, keyboard and 320px checks only)",
         "live Firebase project, Hosting configuration, deployment and cloud provisioning",

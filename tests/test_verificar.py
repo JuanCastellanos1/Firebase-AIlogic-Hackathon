@@ -22,6 +22,7 @@ EXPECTED_CHECKS = {
     "secret-scan",
     "dependency-audit",
     "unit",
+    "ai-output",
     "rules-tests",
     "e2e-tests",
     "tools-tests",
@@ -103,6 +104,7 @@ class VerifierTest(unittest.TestCase):
         joined = "\n".join(blockers)
         self.assertIn("docs/INTERFACES.md", joined)
         self.assertIn("tests/fixtures/contrato.json", joined)
+        self.assertIn("tests/ai-output.test.ts", joined)
         self.assertIn("scripts/scan_secrets.py", joined)
         self.assertIn("node_modules", joined)
         self.assertNotIn("not a git repository", joined)
