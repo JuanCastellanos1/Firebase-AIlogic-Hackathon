@@ -49,6 +49,7 @@ raw source spans and unapproved model output never leave page memory; the bounda
 | Local inference adapter (`src/localDraft.ts`) | `firebase/ai` with `ONLY_ON_DEVICE` | Single-turn extraction from the private note | Browser capability, explicit user action |
 | Cloud reconciliation adapter (`src/reconciliation.ts`, `src/cloudReconcile.ts`, `src/CloudReconciliation.tsx`) | Pure contract + `firebase/ai` with `ONLY_IN_CLOUD` (`gemini-3.5-flash-lite`) | Bounded duplicate/contradiction suggestions from an approved shared-task packet | Published task snapshots, one-shot consent |
 | Identity session | `firebase/auth` with in-memory persistence | Email/password sign-in, UID, membership-derived role, revocation handling | Auth emulator, Firestore membership |
+| Runtime configuration gate (`src/runtimeConfig.ts`, `src/firebase.ts`) | Pure resolver + modular `firebase/app`, `firebase/app-check` | Selects exactly one of `emulator` / `live-local` / `hostedQA`, validates project/app/host and initializes App Check before any AI request | Origin, build-time public site key, dev runner environment or same-origin Hosting config |
 | Shared store | Cloud Firestore Standard edition + memory cache | Handovers, tasks, activities, memberships | Security Rules |
 
 Deliberately absent: application server, Cloud Functions, Cloud Run, private collection,
@@ -68,6 +69,8 @@ the private-data surface or move authorization somewhere this scope does not fun
 | Role is membership, not a toggle | Membership document read at sign-in and watched for revocation; no role control in the UI | UI role switch |
 | Human confirmation of observations | UI review step plus one versioned activity per confirmation | Model output |
 | Cloud packet contents and one-shot consent | Pure `planReconciliation` allowlist, byte-equal preview/consent, fresh-read version checks, operation token | Model output, UI hints, "read-only" promises |
+| Exactly one runtime mode, fail-closed | `resolveRuntimeConfig` (pure, tested) plus `vite.config.ts` build refusal, `scripts/dev_live_local.py` allowlist, `scripts/check_dist.py` build-output guard | A missing or wrong value silently degrading to another mode |
+| Live requests are attested | `initializeAppCheck` runs while `src/firebase.ts` is imported, before any AI call; production uses reCAPTCHA Enterprise, localhost uses the registered debug token | Client-side checks, "it is enforced by default" claims |
 
 Timestamps are intentionally absent from the pure domain type (`Task` has no `createdAt`/`updatedAt`,
 `ActivityRecord` has no `at`): the persistence boundary supplies `request.time`, and a pure function
@@ -147,8 +150,8 @@ Authored cost model (`firestore.rules`):
 - Handover create: membership (2) plus one `getAfter` per task id (1–5), because the handover must
   prove every listed task exists in the same batch: 7 at five cards.
 - Task create: membership (2) plus `getAfter(handover)` and `getAfter(activity)`: 4.
-- Task update: membership (1) plus `getAfter(activity)`, plus the observation target `get()` when
-  the action is `observe`: 2–3.
+- Task update: membership (1) plus `getAfter(activity)`, plus the observation target `getAfter()`
+  when the action is `observe`: 2–3.
 - Activity create: membership (1) plus `getAfter(task)`: 2.
 
 | Cards | Writes (`2N+1`) | Distinct document paths (`2N+2`) | Calls if nothing is cached (`7N+2`) | Calls per write (max 10) |
@@ -171,7 +174,7 @@ Reading of that table:
   if a production ruleset ever denies a five-card batch, the case goes to master (see §8, R3).
 
 Observations cost 2 writes (source task update, activity create) and 5 uncached calls: membership
-plus `getAfter(source activity)` plus `get(target)` on the task update, and membership plus
+plus `getAfter(source activity)` plus `getAfter(target)` on the task update, and membership plus
 `getAfter(source task)` on the activity create. That is 4 distinct paths, comfortably inside 20.
 Their risk is not the call budget but the target snapshot (§8, R1).
 
@@ -198,15 +201,18 @@ Resolution recorded here and in `docs/verification.md`:
 
 ## 8. Residual risks and infeasible-by-Rules-only constraints
 
-**R1 — Observation target versions are validated, not locked.** Rules `get()` reads a snapshot; it
-does not create a write precondition on a document the batch does not write. So "validate the target
-version atomically" means: Rules reject a stale target as of the evaluated snapshot, and the client
-transaction must also read the target so that a concurrent change aborts the transaction. A window
-remains between snapshot evaluation and commit. Measured: a target that moved to version 2 rejects an
+**R1 — Observation target versions are validated, not locked.** Rules `getAfter()` reads the
+post-state, so an observation cannot cite a target version that the same batch resolves or accepts,
+and a target that moved in an earlier commit is rejected at evaluation. It still creates no write
+precondition on a document the batch does not write, so a target changed by a separate concurrent
+commit between evaluation and commit is not locked; the client transaction must also read the target
+so that such a change aborts the transaction. Measured: a target that moved to version 2 rejects an
 observation recorded against version 1, both through the transaction adapter (client read set) and
-through a forged direct write (Rules). Consequence: the recorded target version is operational
-metadata, not a certified audit fact — consistent with the spec's own statement that activity is
-"a useful operational record, not a certified tamper-proof audit system". No stronger claim is made.
+through a forged direct write (Rules); a batch that resolves the target and observes its earlier
+version is denied as a whole, while an unchanged target records normally. Consequence: the recorded
+target version is operational metadata, not a certified audit fact — consistent with the spec's own
+statement that activity is "a useful operational record, not a certified tamper-proof audit system".
+No stronger claim is made.
 
 **R2 — "Exactly one accept" is a transaction property.** Rules enforce `open` → `accepted`,
 `ownerId === request.auth.uid` and `version === resource.data.version + 1`, which rejects a losing
@@ -255,26 +261,38 @@ emulator/browser evidence, not a production network-partition proof. The transac
 chosen operation; a switch back to `writeBatch` would reintroduce the replay risk recorded in the
 contract.
 
-**R8 — Local-only guard.** `src/firebase.ts` refuses a project other than `demo-shiftrelay`, a
-non-local emulator host or a non-local page origin, and `firebase` refuses non-emulated services for
-a `demo-` project. Removing that guard for Hosting is a deployment decision that requires its own
-approval, App Check plan and security review.
+**R8 — Runtime mode guard.** `src/runtimeConfig.ts` resolves exactly one mode and throws a named
+`RuntimeConfigError` otherwise: `emulator` only for `demo-shiftrelay` on `127.0.0.1`/`localhost`,
+`live-local` only on a local host with the dev runner's flag and every allowlisted live value present
+and matching the approved project/app, `hostedQA` only on the two approved Hosting origins and only
+after a same-origin config read that names the same project and web app. There is no fallback between
+modes and no "unknown origin" path. The remaining limits: the Hosting reserved JSON endpoint's support
+for the modular SDK is unproven upstream (reserved URLs are documented for JS SDK 8 and earlier, and
+`master`'s read of an undeployed site returned 404), so `hostedQA` needs an empirical check after the
+gated deployment; and the mode decision trusts the browser's own origin value, which is the same trust
+the existing local guard already had.
 
-**R9 — Cloud reconciliation is implemented, not live.** The pure contract, the `ONLY_IN_CLOUD`
-adapter with the explicit free-tier model `gemini-3.5-flash-lite`, and the one-shot consent/observation
-flow are measured with unit and emulator/browser tests; every cloud result in those tests comes from a
-page-injected double that labels itself `test-network-mock`. The demo build returns `notconfigured`, so
-no real cloud request, quota, latency, model availability or App Check enforcement was measured. The
-fresh server read before and after the request narrows, but cannot eliminate, the window in which
-another client changes a task between the approved packet and the result; the confirmation step
-re-checks both versions and rejects a stale suggestion. Treat R9 as an open live-integration risk, not
-as hybrid evidence.
+**R9 — Cloud reconciliation: one live request measured on localhost, not a live product.** The pure
+contract, the `ONLY_IN_CLOUD` adapter with the explicit free-tier model `gemini-3.5-flash-lite`, and
+the one-shot consent/observation flow are measured with unit and emulator/browser tests, and one
+genuine consented request now ran from `live-local` on localhost with the registered debug token
+(`exchangeDebugToken` 200, `firebasevertexai .../gemini-3.5-flash-lite:generateContent` 200). What is
+still open: a request from a hosted HTTPS build with reCAPTCHA Enterprise attestation, in-app cloud
+comparison (blocked until the reviewed Rules are deployed, because the membership read is denied by
+the current closed posture), quota/latency beyond one call, and App Check *enforcement* — a second
+request from an app instance with no App Check initialization was accepted (200), so no rejection was
+observed and the product must not claim enforcement evidence. Every suite result still comes from a
+page-injected `test-network-mock` double, which development builds only ever reach, never a
+production bundle. The fresh server read before and after the request narrows, but cannot eliminate,
+the window in which another client changes a task between the approved packet and the result.
 
 ## 9. What is not built
 
-Explicitly out of this cut, so no reader mistakes the contract for a product: a live cloud AI request,
-cloud Firebase AI Logic runtime evidence, App Check enforcement, Hosting configuration, deployment, a
-live Firebase project, and the manual screen-reader/200%-zoom/Android-touch checks. The manual
-private-to-shared UI, Auth emulator session, Playwright suites, lint, production build, the strictly
-local `ONLY_ON_DEVICE` draft path and the consented reconciliation contract/flow exist and are measured
-locally. Exact Nano 4 identity is unverified, and `docs/PLAN.md` lists the owning slice for the rest.
+Explicitly out of this cut, so no reader mistakes the contract for a product: a hosted HTTPS build,
+Hosting configuration and deployment, App Check *enforcement* evidence, an in-app live cloud
+comparison (blocked by the undeployed Rules), quota/latency beyond one measured call, and the manual
+screen-reader/200%-zoom/Android-touch checks. The manual private-to-shared UI, Auth emulator session,
+Playwright suites, lint, production build, the strictly local `ONLY_ON_DEVICE` draft path, the
+consented reconciliation contract/flow, the three runtime modes and one genuine consented
+`ONLY_IN_CLOUD` request from localhost exist and are measured. Exact Nano 4 identity is unverified,
+and `docs/PLAN.md` lists the owning slice for the rest.

@@ -4,7 +4,10 @@ Status: slice 1 manual workflow implemented locally (November 16, 2026), emulato
 strictly-local drafting implemented with mocked failure branches plus one real Chrome 157
 download/ON_DEVICE request on localhost; slice 3 consented reconciliation contract, UI, pure tests,
 labelled-mock browser tests and an unimplemented-live `ONLY_IN_CLOUD` adapter implemented locally
-(November 17, 2026). No live cloud request, App Check enforcement, Hosting or deployment exists.
+(November 17, 2026). Phase 5 then added the three explicit runtime modes, the dev-only live-local
+runner, the build-output guard and one genuine consented `ONLY_IN_CLOUD` request from localhost
+(November 17, 2026). No Hosting deployment, no Rules deployment, no App Check enforcement evidence
+and no push/commit exist.
 Skills applied: writing-plans and constraint-driven-development. Workflow-specified location and
 three-slice checklist override skill defaults. No calendar or delivery-duration promise.
 
@@ -259,6 +262,59 @@ one-shot approval, one in-flight request, cancel/sign-out/late-result invalidati
 emulator-backed E2E cases. No live cloud request, App Check enforcement, Rules change, Hosting or
 deployment was produced; every cloud response in the suites is a labelled `test-network-mock`.
 
+## Phase 5 — live configuration modes and one consented cloud request (November 17, 2026)
+
+Unattended slice: safe live Firebase/Auth/App Check configuration with exactly three explicit modes, a
+dev-only path for the outside-root private values, a build-output guard, and one genuine consented
+`ONLY_IN_CLOUD` request. No Rules change, no billing, no deployment, no commit, no push.
+
+- `src/runtimeConfig.ts` (new) — pure resolver for `emulator` (default on a local host),
+  `live-local` (local host plus the dev runner flag and every allowlisted value), `hostedQA` (one of
+  the two approved Hosting origins, config read at runtime from `/__/firebase/init.json`). Fail-closed
+  `RuntimeConfigError` codes, no fallback, no value in any message. Frozen in `docs/INTERFACES.md`
+  §11 and mirrored in `contrato.json` `runtime`.
+- `src/firebase.ts` — one `initializeApp` per mode; emulator wiring unchanged; live modes keep
+  in-memory Auth persistence and the Firestore memory cache; App Check is initialized during module
+  import (before any AI call) with reCAPTCHA Enterprise in a hosted build and the registered debug
+  token in `live-local`. The debug-token assignment exists only in a development build.
+- `src/cloudReconcile.ts` — the labelled `test-network-mock` double is reachable only in a development
+  build; `emulator` still reports `notconfigured`; the two live modes use the real adapter.
+  `src/main.tsx` imports the app dynamically so a rejected configuration renders a closed message and
+  initializes nothing.
+- `vite.config.ts` refuses a build when any live-only value name is present in the build environment
+  (a Vite build would otherwise inline it); `scripts/check_dist.py` (new, `dist-guard`) refuses a
+  `dist/` containing an API-key literal, a UUID-shaped debug-token literal, the test hook, the private
+  configuration path or a QA credential name.
+- `scripts/dev_live_local.py` (new) reads the outside-root private file, accepts allowlisted names only
+  (including entries the file keeps commented out), rebuilds the child environment from a
+  Windows/runtime allowlist, binds `127.0.0.1:5173` with no CORS headers, prints no value, and refuses a private file inside
+  the repository, a missing/blank value, a wrong project/app, or a malformed key shape.
+- Tests: `tests/runtime-config.test.ts` (23 cases: mode selection, every required name, wrong
+  project/app, unknown origin, hosted payload validation and unavailability, value-free failures,
+  fixture drift), `e2e/runtime-modes.spec.ts` (the default build has no App Check, no debug-token
+  global, no live config fetch and no cloud host contact), `tests/test_dev_live_local.py` (12 cases) and
+  `tests/test_dist_guard.py` (8 cases). Red recorded for the runner and the guard modules before they
+  existed.
+- `tests/build-env.test.ts` (3 cases, B2): `src/firebase.ts` references only the names the resolver
+  reads, so a real production `vite build` into an approved temporary directory embeds no synthetic
+  unrelated `VITE_*` sentinel; the build refuses a live-only value supplied through `process.env` or
+  a `.env` file, name only, never the value. The guard reads the resolved env, so dotenv cannot
+  bypass it.
+- Measured: 114 unit tests (5 files), 21 emulator-backed E2E tests, 57 tool tests, typecheck, lint,
+  build, `dist-guard`, the pinned secret scan and the production dependency audit. One genuine
+  consented live request: App Check debug exchange 200, `firebasevertexai.googleapis.com` `POST
+  .../models/gemini-3.5-flash-lite:generateContent` 200, `inferenceSource in_cloud`, 161 response
+  bytes, 1.9 s, with the exact approved packet shown first. A fresh browser session signed in with a
+  synthetic QA identity (identitytoolkit 200) and the venue membership read was denied by the current
+  closed Rules, which is the expected external blocker.
+- Open and honest: App Check *enforcement* is not demonstrated — a second request from an app instance
+  with no App Check initialization was accepted (200) instead of rejected, so no rejection evidence
+  exists; in-app cloud comparison needs the reviewed Rules deployed (explicitly not done here);
+  `hostedQA` needs an empirical check of the reserved JSON endpoint and a hosted reCAPTCHA-attested
+  request after the gated deployment; the first call's quota/latency is a single sample. The App Check
+  debug SDK logs the debug token to the local console by design; that is dev-only and excluded from
+  builds, and captures must not reproduce it.
+
 ## Current verification and Gate A
 
 Implementer preflight (authorized November 16, 2026) added local tooling only: `package.json`/`package-lock.json` pin `@mermaid-js/mermaid-cli` 12.2.0 with `puppeteer` 25.17.0, `scripts/check_diagrams.py` renders with that pinned CLI, `tests/test_check_diagrams.py` holds its regression tests, and `docs/verification.md` records real commands and exits. Gate A evidence exists at `.git/opencode/diagrams/docs__spec-1.svg` and `.git/opencode/diagrams/docs__ARCHITECTURE-1.svg`, and master approved Gate A; `docs/HANDOFF.md` records the approval. The two-diagram budget is unchanged.
@@ -268,3 +324,84 @@ render/checker evidence existed: at that time no application, scripts or `node_m
 `mmdc`/`scripts/check_diagrams.py` were absent and Gate A was pending. That is no longer the current
 state; the approved Gate A evidence above supersedes it. Later slices re-render both diagrams through
 the same checker in every verifier run.
+
+## Phase 7 fix — derived activity IDs (November 17, 2026)
+
+Pre-QA blocker B1, reproduced in the local Firestore emulator before the change: a valid
+64-character task ID produced a 68-character creation activity ID and Rules rejected the
+publication because `isId` capped every activity ID at 64 characters. The task/venue/user
+identifier cap stays 64; only the derived activity ID validation changed.
+
+- `firestore.rules` — `isDerivedActivityId(value, taskId, version)` requires exact
+  `"{taskId}__v{toVersion}"`; the derived ID is bounded at 83 characters (64 + `__v` + a 16-digit
+  safe version) and no longer uses the free-form `isId`. Forged suffix, task ID or version still
+  fails because the derivation cannot match.
+- `docs/INTERFACES.md` §1/§4 and `tests/fixtures/contrato.json` (`activityIdMaxLength: 83`) state
+  the same contract; `tests/validation.test.ts` fails on drift.
+- `tests/rules/derived-activity.test.ts` (new, 6 emulator cases): 64-character publication plus
+  accept, resolve and reopen with matching events; an 83-character derived ID at the safe-integer
+  version ceiling; UUID unchanged; a 65-character task ID rejected client-side and at Rules;
+  forged activity IDs denied. Two cases were red before the Rules change and all six are green
+  after it.
+- Measured: 115 unit, 37 Rules (4 files), 21 E2E and 57 tool tests; typecheck, lint, build,
+  dist-guard, secret scan and the production dependency audit pass. Full verifier reported
+  `ok=True` and `GATE_C: NOT ELIGIBLE` because the tree is intentionally dirty and 8 scope items
+  remain unimplemented.
+
+## Phase 8 — reviewed-candidate build and Hosting preparation (November 17, 2026)
+
+Preparation only: no deployment, commit or push, and no cloud call. The deploy itself stays with a
+delegated release agent after independent review and green CI.
+
+- `firebase.json` — added the minimal `hosting` block: `public: "dist"`, one SPA rewrite to
+  `/index.html`, and four response headers. The `Content-Security-Policy` covers
+  `default-src 'self'`, `script-src` for `https://www.google.com/recaptcha/` and
+  `https://www.gstatic.com/recaptcha/`, `connect-src 'self' https://*.googleapis.com` plus the
+  reCAPTCHA host, `frame-src` for `https://www.google.com/recaptcha/` and
+  `https://recaptcha.google.com/recaptcha/`, and `object-src`/`base-uri`/`frame-ancestors 'none'`.
+  No `unsafe-eval`, no `unsafe-inline`. Also `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy: strict-origin-when-cross-origin` and `X-Robots-Tag: noindex, nofollow` for QA.
+  No `.firebaserc` was added, so every command must name `--project shiftrelay-hybridai-2026`.
+- `scripts/release_prep.py` (new) — `build` reads only the public reCAPTCHA Enterprise site key
+  from the outside-root private file, rebuilds the child environment from
+  `scripts/dev_live_local.py`'s Windows/runtime allowlist plus that single name, and then runs the
+  dist guard, the pinned Gitleaks runner and the production dependency audit. `stage` copies only
+  `dist/**`, `firestore.rules`, `firestore.indexes.json` and `firebase.json` into a temporary
+  directory outside the repository and prints the two `firebase deploy` commands; it refuses a
+  dirty tree, evidence that is not `ok=true`/`dirty=false`/`tree_stable` for HEAD, an unknown
+  project, or a stage inside the repository. Nothing is executed by the helper.
+- Scanner classification instead of an allowlist: the keyed artifact contains exactly one
+  `generic-api-key` finding, the public site key the build itself inserts next to
+  `VITE_FIREBASE_APPCHECK_SITE_KEY`. The helper re-runs the unchanged scanner, accepts only that
+  one finding when the reported `dist/` line contains the public value, and fails on any other
+  rule, a second finding, a location outside `dist/`, or an unreadable location. No
+  `.gitleaks.toml`, no `.gitleaksignore`, no redaction change, no obfuscation. The keyless
+  `npm run build` artifact that the verifier scans stays clean.
+- `package.json` — `build:qa` and `release:stage` scripts; `test:tools` now includes
+  `tests.test_release_prep`.
+- `tests/test_release_prep.py` (new, 17 cases) — site-key extraction from the commented private
+  block, missing/wrong shape refusal without echoing values, child-environment allowlist (no API
+  key, debug token or QA password, no `VITE_FIREBASE_LIVE_LOCAL`), no value on argv, build failure
+  stopping before the artifact checks, fixed check order and fail-fast behaviour, the single
+  public-site-key classification and its refusals, the sealed-stage copy set and every fail-closed
+  gate, the `firebase.json` hosting/CSP shape, the absence of `.firebaserc`, and the npm/verifier
+  wiring.
+- `scripts/verificar.py` — `scripts/release_prep.py` and `tests/test_release_prep.py` are required
+  artifacts. No new check was added: the tooling suite covers them, and `build:qa` cannot run in
+  CI because the private file does not exist there.
+- `.github/workflows/verification.yml` — authored and statically checked only, still uncommitted
+  and never run. It stays keyless: it runs the repository verifier with `npm run build`, no cloud
+  credentials and no deploy step.
+- `README.md` — rewritten to the actual three features, three modes, commands, QA build/stage
+  helpers, privacy rules (private credential channel for the synthetic judge identities) and the
+  verified/unverified split.
+- `docs/PUBLISH.md` — updated for the real hosting block, the helpers, the verified App Check
+  enforcement (service `firebaseml.googleapis.com`, controlled 401 probes), Rules rollback by
+  redeploying the last known-good ruleset, the still-unproven `/__/firebase/init.json` path and the
+  demo script's real Nano 4/cloud evidence versus the pending hosted/Android/screen-reader/AC15
+  checks.
+
+Measured in this cut: 17 new tool tests (74 tool tests total), typecheck, lint and the keyless
+build pass; `npm run build:qa` produced the keyed artifact and its three gates passed with the one
+classified public-identifier finding; `npm run release:stage` refused the intentionally dirty tree.
+`firebase deploy` was never run and no Hosting or Rules resource was touched.

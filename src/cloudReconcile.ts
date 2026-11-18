@@ -1,15 +1,17 @@
 /**
  * Cloud reconciliation adapter (slice 3). One `ONLY_IN_CLOUD` Firebase AI Logic request with
  * the explicit free-tier model `gemini-3.5-flash-lite`; there is no on-device fallback, no
- * retry and no automatic call. The local demo build ships no live cloud configuration, so it
- * reports `notconfigured` and never contacts a cloud endpoint with the demo project.
+ * retry and no automatic call. The emulator default ships no live cloud configuration, so it
+ * reports `notconfigured` and never contacts a cloud endpoint with the demo project. The two live
+ * modes require App Check and are wired in `src/firebase.ts`.
  *
- * A page-injected double is accepted only when it labels itself `test-network-mock`; it is a
- * labelled test double, never real cloud evidence. The packet it receives is already the
- * allowlisted shared snapshot, so no private draft can reach even a test double.
+ * A page-injected double is accepted only in a development build and only when it labels itself
+ * `test-network-mock`; it is a labelled test double, never real cloud evidence, and it is compiled
+ * out of production builds. The packet it receives is already the allowlisted shared snapshot, so no
+ * private draft can reach even a test double.
  */
 import { GoogleAIBackend, InferenceMode, getAI, getGenerativeModel, type SchemaRequest } from "firebase/ai";
-import { app } from "./firebase";
+import { app, runtimeConfig } from "./firebase";
 import { CLOUD_MODEL, CLOUD_SYSTEM_INSTRUCTION } from "./reconciliation";
 
 export const CLOUD_NOT_CONFIGURED =
@@ -126,12 +128,13 @@ async function generateInCloud(
 }
 
 /**
- * Resolution order: labelled test double, then an explicit live flag, then `notconfigured`.
- * Live cloud needs its own Firebase app and App Check wiring, which this demo build does not
- * have, so the default is always `notconfigured`.
+ * Resolution order: a labelled test double (development builds only), then the real adapter in the
+ * two live modes, then `notconfigured`. Live cloud needs its own Firebase app and App Check wiring,
+ * which only `live-local` and `hostedQA` have; the emulator default never contacts a cloud endpoint.
  */
 export function cloudReconciliationProvider(): CloudProviderResolution {
-  const double = testCloudDouble();
+  // Production builds carry no test hook at all: the double is development-only dead code.
+  const double = import.meta.env.DEV ? testCloudDouble() : null;
   if (double !== null) {
     return {
       status: "ready",
@@ -140,7 +143,7 @@ export function cloudReconciliationProvider(): CloudProviderResolution {
         generateFromDouble(double, packetText, signal),
     };
   }
-  if (import.meta.env.VITE_CLOUD_RECONCILIATION !== "live") {
+  if (runtimeConfig.mode === "emulator") {
     return { status: "notconfigured", reason: CLOUD_NOT_CONFIGURED };
   }
   return { status: "ready", label: "firebase-ai-logic-only-in-cloud", generate: generateInCloud };

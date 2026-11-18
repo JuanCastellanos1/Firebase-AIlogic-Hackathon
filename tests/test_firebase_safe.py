@@ -22,8 +22,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
-import firebase_safe  # noqa: E402
-import scan_secrets  # noqa: E402
+import firebase_safe
+import scan_secrets
 
 TEMP_ROOT = Path(tempfile.gettempdir()) / "opencode"
 # Runtime-assembled so no credential-shaped literal lands in the source or the .pyc. The shapes

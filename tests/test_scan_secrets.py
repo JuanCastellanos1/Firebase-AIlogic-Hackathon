@@ -15,7 +15,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
-import scan_secrets  # noqa: E402
+import scan_secrets
 
 TEMP_ROOT = Path(tempfile.gettempdir()) / "opencode"
 # Assembled at run time (join is not constant-folded into the .pyc) so neither the source nor the

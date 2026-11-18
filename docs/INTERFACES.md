@@ -1,12 +1,14 @@
 # ShiftRelay — frozen interfaces (Phase 4)
 
 Status: **frozen** for Phase 4, November 16, 2026; the local-draft contract in §9 was frozen in
-slice 2 the same day, and the cloud reconciliation contract in §10 on November 17, 2026. Authority:
+slice 2 the same day, the cloud reconciliation contract in §10 on November 17, 2026, and the runtime
+configuration contract in §11 the same day. Authority:
 this file describes the contract;
 `src/domain.ts` and `src/validation.ts` implement it; `tests/fixtures/contrato.json` is its
 machine-readable mirror, and `tests/validation.test.ts` fails if the three drift apart. The §9
 mirror is `contrato.json` `localDraft`, checked by `tests/ai-output.test.ts`; the §10 mirror is
-`contrato.json` `reconciliation`, checked by `tests/reconciliation.test.ts`.
+`contrato.json` `reconciliation`, checked by `tests/reconciliation.test.ts`; the §11 mirror is
+`contrato.json` `runtime`, checked by `tests/runtime-config.test.ts`.
 
 Change rule: any change to a type, limit, enum, error code or transition updates this file, the
 fixture and the code **in the same commit**. Nothing in this file is an SDK API; no Firebase import
@@ -41,7 +43,8 @@ Membership is provisioned out of band by an administrator; the app has no path t
 
 Document IDs (including `handoverId`, `taskId`, `targetTaskId`, `venueId`, `creatorId`, `uid` when
 used as a path segment) must match `^[A-Za-z0-9_-]{1,64}$`. Arbitrary text is rejected with
-`invalid_identifier` before it can become a path segment.
+`invalid_identifier` before it can become a path segment. `activityId` is not free-form: it is
+derived (see §4) and therefore exempt from that pattern while staying bounded by its own template.
 
 Timestamps are absent from the pure TypeScript types on purpose: `src/domain.ts` has no clock, and
 the adapter/Rules layer supplies `request.time`. `Task` in code is the authoritative subset that
@@ -96,6 +99,9 @@ Clearing a resolution on `reopen` does not lose history: the earlier `resolve` a
 
 - `activityId = "{taskId}__v{toVersion}"` (`activityIdFor`), so one retry cannot fork a history and
   a duplicate activity for the same version is a document ID collision, not a second event.
+- The task ID keeps its 1–64 character cap; the derived activity ID is exempt from the free-form
+  identifier pattern and bounded at 83 characters (64 + `__v` + a 16-digit safe-integer version).
+  Rules require exact derivation, so a forged suffix, task ID or version is denied.
 - `create`: `fromState: null`, `fromVersion: null`, `toState: "open"`, `toVersion: 1`, actor is the
   handover creator.
 - `accept`/`resolve`/`reopen`: `fromState` is the previous task state, `fromVersion` the previous
@@ -106,8 +112,9 @@ Clearing a resolution on `reopen` does not lose history: the earlier `resolve` a
 - The atomic requirement is authored in `firestore.rules` and measured in the local emulator:
   handover, tasks and creation activities commit in one transaction; each task create requires the
   handover and its creation activity in the post-state; each activity requires the task in the
-  post-state; each task update requires its matching activity by derived ID. The call budget is in
-  `docs/ARCHITECTURE.md` §6.
+  post-state; each task update requires its matching activity by derived ID; an observation requires
+  its target in the post-state, so a batch cannot resolve or accept a target and cite its earlier
+  version. The call budget is in `docs/ARCHITECTURE.md` §6.
 
 ## 5. Public functions
 
@@ -433,20 +440,80 @@ cloudReconciliationProvider():
   inCloudParams: { model: CLOUD_MODEL, systemInstruction, generationConfig: { responseMimeType:
   "application/json", responseSchema, maxOutputTokens: 2048 } } })` and rejects a response whose
   `inferenceSource` is not `in_cloud`. There is no on-device fallback.
-- The demo build has no live project/App Check configuration, so
-  `cloudReconciliationProvider()` returns `notconfigured` and no request is possible. A page-injected
-  double is used only when it labels itself `test-network-mock`; the UI shows that label, and those
-  results are never presented as real cloud evidence.
+- `cloudReconciliationProvider()` is mode-driven (§11): `emulator` returns `notconfigured`, the two
+  live modes return the real adapter, and a page-injected double is reachable only in a development
+  build and only when it labels itself `test-network-mock`. The UI shows that label, and those results
+  are never presented as real cloud evidence.
 
 ### 10.7 Deliberately deferred
 
-The live cloud request itself (App Check enforcement, real quota/latency/model availability), Hosting
-deployment and real-device checks are not frozen here and are not claimed.
+Hosted reCAPTCHA attestation, in-app live cloud comparison (needs the reviewed Rules deployed) and
+real-device checks are not frozen here and are not claimed. See §11 for the configuration contract and
+`docs/verification.md` §13 for the one measured live request.
 
-## 11. Out of scope for this phase
+## 11. Runtime configuration contract (frozen November 17, 2026)
 
-Cloud reconciliation runtime (a live cloud request, App Check enforcement, quota/latency/model
-availability), Hosting, deployment and any live Firebase behavior. The Firestore Rules, emulator
-configuration, persistence adapter, Auth emulator session, responsive web UI, strictly local drafting
-and the consented reconciliation contract above are implemented and measured locally against synthetic
-data; nothing here is deployed or connected to a live project.
+Three modes, exactly one active, no fallback. `src/runtimeConfig.ts` implements this; the fixture
+mirror is `contrato.json` `runtime`, drift-checked by `tests/runtime-config.test.ts`.
+
+| Mode | When | Firebase project | App Check | Cloud reconciliation |
+|---|---|---|---|---|
+| `emulator` | default on `127.0.0.1` / `localhost` | `demo-shiftrelay` emulators only | none | `notconfigured` |
+| `live-local` | local host **and** `VITE_FIREBASE_LIVE_LOCAL=1` from the dev runner | approved live project/app | registered debug token (`self.FIREBASE_APPCHECK_DEBUG_TOKEN`), site key supplied but unused for attestation | real adapter |
+| `hostedQA` | origin is one of the two approved Hosting hosts | config read at runtime from `/__/firebase/init.json` | reCAPTCHA Enterprise with the build-time public site key, never a debug token | real adapter |
+
+### 11.1 Inputs and validation
+
+- `VITE_FIREBASE_APPCHECK_SITE_KEY` is the only live value a build may embed: it is the public
+  reCAPTCHA Enterprise site key. The five public config values and the secret debug token are never
+  build inputs; `vite.config.ts` refuses a build when any of those names is present in the build
+  environment.
+- `live-local` requires `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`,
+  `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_MESSAGING_SENDER_ID`,
+  `VITE_FIREBASE_APPCHECK_SITE_KEY` and `VITE_FIREBASE_APPCHECK_DEBUG_TOKEN`, all non-blank, plus a
+  project equal to `shiftrelay-hybridai-2026` and a web app equal to the documented public app id
+  (`VITE_FIREBASE_APP_ID` is optional because the private file keeps it commented out; a different
+  value is refused). The site key must start with `6L` and the API key with `AIza`.
+- `scripts/dev_live_local.py` is the only source of those values: it reads the outside-root private
+  file (refusing a path inside the repository), accepts allowlisted names only — including entries the
+  file keeps commented out — rebuilds the child environment from a Windows/runtime allowlist, binds
+  `127.0.0.1` with a strict port and no CORS headers (`server.cors: false`, because the dev server
+  serves the live configuration), and prints the mode, host, port and public project id only. Values
+  never reach argv, a log line or a file inside the repository.
+- `hostedQA` reads the same-origin `/__/firebase/init.json`, then requires `projectId` and `appId` to
+  equal the approved project and web app and all five fields to be non-empty strings. A missing site
+  key, an unavailable or malformed response, or a mismatch fails closed *before* a Firebase app is
+  created.
+- Emulator mode keeps its existing refusals: non-demo project, non-local emulator host.
+
+### 11.2 Errors
+
+`RuntimeConfigError { code, reason }` with message `"<code>: <reason>"`; no configuration value is
+ever included. Codes: `unknown_origin`, `non_local_emulator`, `wrong_project`, `wrong_app`,
+`live_local_incomplete`, `site_key_missing`, `hosted_config_unavailable`, `hosted_config_invalid`.
+`describeRuntimeFailure` turns any of them into the closed page message; `src/main.tsx` renders that
+instead of a blank page and initializes nothing.
+
+### 11.3 Build-output invariants
+
+`scripts/check_dist.py` fails when the built `dist/` contains a Firebase web API key literal, a
+debug-token-shaped UUID literal, the labelled `test-network-mock` hook, the private configuration path
+or a QA credential variable name, and fails closed when `dist/index.html` is absent. It runs as the
+`dist-guard` verifier check right after `build`.
+
+### 11.4 Known upstream gap
+
+Reserved Hosting URLs (`/__/firebase/init.json`) are documented for Firebase JS SDK 8 and earlier;
+this app uses the modular 13.3.0 SDK, and the endpoint is not covered by that documentation. The app
+therefore treats a successful manual JSON read as an unproven assumption: it validates the payload
+exactly and fails closed otherwise, and a hosted build must be checked empirically after the gated
+deployment. No reserved SDK script is loaded and no modular support is claimed.
+
+## 12. Out of scope for this phase
+
+Hosting deployment and its manual checks, App Check enforcement evidence, in-app live cloud comparison
+(blocked by the undeployed Rules), quota/latency beyond one measured call, and any live Firebase
+behavior beyond one attested `ONLY_IN_CLOUD` request from localhost. The Firestore Rules, emulator
+configuration, persistence adapter, Auth emulator session, responsive web UI, strictly local drafting,
+the consented reconciliation contract and the three runtime modes above are implemented and measured
+against synthetic data.

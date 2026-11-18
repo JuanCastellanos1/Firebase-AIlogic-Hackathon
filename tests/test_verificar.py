@@ -19,11 +19,13 @@ EXPECTED_CHECKS = {
     "typecheck",
     "lint",
     "build",
+    "dist-guard",
     "secret-scan",
     "dependency-audit",
     "unit",
     "ai-output",
     "reconciliation",
+    "runtime-config",
     "rules-tests",
     "e2e-tests",
     "tools-tests",
@@ -43,7 +45,7 @@ def load_module():
 
 
 def init_repo(path: Path) -> None:
-    run = lambda *args: subprocess.run(  # noqa: E731 - tiny local helper
+    run = lambda *args: subprocess.run(
         ["git", *args], cwd=path, check=True, capture_output=True, text=True
     )
     run("init", "-q", "-b", "main")
@@ -236,7 +238,7 @@ class VerifierTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             init_repo(root)
-            broken = lambda args, cwd: (128, "fatal: not a git repository\n")  # noqa: E731
+            broken = lambda args, cwd: (128, "fatal: not a git repository\n")
             with mock.patch.object(self.verificar, "git", side_effect=broken):
                 state = self.verificar.git_state(root)
                 evidence = self.verificar.build_evidence(

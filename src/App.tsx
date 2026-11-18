@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
 import type { ReviewedCard, Task, TransitionCommand, TransitionResult } from "./domain";
-import { auth, db } from "./firebase";
+import { auth, db, runtimeConfig } from "./firebase";
 import { Handover, type ActionFeedback } from "./Handover";
 import { PrivateDraft, type PublicationIds } from "./PrivateDraft";
 import { CloudReconciliation } from "./CloudReconciliation";
@@ -23,6 +23,7 @@ import {
   type Membership,
 } from "./session";
 import { planPublication } from "./validation";
+import { describeRuntimeMode } from "./runtimeConfig";
 import {
   publishHandover,
   readPublication,
@@ -108,8 +109,8 @@ function SignInForm() {
           </p>
         )}
         <p className="fine-print">
-          Local Auth and Firestore emulators only. No production Firebase project is reachable from
-          this build.
+          {describeRuntimeMode(runtimeConfig)}. Accounts are provisioned by the venue administrator;
+          there is no public sign-up.
         </p>
       </section>
     </main>
@@ -401,7 +402,7 @@ export default function App() {
       <div className="app-shell">
         <SignInForm />
         <footer className="site-footer">
-          <p>Local demonstration · synthetic data · Firebase emulators only</p>
+          <p>{describeRuntimeMode(runtimeConfig)}</p>
         </footer>
       </div>
     );
@@ -503,7 +504,7 @@ export default function App() {
         )}
       </main>
       <footer className="site-footer">
-        <p>Local demonstration · synthetic data · Firebase emulators only</p>
+        <p>{describeRuntimeMode(runtimeConfig)}</p>
         <p>Raw notes stay in this tab. Shared fields require explicit review.</p>
       </footer>
     </div>

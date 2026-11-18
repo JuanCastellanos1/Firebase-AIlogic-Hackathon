@@ -1699,3 +1699,440 @@ accessibility or Gate C claim.
   panel has only automated axe/keyboard/320px coverage.
 - `docs/PUBLISH.md`, Hosting, deployment, AC15 product validation and the live hybrid protocol remain
   unimplemented and are named by the verifier scope.
+
+## 13. Phase 5 - runtime modes and one consented live cloud request (November 17, 2026)
+
+Scope: three explicit runtime modes with fail-closed configuration, a dev-only runner for the
+outside-root private values, a build-output guard, unit/E2E coverage for both, and one genuine
+consented `ONLY_IN_CLOUD` request from localhost. No Rules change, no billing, no Hosting or Rules
+deployment, no commit and no push. Private values were read in memory only; no value appears in this
+document, in source, in argv, in a log line or in `dist/`.
+
+### 13.1 Red then green
+
+Red 1 - the dev-runner suite before `scripts/dev_live_local.py` existed:
+
+```text
+ModuleNotFoundError: No module named 'dev_live_local'
+Ran 1 test ... FAILED (errors=1)
+```
+
+Red 2 - the build-output suite before `scripts/check_dist.py` existed:
+
+```text
+ModuleNotFoundError: No module named 'check_dist'
+Ran 1 test ... FAILED (errors=1)
+```
+
+Red 3 - the guard against the *existing* build output, which still carried the development test hook:
+
+```powershell
+py -3 scripts/check_dist.py dist
+```
+
+```text
+dist guard: FAIL - test-network-mock-hook in assets/index-CzS0KCbl.js
+```
+
+Green after the double was gated on `import.meta.env.DEV` and the App Check debug assignment on a
+development build:
+
+```text
+dist guard: PASS - 5 files, 906268 bytes, 0 rules matched
+```
+
+Honest note: `tests/runtime-config.test.ts` was written against `src/runtimeConfig.ts` in the same
+edit, so that file has no red step; the two new Python suites and the guard above do.
+
+### 13.2 What the new automated checks measure
+
+- `tests/runtime-config.test.ts` (23 cases): the fixture mirror (`modes`, hosts, project, app id,
+  env names, App Check plans, error codes) matches the code; `emulator` is the default on both local
+  hosts with no App Check and no network; a non-demo project and a non-local emulator host are
+  refused; an unknown/blank/`*.web.app.evil.test` origin is `unknown_origin`; `live-local` requires
+  each of the six names (blank and whitespace rejected) and refuses a wrong project/app or a
+  non-reCAPTCHA site key; the documented public app id is the default when the private file keeps
+  `VITE_FIREBASE_APP_ID` commented out; failure messages and `describeRuntimeFailure` never contain a
+  supplied value; `hostedQA` refuses to fetch anything without the production site key, reads only
+  `/__/firebase/init.json`, validates the exact project/app, ignores a debug token left in the
+  environment (its serialized config contains none), and fails closed for an unavailable, non-object
+  or field-incomplete payload.
+- `tests/test_dev_live_local.py` (12 cases): parsing of active, commented-out and prose lines;
+  non-allowlisted names ignored; duplicate names refused; every required name fails closed with a
+  variable name but no other value; wrong project/app/key shapes refused without echoing the value; a
+  private file inside the repository refused; the child environment drops host credentials
+  (`GOOGLE_APPLICATION_CREDENTIALS`, `FIREBASE_TOKEN`, QA passwords) while keeping the live names; the
+  banner contains no value.
+- `tests/test_dist_guard.py` (8 cases): a clean output passes; a synthetic API-key literal, a
+  UUID-shaped debug-token literal, the test hook, the private configuration path and QA credential
+  names are each found by rule and file with the value redacted; the SDK's own
+  `FIREBASE_APPCHECK_DEBUG_TOKEN` property name alone is not a finding; a missing `dist` fails closed;
+  the verifier runs the guard after `build`; the script itself exits 0 on a clean directory.
+- `tests/build-env.test.ts` (3 cases, B2): the repository's real `vite build` runs into an approved
+  temporary directory, never `dist/`; a synthetic unrelated `VITE_*` value present at build time is
+  absent from every emitted file, and a live-only value from `process.env` or a `.env` file makes the
+  build fail before output with the variable name but never the value. Red step recorded: before the
+  fix the sentinel was embedded and a `.env` value bypassed the build guard.
+- `e2e/runtime-modes.spec.ts` (1 case): on the default build the page boots the emulator mode, leaves
+  `globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN` undefined, fetches no `/__/firebase/init.json`, and
+  contacts none of `firebasevertexai`, `content-firebaseappcheck`, `recaptchaenterprise` or
+  `www.google.com`. This is the canary that fails if a `live-local` dev server is ever reused by the
+  Playwright web server.
+
+### 13.3 Live run: configuration, App Check and one real request
+
+The only path to the live project is `npm run dev:live-local`
+(`py -3 scripts/dev_live_local.py`), which prints the mode, host, port and public project id only:
+
+```text
+live-local dev server: http://127.0.0.1:5173 (project shiftrelay-hybridai-2026, App Check debug
+provider; values read from the outside-root private file and never printed)
+```
+
+Because the live Firestore Rules are still the closed default, the in-app cloud panel cannot be
+reached without a membership read; weakening Rules for evidence was refused. Instead a temporary
+local page at `/live-check.html` (deleted afterwards, never part of a build) imported the real
+modules - `src/firebase.ts` for app, Auth and App Check, and `src/reconciliation.ts` +
+`src/cloudReconcile.ts` for the exact packet, the one-shot consent and the real adapter - showed the
+exact 345-byte packet plus model, purpose and system instruction, and sent one request only after an
+explicit approval click. A headless Chrome 157 driver recorded host, path and status only (never a
+query string, which carries the API key):
+
+```text
+mode: live-local; project: shiftrelay-hybridai-2026; App Check: debug-token
+App Check token: obtained (debug provider; value never displayed)
+POST content-firebaseappcheck.googleapis.com/v1/projects/shiftrelay-hybridai-2026/apps/<app>:exchangeDebugToken -> 200
+POST firebasevertexai.googleapis.com/v1beta/projects/shiftrelay-hybridai-2026/models/gemini-3.5-flash-lite:generateContent -> 200
+result: status: success; label: firebase-ai-logic-only-in-cloud; model: gemini-3.5-flash-lite; bytes: 161; 1912 ms
+```
+
+The adapter only returns a response whose `inferenceSource` is `in_cloud`, so this is a real
+Firebase AI Logic `ONLY_IN_CLOUD` call with the explicit free-tier model, not a mock. Raw evidence
+(sanitized) is in `.git/opencode/live-config-evidence.json` with screenshots
+`.git/opencode/live-check-preview.png` and `live-check-result.png`. The page and the driver were
+removed/kept outside the application source, so no hosted build carries a live-check route.
+
+Two observations that matter and are not claims of success:
+
+1. **App Check enforcement is not demonstrated.** A second request from a second `initializeApp(...)`
+   instance in the same page - one that never called `initializeAppCheck` and therefore sent no App
+   Check token (the SDK resolves App Check per app instance) - was also accepted:
+   `status: unexpected success; inferenceSource in_cloud`. No rejection was observed, so the product
+   does not claim enforcement evidence and no enforcement setting was changed.
+2. **The real app signs in and is blocked by Rules, as predicted.** A fresh browser session signed in
+   with a synthetic QA identity from the private file
+   (`identitytoolkit .../accounts:signInWithPassword -> 200`, `accounts:lookup -> 200`), the Firestore
+   listen channel opened, and the UI showed "No venue access" because the membership read is denied by
+   the current closed Ruleset. In-app cloud comparison therefore depends on the separately approved
+   reviewed Rules deployment; no Rule was weakened. Screenshot: `.git/opencode/live-app-signin.png`
+   (synthetic address only).
+
+The App Check debug provider is an SDK feature that logs the debug token to the local console
+(`Firebase App Check debug token: ...`). That is dev-only, the token never enters a build, and console
+captures must not reproduce it. Live-local also loads the public reCAPTCHA Enterprise script while
+attesting with the debug token; `automaticDataCollectionEnabled: false` (no telemetry) disables App
+Check token auto-refresh, which the SDK warns about once per page.
+
+### 13.4 Build-output and private-value checks
+
+The production build embeds no live value. Exact-value search of the private API key, debug token,
+site key and both QA passwords across the files in `dist/`:
+
+```text
+dist files 5 bytes 906268
+VITE_FIREBASE_API_KEY occurrences 0
+VITE_FIREBASE_APPCHECK_DEBUG_TOKEN occurrences 0
+VITE_FIREBASE_APPCHECK_SITE_KEY occurrences 0
+SHIFTRELAY_QA_OUTGOING_PASSWORD occurrences 0
+SHIFTRELAY_QA_INCOMING_PASSWORD occurrences 0
+```
+
+`npm run guard:dist` (`py -3 scripts/check_dist.py dist`) passes with 0 rules matched, the pinned
+Gitleaks scan passes over the working tree plus `dist/`, and `npm audit --omit=dev --audit-level=high`
+reports `found 0 vulnerabilities`. `vite.config.ts` additionally refuses a build when any live-only
+variable name is present in the build environment, so a leaked dev shell cannot inline one.
+
+### 13.5 Full verifier
+
+```powershell
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+dist guard: PASS - 5 files, 906268 bytes, 0 rules matched
+CHECK dist-guard: PASS
+CHECK secret-scan: PASS
+scope: 105 files, 2092549 bytes (untracked and gitignored files included; only .git and node_modules excluded)
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK reconciliation: PASS
+CHECK runtime-config: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+Q5 credential scan: PASS (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (checks failed, blocked, or the tree changed during the run; dirty working tree; 8 scope items unimplemented)
+ok=False commit=6cbfded72d2b027b8e17845ca92b4af72d629c47 dirty=True
+```
+
+Measured inside that run: 114 unit tests (5 files), 17 ai-output, 20 reconciliation, 23 runtime-config,
+31 Rules tests (3 files), 21 E2E, 57 tool tests, 2 diagrams, 0 dependency vulnerabilities, and the
+pinned scanner over 105 files / 2,092,549 bytes with no findings. All 16 checks exited 0.
+
+The only non-zero signal is `tree_stable`: a concurrently working master session edited
+`docs/adr/0002-on-device-feasibility.md` (and earlier `AGENTS.md`, `CONSTRAINTS.md`,
+`docs/_project.md`, `docs/_presupuesto.md`, `docs/HANDOFF.md`, `.github/`) while the suite ran, so the
+verifier cannot certify that the tree it measured is the tree it reported. An earlier run of the same
+code reported `ok=True` with the identical 16 PASS lines; no check has ever failed in any run.
+`GATE_C` stays NOT ELIGIBLE regardless, because this cut makes no commit (dirty tree) and 8 scope
+items are explicitly unimplemented. Re-run the command once the concurrent session is quiet if a
+`ok=True` record is needed for the gate.
+
+### 13.6 Limits of this evidence
+
+- The live request is one localhost call with a registered debug token. It proves the project, the
+  model id, the App Check exchange path and the adapter's `in_cloud` guard; it is not quota, latency or
+  availability evidence, and it is not a hosted build.
+- `hostedQA` is implemented and unit-tested only. The reserved `/__/firebase/init.json` endpoint is
+  documented for JS SDK 8 and earlier, so its behaviour with the modular 13.3.0 SDK must be checked
+  empirically after the gated Hosting deployment (master's earlier read of an undeployed site returned
+  404, as expected). The site key is a build-time public value; a hosted release build must be produced
+  from the private environment and the gated release step, not from this cut.
+- App Check enforcement remains unproven (see 13.3, item 1). No enforcement toggle was changed and no
+  bypass was added.
+- In-app cloud reconciliation, observation confirmation and the whole signed-in shared workflow still
+  need the reviewed Rules deployed; today the live app stops at the denied membership read.
+- Manual screen-reader/200%-zoom/Android-touch checks, exact Nano 4 identity, a hosted local-model
+  request and AC15 product validation remain open and are named by the verifier scope.
+- Disclosure: while debugging the temporary live page, the App Check SDK's own console line
+  (`Firebase App Check debug token: ...`) was captured once into an interactive tool transcript. The
+  registered localhost debug token must therefore be treated as exposed on this machine: revoke it and
+  create a replacement before any further local live run. Revocation is a cloud action and needs
+  explicit confirmation; nothing was revoked here. The token never entered the repository, a build,
+  argv or a file, and the App Check exchange evidence recorded above contains no token value.
+
+## Blocker B1 — derived activity IDs (November 17, 2026)
+
+Symptom: a valid 64-character task ID could not be published. Rules denied the creation activity
+because `validActivity` called `isId(activity.id)`, capping the derived ID at 64 characters; the
+creation ID is `taskId + "__v1"` (68 characters), and the worst case at the safe-integer version
+ceiling is 83.
+
+Reproduced in the real local Firestore emulator (8080) before touching Rules, with
+`tests/rules/derived-activity.test.ts`: 2 failed, 4 passed. The two failures were the
+64-character publication (denied at the activity `create`) and the 83-character derived ID; the
+UUID and forged-ID cases already passed.
+
+```powershell
+$env:PATH = "$PWD\node_modules\.bin;$env:PATH"
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only firestore "vitest run --config vitest.rules.config.mts tests/rules/derived-activity.test.ts"
+```
+
+Red:
+
+```text
+ × publishes, accepts, resolves and reopens a 64-character task ID with matching events
+ × accepts an 83-character derived ID at the safe-integer version ceiling
+ Tests  2 failed | 4 passed (6)
+```
+
+Fix: `firestore.rules` now validates the activity ID only as its exact derivation,
+`isDerivedActivityId(activity.id, activity.taskId, activity.toVersion)`. `isId` still applies to
+`taskId`, `venueId`, `actorId` and every free-form identifier at 1–64 characters; versions still
+use `isSafeVersion`. A forged suffix, task ID or version is denied by the equality itself, and the
+creation/transition coupling is unchanged. `docs/INTERFACES.md` §1/§4, `contrato.json`
+(`activityIdMaxLength: 83`) and `tests/validation.test.ts` carry the clarified contract.
+
+Green (same command): `6 passed (6)`. Full Rules suite: `4 passed (4)` files, `37 passed (37)`
+tests. Unit `115 passed (115)`; E2E `21 passed`; tools `57` tests `OK`; typecheck, lint, build,
+`dist-guard`, pinned secret scan and `npm audit --omit=dev --audit-level=high` all exit 0.
+
+Full verifier output:
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK dist-guard: PASS
+scope: 107 files, 2127285 bytes
+CHECK secret-scan: PASS
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK reconciliation: PASS
+CHECK runtime-config: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+GATE_C: NOT ELIGIBLE (dirty working tree; 8 scope items unimplemented)
+ok=True commit=6cbfded72d2b027b8e17845ca92b4af72d629c47 dirty=True
+```
+
+One intermediate full-verifier run exited 1 on a single E2E case,
+`e2e/reconciliation.spec.ts:284 a stale target rejects confirmation and writes no observation`,
+because the `Exact outgoing packet (not sent yet)` heading never appeared. The same suite passed
+21/21 in the preceding verifier run and 21/21 immediately after (`npm run test:e2e`, exit 0); no
+Rules assertion or B1 case was involved. It is recorded as a transient UI wait, not a regression,
+and the final verifier run above is all-pass.
+
+`tree_stable` was true for this run; the tree remains dirty by design (no commit or stage). No
+Rules, cap, ownership, auth or version behavior was relaxed.
+
+## 14. Phase 8 — reviewed-candidate build and Hosting preparation (November 17, 2026)
+
+Local preparation only: no `firebase deploy`, no commit, no push and no cloud call. Two artifacts
+were added and one configuration change was made.
+
+### 14.1 Hosting block
+
+`firebase.json` now declares `hosting.public: "dist"`, one SPA rewrite to `/index.html`, and four
+response headers: a `Content-Security-Policy` limited to `'self'`, the documented reCAPTCHA
+Enterprise hosts (`script-src https://www.google.com/recaptcha/`,
+`https://www.gstatic.com/recaptcha/`; `frame-src https://www.google.com/recaptcha/`,
+`https://recaptcha.google.com/recaptcha/`; `connect-src` also `https://*.googleapis.com`), plus
+`object-src`/`base-uri`/`frame-ancestors 'none'`; `X-Content-Type-Options: nosniff`;
+`Referrer-Policy: strict-origin-when-cross-origin`; `X-Robots-Tag: noindex, nofollow`. No
+`unsafe-eval` and no `unsafe-inline`. No `.firebaserc` was added, so `--project` is mandatory on
+every command. The CSP frame/connect hosts follow the official reCAPTCHA CSP guidance and the SDK's
+own `https://www.google.com/recaptcha/enterprise.js` endpoint read from the installed package; it
+has **not** been exercised on a hosted origin.
+
+### 14.2 Release helper (red → green)
+
+Red, before `scripts/release_prep.py` existed:
+
+```text
+ModuleNotFoundError: No module named 'release_prep'
+Ran 1 test ... FAILED (errors=1)
+```
+
+Green, same command:
+
+```powershell
+py -3 -m unittest tests.test_release_prep -v
+```
+
+```text
+Ran 17 tests in 17.794s
+OK
+```
+
+The suite proves: the public site key is read from a commented private block and validated by shape;
+a missing or wrong-shaped key is refused without echoing any value; the build child environment is
+the Windows/runtime allowlist plus `VITE_FIREBASE_APPCHECK_SITE_KEY` only (no API key, debug token,
+QA password or `VITE_FIREBASE_LIVE_LOCAL`); no value reaches argv; a failed build stops before the
+artifact checks; the checks run in the fixed order dist-guard → scanner → production audit and fail
+fast; the keyed artifact's single public-site-key finding is classified, and a different rule, a
+second finding, a location outside `dist/`, an unreadable line or a line without the public value is
+refused; the sealed stage copies exactly `dist/**`, `firestore.rules`, `firestore.indexes.json`,
+`firebase.json`; a dirty tree, evidence for another commit/`ok`/tree, missing evidence, an unknown
+project and a stage inside the repository are all refused; and the npm/verifier wiring exists.
+
+Tool suite: `npm run test:tools` → `Ran 74 tests ... OK` (57 before, 17 new).
+
+### 14.3 Real keyed build and the classified finding
+
+```powershell
+npm run build:qa
+```
+
+```text
+release prep: hosted build with the public reCAPTCHA Enterprise site key (value not printed; no API key, debug token or QA password in the build)
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+release prep: dist-guard PASS
+release prep: secret-scan PASS - 1 classified finding: the public reCAPTCHA Enterprise site key at dist/assets/App-CzJwBaA2.js:42 (public by design, not a credential; scanner unchanged, no allowlist)
+release prep: dependency-audit PASS
+```
+
+The first run of the same command failed honestly, and that failure is the reason the
+classification exists:
+
+```text
+result: 1 findings (values redacted by the scanner)
+  generic-api-key C:/.../dist/assets/App-CzJwBaA2.js:42
+release prep: FAIL - secret-scan (exit 1)
+```
+
+Diagnosis: the Vite replacement inlines the public site key next to the environment property name
+`VITE_FIREBASE_APPCHECK_SITE_KEY`, which Gitleaks' `generic-api-key` rule matches on shape and
+entropy. The value is a public reCAPTCHA **site** key (Google documents site keys as public; the
+key is restricted to the two Hosting domains and never to `localhost`), not a credential. The
+resolution keeps the pinned scanner untouched: the keyless `npm run build` artifact that the
+verifier scans is clean, and for the keyed artifact the helper re-runs the same scanner and accepts
+the finding only when it is exactly one `generic-api-key` inside `dist/` whose reported line
+contains the public value the build was given. No `.gitleaks.toml`, no `.gitleaksignore`, no
+redaction change, no value obfuscation and no scan exclusion was added; any other finding fails the
+build. The classification is printed by name and location, never the value.
+
+### 14.4 Sealed stage refusal
+
+The stage command was run against the current, intentionally dirty tree:
+
+```text
+refused: the working tree is not clean; commit the reviewed changes first
+exit 2
+```
+
+It also refuses unknown projects, evidence that is not `ok=true`/`dirty=false`/`tree_stable` for
+HEAD, a different `cwd`, missing `dist`/Rules/indexes/config, and a stage directory inside the
+repository (17 tested cases above). Nothing was copied to a stage and no deploy command was run.
+
+### 14.5 Full verifier on this cut
+
+```text
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK dist-guard: PASS
+scope: 115 files, 2269361 bytes (untracked and gitignored files included; only .git and node_modules excluded)
+CHECK secret-scan: PASS
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK reconciliation: PASS
+CHECK runtime-config: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+Q5 credential scan: PASS (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (dirty working tree; 8 scope items unimplemented)
+ok=True commit=6cbfded72d2b027b8e17845ca92b4af72d629c47 dirty=True
+```
+
+Measured: 120 unit tests in 7 files (17 ai-output, 20 reconciliation, 23 runtime-config), 37 Rules
+tests, 21 E2E tests, 74 tool tests, 2 diagrams, 0 production dependency vulnerabilities, and the
+pinned scanner over 115 files / 2,269,361 bytes with no findings (the verifier rebuilds keyless
+before scanning). All 16 checks exited 0; `ok=True`, `tree_stable=True`. `GATE_C` stays NOT ELIGIBLE
+because the cut makes no commit (dirty tree) and the 8 scope items remain explicitly unimplemented.
+
+### 14.6 Limits of this evidence
+
+- Nothing was deployed. The CSP, the SPA rewrite, the reserved `/__/firebase/init.json` response and
+  a hosted reCAPTCHA-attested request remain unexercised; they are the post-deploy checklist in
+  `docs/PUBLISH.md` §5, and a 404/non-JSON config response is a recorded release blocker, not a
+  reason to weaken the resolver.
+- The CI workflow was not changed here and still has never run; it remains keyless and cannot
+  execute `build:qa` (the private file does not exist in CI).
+- The keyed artifact exists locally under the gitignored `dist/` only after `build:qa`. A manual
+  `npm run scan:secrets` on that tree reports the one classified public-identifier finding and
+  exits 1 by design; the verifier rebuilds keyless first. This is an operational rule, not a
+  scanner exception.
+- No secret value was printed, written to evidence, or placed on argv; the private file was read
+  only for the one public name.

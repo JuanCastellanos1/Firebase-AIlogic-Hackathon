@@ -111,6 +111,13 @@ service cloud.firestore {
       return taskId + '__v' + string(version);
     }
 
+    // Activity IDs are derived from a 1-64 character task ID and its safe-integer version,
+    // so they are exempt from the free-form identifier cap and bounded at 83 characters.
+    // Exact equality is the whole check: a forged suffix, task or version cannot match.
+    function isDerivedActivityId(value, taskId, version) {
+      return value is string && value == activityId(taskId, version);
+    }
+
     // ---------- record validators ----------
 
     function keysAre(data, keys) {
@@ -168,8 +175,7 @@ service cloud.firestore {
 
     // The action scopes which fields may be populated; other actions must leave them null.
     function actionShapeIsConsistent(activity) {
-      return activity.id == activityId(activity.taskId, activity.toVersion)
-        && (activity.action == 'create'
+      return (activity.action == 'create'
           ? activity.fromState == null
             && activity.fromVersion == null
             && activity.toState == 'open'
@@ -209,8 +215,8 @@ service cloud.firestore {
 
     function validActivity(activity) {
       return keysAre(activity, ['id', 'taskId', 'venueId', 'actorId', 'at', 'action', 'fromState', 'toState', 'fromVersion', 'toVersion', 'resolution', 'reason', 'observation'])
-        && isId(activity.id)
         && isId(activity.taskId)
+        && isDerivedActivityId(activity.id, activity.taskId, activity.toVersion)
         && isId(activity.venueId)
         && isId(activity.actorId)
         && isServerTime(activity.at)
@@ -283,8 +289,10 @@ service cloud.firestore {
 
     // ---------- transition coupling ----------
 
+    // The target is read in the post-state: a batch that also resolves or accepts it must not
+    // authorize an observation of its pre-batch version.
     function observationTargetMatches(venueId, task, observation) {
-      let target = get(taskPath(venueId, observation.targetTaskId));
+      let target = getAfter(taskPath(venueId, observation.targetTaskId));
       return observation.targetTaskId != task.id
         && target.data.id == observation.targetTaskId
         && target.data.venueId == venueId

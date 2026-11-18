@@ -187,4 +187,125 @@ describe("stale observation targets", () => {
     expect((await readData(outgoing, paths.task(VENUE, OPEN_TASK.id)))?.version).toBe(1);
     expect((await readData(incoming, paths.task(VENUE, ACCEPTED_TASK.id)))?.version).toBe(1);
   });
+
+  it("denies an observation whose target is resolved in the same atomic batch", async () => {
+    const source = await readData(incoming, paths.task(VENUE, OPEN_TASK.id));
+    const target = await readData(incoming, paths.task(VENUE, ACCEPTED_TASK.id));
+    expect(target).toMatchObject({ state: "accepted", version: 1, ownerId: INCOMING });
+
+    // The owner resolves the target and observes it in one batch. The observation names the
+    // pre-batch target version, so after the commit it is stale even though every write agrees.
+    await assertFails(
+      writeDocs(incoming, [
+        {
+          path: paths.task(VENUE, ACCEPTED_TASK.id),
+          data: {
+            ...target,
+            state: "resolved",
+            version: 2,
+            resolution: "Replaced before lock-up.",
+            updatedAt: serverTimestamp(),
+          },
+        },
+        {
+          path: paths.activity(VENUE, activityIdFor(ACCEPTED_TASK.id, 2)),
+          data: activityOf(
+            ACCEPTED_TASK.id,
+            "resolve",
+            { state: "accepted", version: 1 },
+            { state: "resolved", version: 2 },
+            { actorId: INCOMING, resolution: "Replaced before lock-up." },
+          ),
+        },
+        {
+          path: paths.task(VENUE, OPEN_TASK.id),
+          data: { ...source, version: 2, updatedAt: serverTimestamp() },
+        },
+        {
+          path: paths.activity(VENUE, activityIdFor(OPEN_TASK.id, 2)),
+          data: activityOf(OPEN_TASK.id, "observe", { state: "open", version: 1 }, { state: "open", version: 2 }, {
+            actorId: INCOMING,
+            observation: {
+              kind: "duplicate",
+              targetTaskId: ACCEPTED_TASK.id,
+              targetVersion: 1,
+              rationale: "Same cable kit.",
+            },
+          }),
+        },
+      ]),
+    );
+
+    // Denied as a whole: neither the target nor the source moved.
+    expect(await readData(incoming, paths.task(VENUE, ACCEPTED_TASK.id))).toMatchObject({
+      state: "accepted",
+      version: 1,
+    });
+    expect((await readData(incoming, paths.task(VENUE, OPEN_TASK.id)))?.version).toBe(1);
+  });
+
+  it("still records an observation whose target is unchanged", async () => {
+    const result = await runTaskTransition(incoming, VENUE, OPEN_TASK.id, {
+      action: "observe",
+      actorId: INCOMING,
+      actorRole: "incoming",
+      expectedVersion: 1,
+      kind: "contradiction",
+      targetTaskId: ACCEPTED_TASK.id,
+      targetVersion: 1,
+      rationale: "The cupboard detail disagrees.",
+    });
+
+    expect(result.task).toMatchObject({ state: "open", ownerId: null, version: 2 });
+    expect((await readData(incoming, paths.task(VENUE, ACCEPTED_TASK.id)))?.version).toBe(1);
+  });
+
+  it("accepts an observation against the target version committed in the same batch", async () => {
+    const source = await readData(incoming, paths.task(VENUE, OPEN_TASK_TWO.id));
+    const target = await readData(incoming, paths.task(VENUE, OPEN_TASK.id));
+
+    // Post-state validation, not a batch ban: the target is accepted at v2 in this batch and the
+    // observation names that committed open/accepted version.
+    await writeDocs(incoming, [
+      {
+        path: paths.task(VENUE, OPEN_TASK.id),
+        data: { ...target, state: "accepted", ownerId: INCOMING, version: 2, updatedAt: serverTimestamp() },
+      },
+      {
+        path: paths.activity(VENUE, activityIdFor(OPEN_TASK.id, 2)),
+        data: activityOf(OPEN_TASK.id, "accept", { state: "open", version: 1 }, { state: "accepted", version: 2 }, {
+          actorId: INCOMING,
+        }),
+      },
+      {
+        path: paths.task(VENUE, OPEN_TASK_TWO.id),
+        data: { ...source, version: 2, updatedAt: serverTimestamp() },
+      },
+      {
+        path: paths.activity(VENUE, activityIdFor(OPEN_TASK_TWO.id, 2)),
+        data: activityOf(
+          OPEN_TASK_TWO.id,
+          "observe",
+          { state: "open", version: 1 },
+          { state: "open", version: 2 },
+          {
+            actorId: INCOMING,
+            observation: {
+              kind: "contradiction",
+              targetTaskId: OPEN_TASK.id,
+              targetVersion: 2,
+              rationale: "The accepted owner disagrees about the bulbs.",
+            },
+          },
+        ),
+      },
+    ]);
+
+    expect(await readData(incoming, paths.task(VENUE, OPEN_TASK.id))).toMatchObject({
+      state: "accepted",
+      version: 2,
+      ownerId: INCOMING,
+    });
+    expect((await readData(incoming, paths.task(VENUE, OPEN_TASK_TWO.id)))?.version).toBe(2);
+  });
 });

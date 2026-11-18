@@ -20,6 +20,7 @@
   },
   "idPattern": "^[A-Za-z0-9_-]{1,64}$",
   "activityIdTemplate": "{taskId}__v{toVersion}",
+  "activityIdMaxLength": 83,
   "adapter": {
     "publication": "transaction-with-stable-id-readback",
     "publicationStatus": ["created", "existing"],
@@ -178,6 +179,47 @@
       "unknown_task_id",
       "duplicate_task_id",
       "task_state_not_reconcilable"
+    ]
+  },
+  "runtime": {
+    "status": "frozen",
+    "frozenAt": "2026-11-17",
+    "authority": "docs/INTERFACES.md §11",
+    "modes": ["emulator", "live-local", "hostedQA"],
+    "defaultMode": "emulator",
+    "demoProjectId": "demo-shiftrelay",
+    "liveProjectId": "shiftrelay-hybridai-2026",
+    "liveAppId": "1:1013230596333:web:a0b89365ee59732eb85ce4",
+    "localHosts": ["127.0.0.1", "localhost"],
+    "hostedQaHosts": [
+      "shiftrelay-hybridai-2026.web.app",
+      "shiftrelay-hybridai-2026.firebaseapp.com"
+    ],
+    "hostedInitPath": "/__/firebase/init.json",
+    "liveFlag": "VITE_FIREBASE_LIVE_LOCAL",
+    "liveEnvNames": [
+      "VITE_FIREBASE_API_KEY",
+      "VITE_FIREBASE_AUTH_DOMAIN",
+      "VITE_FIREBASE_PROJECT_ID",
+      "VITE_FIREBASE_MESSAGING_SENDER_ID",
+      "VITE_FIREBASE_APP_ID",
+      "VITE_FIREBASE_APPCHECK_SITE_KEY",
+      "VITE_FIREBASE_APPCHECK_DEBUG_TOKEN"
+    ],
+    "appCheck": {
+      "emulator": "none",
+      "live-local": "debug-token",
+      "hostedQA": "recaptcha-enterprise"
+    },
+    "errors": [
+      "unknown_origin",
+      "non_local_emulator",
+      "wrong_project",
+      "wrong_app",
+      "live_local_incomplete",
+      "site_key_missing",
+      "hosted_config_unavailable",
+      "hosted_config_invalid"
     ]
   },
   "rulesBudget": {

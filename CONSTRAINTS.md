@@ -2,7 +2,7 @@
 
 Proposed November 16, 2026. Owner: master; enforcement: implementer + independent reviewer. Skill applied: constraint-driven-development (noninteractive defaults; no user interview or tooling installation). Read with `docs/spec.md` and `docs/PLAN.md` before code.
 
-**Status: written targets only. No baseline measured, application/tooling installed, or check passed.** Commands below are implementer-owned future npm/checker contracts, not runnable today. Authorization is required before creating them or installing their tools. Missing checks are pending blockers, never implicit passes.
+**Status: targets unchanged; partial implemented-code evidence exists, final delivery validation remains open.** Commands now exist in package.json and scripts/verificar.py. The measured-results section separates automated/emulator evidence from live-device and delivery requirements. Missing checks remain pending blockers, never implicit passes.
 
 ## Six blocking thresholds
 
@@ -23,4 +23,15 @@ Rules, runtime boundary validation, error handling that prevents data loss, and 
 
 ## Measured results
 
-None. No coverage, latency, user timing, accessibility, build, privacy, dependency, device, Rules or cloud result exists. Do not copy these targets into a results column as measurements. Scripts and evidence aggregation belong to later authorized implementer work; master must verify real output before closing gates. Gate A remains pending diagram/checker evidence, not satisfied by this quality contract alone.
+Gate A passed with real rendered diagrams. At committed checkpoint6cbfded72d2b027b8e17845ca92b4af72d629c47 master regenerated evidence after commit:ok=true,dirty=false,SHA matches,14 implemented checks pass. Automated totals:91unit tests (including17AI-output and20reconciliation tests),31Rules emulator tests,20E2E tests,37tool tests; targetedAI/reconciliation commands rerun subsets, not additional unique tests. Typecheck/lint/build,realGitleaks source+dist scan,production dependency audit and2diagrams passed. No threshold above was lowered or waived.
+
+| Contract | Current evidence and remaining limit |
+|---|---|
+| Q1 | Emulator E2E sentinel/consent/late-result checks pass. Real local-only inference was exercised in isolatedChrome; final live/hosted request-body/privacy repeat still required. |
+| Q2 |31Rules cases and real emulator races/idempotence checks pass. Production Rules access-budget caching and live denied-access checks remain unverified. |
+| Q3 | Implemented-code automated checks pass at named checkpoint; full AC01–AC14 delivery evidence is incomplete. No product-completion claim. |
+| Q4 | Automated axe serious/critical,keyboard and320px layout checks pass. Manual screen-reader,200%zoom and physicalAndroid touch evidence remain open. |
+| Q5 | Verified pinnedGitleaks8.30.1 reports no source/build leaks and npm productionaudit reports0vulnerabilities after scopedgRPC fix. Finalpublicartifact review and independentreview closure remain open. Private devconfiguration is stored outside repository, never excluded through a scan allowlist. |
+| Q6 | One genuine FirebaseAI Logic ONLY_ON_DEVICE localhost generation reported with sourceon_device. No genuine cloud or intended-hosted-origin completion yet; downloaded component namednano_v3_gpu_component, so exactNano4 compatibility remains unproven. |
+
+Current source may be ahead of that checkpoint during live integration; re-run and inspect evidence before any new gate claim. Product usefulness/user timing and final accessibility/model claims require actual external evidence, not mocks or permission alone.

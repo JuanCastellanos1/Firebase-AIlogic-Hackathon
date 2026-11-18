@@ -7,6 +7,7 @@ import {
   OBSERVATION_KINDS,
   ROLES,
   TASK_STATES,
+  activityIdFor,
 } from "../src/domain";
 import {
   CONTRACT_ERROR_CODES,
@@ -31,6 +32,15 @@ describe("frozen contract fixture", () => {
     expect([...ACTIVITY_ACTIONS]).toEqual(contrato.enums.activityAction);
     expect([...OBSERVATION_KINDS]).toEqual(contrato.enums.observationKind);
     expect(ID_PATTERN.source).toBe(contrato.idPattern);
+  });
+
+  it("mirrors the derived activity ID contract", () => {
+    const taskId = "a".repeat(64);
+    expect(contrato.activityIdTemplate).toBe("{taskId}__v{toVersion}");
+    expect(activityIdFor(taskId, 1)).toBe(`${taskId}__v1`);
+    expect(activityIdFor(taskId, Number.MAX_SAFE_INTEGER)).toHaveLength(
+      contrato.activityIdMaxLength,
+    );
   });
 
   it("mirrors the code limits", () => {

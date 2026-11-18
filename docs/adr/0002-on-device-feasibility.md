@@ -175,3 +175,106 @@ Draft for the user to send (not sent or posted by an agent):
 > For the Web/Chrome category, does Firebase AI Logic using ONLY_ON_DEVICE with Chrome's current browser-managed Prompt API model satisfy the rules' Gemini Nano4 requirement? On Chrome157 the API reports English text as downloadable, but the documented response exposes inference source rather than exact local model identity. Which official version mapping or model-verification evidence should teams include?
 
 Local implementation may proceed as an explicitly unverified generic on-device path; claiming exact-model eligibility may not. No external message was sent and no rules requirement was weakened.
+
+## November 17, 2026 — Official FAQ mapping and isolated Gemma 4 enablement
+
+This dated follow-up supersedes the earlier **need to ask the organizer for the enablement mapping**, not the missing runtime evidence. Earlier November 16 observations remain historical evidence, not Nano 4 tests. Master separately reported a previous local-generation run exposing `nano_v3_gpu_component` version `2025.8.8.1141`; this investigator did not rerun that generation and does **not** relabel it Nano 4.
+
+### Authoritative mapping now available
+
+Independently fetched https://firebasehybridaihackathon.devpost.com/details/faqs (HTTP 200), Tools & Technology:
+
+> How do I enable Gemini Nano 4 in Chrome?
+>
+> It's available through the Chrome Prompt API. In chrome://flags, search for "Gemma 4 for Built-in AI" and enable it. On-device inference on web only runs in Chrome versions and devices that support Nano.
+
+The sponsor FAQ explicitly maps the required Nano 4 enablement path to the **Gemma 4 for Built-in AI** flag. No further organizer contact is a prerequisite for following that path. It does not mean every unflagged Prompt API invocation, or a v3 component, qualifies.
+
+Current Chrome documentation was queried through Context7 after resolving Chrome for Developers to `/websites/developer_chrome`. Sources returned: https://developer.chrome.com/docs/ai/prompt-api , https://developer.chrome.com/docs/ai/get-started , and https://developer.chrome.com/docs/ai/inform-users-of-model-download . They distinguish `downloadable`, `downloading`, and `available`, require matching language/modality options, and describe user activation before `LanguageModel.create()`. No direct `create()` or prompt was called in this follow-up. Documentation examples are not runtime evidence.
+
+### Isolated environment and actual flag UI
+
+Reloaded the agent-browser core guide before commands. New task session: **`nano4-faq-20261117-06cd8c6456c2`**, obtained with `agent-browser session id --scope worktree --prefix nano4-faq-20261117`. New profile: **`%LOCALAPPDATA%\Temp\opencode\nano4-faq-20261117-independent`**. Confirmed the directory did not already exist and dedicated CDP port **9438** was not listening before launch. No earlier Slice 2/other-agent profile reused; no source-owned or emulator ports used.
+
+Launched system Chrome with the same minimal pattern as the earlier successful probe:
+
+```powershell
+$profile = "$env:LOCALAPPDATA\Temp\opencode\nano4-faq-20261117-independent"
+Start-Process 'C:\Program Files\Google\Chrome\Application\chrome.exe' -ArgumentList @(
+  '--remote-debugging-port=9438', ('--user-data-dir="'+$profile+'"'),
+  '--no-first-run', '--no-default-browser-check', 'chrome://flags')
+agent-browser --session nano4-faq-20261117-06cd8c6456c2 --cdp 9438 open chrome://flags
+```
+
+**Actual system browser is now 157.0.8103.79**, official 64-bit build, cohort Stable, confirmed by both flags UI and `chrome://version`; it is not the earlier .78 build. No update/install operation was initiated by this investigation. The CLI diagnostic still identifies its separate cached .78 browser; that cached browser was not used.
+
+Searched the actual flags UI for `Gemma`. Observed:
+
+- **Name:** `Gemma 4 for Built-in AI`.
+- **Exact UI anchor:** `chrome://flags/#gemma4-for-built-in-ai`.
+- **Description:** `Enables all built-in AI APIs (Prompt, Summarizer, Writer, etc.) to use the Gemma 4 model. – Mac, Windows, Linux, ChromeOS`.
+- Options were `Default` and `Enabled`; initially `Default`.
+- Selected **Enabled** for this entry only. `Decisions API` and `Speculative Decoding for Built-in AI`, also returned by the search, remained **Default**. No hardware bypass or other AI feature enabled.
+
+The initial unquoted PowerShell `@e1650` argument was treated as splatting and failed without changing the selection. Quoting the observed ref (`select '@e1650' Enabled`) succeeded. Read only `browser.enabled_labs_experiments` from the new profile's `Local State`: **`gemma4-for-built-in-ai@1`**, the sole persisted experiment. No other Local State content was copied.
+
+Closed the named session and restarted **only this owned profile**, retaining its Local State. The post-restart UI showed **Enabled**, with the relaunch button disabled. `chrome://version` confirmed the minimal command line plus the following browser-generated switches:
+
+```text
+--flag-switches-begin
+--enable-features=AIApiFoundationalModel:model_version/v4,OptimizationGuideManifestBroker
+--flag-switches-end
+```
+
+These exact feature names were **observed after the UI selection**, not guessed or manually injected. The enablement is an **experimental isolated-profile configuration**, not stock/default end-user support. The flag's version parameter is configuration evidence, not proof of a generated response.
+
+### Actual availability, broker metadata and UI-only download attempt
+
+On `https://developer.chrome.com/docs/ai/prompt-api` (redirected to `?hl=es-419`), the secure-context English text availability check initially returned **`downloadable`**, with `typeof LanguageModel === 'function'`. Used the same explicit `expectedInputs` and `expectedOutputs` text/English options documented earlier; bounded the check to 10 seconds. No localhost app or probe app was launched.
+
+To inspect the legitimate browser setup UI, visited `chrome://chrome-urls` and clicked **Enable internal debugging pages**, only within the new isolated browser. This enables diagnostic pages, not another AI experiment; the sole persisted labs entry remained `gemma4-for-built-in-ai@1`. Then opened `chrome://on-device-internals` → **Broker State**. No `Tools` → `Execute`, model prompt, or direct inference used.
+
+| Broker observation | Actual value |
+|---|---|
+| Broker type / manifest | `ManifestBrokerState`; manifest loaded `true`, version-directory `1.20261018.2` |
+| Performance class | `Medium` |
+| Device capable | `true` |
+| VRAM criterion | `true (3935 MiB actual, 3000 MiB required)` |
+| Install disk criterion | `true (76321 MiB available, 20480 MiB required)` |
+| Retain disk criterion | `true (76321 MiB available, 5120 MiB required)` |
+| Requested target asset | **`gemma4_component`, target version `2026.8.7.929`** |
+| Target model entry | **`gemma4_gpu_low_tier_model`**, backend label `GPU (fastest inference)` |
+| Legacy asset | `nano_v3_gpu_component`, `2025.8.8.1141`, **Not Installed** in this new profile |
+
+The observed broker's current GPU/disk eligibility thresholds differ from the general Chrome documentation cited earlier (strictly >4 GB VRAM, 22 GB free). Record both; do not silently rewrite the official requirements or infer that the CPU route was selected. This manifest **selects a low-tier GPU model entry** and reports the device capable. It still does not prove successful model load/inference on that backend.
+
+The broker UI offered a **Requested** checkbox for **`prompt_api_gemma4`**. Checked only that observed use case. State immediately changed from `Pending Usage` to **`Pending Assets`**, and `gemma4_component` changed from `Not Installed` to **`Foreground Installing`**. Thus a UI-only setup/download request was possible; no application user-click or probe application was needed to start this download.
+
+The component initially remained at 0%. In `chrome://components`, its actual row was **Optimization Guide Manifest Component: gemma4_component**, installed version **`0.0.0.0`**, status `Nueva colección` (new component). Clicked **Check for update** for that row only, identified from its observed DOM/button association; status changed through checking to **`Descargando…` (Downloading)**. No general Chrome update or unrelated component update requested.
+
+Bounded UI waits of 180/300 seconds did not establish installation. Broker progress was subsequently observed as **`2.0 GB / 2.0 GB`**, then **`342.0 MB / 2.3 GB`**, then **`2.3 GB / 2.3 GB`**, then **`25.2 MB / 2.3 GB`**. These are the UI's displayed transfer counters, **not exact byte counts or a sum of unique downloaded bytes**. The counter changes alone do not establish whether there were multiple artifacts, retries, or verification failures; no cause is asserted. The broker error column stayed **`None`**.
+
+**Final observations before cleanup:**
+
+- English text `LanguageModel.availability(...)` returned **`downloading`**, not `available`.
+- `gemma4_component`: target **2026.8.7.929**, **Foreground Installing**, **346.2 MB / 2.3 GB**, error **None**.
+- `prompt_api_gemma4`: **Pending Assets**; legacy `prompt_api`: Pending Usage.
+- `gemma4_gpu_low_tier_model`: folder size **0 MiB** (rounded UI value), no weights path. **Exact installed-weight byte count unavailable.**
+- `chrome://components` still reported installed version **0.0.0.0**, Downloading. The nonzero target manifest version is not an installed-component success claim.
+
+The setup attempt demonstrated a real download in progress, **not completed installation/readiness**. It was stopped with the owned browser at the investigation boundary. The new profile and partial state were retained privately, not deleted or handed over as a ready model.
+
+### Updated go/no-go and minimal implementation prerequisites
+
+**Go:** use the sponsor-documented Gemma 4 flag path for an authorized real Firebase AI Logic validation. The previous organizer-mapping question is closed by the official FAQ. This machine's actual broker recognizes the v4 target and marks it device-capable.
+
+**No-go:** claim a ready Nano 4 model, successful Nano 4 generation, hosted-origin compatibility, or AC13 completion. Download completion is still unproven; the prior successful v3 generation remains v3 evidence only. No inference was executed in this follow-up.
+
+Minimal remaining work for the independent implementer/master:
+
+1. In a separately owned profile, follow the exact observed UI flag and restart procedure, or explicitly coordinate ownership before reusing this stopped private profile. Keep the experimental enablement recorded. Do not commandeer another active profile.
+2. Complete the Gemma 4 download and verify target asset **2026.8.7.929** (or a newly observed official replacement), installed/ready state, weights metadata and English text **`available`**. Investigate repeated progress-counter resets if they persist; this report contains no established failure cause. No additional flags/hardware bypass are justified by this evidence.
+3. Use the existing application user interaction and **Firebase AI Logic `ONLY_ON_DEVICE`**, awaiting `initializeDeviceModel()` before generation. If the UI-only install remains incomplete, this existing user-click path can initialize/monitor the model through the SDK; no separate direct-Prompt-API inference app is needed. Record a genuine response's `inferenceSource === 'ON_DEVICE'` alongside the official FAQ mapping, persisted v4 flag, and current broker/component metadata. Never label a v3 response Nano 4.
+4. Repeat on the intended hosted HTTPS app, with enforced App Check and the AC13 privacy sentinel; separately run only explicitly consented cloud inference with its allowlisted payload and real source/model evidence. Existing manual fallback must remain usable. No source/specification/plan changes made here.
+
+Cleanup: closed session **`nano4-faq-20261117-06cd8c6456c2`** and targeted any remaining Chrome main process only when its command line matched **`nano4-faq-20261117-independent`**. Subsequent CIM check: **0 matching owned main processes**. Confirmed Local State still contained only `gemma4-for-built-in-ai@1`. No ordinary browser profile/process, global registry/policy, application/package/test/PLAN/verification/code file, cloud resource, billing setting, commit, push, build, npm task or emulator was touched. Only this ADR was edited in the repository.

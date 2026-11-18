@@ -9,8 +9,9 @@ Usage:
 
 Adapted from the global workflow template. The check list is explicit and limited to what
 this repository actually implements: typecheck, unit tests, Firestore Rules suites, tooling
-tests, diagram checks, contract fixture, lint, production build, the emulator-backed Playwright
-suite, the pinned Gitleaks credential scan and the production dependency audit.
+tests, diagram checks, contract fixture, lint, production build, the build-output guard, the
+emulator-backed Playwright suite, the pinned Gitleaks credential scan and the production
+dependency audit.
 
 `ok` means: no prerequisite blocker and every check exited 0. It is not a product,
 accessibility, privacy or delivery claim; the unimplemented list names the remaining gaps.
@@ -69,6 +70,7 @@ REQUIRED_FILES = [
     "src/aiValidation.ts",
     "src/reconciliation.ts",
     "src/cloudReconcile.ts",
+    "src/runtimeConfig.ts",
     "src/CloudReconciliation.tsx",
     "src/styles.css",
     "tests/fixtures/handover.ts",
@@ -77,6 +79,8 @@ REQUIRED_FILES = [
     "tests/transitions.test.ts",
     "tests/ai-output.test.ts",
     "tests/reconciliation.test.ts",
+    "tests/runtime-config.test.ts",
+    "tests/build-env.test.ts",
     "tests/rules/support.ts",
     "tests/rules/permissions.test.ts",
     "tests/rules/concurrency.test.ts",
@@ -90,11 +94,18 @@ REQUIRED_FILES = [
     "e2e/privacy.spec.ts",
     "e2e/local-draft.spec.ts",
     "e2e/reconciliation.spec.ts",
+    "e2e/runtime-modes.spec.ts",
     "tests/test_check_diagrams.py",
     "tests/test_verificar.py",
     "tests/test_scan_secrets.py",
     "tests/test_firebase_safe.py",
+    "tests/test_dev_live_local.py",
+    "tests/test_dist_guard.py",
+    "tests/test_release_prep.py",
     "scripts/check_diagrams.py",
+    "scripts/check_dist.py",
+    "scripts/dev_live_local.py",
+    "scripts/release_prep.py",
     "scripts/scan_secrets.py",
     "scripts/firebase_safe.py",
     "scripts/seed-emulator.mjs",
@@ -111,15 +122,17 @@ REQUIRED_FILES = [
 FIXTURE_CHECK = (
     "import json,pathlib,sys;"
     "d=json.loads(pathlib.Path('tests/fixtures/contrato.json').read_text(encoding='utf-8'));"
-    "keys=('schema','enums','limits','errors','transitions','idPattern','collections','localDraft','reconciliation');"
+    "keys=('schema','enums','limits','errors','transitions','idPattern','collections','localDraft','reconciliation','runtime');"
     "missing=[k for k in keys if k not in d];"
-    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] and d['localDraft']['errors'] and d['reconciliation']['errors'] else 3))"
+    "sys.exit(('missing: '+','.join(missing)) if missing else (0 if d['errors'] and d['transitions'] and d['localDraft']['errors'] and d['reconciliation']['errors'] and d['runtime']['errors'] else 3))"
 )
 
 CHECKS = [
     {"name": "typecheck", "command": [*NPM, "run", "typecheck"], "timeout": 300},
     {"name": "lint", "command": [*NPM, "run", "lint"], "timeout": 300},
     {"name": "build", "command": [*NPM, "run", "build"], "timeout": 300},
+    # Refuses live values and test hooks in the build output the `build` check just produced.
+    {"name": "dist-guard", "command": [*PY, "scripts/check_dist.py", "dist"], "timeout": 300},
     # Scans the working tree plus the dist/ output this run just produced.
     {"name": "secret-scan", "command": [*NPM, "run", "scan:secrets"], "timeout": 900},
     {
@@ -138,6 +151,11 @@ CHECKS = [
         "command": [*NPM, "run", "test:unit", "--", "tests/reconciliation.test.ts"],
         "timeout": 300,
     },
+    {
+        "name": "runtime-config",
+        "command": [*NPM, "run", "test:unit", "--", "tests/runtime-config.test.ts"],
+        "timeout": 300,
+    },
     {"name": "rules-tests", "command": [*NPM, "run", "test:rules"], "timeout": 900},
     {"name": "e2e-tests", "command": [*NPM, "run", "test:e2e"], "timeout": 1800},
     {"name": "tools-tests", "command": [*NPM, "run", "test:tools"], "timeout": 600},
@@ -148,22 +166,29 @@ CHECKS = [
 
 SCOPE = {
     "phase": PHASE,
-    "name": "consented-cloud-reconciliation-slice3-emulator-and-tested-mock",
+    "name": "phase5-runtime-modes-and-one-consented-live-cloud-request",
     "included": [check["name"] for check in CHECKS],
     "unimplemented": [
-        "Q5 reviewer closure: the pinned Gitleaks scan (working tree + dist, no project allowlist) "
-        "and the production dependency audit now run locally, but reviewer sign-off on the redacted "
-        "report and on the pre-deploy public artifact set is still open",
-        "genuine local model and hybrid runtime evidence: one localhost Chrome ON_DEVICE request "
-        "now runs, but exact Nano 4 identity/provenance, hosted HTTPS, App Check and a separately "
-        "consented real cloud comparison are still missing (AC13/Q6)",
-        "live cloud reconciliation runtime: the ONLY_IN_CLOUD adapter and the explicit free-tier "
-        "model gemini-3.5-flash-lite are implemented and the demo build reports notconfigured, but no "
-        "live Firebase app/App Check configuration, real cloud request, quota, latency or model "
-        "availability was measured; every cloud result in the suites is a labelled test mock",
+        "Q5 reviewer closure: the pinned Gitleaks scan (working tree + dist, no project allowlist), "
+        "the production dependency audit and the new dist-guard now run locally, but reviewer sign-off "
+        "on the redacted report and on the pre-deploy public artifact set is still open",
+        "hosted delivery checks: the `hostedQA` mode is implemented and unit-tested, but no Hosting "
+        "build was deployed, the reserved /__/firebase/init.json endpoint is unproven for the modular "
+        "SDK and must be checked empirically after the gated deployment, and no hosted "
+        "reCAPTCHA-Enterprise-attested request exists",
+        "App Check enforcement evidence: one live `ONLY_IN_CLOUD` request with the registered debug "
+        "token succeeded, but a second request from an app instance without App Check was also "
+        "accepted, so no rejection was observed and enforcement is not demonstrated",
+        "in-app live cloud reconciliation: the signed-in live app reaches the Auth success path and "
+        "is denied at the membership read by the current closed Rules; the reviewed Ruleset "
+        "deployment (separately approved, not performed here) is required, and the cloud "
+        "reconciliation suggestion/confirm flow has only labelled-mock evidence",
+        "live quota/latency beyond one measured call, and a hosted local model ON_DEVICE request "
+        "(AC13/Q6 remain open); exact Nano 4 identity/provenance is still unverified",
         "manual accessibility: screen-reader announcements, 200% zoom and actual Android Chrome touch "
         "(automated axe serious/critical, keyboard and 320px checks only)",
-        "live Firebase project, Hosting configuration, deployment and cloud provisioning",
+        "live Firebase Hosting deployment, public release and any further cloud provisioning remain "
+        "outside this cut and need their own confirmation",
         "AC15 representative-user product usefulness validation",
     ],
 }
@@ -194,7 +219,7 @@ def run_command(command: list[str], cwd: Path, timeout: int) -> tuple[int, str, 
         return 124, partial + f"\nTIMEOUT after {timeout}s", int((time.monotonic() - started) * 1000)
     except FileNotFoundError as exc:
         return 127, str(exc), int((time.monotonic() - started) * 1000)
-    except Exception as exc:  # noqa: BLE001 - every failure must reach the evidence
+    except Exception as exc:  # every failure must reach the evidence
         return 1, repr(exc), int((time.monotonic() - started) * 1000)
 
 

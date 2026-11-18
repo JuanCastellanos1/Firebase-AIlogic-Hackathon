@@ -142,19 +142,25 @@ export async function probeLocalDraft(): Promise<LocalDraftCapability> {
 /**
  * One ONLY_ON_DEVICE model. The hybrid params require a cloud model name internally, but
  * `ONLY_ON_DEVICE` routing never calls it; there is no fallback path in this module.
+ *
+ * `useLimitedUseAppCheckTokens: true` must match `cloudReconcile.ts`: `getAI()` caches one
+ * instance per app and backend, and rejects a later call that disagrees with the cached value.
  */
 function localModel(signal: AbortSignal | undefined) {
   const createOptions: LanguageModelCreateOptions =
     signal === undefined
       ? { ...LOCAL_MODEL_OPTIONS }
       : { ...LOCAL_MODEL_OPTIONS, signal };
-  return getGenerativeModel(getAI(app, { backend: new GoogleAIBackend() }), {
-    mode: InferenceMode.ONLY_ON_DEVICE,
-    onDeviceParams: {
-      createOptions,
-      promptOptions: { responseConstraint: DRAFT_RESPONSE_SCHEMA },
+  return getGenerativeModel(
+    getAI(app, { backend: new GoogleAIBackend(), useLimitedUseAppCheckTokens: true }),
+    {
+      mode: InferenceMode.ONLY_ON_DEVICE,
+      onDeviceParams: {
+        createOptions,
+        promptOptions: { responseConstraint: DRAFT_RESPONSE_SCHEMA },
+      },
     },
-  });
+  );
 }
 
 /** User-activated download/initialization. Call only from a click or key press. */

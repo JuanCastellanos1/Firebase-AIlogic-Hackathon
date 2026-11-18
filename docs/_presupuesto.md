@@ -6,9 +6,9 @@ Baseline: user allows 15 days; official submission cutoff is November 30, 2026, 
 |---|---|---:|---|---|
 | Setup | 0 | 5% | Rules summary read; tools and MCP checked; empty remote connected; startup artifacts created | Gate 0 environment checks passed; initial history unborn |
 | Framing | 1–3 | 20% | Stack ADR, 15 criteria, three-slice plan, six thresholds; master reran 4 diagram tests, renderer self-test and 1/1 real render successfully | Gate A approved; live-runtime checkpoints remain owned and unverified |
-| Build | 4–5 | 45% | Slice2committed92379f9; Slice3 master14checks pass91unit20reconciliation17AI-output31Rules20E2E37tools,scans/audit/type/lint/build/2diagrams. ProductionAppCheck/keyrestrictions/2syntheticmembers provisioned,stillSpark | CommitSlice3; liveconfig/AppCheck/realcloudrequest+QAintegration next. ExactNano4/hostedmanualtests not proven |
+| Build | 4–5 | 45% | Slice3committed6cbfded; masterpostcommit14checks pass,dirtyfalse;91unit31Rules20E2E37tools andtargetedAI/reconciliation subsets,scans/audit/type/lint/build/2diagrams. ProductionAppCheck/keyrestrictions/2syntheticmembers provisioned,stillSpark | Active liveconfig/AppCheck/realcloudSDK integration; exactNano4/hostedmanualtests not proven |
 | Quality and fixes | 6–6.5 | 20% | Gitleaks + scopedgRPC fix + minimal emulator child env prevent CLI credential log exposure; post-commit full manual-slice checks pass | Independent finalGateC/reviewer pending later slices and real/manual evidence |
-| Delivery | 8 | 10% | User authorized authenticatedQAdeploy aftercodereview+automatedchecks to permit final livevalidation; finalreviewedrelease/PRmerge gated. VerifiedSlice2feature pushed; mainbaseline bootstrap unresolved | QA+finaldelivery,CI,review,localvideo pending. No billing/terms/YouTube/hackathonsubmission authorized |
+| Delivery | 8 | 10% | User authorized authenticatedQAdeploy aftercodereview+automatedchecks; Slice3featurepushed,mainrequirementsbaselinecreated/defaultmainrestored withoutdirectdefaultpush; visibilityunchangedpublic | CIworkflowpreparation active independently; QA/code-review/finaldelivery/localvideo pending. No billing/terms/YouTube/hackathonsubmission authorized |
 
 ## Scope policy
 

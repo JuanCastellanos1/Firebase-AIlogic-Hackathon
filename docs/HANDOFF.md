@@ -1,68 +1,69 @@
-# Handoff
+# ShiftRelay — closure handoff (November 18, 2026)
 
 ## Stage and gates
 
-Gate A approved. Manual UI/contract/emulator workflow implemented and independently exercised by master. Gates B/C/D not approved: manual device/accessibility checks and later product slices remain. No live hybrid or completed-product claim.
+User confirmed explicit safe closure: stop development, save work in a local WIP commit, write this handoff, and do not push/deploy/merge/delete. The branch and all work are preserved.
+
+- **Gate A:** passed (real Mermaid render evidence).
+- **Gate B:** implemented — three slices built; contracts, fixtures and tests coupled. Full verifier passed 16/16 checks at the last quiet run.
+- **Gate C:** **not approved** — no independent reviewer verdict has been recorded.
+- **Gate D:** **not approved** — no final QA deployment, hosted validation, PR merge or submission.
+
+The product is functionally implemented and heavily tested locally, but it is **not submitted and not release-complete**.
+
+## Git state
+
+- Branch: `feat/hackathon-ideation` (not deleted).
+- Local history (newest first): `2fd7fc5` `chore: wip shiftrelay` (45 files) → `b0910d3` `ci: verify Windows build and security gates` → `6cbfded` `feat: reconcile reviewed tasks with cloud consent` → `92379f9` `feat: add private on-device draft suggestions` → `b41b0a4` `feat: add verified manual handover workflow` → `538ed9f` `docs: establish ShiftRelay requirements` (root).
+- Remote: `feat/hackathon-ideation` = `b0910d3`; `main` = `538ed9f`; `bootstrap/shiftrelay-requirements` = `538ed9f`. Default branch restored to `main`; repository is public. No PR, merge, tag or release was created.
+- **The WIP commit `2fd7fc5` was NOT pushed.** Everything after `b0910d3` is local-only.
+- Real GitHub Actions run `44222898293` for `b0910d3` completed with `conclusion: success` (verified via REST). That run covers only the pre-WIP source plus CI; it does **not** validate the WIP code.
 
 ## Artifacts
 
-- `AGENTS.md`: English-only and spending/permission boundaries.
-- `docs/_project.md`, `docs/_presupuesto.md`: authoritative operational state and latest approvals.
-- `summary.md`, `docs/idea.md`, `docs/adr/0001-shiftrelay-stack.md`: rules, selected concept and stack rationale.
-- `docs/spec.md`, `docs/PLAN.md`, `CONSTRAINTS.md`: acceptance criteria, three slices and quality floor.
-- `docs/ARCHITECTURE.md`, `docs/INTERFACES.md`, `tests/fixtures/contrato.json`: frozen domain/data contract and residual risks.
-- `docs/skills.md`, `docs/verification.md`: installed/loaded Firebase skills and actual implementation/test history.
-- `src/domain.ts`, `src/validation.ts`, `src/tasks.ts`, `firestore.rules`: current tested pure model and shared-data adapter/Rules; more UI files are being added by active agent.
-- `.git/opencode/evidence.json`: scoped evidence, not product/Gate C approval. Verifier deliberately names missing product checks and real credential scanner.
+Product and contract: `src/`, `firestore.rules`, `firebase.json`, `docs/INTERFACES.md`, `docs/ARCHITECTURE.md`, `docs/spec.md`, `docs/PLAN.md`, `tests/`, `e2e/`.
+Evidence: `docs/verification.md`, `.git/opencode/evidence.json`, `.git/opencode/secret-scan.json`, `.git/opencode/diagram-check.json`.
+Decisions: `docs/adr/0001` stack, `0002` on-device feasibility, `0003` cloud setup, `0004` production App Check, `0006` Nano 4 runtime proof, `0007` App Check enforcement, `0008` Android QA.
+Delivery: `docs/PUBLISH.md` (runbook, submission draft, demo shot list), `README.md`, `.github/workflows/verification.yml`, scripts `release_prep.py`, `check_dist.py`, `dev_live_local.py`, `firebase_safe.py`, `scan_secrets.py`, `verificar.py`.
+Operational: `docs/_project.md`, `docs/_presupuesto.md`, `AGENTS.md`, `CONSTRAINTS.md`, `summary.md`.
 
-## Permissions and decisions
+## Decisions
 
-User requests continuous execution to finished product. Approved development/tools/skills, isolated browser/local AI testing, local commits, delegated feature pushes/draft PRs, Apache-2.0, synthetic data and nonproduction Firebase setup. Free-tier-only: no billing/Blaze/paid resources. Responsive Android web, not native. Project shiftrelay-hybridai-2026/default Standard us-east1 exists. User EXPLICITLY APPROVED gated public release at https://shiftrelay-hybridai-2026.web.app, reviewed Firestore Rules/indexes deployment and reviewed PR merge into main ONLY after required gates/verification/CI. No account terms acceptance, public test-mode Rules, hackathon submission, visibility changes or deletion implied. Master never pushes; caveman off before irreversible actions.
+- **Reviewer model: `opencode-go/qwen3.8-flash` (Qwen 3.8 Flash), not Claude Haiku.** Set this model explicitly on every reviewer/re-review delegation. Catalog was checked: no `qwen 3.8 flash` under the current provider; exact active ID is under `opencode-go`.
+- English-only throughout. Free-tier/Spark only; never enable billing or accept new legal terms. Responsive Android web scope, not a native app.
+- Three explicit runtime modes with no fallback: `emulator` (default), `live-local`, `hostedQA`. Real config lives outside the repo; no API key, debug token or QA password in source or `dist`.
+- Security: emulator CLI runs through `scripts/firebase_safe.py` with a minimal child environment (raw Firebase CLI can dump host credentials into debug logs). Pinned Gitleaks scans the whole tree including ignored/untracked files, with no allowlist.
+- App Check is **ENFORCED** for `firebaseml.googleapis.com`: valid token 200, missing/garbage token 401. The exposed localhost debug token was revoked and replaced.
+- Nano 4 is proven locally via the sponsor-documented `Gemma 4 for Built-in AI` flag and genuine Firebase AI Logic `ONLY_ON_DEVICE` generation. Prior v3 evidence is not relabeled.
+- Bugs fixed with regressions: 64→83-character derived activity IDs; observation target validated with `getAfter`; whole-`import.meta.env` bundling leak; shared `getAI()` option conflict; public-site-key classification proven by exact-literal isolation; CI UTF-8 env.
 
-## Agent work — do not duplicate active verification
+## Open questions / residual blockers
 
-1. `ses_e1ca82d8effe4fvhgQBd7tmy2a` completed manual UI. Master reran typecheck/lint/build,54unit31Rules7E2E19tools and2diagrams successfully. Master also exercised actual agent-browser two-role publication→accept→resolve→reopen v1→v4; raw note cleared, owner/history retained, no page errors. Browser/auth-vault test profiles cleaned; owned preview servers stopped. No live frontend/AI/deploy/commit.
-2. `ses_e1ca58388ffeFsRI6wS6wYzf5w` completed: project shiftrelay-hybridai-2026 and default Standard Firestore/us-east1 created. Master independently reran projects:list and firestore:databases:get: ACTIVE, project number1013230596333, freeTier=true, PITR disabled. Agent verified billingEnabled=false via Cloud Billing API (not independently repeated by master). No app registration/key/data/Rules/Hosting deploy. Empty Hosting site auto-created by Firebase. Default closed Rules posture is platform-documented only, not client-tested; do not mistake zero Rules releases for a deployed app Ruleset. Provisioning evidence edit under .git was denied twice; full sanitized report retained in child session, summary in _project. No credentials recorded here.
+1. **Independent review verdict (Gate C)** has not been recorded. Required before any release.
+2. **Hosted QA not executed**: Rules/Hosting not deployed; `/__/firebase/init.json` under the modular SDK is unproven (undeployed origin returned 404); in-browser reCAPTCHA attestation and App Check rejection not observed on the hosted build.
+3. **Accessibility/manual checks**: screen reader, 200% zoom and physical Android touch not done. The isolated Android 17/emulator Chrome 149 AVD is ready (network fixed, first-run completed, signed out, reporting off) but is an x86_64 emulator, not physical hardware.
+4. **AC15 usefulness** with two representative coordinators not validated. No impact claims.
+5. **Demo video / YouTube / hackathon submission** require explicit user action; only a shot list and English submission draft exist. Judge credential delivery channel undecided.
+6. **Production Rules call-budget caching** for five-card publication is emulator-only evidence, not production proof.
 
-3. `ses_e1b0acbe5ffeVKDDpHSW39qnE3` completed scanner: official Gitleaks8.30.1 pinned with verified release/binary hashes,8regressions, whole working tree/build scan. Found genuine gRPC audit failure; its rules/E2E start failures were collision with master's preview ports, not source failures. Master has stopped those preview processes.
-4. `ses_e1addfe3affesmR200a2KxP0FH` debugger applied exact scoped @firebase/firestore/@grpc/grpc-js1.13.6 override; audit went red→green. Full verifier was launched in background inside that child session; final automatic completion is pending. Do not poll, start competing emulator suites, change app/package/tests or commit before it returns. Master independently ran audit(0vulnerabilities),npm ls(patched edge) and scanner(74files clean) after fix.
-5. `ses_e1b09fc31ffen0CJOCOVSacj43` planner completed docs/adr/0002-on-device-feasibility.md: stock Chrome157 reports English text model downloadable on loopback/official-docs HTTPS; CPU route plausible. No model download/request/identity or hosted-app proof. Browser probes cleaned up.
+## Exact next step
 
-6. `ses_e1ab26953ffeW3ZdZv2jZMpS6f` ACTIVE implementer: Slice2 strictly-local drafting, generation validation, user-activated download, memory/privacy/late-result tests and genuine dedicated-Chrome runtime. Owns app/tests/contracts/package/verifier/verification paths. No cloud provisioning/commit/push/deploy.
-7. `ses_e1ab20121ffeP9ZThXo0ZyYgL1` ACTIVE implementer: isolated approved Spark WebApp/AI/Auth/AppCheck setup, ignored.env.local and ADR0003 only; no source/package/test edits or Rules/Hosting deployment. No billing or terms acceptance.
+From `2fd7fc5` on a clean tree: run the full verifier, regenerate evidence **after** the commit, write `.git/opencode/review.sha` and the review patch, then dispatch an independent reviewer **with `model=opencode-go/qwen3.8-flash`**. Fix/re-review all blockers; only then use the already-approved gated QA path (`scripts/release_prep.py build` then `stage`) and deploy reviewed Rules/indexes and Hosting with a minimal child environment. Verify hosted config, App Check and the AI paths empirically, close Gate C/D, then merge and prepare the submission with the user.
 
-Earlier debugger work is complete and verifier passed12/12 post-commit; no old background verifier remains. Root requirements baseline538ed9f9a83b6bda18b8fb6e4bacfb712ded575f; main points there. Manual implementationb41b0a4e9cc4a69bd07439c3b4cf5793ee75c149; master post-commit run recordedok=true,dirty=false,matchingSHA. Operational docs have since changed to record approvals. Do not poll active sessions or run competing suites; await automatic completion and respect file ownership.
-
-## Verified versus reported results
-
-Master actually reran 54 domain tests, 18 tool tests, typecheck, renderer self-test and both Mermaid renders: all passed. Debugger fixed wrong observation-target identity, incomplete unknown-task validation, unsafe version increment, MODE parsing, git-state evidence mutation/failure handling, and removed misleading homegrown secret scan.
-
-Master subsequently reran the full manual slice with31Rules and7real emulator-backed E2E tests, type/lint/build and19tools successfully. Post-scanner tooling count is27; post-gRPC-fix full verifier is pending. Model, real Android, manual screen-reader/200%zoom and product usefulness are not proven. Production five-card access-budget caching remains a residual risk; do not lower cap silently. Full E2E logs include expected permission-denied/offline SDK warnings in negative cases; clean independent happy-path browser console had only Vite/React dev messages.
-
-## Exact next steps
-
-Receive Slice2 and cloud-setup outputs, independently verify, fix real blockers, commit coherent slice and regenerate evidence. Then delegate Slice3 separately consented cloud reconciliation/live-safe integration. Continue implementation, review and gated release without unnecessary routine approval pauses. ExactNano4 identity/manual Android and screen-reader/user-validation evidence remain honest external checks; do not mark them passed from mocks. BeforeGateC commit all reviewed changes then regenerate evidence, reviewSHA and patch from538ed9f/baseoriginmain as appropriate. GateC must haveok=true,dirty=false,matchingSHA; no fabricated product completion. Use safe emulator wrapper: unwrapped FirebaseCLI can log inherited host credentials.
-
-## Reproduction commands
+## Commands
 
 ```powershell
 git status --short
-git clean -ndx
+git branch --show-current
 Get-Content package.json
-npm run typecheck
-npm run test:unit
-npm run test:rules
-npm run test:tools
-py -3 scripts/check_diagrams.py docs
 py -3 scripts/verificar.py --report .git/opencode/evidence.json
+npm run scan:secrets
+npm run build:qa
+py -3 scripts/release_prep.py stage --project shiftrelay-hybridai-2026
 ```
 
-UI/build/lint/E2E commands may be added by active agent; inspect package scripts before use. No credentials in chat, source or logs.
-
-## Open blockers
-
-Exact Nano4 and hosted local support, real device tests, manual screen-reader/zoom/Android touch checks, user validation, credential scanner and full product quality/review evidence. Authenticated access/provisioning succeeded; live app registration/AI setup and real client verification are still pending. Rules deployment requires explicit confirmation and a reviewed secure application Ruleset, never test-mode/public access. No Firebase MCP enabled.
+No credentials in chat, source or logs. Never use unwrapped `firebase emulators:*` with an inherited environment. No push of the WIP commit was performed.
 
 ## Suggested skills
 
-Load agent-browser core guide before browser commands; verification-before-completion for gate claims. Use actual installed Firebase Auth/Firestore/Rules authoring/auditor/AI Logic/Hosting skills per task, max three per artifact. Relevant official skills were installed from reviewed revision 99954a30898bb5ddc8152ee10e124dc3b4106bf7; authoring skill adoption is recorded by backend implementer.
+`verification-before-completion` for every gate claim; `code-review-and-quality` for the reviewer; `agent-browser` core guide before browser commands; relevant installed Firebase AI/Auth/Firestore/Rules/Hosting skills per task; `shipping-and-launch` for final delivery. Maximum three skills per artifact. No Firebase MCP configured.
