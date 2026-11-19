@@ -286,13 +286,30 @@ page-injected `test-network-mock` double, which development builds only ever rea
 production bundle. The fresh server read before and after the request narrows, but cannot eliminate,
 the window in which another client changes a task between the approved packet and the result.
 
+**R9 dated note — November 19, 2026.** The App Check *enforcement* limit above is superseded as
+evidence, not rewritten: the service policy for `firebaseml.googleapis.com` was absent when the
+earlier run was captured, and it was later set to `ENFORCED` and probe-proven through the AI Logic
+proxy (valid token `200`, missing and garbage token `401`) in
+`docs/adr/0007-appcheck-enforcement.md`. The earlier observation stays as the record of that run.
+Still open from R9: a hosted HTTPS request with reCAPTCHA Enterprise attestation, in-app cloud
+comparison, and quota/latency beyond one call.
+
 ## 9. What is not built
 
-Explicitly out of this cut, so no reader mistakes the contract for a product: a hosted HTTPS build,
-Hosting configuration and deployment, App Check *enforcement* evidence, an in-app live cloud
-comparison (blocked by the undeployed Rules), quota/latency beyond one measured call, and the manual
-screen-reader/200%-zoom/Android-touch checks. The manual private-to-shared UI, Auth emulator session,
-Playwright suites, lint, production build, the strictly local `ONLY_ON_DEVICE` draft path, the
-consented reconciliation contract/flow, the three runtime modes and one genuine consented
-`ONLY_IN_CLOUD` request from localhost exist and are measured. Exact Nano 4 identity is unverified,
-and `docs/PLAN.md` lists the owning slice for the rest.
+Historical as of the November 17, 2026 cut. Explicitly out of this cut, so no reader mistakes the
+contract for a product: a hosted HTTPS build, Hosting configuration and deployment, App Check
+*enforcement* evidence, an in-app live cloud comparison (blocked by the undeployed Rules),
+quota/latency beyond one measured call, and the manual screen-reader/200%-zoom/Android-touch checks.
+The manual private-to-shared UI, Auth emulator session, Playwright suites, lint, production build,
+the strictly local `ONLY_ON_DEVICE` draft path, the consented reconciliation contract/flow, the three
+runtime modes and one genuine consented `ONLY_IN_CLOUD` request from localhost exist and are
+measured. Exact Nano 4 identity is unverified, and `docs/PLAN.md` lists the owning slice for the
+rest.
+
+**Dated note — November 19, 2026.** Two statements above are superseded as current status while the
+list stays as the cut it describes: App Check enforcement is now `ENFORCED` and probe-proven
+(`docs/adr/0007-appcheck-enforcement.md`), and the local Nano 4 path is proven on localhost
+(sponsor-documented Gemma 4 flag, `gemma4_component`, genuine `ONLY_ON_DEVICE` generation;
+`docs/adr/0006-nano4-runtime-proof.md`). Hosting, the hosted reCAPTCHA-attested requests, the
+in-app cloud comparison, Firestore App Check enforcement and the manual accessibility checks are
+still not built or not measured.

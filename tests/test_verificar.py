@@ -307,6 +307,36 @@ class VerifierTest(unittest.TestCase):
         self.assertIn("Q5 credential scan: not run in this invocation", result.stdout)
         self.assertIn("Q5 dependency audit: not run in this invocation", result.stdout)
 
+    def test_partial_run_reports_only_the_executed_scope_and_no_gate_claim(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            report = Path(tmp) / "evidence.json"
+            result = subprocess.run(
+                [*PY, str(VERIFIER), "--report", str(report), "--only", "contract-fixture"],
+                capture_output=True,
+                text=True,
+                timeout=900,
+                cwd=REPO_ROOT,
+            )
+            data = json.loads(report.read_text(encoding="utf-8"))
+        self.assertEqual([check["name"] for check in data["checks"]], ["contract-fixture"])
+        self.assertEqual(data["scope"]["included"], ["contract-fixture"])
+        self.assertFalse(data["scope"]["complete"])
+        self.assertFalse(data["gate_c_eligible"])
+        self.assertTrue(any("partial" in reason for reason in data["gate_c_reasons"]))
+        self.assertIn(f"1 of {len(self.verificar.CHECKS)} checks executed", result.stdout)
+
+    def test_scope_coverage_is_derived_from_the_executed_checks(self) -> None:
+        scope = self.verificar.SCOPE
+        full = self.verificar.scope_for(scope, [check["name"] for check in self.verificar.CHECKS])
+        partial = self.verificar.scope_for(scope, ["contract-fixture", "contract-fixture"])
+        empty = self.verificar.scope_for(scope, [])
+        self.assertTrue(full["complete"])
+        self.assertEqual(full["included"], [check["name"] for check in self.verificar.CHECKS])
+        self.assertFalse(partial["complete"])
+        self.assertEqual(partial["included"], ["contract-fixture", "contract-fixture"])
+        self.assertFalse(empty["complete"])
+        self.assertEqual(empty["included"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

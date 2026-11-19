@@ -146,6 +146,13 @@ function resolveLiveLocal(env: RuntimeInput["env"]): RuntimeConfig {
   const messagingSenderId = required(env, "VITE_FIREBASE_MESSAGING_SENDER_ID");
   const siteKey = required(env, "VITE_FIREBASE_APPCHECK_SITE_KEY");
   const debugToken = required(env, "VITE_FIREBASE_APPCHECK_DEBUG_TOKEN");
+  // Frozen contract §11.1: an API key that is not a Firebase web key is refused, never passed on.
+  if (!apiKey.startsWith("AIza")) {
+    throw new RuntimeConfigError(
+      "live_local_incomplete",
+      "the supplied VITE_FIREBASE_API_KEY is not a Firebase web API key (the AIza prefix is required)",
+    );
+  }
   if (projectId !== LIVE_PROJECT_ID) {
     throw new RuntimeConfigError("wrong_project", "the supplied project is not the approved project");
   }

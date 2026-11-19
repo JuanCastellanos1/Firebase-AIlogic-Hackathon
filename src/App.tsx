@@ -452,7 +452,7 @@ export default function App() {
           <section className="panel" aria-labelledby="error-heading">
             <h2 id="error-heading">Shared workspace unavailable</h2>
             <p className="status status-error" role="alert">
-              {loadError ?? "The local emulator could not be read."}
+              {loadError ?? "The shared workspace could not be read from the connected backend."}
             </p>
             <div className="button-row">
               <button type="button" className="button button-primary" onClick={() => void refresh()}>

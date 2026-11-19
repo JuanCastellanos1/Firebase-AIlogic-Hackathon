@@ -46,8 +46,15 @@ service cloud.firestore {
     // Missing records deny by evaluation error: this emulator (1.22.0) has no working
     // exists()/existsAfter() and a negated null comparison also errors, so every guard
     // below relies on the documented fail-closed behavior of document access.
+    // The membership record must bind all three facts: this document id, the caller's uid, the
+    // venue in the path, and one of the two declared roles. A record written for another venue, a
+    // dropped venueId, a mismatched uid or an undeclared role authorizes nothing.
     function isMember(venueId) {
-      return isAuthenticated() && get(membershipPath(venueId)).data.uid == request.auth.uid;
+      let member = get(membershipPath(venueId)).data;
+      return isAuthenticated()
+        && member.uid == request.auth.uid
+        && member.venueId == venueId
+        && (member.role == 'incoming' || member.role == 'outgoing');
     }
 
     function isIncoming(venueId) {

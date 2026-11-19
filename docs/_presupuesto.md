@@ -1,19 +1,17 @@
-# Time and Scope Budget
+# ShiftRelay — Time and Scope Budget
 
-Baseline: user allows 15 days; official submission cutoff is November 30, 2026, at 2 PM Pacific. The earlier cutoff controls. Percentages below allocate available effort, not assumed full-time working hours.
+Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentages allocate available effort, not invented full-time working hours. No measured labor totals were supplied. Firebase spending remains free-tier-only; no billing changes authorized.
 
-| Block | Phases | Planned effort | Actual evidence | Status |
-|---|---|---:|---|---|
-| Setup | 0 | 5% | Rules summary read; tools and MCP checked; empty remote connected; startup artifacts created | Gate 0 environment checks passed; initial history unborn |
-| Framing | 1–3 | 20% | Stack ADR, 15 criteria, three-slice plan, six thresholds; master reran 4 diagram tests, renderer self-test and 1/1 real render successfully | Gate A approved; live-runtime checkpoints remain owned and unverified |
-| Build | 4–5 | 45% | Slice3committed6cbfded; masterpostcommit14checks pass,dirtyfalse;91unit31Rules20E2E37tools andtargetedAI/reconciliation subsets,scans/audit/type/lint/build/2diagrams. ProductionAppCheck/keyrestrictions/2syntheticmembers provisioned,stillSpark | Active liveconfig/AppCheck/realcloudSDK integration; exactNano4/hostedmanualtests not proven |
-| Quality and fixes | 6–6.5 | 20% | Gitleaks + scopedgRPC fix + minimal emulator child env prevent CLI credential log exposure; post-commit full manual-slice checks pass | Independent finalGateC/reviewer pending later slices and real/manual evidence |
-| Delivery | 8 | 10% | User authorized authenticatedQAdeploy aftercodereview+automatedchecks; Slice3featurepushed,mainrequirementsbaselinecreated/defaultmainrestored withoutdirectdefaultpush; visibilityunchangedpublic | CIworkflowpreparation active independently; QA/code-review/finaldelivery/localvideo pending. No billing/terms/YouTube/hackathonsubmission authorized |
+| Block | Phases | Planned effort | Actual evidence / status |
+|---|---|---:|---|
+| Setup | 0 | 5% | Repository/tooling/skills configured; retained, not repeated. |
+| Framing | 1–3 | 20% | Concept, stack, spec, plan, quality floor and rendered diagrams exist; Gate A passed. |
+| Build | 4–5 | 45% | Three feature slices and live/QA preparation preserved in amended WIP `dbd217c`. Fresh full implemented-code verifier on resume: 16/16 pass, clean matching SHA. Hosted/manual delivery checks remain open. |
+| Quality and fixes | 6–6.5 | 20% | Two requested Qwen 3.8 Flash reviews completed; both reject Gate C. D1–D4 and U1 are routed to one bounded correction cut with regressions and fix-only re-review. No quality threshold lowered. |
+| Delivery | 8 | 10% | Earlier CI succeeded only for `b0910d3`. Current-source CI, hosted QA, final validation/review, local demo video and gated merge pending. No push/deploy/merge during resume verification/review. |
 
-## Scope policy
+## Gate C update — November 19
 
-Aim for one complete core workflow, not a broad feature catalog. Keep web delivery mandatory and verify Android portability before selecting architecture. Native Android packaging is not yet a delivery commitment. Cut extras before validation, accessibility, security, testing, or submission evidence.
+Review evidence is fresh for `dbd217c`, unlike the stale dirty pre-WIP report found at startup. Gate C remains **not approved** because of concrete code/evidence blockers, not because framing needs to be repeated. Prior localhost Nano 4 and AI-proxy App Check evidence is retained as dated evidence; hosted/manual checks are not marked complete.
 
-## Gate 0 update
-
-Gate A approved. Manual-slice automated checks and independent browser flow now pass under master; full product/manual accessibility criteria do not. Free-only cloud project/database exist, no live frontend/AI setup. Next scope is Q5 scanner followed by strictly local drafting, conditional on genuine runtime evidence. No paid usage, commits/pushes/merges yet. Allocation unchanged; no engineering hours invented. Gates B/C/D remain open; no hybrid compliance claim.
+Allocation unchanged. Cut optional polish or scope extras before security, authorization, accessibility, critical tests, privacy or reproducible evidence. Non-blocking review findings are bounded in `docs/DEBT.md`; five-card and byte/permission limits remain unchanged.

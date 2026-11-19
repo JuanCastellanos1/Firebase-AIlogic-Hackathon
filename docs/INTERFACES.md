@@ -235,7 +235,10 @@ write, `request.auth.uid` as `actorId`/owner, `request.time` as all timestamps, 
 published task content and identity fields, the transition matrix above, one activity per version
 with matching post-state in both directions, byte caps with `toUtf8().size()`, and bounded
 venue-scoped list queries (Rules are not filters). Membership documents are readable only by their
-own uid and writable by no client. Budget for the design and its measured result are in
+own uid and writable by no client. A membership record authorizes a venue only when its `uid` equals
+the caller, its `venueId` equals the venue in the path and its `role` is one of the two declared
+roles (venue/role binding, November 19, 2026); a record naming another venue, omitting `venueId` or
+carrying an undeclared role authorizes nothing. Budget for the design and its measured result are in
 `docs/ARCHITECTURE.md` §6, including the five-card caching risk.
 
 ## 9. Local draft contract (slice 2, frozen November 16, 2026)
@@ -473,7 +476,9 @@ mirror is `contrato.json` `runtime`, drift-checked by `tests/runtime-config.test
   `VITE_FIREBASE_APPCHECK_SITE_KEY` and `VITE_FIREBASE_APPCHECK_DEBUG_TOKEN`, all non-blank, plus a
   project equal to `shiftrelay-hybridai-2026` and a web app equal to the documented public app id
   (`VITE_FIREBASE_APP_ID` is optional because the private file keeps it commented out; a different
-  value is refused). The site key must start with `6L` and the API key with `AIza`.
+  value is refused). The site key must start with `6L` and the API key with `AIza`. A live-local API
+  key without the `AIza` prefix is refused as `live_local_incomplete` (runtime alignment, November
+  19, 2026; the contract text above is unchanged).
 - `scripts/dev_live_local.py` is the only source of those values: it reads the outside-root private
   file (refusing a path inside the repository), accepts allowlisted names only — including entries the
   file keeps commented out — rebuilds the child environment from a Windows/runtime allowlist, binds
@@ -511,9 +516,16 @@ deployment. No reserved SDK script is loaded and no modular support is claimed.
 
 ## 12. Out of scope for this phase
 
-Hosting deployment and its manual checks, App Check enforcement evidence, in-app live cloud comparison
-(blocked by the undeployed Rules), quota/latency beyond one measured call, and any live Firebase
-behavior beyond one attested `ONLY_IN_CLOUD` request from localhost. The Firestore Rules, emulator
-configuration, persistence adapter, Auth emulator session, responsive web UI, strictly local drafting,
-the consented reconciliation contract and the three runtime modes above are implemented and measured
-against synthetic data.
+Historical as of the November 17, 2026 cut. Hosting deployment and its manual checks, App Check
+enforcement evidence, in-app live cloud comparison (blocked by the undeployed Rules), quota/latency
+beyond one measured call, and any live Firebase behavior beyond one attested `ONLY_IN_CLOUD` request
+from localhost. The Firestore Rules, emulator configuration, persistence adapter, Auth emulator
+session, responsive web UI, strictly local drafting, the consented reconciliation contract and the
+three runtime modes above are implemented and measured against synthetic data.
+
+**Dated note — November 19, 2026.** Current status differs from that cut in two places, and the cut
+text is kept as history: App Check enforcement for `firebaseml.googleapis.com` is now `ENFORCED` and
+probe-proven (`docs/adr/0007-appcheck-enforcement.md`), and the local Nano 4 `ONLY_ON_DEVICE` path is
+proven on localhost (`docs/adr/0006-nano4-runtime-proof.md`). Hosting deployment, hosted
+reCAPTCHA-attested requests, in-app cloud comparison, Firestore App Check enforcement and the manual
+accessibility checks remain out of scope.

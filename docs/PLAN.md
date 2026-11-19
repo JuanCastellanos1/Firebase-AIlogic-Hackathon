@@ -11,6 +11,12 @@ and no push/commit exist.
 Skills applied: writing-plans and constraint-driven-development. Workflow-specified location and
 three-slice checklist override skill defaults. No calendar or delivery-duration promise.
 
+**Dated update — November 19, 2026.** Two status statements above were true at that cut and are now
+superseded as current status: App Check enforcement for `firebaseml.googleapis.com` is `ENFORCED`
+and probe-proven (`docs/adr/0007-appcheck-enforcement.md`), and the local Nano 4 path is proven on
+localhost (`docs/adr/0006-nano4-runtime-proof.md`). There is still no Hosting deployment, no Rules
+deployment and no push/commit.
+
 **Goal:** Demonstrate private capture → reviewed shared tasks → explicit ownership → recorded resolution/reopening, with genuine local drafting and separately consented cloud reconciliation.
 
 **Architecture:** React/strict TypeScript/Vite static SPA with minimal semantic HTML/CSS and component state. Modular Firebase AI Logic/App Check/Auth/Firestore and Hosting; Rules enforce the domain contract, not client UI or AI. Private context lives only in page memory.
@@ -198,13 +204,21 @@ application, Rules or UI behavior changed; evidence and limits are in `docs/veri
   AI Logic `ON_DEVICE` request that produced five reviewed cards; no AI endpoint request was
   observed, storage stayed empty and the note cleared on sign-out. **Still open:** hosted HTTPS,
   exact Nano 4 identity/provenance, App Check, manual unsupported-chrome path and cloud comparison.
+  **Dated update — November 19, 2026:** the v3 run above stays v3 and is not relabelled. Exact Nano 4
+  identity/provenance and a genuine `ONLY_ON_DEVICE` request are now proven separately on localhost
+  (`docs/adr/0006-nano4-runtime-proof.md`), and App Check enforcement is proven
+  (`docs/adr/0007-appcheck-enforcement.md`). Hosted HTTPS, the hosted reCAPTCHA-attested request, the
+  manual unsupported-chrome path and the cloud comparison remain open.
 - [ ] Evidence: actual local request + authoritative exact-model compatibility, no-private-content
   network/storage/log captures, manual fallback walkthrough, regression results and any unresolved
   compatibility discrepancy. If only mocks or localhost work, mark genuine hosted-local capability
   **unverified/no-go**, not complete. **Recorded:** real localhost request, sentinel/network/storage
   observations, mock-labelled fallback suite and green regressions. **Not met:** authoritative exact
   Nano 4 compatibility. Exact model identity remains **UNKNOWN**, so the hosted-local and eligibility
-  claim is **unverified/no-go**; see `docs/verification.md` §10.
+  claim is **unverified/no-go**; see `docs/verification.md` §10. **Dated update — November 19, 2026:**
+  exact Nano 4 compatibility is now evidenced for this machine on localhost in
+  `docs/adr/0006-nano4-runtime-proof.md`; the hosted-local claim stays **unverified/no-go** because no
+  hosted local-model request exists.
 
 Implemented files in this cut: `src/localDraft.ts`, `src/aiValidation.ts`,
 `tests/ai-output.test.ts`, `e2e/local-draft.spec.ts`; extended `src/PrivateDraft.tsx`,
@@ -314,6 +328,12 @@ dev-only path for the outside-root private values, a build-output guard, and one
   request after the gated deployment; the first call's quota/latency is a single sample. The App Check
   debug SDK logs the debug token to the local console by design; that is dev-only and excluded from
   builds, and captures must not reproduce it.
+
+  **Dated update — November 19, 2026.** The enforcement sentence above is the November 17 state and
+  is kept as history: the service policy had never been set, it was then set to `ENFORCED` and
+  probe-proven (valid token `200`, missing/garbage `401`), per
+  `docs/adr/0007-appcheck-enforcement.md`. Unchanged: in-app cloud comparison, the hosted
+  reCAPTCHA-attested requests, Firestore App Check enforcement and the single-sample quota/latency.
 
 ## Current verification and Gate A
 

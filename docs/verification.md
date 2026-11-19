@@ -1448,6 +1448,11 @@ were closed afterwards; only this agent's processes were stopped.
 
 - Exact Gemini Nano 4 identity/compatibility is still **UNKNOWN**; no organizer mapping was obtained
   and no eligibility claim is made.
+  **Dated note — November 19, 2026:** this bullet is the record of the November 17 v3 run. A separate
+  isolated-profile run with the sponsor-documented `Gemma 4 for Built-in AI` flag established the v4
+  component/model identity and a genuine `ONLY_ON_DEVICE` generation on localhost
+  (`docs/adr/0006-nano4-runtime-proof.md`). The v3 run above is not relabelled, and no hosted local
+  model request exists.
 - Hosted HTTPS, App Check, a deployed origin, and a separately consented cloud comparison were not
   exercised. No Firebase AI Logic service provisioning (`init ailogic`) was run; the localhost
   request is on-device and does not prove cloud setup.
@@ -1819,6 +1824,14 @@ Two observations that matter and are not claims of success:
    Check token (the SDK resolves App Check per app instance) - was also accepted:
    `status: unexpected success; inferenceSource in_cloud`. No rejection was observed, so the product
    does not claim enforcement evidence and no enforcement setting was changed.
+
+   **Dated note — November 19, 2026:** the observation above is kept as the November 17 record. Its
+   cause is now known: the App Check service policy for `firebaseml.googleapis.com` had never been
+   set (`enforcementMode` unset). It was set to `ENFORCED` and probed through the same AI Logic proxy
+   - valid token `200`, header absent `401`, garbage token `401` - in
+   `docs/adr/0007-appcheck-enforcement.md`. This supersedes the "not demonstrated" status for the
+   AI Logic boundary only; hosted reCAPTCHA attestation and Firestore App Check enforcement remain
+   pending.
 2. **The real app signs in and is blocked by Rules, as predicted.** A fresh browser session signed in
    with a synthetic QA identity from the private file
    (`identitytoolkit .../accounts:signInWithPassword -> 200`, `accounts:lookup -> 200`), the Firestore
@@ -1908,10 +1921,16 @@ items are explicitly unimplemented. Re-run the command once the concurrent sessi
   from the private environment and the gated release step, not from this cut.
 - App Check enforcement remains unproven (see 13.3, item 1). No enforcement toggle was changed and no
   bypass was added.
+  **Dated note — November 19, 2026:** superseded for the AI Logic boundary: enforcement is `ENFORCED`
+  and probe-proven (`docs/adr/0007-appcheck-enforcement.md`). No bypass was added; Firestore App Check
+  enforcement remains planned, not enabled.
 - In-app cloud reconciliation, observation confirmation and the whole signed-in shared workflow still
   need the reviewed Rules deployed; today the live app stops at the denied membership read.
 - Manual screen-reader/200%-zoom/Android-touch checks, exact Nano 4 identity, a hosted local-model
   request and AC15 product validation remain open and are named by the verifier scope.
+  **Dated note — November 19, 2026:** exact Nano 4 identity and a genuine `ONLY_ON_DEVICE` generation
+  are now proven on localhost (`docs/adr/0006-nano4-runtime-proof.md`). The manual checks, the hosted
+  local-model request, the hosted cloud request and AC15 remain open.
 - Disclosure: while debugging the temporary live page, the App Check SDK's own console line
   (`Firebase App Check debug token: ...`) was captured once into an interactive tool transcript. The
   registered localhost debug token must therefore be treated as exposed on this machine: revoke it and
@@ -2130,9 +2149,115 @@ because the cut makes no commit (dirty tree) and the 8 scope items remain explic
   reason to weaken the resolver.
 - The CI workflow was not changed here and still has never run; it remains keyless and cannot
   execute `build:qa` (the private file does not exist in CI).
+  **Dated correction — November 19, 2026:** this bullet described the pre-commit WIP state; it is
+  superseded. Real GitHub Actions run `44222898293` succeeded for
+  `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (public REST metadata re-read by master on November 19,
+  2026). The workflow remains keyless and cannot run `build:qa`; that run does not cover `dbd217c`
+  or the review fixes.
 - The keyed artifact exists locally under the gitignored `dist/` only after `build:qa`. A manual
   `npm run scan:secrets` on that tree reports the one classified public-identifier finding and
   exits 1 by design; the verifier rebuilds keyless first. This is an operational rule, not a
   scanner exception.
 - No secret value was printed, written to evidence, or placed on argv; the private file was read
   only for the one public name.
+
+## 15. Review-fix cut D1-D4/U1 (November 19, 2026)
+
+Reviewed base: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78` (two independent `opencode-go/qwen3.8-flash`
+reviews, no approval). This section records only the fix cut. Earlier sections keep their run results
+unchanged; the status supersessions below are dated notes, not rewrites.
+
+### 15.1 D1 - live-local API-key prefix
+
+Contract �11.1 requires the API key to start with `AIza`; the resolver only checked that it was
+nonblank. Red first: a new `tests/runtime-config.test.ts` case fed the emulator key, a lowercase
+prefix and plain text, and reported `expected RuntimeConfigError live_local_incomplete` because all
+three were accepted (`23 passed | 1 failed`). Green: `src/runtimeConfig.ts` refuses a key without the
+prefix with the existing value-free `live_local_incomplete` error (no new code, no fixture change,
+nothing echoed). Result: 24/24 runtime-config cases, synthetic positives unchanged.
+
+### 15.2 D2 - membership bound to venue and declared role
+
+`isMember` only compared `uid`. Red first: a direct-SDK case seeded a membership record under
+`venues/venue-hall-01/members/` naming another venue, a dropped `venueId`, an undeclared `role`, and
+another `uid`; the venue-naming case was authorized (`41 tests | 1 failed`). Green: `isMember` now
+requires document `uid == request.auth.uid`, `venueId ==` the path venue, and `role` in the two
+declared roles (`incoming` | `outgoing`), with no new role granted. The same test also proves the
+invalid role cannot append an observation. Positive coverage is unchanged: the outgoing publication
+(1-5 cards, `getAfter` handover/task/activity coupling, 83-character derived activity IDs) and the
+incoming accept/resolve/reopen paths still pass. Result: 41/41 Rules emulator cases.
+
+### 15.3 D3 - cloud request shape pinned
+
+`tests/firebase-ai-instance.test.ts` now asserts the captured `ONLY_IN_CLOUD` params: the frozen
+`gemini-3.5-flash-lite` from `contrato.json`, `responseMimeType: "application/json"`,
+`maxOutputTokens: 2048` and the response schema's required `brief`/`suggestions`. The real `getAI`
+cache and `useLimitedUseAppCheckTokens` assertions are unchanged; both modes stay labelled doubles,
+so no network or on-device inference happens. The assertion was proven load-bearing by isolated
+mutation, not by a fake functional red: removing `maxOutputTokens` failed the case
+(`"maxOutputTokens": 2048` expected) and changing the media type to `text/plain` failed it too; the
+file was then restored byte-identically (sha256 `e1b5e339...`) and the case passed. `src/cloudReconcile.ts`
+was not modified in the final tree.
+
+### 15.4 U1 - partial scope and release-evidence coverage
+
+Red first: `--only contract-fixture` still embedded the full scope (`included` listed all 16 names),
+and `release_prep.check_evidence` accepted two arbitrary check records, so a partial run could have
+been staged (`FAIL ... partial_run ...`, plus `ERROR ... REQUIRED_CHECK_NAMES`). Green:
+`scripts/verificar.py` derives `scope.included` from the records it actually executed, keeps the
+planned names in `scope.planned`, sets `scope.complete`, and adds a `partial check scope (N of 16
+checks executed)` Gate C reason; the CLI prints the same count. `scripts/release_prep.py` imports the
+verifier's own `CHECKS` names (a module import runs no check) and refuses evidence with missing,
+unexpected, duplicated, malformed or failing check records. `ok=true` on a partial run is kept as an
+honest statement about the checks that ran, but it can no longer mean full-gate eligibility. Result:
+17/17 verifier tool tests and 24/24 release-prep tool tests (84 tool tests overall).
+
+### 15.5 D4 - verifier scope reconciled with ADR 0006/0007
+
+The scope now states that App Check enforcement for `firebaseml.googleapis.com` is `ENFORCED` and
+probe-proven (valid 200, missing/garbage 401, ADR 0007) and that the local Nano 4 path is proven on
+localhost (ADR 0006), while hosted delivery, hosted local-model and hosted reCAPTCHA-attested
+requests, in-app cloud comparison, Firestore App Check enforcement, quota/latency beyond one call,
+manual accessibility, deployment and AC15 stay listed as pending. No gap was deleted to go green and
+no threshold moved. Matching dated notes were added to `docs/ARCHITECTURE.md` (R9, �9),
+`docs/INTERFACES.md` (�8, �11.1, �12), `docs/PLAN.md` (status, slice 2, slice 3), `docs/PUBLISH.md`
+(intro, GitHub Actions row) and this document (�10.5, �13.3, �13.6).
+
+CI correction: a reviewer claim that CI never ran is false. Run `44222898293` succeeded for
+`b0910d32f7cd6403ccb59419613eadfa0fe40c83` (public REST metadata re-read by master on November 19,
+2026). It does not cover `dbd217c` or this fix cut.
+
+### 15.6 Measured fix-cut evidence
+
+```text
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+CHECK typecheck: PASS
+CHECK lint: PASS
+CHECK build: PASS
+CHECK dist-guard: PASS
+CHECK secret-scan: PASS
+CHECK dependency-audit: PASS
+CHECK unit: PASS
+CHECK ai-output: PASS
+CHECK reconciliation: PASS
+CHECK runtime-config: PASS
+CHECK rules-tests: PASS
+CHECK e2e-tests: PASS
+CHECK tools-tests: PASS
+CHECK checker-self-test: PASS
+CHECK diagrams: PASS
+CHECK contract-fixture: PASS
+Q5 credential scan: PASS (pinned Gitleaks over the working tree + dist, values redacted)
+Q5 dependency audit: PASS (npm audit --omit=dev --audit-level=high)
+GATE_C: NOT ELIGIBLE (dirty working tree; 8 scope items unimplemented)
+ok=True commit=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78 dirty=True
+```
+
+All 16 checks exited 0 with `tree_stable=True`: 121 unit tests in 7 files (17 ai-output, 20
+reconciliation, 24 runtime-config), 41 Rules emulator tests, 21 Playwright E2E tests, 84 tool tests,
+2/2 diagrams, 0 production dependency vulnerabilities. The tree is dirty because this cut is not
+committed; Gate C stays NOT ELIGIBLE and no deployment, push, commit or merge happened here.
+
+Debt closed in this cut: N6 (stale remount comment), N7 (mode-neutral failure copy only), N8
+(case-insensitive debug-token guard with an uppercase regression). Everything else in `docs/DEBT.md`
+is unchanged, including the delivery conditions that no fix cut can satisfy.

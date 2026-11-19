@@ -28,9 +28,13 @@ RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
     # Google API keys used by Firebase web apps. Shape check only; no value is ever stored here.
     ("firebase-web-api-key", re.compile(r"AIza[0-9A-Za-z_-]{35}")),
     # A debug token is a UUID; the SDK's own property name is expected, a literal value is not.
+    # Case-insensitive: a token pasted in upper case is the same credential.
     (
         "appcheck-debug-token-value",
-        re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b"),
+        re.compile(
+            r"\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b",
+            re.IGNORECASE,
+        ),
     ),
     ("test-network-mock-hook", re.compile(r"__shiftrelayTestCloud")),
     ("private-config-path", re.compile(r"shiftrelay-private|firebase-development\.env")),

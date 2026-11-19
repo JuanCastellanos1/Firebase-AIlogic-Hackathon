@@ -178,6 +178,22 @@ describe("live-local mode", () => {
     },
   );
 
+  it("refuses an API key that is not a Firebase web API key", async () => {
+    // Frozen contract §11.1: the live API key must start with `AIza`. The emulator key is a
+    // realistic wrong value, and a lowercase prefix must not be accepted either.
+    for (const value of [
+      "demo-shiftrelay-local-key",
+      "aizaSyntheticRuntimeKeyForTests0000000000000",
+      "not-a-key",
+    ]) {
+      const failure = await expectCode(
+        resolveLive({ VITE_FIREBASE_API_KEY: value }),
+        "live_local_incomplete",
+      );
+      expect(failure.message).not.toContain(value);
+    }
+  });
+
   it("refuses a different project or web app", async () => {
     await expectCode(resolveLive({ VITE_FIREBASE_PROJECT_ID: "other-project" }), "wrong_project");
     await expectCode(resolveLive({ VITE_FIREBASE_APP_ID: "1:1:web:other" }), "wrong_app");

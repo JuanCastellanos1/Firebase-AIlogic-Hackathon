@@ -6,6 +6,15 @@ Hosting release, no Firestore Rules release, no GitHub Actions run and no video 
 Every step below is either marked *verified* with the artifact that proves it, or *planned* and
 still owned by master/`github-sync`/the delegated release agent.
 
+**Dated correction — November 19, 2026.** Two statements in this paragraph and in the table below
+were accurate when written and are superseded: CI has run. Real GitHub Actions run `44222898293`
+completed with `conclusion: success` for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (master re-read
+the public REST metadata on November 19, 2026), and `.github/workflows/verification.yml` is tracked.
+The earlier "never run / untracked" claim came from the pre-commit WIP state. That run covers only
+the source at `b0910d3`; it does **not** validate the WIP commit `dbd217c` or these review fixes, so
+a green run on the exact reviewed commit is still required before merge. Deployment and video remain
+absent.
+
 Status legend: **verified** = an existing report or file says so, cited inline; **planned** = a
 documented command or checklist not yet run; **blocked** = needs a decision, a review or hardware.
 
@@ -21,7 +30,7 @@ documented command or checklist not yet run; **blocked** = needs a decision, a r
 | App Check **enforcement** | verified: `ENFORCED` for `firebaseml.googleapis.com`; valid `200`, missing/garbage `401` | controlled probes through the AI Logic proxy (`docs/adr/0007-appcheck-enforcement.md`) |
 | Hosting config, keyed QA build, sealed stage | implemented and locally exercised; **never deployed** | `firebase.json`, `scripts/release_prep.py`, `tests/test_release_prep.py`, `docs/verification.md` §14 |
 | Hosting / Rules deployment | never performed | `docs/HANDOFF.md`, `docs/_project.md`, `docs/verification.md` §13.6 |
-| GitHub Actions | workflow written, **never run** | `.github/workflows/verification.yml` is untracked in the working tree (`git status`), so no run exists |
+| GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
 | `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | reasons: `dirty working tree`, `8 scope items unimplemented` (`.git/opencode/evidence.json`) |
 
 ## 2. Actual cloud target

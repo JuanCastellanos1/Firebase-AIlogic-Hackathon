@@ -3,8 +3,8 @@
  * approval produces at most one request; suggestions never write. A confirmed suggestion is one
  * ordinary `observe` activity on the current source version, and a dismissal writes nothing.
  *
- * App keys this component on the shared task content, so any context change remounts it and
- * drops the preview, approval and suggestions.
+ * The shared task signature is watched: when the shared tasks change, the effect below clears the
+ * preview, approval and suggestions, so no stale approval survives a context change.
  */
 import { useEffect, useRef, useState } from "react";
 import type { Role, Task, TransitionCommand } from "./domain";

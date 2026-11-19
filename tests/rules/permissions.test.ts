@@ -194,6 +194,63 @@ describe("identity and membership boundary", () => {
     await assertFails(getDoc(doc(nonmember, paths.task(OTHER_VENUE, OTHER_VENUE_TASK.id))));
   });
 
+  it("requires the membership record to name this venue and a declared role", async () => {
+    // Another venue, a dropped venueId, an undeclared role, and another uid are all refused.
+    const invalid: Record<string, unknown>[] = [
+      { uid: INCOMING_TWO, venueId: OTHER_VENUE, role: "incoming" },
+      { uid: INCOMING_TWO, role: "incoming" },
+      { uid: INCOMING_TWO, venueId: VENUE, role: "admin" },
+      { uid: INCOMING, venueId: VENUE, role: "incoming" },
+    ];
+    for (const data of invalid) {
+      await env.clearFirestore();
+      await seed(env, baseSeed());
+      await seed(env, [{ path: paths.member(VENUE, INCOMING_TWO), data }]);
+      await assertFails(getDoc(doc(incomingTwo, paths.task(VENUE, OPEN_TASK.id))));
+      await assertFails(
+        getDocs(query(collection(incomingTwo, `venues/${VENUE}/tasks`), limit(10)))
+      );
+      const previous = await readData(incoming, paths.task(VENUE, OPEN_TASK.id));
+      await assertFails(
+        writeDocs(incomingTwo, [
+          {
+            path: paths.task(VENUE, OPEN_TASK.id),
+            data: {
+              ...previous,
+              state: "open",
+              ownerId: null,
+              version: 2,
+              resolution: null,
+              updatedAt: serverTimestamp(),
+            },
+          },
+          {
+            path: paths.activity(VENUE, activityIdFor(OPEN_TASK.id, 2)),
+            data: activityOf(
+              OPEN_TASK.id,
+              "observe",
+              { state: "open", version: 1 },
+              { state: "open", version: 2 },
+              {
+                actorId: INCOMING_TWO,
+                observation: {
+                  kind: "duplicate",
+                  targetTaskId: ACCEPTED_TASK.id,
+                  targetVersion: 1,
+                  rationale: "Related work.",
+                },
+              },
+            ),
+          },
+        ]),
+      );
+    }
+    // The same identity with the correct venue and declared role keeps its shared access.
+    await env.clearFirestore();
+    await seed(env, baseSeed());
+    await assertSucceeds(getDoc(doc(incomingTwo, paths.task(VENUE, OPEN_TASK.id))));
+  });
+
   it("never lets a client create, update, or delete membership (no role escalation)", async () => {
     await assertFails(
       setDoc(doc(outgoing, paths.member(VENUE, NONMEMBER)), {

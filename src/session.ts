@@ -186,7 +186,7 @@ export function describeFailure(error: unknown): string {
       ? String((error as { code: unknown }).code)
       : "";
   if (code === "unavailable" || code === "deadline-exceeded") {
-    return "Not confirmed: the emulator is unreachable. No write is queued; reconnect, refresh, then act again.";
+    return "Not confirmed: the backend is unreachable. No write is queued; reconnect, refresh, then act again.";
   }
   if (code === "permission-denied") {
     return "Conflict: Firestore Rules rejected this change, usually because another member changed the task. Refresh and review it.";
@@ -205,5 +205,5 @@ export function describeSignInFailure(error: unknown): string {
   if (code === "auth/too-many-requests") {
     return "Too many attempts. Wait a moment and try again.";
   }
-  return "Sign-in failed. Check the local Auth emulator and the documented setup.";
+  return "Sign-in failed. Check the connection and try again.";
 }

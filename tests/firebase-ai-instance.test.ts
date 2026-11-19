@@ -12,6 +12,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FirebaseApp, FirebaseOptions } from "firebase/app";
 import type { AI, GenerativeModel, HybridParams } from "firebase/ai";
 import type { RuntimeConfig } from "../src/runtimeConfig";
+import contrato from "./fixtures/contrato.json";
 
 const NOTE = "Projector bulb is low. Spare kit is in the office.";
 const PACKET = '{"tasks":[],"brief":"nothing shared yet"}';
@@ -146,6 +147,19 @@ describe("Firebase AI instance sharing", () => {
     expect(modes).toEqual([InferenceMode.ONLY_ON_DEVICE, InferenceMode.ONLY_ON_DEVICE, InferenceMode.ONLY_IN_CLOUD]);
     expect(holder.modelCalls[0]?.params).not.toHaveProperty("inCloudParams");
     expect(holder.modelCalls[2]?.params).not.toHaveProperty("onDeviceParams");
+
+    // The captured params are what the SDK would put on the cloud request: the frozen model id,
+    // the JSON response mode, the 2048-token output cap and the reconciliation response schema.
+    const cloudParams = holder.modelCalls[2]?.params.inCloudParams;
+    expect(cloudParams?.model).toBe(contrato.reconciliation.model);
+    expect(cloudParams?.generationConfig).toMatchObject({
+      responseMimeType: "application/json",
+      maxOutputTokens: 2048,
+    });
+    expect(cloudParams?.generationConfig?.responseSchema).toMatchObject({
+      type: "object",
+      required: ["brief", "suggestions"],
+    });
 
     expect(cachedLimitedUseTokens(app, getAI, GoogleAIBackend)).toBe(true);
   });

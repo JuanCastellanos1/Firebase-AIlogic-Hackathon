@@ -33,11 +33,15 @@ from pathlib import Path
 
 import dev_live_local as runner
 import scan_secrets
+import verificar
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = Path(__file__).resolve().parent
 SITE_KEY_NAME = "VITE_FIREBASE_APPCHECK_SITE_KEY"
 DEPLOY_PROJECT = "shiftrelay-hybridai-2026"
+# The verifier's own CHECKS names, imported (a module import runs no check). The release gate must
+# see every one of them exactly once, so a partial `--only` run can never authorize a deploy.
+REQUIRED_CHECK_NAMES = tuple(check["name"] for check in verificar.CHECKS)
 # Gitleaks' generic rule, the only rule a public identifier may be classified under.
 PUBLIC_IDENTIFIER_RULE = "generic-api-key"
 # The only replacement the isolated proof copy may carry. Low entropy on purpose: the pinned
@@ -321,10 +325,28 @@ def check_evidence(evidence: Path, repo_root: Path, head: str) -> None:
         raise ConfigError("verifier evidence does not describe the current commit")
     if Path(str(data.get("cwd", ""))).resolve() != repo_root.resolve():
         raise ConfigError("verifier evidence was produced in a different repository")
-    checks = data.get("checks") or []
-    failed = [item.get("name") for item in checks if item.get("exit") != 0]
-    if not checks or failed:
-        raise ConfigError("verifier evidence has missing or failing checks: " + ", ".join(map(str, failed)))
+    records = data.get("checks")
+    if not isinstance(records, list) or not all(isinstance(item, dict) for item in records):
+        raise ConfigError("verifier evidence has malformed check records")
+    names = [str(item.get("name")) for item in records]
+    missing = [name for name in REQUIRED_CHECK_NAMES if name not in names]
+    unexpected = [name for name in names if name not in REQUIRED_CHECK_NAMES]
+    duplicates = sorted({name for name in names if names.count(name) > 1})
+    failed = [name for name, item in zip(names, records) if item.get("exit") != 0]
+    if missing or unexpected or duplicates or failed:
+        problems = []
+        if missing:
+            problems.append("missing " + ", ".join(missing))
+        if unexpected:
+            problems.append("unexpected " + ", ".join(unexpected))
+        if duplicates:
+            problems.append("duplicated " + ", ".join(duplicates))
+        if failed:
+            problems.append("failing " + ", ".join(failed))
+        raise ConfigError(
+            f"verifier evidence does not record the current check list ({'; '.join(problems)}); "
+            "re-run the full scripts/verificar.py"
+        )
 
 
 def stage_release(

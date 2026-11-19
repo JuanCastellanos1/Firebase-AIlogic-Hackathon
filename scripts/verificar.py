@@ -13,10 +13,13 @@ tests, diagram checks, contract fixture, lint, production build, the build-outpu
 emulator-backed Playwright suite, the pinned Gitleaks credential scan and the production
 dependency audit.
 
-`ok` means: no prerequisite blocker and every check exited 0. It is not a product,
+`ok` means: no prerequisite blocker and every executed check exited 0. It is not a product,
 accessibility, privacy or delivery claim; the unimplemented list names the remaining gaps.
-`gate_c_eligible` additionally requires a real commit, a clean tree, an unchanged tree after
-the checks, and no unimplemented scope item; an unborn HEAD is reported as `commit: "unborn"`.
+`scope.included` names only the checks this invocation actually executed and `scope.complete` is
+true only when that is the full declared list, so a partial run can be green without claiming the
+full gate. `gate_c_eligible` additionally requires a real commit, a clean tree, an unchanged tree
+after the checks, no unimplemented scope item and a complete check scope; an unborn HEAD is
+reported as `commit: "unborn"`.
 
 Q5 is measured mechanically here: `secret-scan` runs the pinned Gitleaks runner over the whole
 working tree plus `dist/`, and `dependency-audit` runs `npm audit --omit=dev --audit-level=high`.
@@ -176,15 +179,18 @@ SCOPE = {
         "build was deployed, the reserved /__/firebase/init.json endpoint is unproven for the modular "
         "SDK and must be checked empirically after the gated deployment, and no hosted "
         "reCAPTCHA-Enterprise-attested request exists",
-        "App Check enforcement evidence: one live `ONLY_IN_CLOUD` request with the registered debug "
-        "token succeeded, but a second request from an app instance without App Check was also "
-        "accepted, so no rejection was observed and enforcement is not demonstrated",
+        "App Check enforcement is ENFORCED for `firebaseml.googleapis.com` and probe-proven (valid "
+        "token 200, missing or garbage token 401; docs/adr/0007-appcheck-enforcement.md), but hosted "
+        "reCAPTCHA-Enterprise attestation and Firestore App Check enforcement before public release "
+        "remain pending",
         "in-app live cloud reconciliation: the signed-in live app reaches the Auth success path and "
         "is denied at the membership read by the current closed Rules; the reviewed Ruleset "
         "deployment (separately approved, not performed here) is required, and the cloud "
         "reconciliation suggestion/confirm flow has only labelled-mock evidence",
-        "live quota/latency beyond one measured call, and a hosted local model ON_DEVICE request "
-        "(AC13/Q6 remain open); exact Nano 4 identity/provenance is still unverified",
+        "hosted local model ON_DEVICE request, quota/latency beyond one measured cloud call and the "
+        "separately consented hosted cloud comparison (AC13/Q6 remain open); the local model path is "
+        "proven on localhost for Nano 4 by docs/adr/0006-nano4-runtime-proof.md, while a hosted "
+        "local-model request and the hosted reCAPTCHA-attested cloud request are still absent",
         "manual accessibility: screen-reader announcements, 200% zoom and actual Android Chrome touch "
         "(automated axe serious/critical, keyboard and 320px checks only)",
         "live Firebase Hosting deployment, public release and any further cloud provisioning remain "
@@ -196,6 +202,21 @@ SCOPE = {
 
 def now() -> str:
     return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def scope_for(scope: dict, executed: list[str]) -> dict:
+    """The reported scope names only the checks that ran; `complete` needs every planned name.
+
+    A `--only` run stays honest: its evidence cannot claim the full gate or list checks that were
+    never executed. The planned list is kept so a reader can see the coverage gap.
+    """
+    planned = list(scope.get("included") or [])
+    return {
+        **scope,
+        "included": list(executed),
+        "planned": planned,
+        "complete": sorted(executed) == sorted(planned),
+    }
 
 
 def run_command(command: list[str], cwd: Path, timeout: int) -> tuple[int, str, int]:
@@ -343,9 +364,14 @@ def build_evidence(
     )
 
     ok = not blockers and all(item["exit"] == 0 for item in results) and tree_stable
+    scope = scope_for(scope, [record["name"] for record in results])
     gate_c_reasons: list[str] = []
     if not ok:
         gate_c_reasons.append("checks failed, blocked, or the tree changed during the run")
+    if not scope["complete"]:
+        gate_c_reasons.append(
+            f"partial check scope ({len(scope['included'])} of {len(scope['planned'])} checks executed)"
+        )
     if state_after["commit"] == "unborn":
         gate_c_reasons.append("unborn HEAD")
     if state_after["dirty"]:
@@ -431,7 +457,11 @@ def main(argv: list[str] | None = None) -> int:
     report.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"evidence: {report}")
-    print(f"scope: phase {data['phase']} {data['scope']['name']} (unimplemented work is listed)")
+    print(
+        f"scope: phase {data['phase']} {data['scope']['name']} "
+        f"({len(data['scope']['included'])} of {len(data['scope']['planned'])} checks executed; "
+        "unimplemented work is listed)"
+    )
     outcomes = {record["name"]: record["exit"] for record in data["checks"]}
 
     def outcome(name: str) -> str:

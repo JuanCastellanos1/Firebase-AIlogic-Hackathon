@@ -1,76 +1,59 @@
-# Project State
+# ShiftRelay — Project State
 
 GITHUB_SYNC=https://github.com/JuanCastellanos1/Firebase-AIlogic-Hackathon.git
 MODE=full
 REVIEW_MODEL=opencode-go/qwen3.8-flash
-DEADLINE=2026-11-30 14:00 America/Los_Angeles (official submission cutoff)
-STACK=React + TypeScript + Vite; modular Firebase JS SDK (AI Logic, App Check, Auth, Firestore); Firebase Hosting; Vitest + Playwright + Firebase emulators
+DEADLINE=2026-11-30 14:00 America/Los_Angeles
+STACK=React + TypeScript + Vite; Firebase AI Logic, App Check, Auth, Standard Firestore, Hosting; Vitest, Playwright, Firebase emulators
 PYTHON_CMD=py -3
 BRANCH=feat/hackathon-ideation
 DEFAULT_BRANCH=main
 BASE_SHA=538ed9f9a83b6bda18b8fb6e4bacfb712ded575f
+RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
-## Brief
+## Current milestone — November 19, 2026
 
-Read summary.md first; consult the official rules if needed. Brainstorm hackathon project ideas in English. The user wants an innovative and complete product that must be a web application portable to Android and must solve a real-life problem, not merely provide information.
+Resumed from the clean amended WIP commit `dbd217c` on the existing feature branch. The closure handoff's `2fd7fc5` was the pre-amend SHA, not the final saved checkpoint. Completed framing/build work is retained; do not repeat ideation, Gate A or the three feature slices.
 
-## Scope and decisions
+- Gate A: passed with real diagram evidence.
+- Build: manual ownership workflow, private local drafting, consented cloud reconciliation, three runtime modes, security/tooling fixes and QA preparation are implemented. Hosted and manual delivery evidence remains incomplete.
+- Gate C: **DO NOT APPROVE** at `dbd217c`, following two independent Qwen 3.8 Flash reviews. Phase 6.5 is the next work, not deployment.
+- Gate D: pending review closure, current-source CI, authenticated hosted QA, remaining manual checks, final artifact review and authorized merge.
 
-- English-only policy is authoritative in AGENTS.md.
-- Current authorization: user approved the remaining permissions package: local development/tools/skills, localhost servers/emulators, isolated-profile browser automation, hardware/local-model testing, local branches/commits, dedicated nonproduction Firebase setup and synthetic tests, delegated feature-branch pushes/draft PRs, Apache-2.0 license. Spending is FREE-TIER-ONLY: no billing account, paid plan, paid APIs, or charges. Android is responsive web now. User separately confirmed creating project shiftrelay-hybridai-2026 (subject to ID availability) and default Standard Firestore database in permanent region us-east1. No cloud resources are claimed to exist until actual provisioning evidence. Public deployment, merge, visibility changes, submission and cloud deletion still require action-specific confirmation.
-- The user states 15 days to finish. As of November 16, this may extend beyond the official November 30 cutoff. Use the earlier official cutoff; working hours and team capacity remain unknown.
-- Must: hackathon compliance, actual runtime Firebase AI Logic usage, App Check, web delivery, credible Android portability, actionable end-to-end workflow, coherent product experience, real target audience.
-- Submission must include a public open-source repository and a public YouTube demonstration of at most three minutes. Testing access must remain available through December 16, 2026.
-- Nice-to-haves: propose after idea comparison; do not silently require a second native implementation.
-- Sponsor rules prefer multiple platforms but allow one; Android portability alone does not establish Android-category eligibility.
-- Team size, devices capable of local inference and cloud credentials/access remain unknown. Budget is free-tier-only; never silently enable billing or substitute paid services.
-- No credentials required for ideation. Use synthetic data for any future demo by default.
-- GitHub access verified; empty remote cloned through a temporary staging folder to preserve summary.md. Default symbolic branch is main. User now authorizes delegated feature-branch pushes/draft PRs; master never pushes. No merge authorized.
-- Existing summary is a secondary source, sufficient for initial ideation; technical feasibility requires current official SDK documentation before committing to a design.
+## Brief and non-negotiables
 
-## Phase 0 evidence — November 16, 2026
+ShiftRelay turns private non-emergency community-venue shift notes into reviewed shared tasks, explicitly accepted ownership and recorded resolution/reopening. Web-first; responsive Android web now, not a native Android build. One venue and synthetic demonstration data. English only as specified in `AGENTS.md`.
 
-- Python 3.15.2 (`py -3 --version`).
-- Node v24.14.0; npm 11.9.0; Git 2.55.0.windows.5; OpenCode v2.3.0.
-- `opencode mcp list`: context7 connected; github connected.
-- `git ls-remote <remote>`: exit 0, no refs. Clone confirms empty repository.
-- GitHub MCP authenticated as repository owner; branch feat/hackathon-ideation selected locally.
-- No prior PLAN, HANDOFF, AGENTS, or .gitignore existed at startup. summary.md preserved.
-- Initial documentation baseline committed locally as538ed9f9a83b6bda18b8fb6e4bacfb712ded575f; main points to that requirements baseline, implementation remains on feat/hackathon-ideation. No push/merge performed.
+Keep private input in memory and strictly on-device; no silent cloud fallback, payload telemetry or AI-authorized task mutations. Sharing and cloud inference require separate explicit review/consent. Server Rules enforce permissions, versions and activity coupling. The six targets in `CONSTRAINTS.md` remain unchanged.
 
-## Next milestone
+## Permissions retained on resume
 
-ShiftRelay and its stack/scope are approved. Official Firebase skills installed globally from reviewed revision 99954a30898bb5ddc8152ee10e124dc3b4106bf7: firebase-ai-logic-basics, firebase-auth-basics, firebase-firestore, firebase-security-rules-auditor, firebase-hosting-basics. All five are now visible in the skill catalog. See docs/skills.md for loading policy. Firebase MCP remains optional and unconfigured.
+Approved: implementation/local tools/reviewed Firebase skills; isolated browser/model/accessibility tests; local commits; delegated feature pushes, safe repository bootstrap, CI, PR and gated merge; Apache-2.0; Spark-only Firebase/AI/Auth/App Check/key restrictions; synthetic test users/memberships and data resets.
 
-Framing artifacts exist: docs/spec.md (15 criteria), docs/PLAN.md (three slices), CONSTRAINTS.md (six thresholds). Phase 4 added frozen interfaces, fixture, pure domain validation/transition functions and verifier. Master re-executed 54 domain tests and 18 tooling tests successfully, including fixes to target identity, complete task shape validation, safe versions and fail-closed evidence. Verifier explicitly excludes unimplemented product checks; no Gate C/product completion claim.
+Authenticated QA Hosting/secure Rules deployment is specifically approved **after code review and automated checks**, to collect live evidence before final validation. Final release/merge still requires gates and CI. Agent-created exposed development/QA credentials may be revoked/replaced; never touch unrelated credentials. Chrome's specific first-run agreement was approved only for the disposable Android QA device, signed out with optional reporting off.
 
-Gate A APPROVED. Master re-executed the implemented manual-slice verifier on November16: typecheck/lint/build pass,54 unit tests,31 Rules tests,7 emulator-backed E2E tests and19 tool tests pass,2/2 diagrams render. Scoped ok=true; HEAD still unborn/dirty, Gate C not eligible and product gaps explicit. Build has an808.84kB JS chunk warning; no performance pass claimed. Five-card production Rules access-budget caching remains a documented risk, not proven by emulator alone.
+Never enable billing/Blaze/paid resources, accept other new legal terms, force-push, change visibility, delete cloud resources, publish to YouTube or submit the hackathon entry without specific approval. Master never pushes. No new cloud action is needed for Phase 6.5.
 
-Master independently exercised separate-profile UI on localhost through real emulator sign-in, memory-only private note, one reviewed task publication, sign-out/incoming sign-in, accept, resolve and reopen. State progressed v1→v2→v3→v4 with retained owner and resolution history; raw note cleared after sharing. Page errors were empty; console showed only Vite/React dev messages. Temporary synthetic auth-vault profiles removed and browser closed. PowerShell requires quoted '@eN' refs and agent-browser.cmd for password-stdin; guessed wait labels timed out without app failure, corrected by inspecting actual DOM/status.
+## Verified records versus pending evidence
 
-Read-only local device probe: Acer Nitro AN515-54, approximately 15.8 GiB physical RAM. This is inventory, not evidence of sufficient local-model capability; GPU/available disk/browser/model eligibility remain unverified. Web mobile support does not establish Android-browser local inference; native Kotlin would reuse backend/domain contracts, not React UI.
+- On resume, master regenerated `.git/opencode/evidence.json` **after** `dbd217c`: `ok=true`, `dirty=false`, `tree_stable=true`, matching commit, all 16 implemented checks exit 0. Review SHA/patch were generated afterward against `origin/main` at the requirements root. This is implemented-code evidence, not final delivery certification.
+- Qwen reviewers validated those inputs. Review sessions: data/privacy `ses_e0b4b0c92ffekd70cGqZZj6Zhh`; UI/runtime/tools `ses_e0b4b0c87ffexgrxbUnlfc4lfT`. Both rejected Gate C; no release admission while blockers remain.
+- CI **has run**: GitHub Actions run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83`; master independently re-read its public REST metadata on November 19. It does **not** certify `dbd217c` or subsequent fixes. A review statement claiming CI never executed is rejected on that evidence.
+- Nano 4 localhost proof: ADR0006 records the sponsor-documented Gemma 4 flag, ready Gemma 4 weights, legacy v3 not installed, two genuine Firebase AI Logic on-device generations. Semantic source-span alignment remains imperfect and requires human review. Intended hosted-origin proof is pending.
+- AI Logic App Check: ADR0007 records `firebaseml.googleapis.com` ENFORCED, valid-token 200 and absent/invalid-token 401 after propagation, and completed debug-token rotation. Recheck live state at QA; hosted reCAPTCHA and Firestore enforcement are not inferred from that result.
+- Android: ADR0008 records isolated Android 17/Chrome 149, fixed guest networking, first-run completed signed out/reporting off. No app flow was validated on Android, and no physical-device claim is made.
+- External project `shiftrelay-hybridai-2026`, Standard Firestore/us-east1 and one web app are provisioned; prior setup verified billing disabled. Real configuration and test credentials stay outside the repository under the private path documented in ADR0003/0004. Do not print/read them for code review.
 
-## Current active work
+## Phase 6.5 blocker set
 
-- Implementer ses_e1ca82d8effe4fvhgQBd7tmy2a completed manual UI/emulator slice. Publication now uses transactions (not offline-queued batches), stable IDs/read-back and explicit retry. React Auth sessions and membership are real emulator-backed, not mock role switches. Master reran verifier/UI; manual screen-reader,200%zoom and real Android touch remain unverified.
-- Implementer ses_e1ca58388ffeFsRI6wS6wYzf5w completed approved provisioning. Master independently reran repo-local projects:list and firestore:databases:get successfully: shiftrelay-hybridai-2026 is ACTIVE, display ShiftRelay, number1013230596333; (default) database STANDARD/FIRESTORE_NATIVE, us-east1, freeTier=true, PITR disabled. Implementer additionally verified Cloud Billing API billingEnabled=false and no linked account; this billing API check is reported by implementer, not re-executed by master. Only required Firestore API enabled by agent; no app registration, API key, seed data, Rules release or Hosting deployment. Firebase created an empty default Hosting site resource. Default-deny is documented platform behavior, not empirically client-tested. Provisioning evidence write under .git was permission-denied; complete sanitized report is in that child session and summarized here.
-- Official docs rechecked through Context7: Gemini Developer API free tier requires Spark with no linked Cloud Billing account (https://firebase.google.com/docs/ai-logic/pricing); us-east1 is a supported Firestore regional location (https://firebase.google.com/docs/firestore/locations). Database location does not establish Gemini processing/data residency. Availability/quota/service prerequisites still require real checks.
-- Implementer ses_e1b0acbe5ffeVKDDpHSW39qnE3 completed real pinned Gitleaks8.30.1 scanner and8regressions. Working tree/untracked/gitignored/build scan included, .git/node_modules excluded, findings redacted, no leaks. Its full rerun hit master preview-port collisions plus genuine gRPC advisories. Master stopped only owned preview process trees and independently verified patched audit/scanner afterward.
-- Debugger ses_e1addfe3affesmR200a2KxP0FH completed scoped @firebase/firestore -> @grpc/grpc-js1.13.6 fix with full verifier12/12 checks passing; master inspected resulting report. No advisory suppression/downgrade.
-- Debugger ses_e1ad2a6feffet0yB8UBPcnNUZ9 contained a generated Firebase CLI log that had dumped inherited host environment credentials during a failed emulator invocation. No staging, Git history or remote exposure occurred; credential values were never echoed. The emulator-only safe wrapper now passes a minimal child environment, rejects live operations, and scrubs residual env-dump diagnostics defensively. Full verifier12/12 passes with37tool tests; master reran scanner78files clean immediately before initial staging. Never use unwrapped emulator commands with inherited host credentials. Rotate credentials only if such a local log was externally shared; no external compromise established.
-- User now requests continuous execution to finished product; continue local/AI/cloud configuration/review within existing free-only limits, without unnecessary routine approval prompts. Required specific public-deploy/merge/submission confirmations and real-world evidence cannot be waived or invented.
-- User explicitly selected Qwen3.8Flash for reviewer, NOTClaudeHaiku. Model catalog checked first on openai(no match), then availableproviders: exactactiveID opencode-go/qwen3.8-flash. All reviewer/re-review delegations must set that model explicitly; do not silently substitute another model or guess a variant.
-- User explicitly approved GATED RELEASE: publish reviewed app at https://shiftrelay-hybridai-2026.web.app, deploy reviewed Firestore Rules/indexes, and merge reviewed GitHub PR into main ONLY after required review/verification/CI pass. No billing, test-mode public Rules, account-term acceptance or hackathon submission authorized. Caveman is off for irreversible actions; verify gates immediately before execution.
-- Manual implementation committed locally asb41b0a4e9cc4a69bd07439c3b4cf5793ee75c149. Master reran post-commit verifier12/12 successfully,dirty=false,SHAb41b0a4; scoped gaps keep finalGateC ineligible. No push/merge/deploy yet.
-- Active independent implementers: ses_e1ab26953ffeW3ZdZv2jZMpS6f owns Slice2 local drafting/app/tests/contracts/verifier; ses_e1ab20121ffeP9ZThXo0ZyYgL1 owns isolated free-tier WebApp/AI/Auth/AppCheck setup and ignored.env.local plus ADR0003 only. Do not run competing suites or edit their owned files. Receive automatic completion, verify, commit, then implement Slice3 reconciliation.
-- November17: user explicitly chose Continue building, canceling the proposed safe-close path. Approved remaining unattended package: productionAppCheck/key restrictions, synthetic live users/memberships, authenticated QA deployment after code review+automated checks to perform live release validation, safeGitHubbootstrap/CI/PR/merge, isolated accessibility tests/localdemo materials and one technical organizer clarification through an available authenticated channel. No billing/new legalterms/YouTube publication/hackathon submission/forcepush/cloud deletion. Final delivery still requires genuine checks; missing identity/hardware/access cannot be invented.
-- Slice2 and cloudsetup tasks completed. Genuine FirebaseSDK ONLY_ON_DEVICE generated5drafts on isolatedChrome157,localonly; actualcomponent exposed nano_v3_gpu_component2025.8.8.1141, so exactNano4 is NOT verified. Master reran full combinedverifier after fixing configstorage:71unit,17targetedAI-output,31Rules,14E2E,37tools,scans/audit/type/lint/build/2diagrams all pass. No hosted/localAppCheck/cloudgeneration claim yet.
-- Cloud setup: oneWEBapp1:1013230596333:web:a0b89365ee59732eb85ce4 registered; GeminiDeveloper/FirebaseAILogic/Auth/password/AppCheck APIs provisioned, billingfalse verified by setupagent. LocaldebugAppCheck token registered; productionreCAPTCHA key still missing. Realconfiguration moved byte-verified from ignoredrepo.env.local to current-user-only ACL file under LOCALAPPDATA/Temp/opencode/shiftrelay-private/firebase-development.env; no source/history exposure. Master whole-tree scan now clean with zeroallowlist. Never copy values back or bundle debugtoken.
-- Latest unattendedpermissions confirmed: productionreCAPTCHA/keyrestrictions/synthetic identities and memberships, authenticatedQAdeployment after code review+automatedchecks BEFORE final live-validation completion, safeGitHubbootstrap/CI/PR/merge, isolatedaccessibility/localdemo materials and onetechnicalorganizerclarification through availableauthchannel. No billing/newlegalterms/YouTubepublication/hackathonsubmission/forcepush/clouddeletion. Continue independentwork if accountlogin/hardware unavailable; report actualblockers honestly.
-- Cloudagent completed productionAppCheckscoreWebkey restricted to exactly the2Hostingdomains (notlocalhost), registeredprovider3600s/minscore0.5; restrictedPUBLICbrowserkey to10FirebaseAPIs excludingdirectGemini and preciseHosting/localhostreferrers. Created2syntheticAuthusers and their2exactrole memberships; no taskseed/deletion/Rules/Hostingdeploy; billingfalse reverified. Details inADR0004, all realvalues/passwords/debugtoken remain outside-root privateconfig.
-- Slice3 source completed consented boundedpreview/snapshot/validatedcloudadapter/humanobservationUX. Master reran14-checkverifier successfully with91unit20reconciliation17AI-output31Rules20E2E37tools,2diagrams,scans/audit/type/lint/build. Liveprovider remains notconfigured; cloudresults inE2E explicitlymocks. Next liveclientconfiguration/AppCheck/actualcloudrequest and gatedQAdeployment, no claim of fullcompletion.
-- GitHubsync pushed verifiedSlice2commit92379f96981b14960cf31e1499175501669b61a8 to feat/hackathon-ideation. Remote was empty; mainroot bootstrap viaMCPfromSHA failed(toolacceptsbranchnameonly). No directpushmain,PR,merge orsettingschange. Verifyplatformdefaultbranch beforefinalPR; intendedmain must pointrequirementsroot538ed9f beforemergingimplementation. Master neverpushes.
-- GitHubbootstrap RESOLVED: github-sync pushed requirementsroot to newnondefaultbootstrap/shiftrelay-requirements, then MCPcreatedmainfromthatbranch at exactly538ed9f; featurecheckpoint6cbfded72d2b027b8e17845ca92b4af72d629c47 pushednonforce. Master used user-authorized documentedrepositoryPATCH to restoredefaultbranchmain; returnedrepositoryidentity matched andvisibility remainedpublic. No directpushdefault,PR/merge/release/branchdeletion yet.
-- Active: implementer ses_e14e4ec60ffeI1PxPytTtLMPFq owns liveconfig/Auth/AppCheck/actualcloudSDKintegration and source/tests/contracts/PLAN/verification. Implementer ses_e14d4621bffefRJJm38seUYJmN owns only .github/workflows/verification.yml CIpreparation, no source/package/test edits or competing suites. Receive automaticcompletion, verify+review before authorizedQAdeployment. Intendedcloudcontext31Rulesproductioncaching still testrequired; exactmodelpending.
-- Master found official FAQ https://firebasehybridaihackathon.devpost.com/details/faqs explicitly says enable 'Gemma 4 for Built-in AI' in chrome://flags for Nano4. Prior no-flags successfulweights exposednano_v3 and must not be relabeled. Planner ses_e1b09fc31ffen0CJOCOVSacj43 is independently inspecting that actualflag in a fresh isolatedprofile and updating ONLYADR0002; no source edits/directmodelinference. This may resolve mapping without externalorganizerposting; actualflaggedFirebaseSDK generation still required before claim.
-- Planner ses_e1b09fc31ffen0CJOCOVSacj43 completed docs/adr/0002-on-device-feasibility.md: stock Chrome157 exposes LanguageModel and English-text downloadable state on loopback and official-docs HTTPS; no download/generation/model identity/hosted-app proof. CPU route plausible, GPU4GiB not qualifying evidence. Exact Nano4 compatibility remains unresolved; no eligibility claim.
+- D1: runtime live-local API-key shape must match the frozen `AIza` validation contract.
+- D2: server membership authorization must bind the record's venue to its path, not only its UID.
+- D3: pin cloud model/output-token/structured-response request wiring with regression assertions.
+- D4: reconcile current scope/docs with ADR0006/0007, preserving dated historical results and all genuine hosted/manual gaps.
+- U1: `--only` evidence must name only executed checks; release staging must reject incomplete check coverage even when selected checks passed.
+
+Record grouped non-blocking findings in `docs/DEBT.md` (at most eight), update the budget at review closure, and re-review **only the fix diff** using explicit `opencode-go/qwen3.8-flash`. Do not silently substitute Haiku or a guessed variant.
+
+## Next exact step
+
+Implement the blocker fixes with red/green regressions; no limit/test/security weakening. Commit the fix plus corrected operational records, regenerate the full verifier after commit, require clean SHA-matched evidence, and refresh review SHA/patch. Both original Qwen reviewers must confirm their blockers closed before Gate C closes. Only then proceed to current-source CI and the already-approved limited hosted QA path. `docs/HANDOFF.md` carries the exact session resume details.

@@ -28,6 +28,7 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 import release_prep as prep
 import scan_secrets
+import verificar
 
 # High-entropy shapes computed at import time: the repository stores no credential-shaped
 # literal, so the pinned scanner never sees one in this file or its bytecode cache.
@@ -93,7 +94,7 @@ def write_evidence(repo: Path, path: Path, **overrides: object) -> Path:
         "dirty": False,
         "tree_stable": True,
         "cwd": str(repo.resolve()),
-        "checks": [{"name": "build", "exit": 0}, {"name": "secret-scan", "exit": 0}],
+        "checks": [{"name": name, "exit": 0} for name in prep.REQUIRED_CHECK_NAMES],
     }
     data.update(overrides)
     path.write_text(json.dumps(data), encoding="utf-8")
@@ -435,6 +436,37 @@ class StageTests(unittest.TestCase):
                 code, _ = self.stage(repo, evidence, root / "sealed")
                 self.assertEqual(code, 2, override)
                 self.assertFalse((root / "sealed").exists(), override)
+
+    def test_stage_requires_every_current_check_name_exactly_once(self) -> None:
+        # The authoritative list is the verifier's own CHECKS, imported without running a check.
+        names = list(prep.REQUIRED_CHECK_NAMES)
+        self.assertEqual(names, [check["name"] for check in verificar.CHECKS])
+        self.assertEqual(len(names), len(set(names)))
+        cases = (
+            ("partial", [{"name": "build", "exit": 0}, {"name": "secret-scan", "exit": 0}]),
+            ("missing", [{"name": name, "exit": 0} for name in names[:-1]]),
+            ("duplicate", [{"name": "build", "exit": 0}] + [{"name": name, "exit": 0} for name in names]),
+            ("unknown", [{"name": name, "exit": 0} for name in names] + [{"name": "extra-check", "exit": 0}]),
+            ("failing", [{"name": name, "exit": 0 if name != "rules-tests" else 1} for name in names]),
+            ("malformed", ["build"]),
+        )
+        for label, checks in cases:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                repo = make_repo(root)
+                evidence = write_evidence(repo, root / "evidence.json", checks=checks)
+                code, out = self.stage(repo, evidence, root / "sealed")
+                self.assertEqual(code, 2, (label, out))
+                self.assertIn("check", out.lower(), label)
+                self.assertFalse((root / "sealed").exists(), label)
+
+    def test_stage_accepts_evidence_with_the_full_current_check_list(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = make_repo(root)
+            evidence = write_evidence(repo, root / "evidence.json")
+            code, out = self.stage(repo, evidence, root / "sealed")
+        self.assertEqual(code, 0, out)
 
     def test_stage_refuses_missing_evidence_unknown_project_and_inside_repo(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -53,6 +53,16 @@ class FindTests(unittest.TestCase):
             self.assertIn("appcheck-debug-token-value", rules)
             self.assertIn("test-network-mock-hook", rules)
 
+    def test_uppercase_uuid_shaped_token_value_is_found(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            dist = Path(directory)
+            (dist / "app.js").write_text(
+                'self.FIREBASE_APPCHECK_DEBUG_TOKEN = "AAAAAAAA-BBBB-4CCC-8DDD-EEEEEEEEEEEE";',
+                encoding="utf-8",
+            )
+            rules = [rule for rule, _ in guard.find_findings(dist)]
+            self.assertEqual(rules, ["appcheck-debug-token-value"])
+
     def test_sdk_property_name_alone_is_not_a_finding(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             dist = Path(directory)
