@@ -13,6 +13,70 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Checkpoint save blocked:** pinned scan/diff check passed and exactly three operational
+docs were staged; tool policy denied commit before Git executed. Master confirmed HEAD
+unchanged at `ae527d1`; no post-commit verifier/review refresh. Later failure-record edits
+need restaging. User shell commands and permission boundary are at HANDOFF top. No bypass,
+push/merge/deploy; final gates remain open.
+
+**Android report inspected:** existing AVD native touch/IME and signed-out
+portrait/landscape plus initial signed-in portrait read-only layout measured without
+overflow/clipping; one safe sign-in/sign-out, no mutations/inference/traffic capture.
+No master replay or physical-device/TalkBack/zoom/App Check claim. Guest memory
+pressure killed Chrome once; do not claim broad stability/performance. Owned emulator/
+forward closed, AVD and rotation preserved. Next preserve operational checkpoint with
+authorized commit and fresh evidence; no push/merge/deploy or final gate approval.
+
+**Android QA selected:** bounded existing-emulator touch/layout/read-only task delegated,
+at most one safe rotated synthetic sign-in. No task writes/inference/App Check
+experiments or cloud changes. Report pending; no device/TalkBack pass claimed.
+
+**Native validation confirmed via extension:** inspected delegate evidence shows one
+empty-submit click blocked natively, zero submit events, Email focused with localized
+required-field message. No credentials/sign-in; owned tab closed. Actual Narrator error
+speech remains unverified; blur-only observation does not justify a code fix.
+
+**Next AT scope selected:** user-assisted Windows Narrator walkthrough on signed-out
+page, no install/sign-in. Await actual announcements; screen-reader gate remains open.
+
+**Desktop result inspected:** actual200%-zoom and keyboard/focus checks passed on
+signed-out and initial read-only signed-in states per inspected delegate evidence,
+not master replay or full-app certification. Screen reader remains unverified due to
+available authorized observation tooling. One synthetic sign-in/sign-out, no mutations,
+inference or traffic capture; incidental App Check activity unknown. Blur-only missing
+validation feedback is not an established defect; submit-time native/AT behavior untested.
+Correction-only report follow-up inspected and accepted. Next requires user-scoped real AT observation
+or Android QA, no automatic further sign-in. Final Gates C/D remain open.
+
+**Desktop QA selected:** user explicitly chose bounded screen-reader/true200%-zoom
+checks on existing hosted app; delegate running, report pending. Signed-out first,
+at most one safely entered rotated synthetic sign-in if needed; no task mutations,
+inference, App Check retry experiment/settings/deploy. No accessibility pass claimed.
+
+**Local CLI success proof inspected:** delegated loopback-browser harness passed26/26
+with five genuine entries, real production guard path, no emitted fixture values and
+owned-session cleanup. Master inspected report/harness, not an independent replay.
+External host egress was not measured; no zero-external-traffic claim. Next: user scopes
+remaining desktop accessibility or Android workflow QA. No hosted/Auth/App Check/model
+success follows, no automatic retry/inference/settings/deploy. Final gates remain open.
+
+**Capture adapter follow-up:** outside-root process-boundary adapter implemented; master
+reproduced70/70 offline checks and unsafe-output exit2/zero bytes. Successful real capture
+is not yet proven. A bounded isolated-browser/loopback-only synthetic success test is
+delegated; external traffic blocked, no Firebase/Auth/cloud/private config. Authenticated
+QA hold remains. HANDOFF names session/artifacts and limitations; no gate status change.
+
+**Latest resume checkpoint (after17:09 UTC):** user requested continuation. Saved WIP exists
+at `ae527d1`, clean at resume; fetch succeeded, remote feature/deployed source remains
+`00c2b2e`. Required phase artifacts/toolchain/MCP verified. Full verifier finished
+`17:09:07Z`,16/16 pass, clean/stable/complete and SHA-matched to `ae527d1`; final Gates C/D
+remain open and review.sha is stale. These later operational edits are not certified.
+Master independently reproduced the outside-root capture selfcheck:35/35, exit0 and expected
+unsafe-output exit2. This is synthetic projection proof, NOT a safe live browser integration.
+Next exact task is local-only capture-adapter proof before authenticated QA; no automatic
+App Check retry, cloud inference, deployment, push or merge. HANDOFF's newest checkpoint is
+authoritative; the historical closed/save-blocked/pending paragraphs below are superseded.
+
 **Session closed by explicit confirmation:** preserve branch/work in a local WIP; no push/merge/
 deploy/delete. No agents running. Containment completed per inspected evidence; safe-capture
 synthetic-fixture validation is the exact prerequisite before future authenticated QA. Final Gates

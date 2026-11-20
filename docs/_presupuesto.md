@@ -12,6 +12,53 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Checkpoint blocked by permission:** scan/diff checks passed, three docs staged, commit
+denied before execution; no post-commit verification or review refresh. Preserve work
+and stop automated commit attempts until user action/permission change. No allocation
+change or gate waiver; later failure record is outside prior scan/checkpoint evidence.
+
+**Android report inspected:** bounded emulator touch/IME/read-only layout evidence
+retained; do not repeat it or relabel it physical-device/TalkBack proof. Guest memory
+pressure is a stated limit. Next prioritize durable checkpoint/evidence and delivery
+record reconciliation before more cloud/QA effort. Allocations/free-tier limits
+unchanged; labor unmeasured, no final-gate waiver.
+
+**Android QA selected:** spend next bounded effort on remaining emulator touch/read-only
+evidence, not repeated desktop checks. At most one safe sign-in; no mutations/model
+calls/new tooling or quality waiver. Allocation/free-tier restrictions unchanged.
+
+**Native validation follow-up:** one user-requested extension check confirms empty-submit
+blocking and Email focus; retain evidence, no speculative form-validation rewrite.
+Real reader error speech and remaining delivery groups remain open. Allocation unchanged.
+
+**Desktop result inspected:** retain bounded200%-zoom/keyboard evidence; do not repeat
+successful checks. Real screen-reader behavior remains blocked by authorized tooling.
+No code fix budgeted for blur-only observation without submit-time/AT evidence of a
+defect. Next effort requires scoped reader observation or Android QA; allocations,
+free-tier limits and quality floor unchanged. No full accessibility/gate waiver.
+
+**Desktop QA scoped by user:** prioritize actual screen-reader and200%-zoom evidence;
+bounded delegate running, no broad workflow replay or optional polish. Tool/AT
+limitations must remain explicit. No allocation change, gate waiver or paid resources.
+
+**Local success proof inspected:** bounded real-CLI loopback task completed26/26 in two
+attempts; no further security-probe retry planned. Next effort goes to explicitly scoped
+remaining accessibility/device checks, not repeated broad QA. Hosted readiness and final
+gates are not certified. Allocation/free-tier restrictions unchanged; labor unmeasured.
+
+**Capture-adapter follow-up:** keep effort on the smallest security prerequisite, not broad
+QA. Master reproduced70/70 offline process-boundary checks and unsafe-output rejection.
+One bounded synthetic loopback-browser success proof is delegated; no authenticated/cloud
+work or gate waiver. Allocations unchanged; no measured labor total or paid resources.
+
+**Resume checkpoint — November20, after17:09 UTC:** saved WIP `ae527d1` confirmed; full
+implemented-scope verifier refreshed (16/16, clean/stable/complete, SHA-matched). No final
+gate waiver; review bundle remains stale. Synthetic safe-projection selfcheck independently
+passed35/35 plus expected unsafe-output rejection. Keep next effort bounded to local capture
+integration proof; authenticated QA remains held until that boundary is proven. No repeated
+framing/build/deploy or optional polish, no cloud mutation. Allocations unchanged, labor
+unmeasured, spending free-tier-only. Later operational edits need their own clean checkpoint.
+
 **Orderly closure confirmed:** stop development/cloud work, preserve four operational/rules edits
 in a local WIP, no push/merge/deploy/delete. Security containment evidence retained; safe capture
 prerequisite and remaining delivery validation are next on authorized resume. No allocation change,

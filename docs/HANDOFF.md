@@ -1,5 +1,255 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Resume checkpoint — November 20, 2026, after 17:09 UTC
+
+### STOP — local checkpoint commit denied by tool policy
+
+User requested continuation to local checkpoint. Delegate
+`ses_e05c7b182ffe2geXGJDIbQJMuk` ran diff check (exit0) and pinned Gitleaks scan
+(116 files, no leaks, exit0), then staged exactly HANDOFF/_project/_presupuesto.
+Commit permission was rejected before Git executed; no retry/bypass. Master
+independently confirmed unchanged HEAD `ae527d16f0c5d99469929f2a8e0af91e52b88ff7`
+and exactly those three staged paths. No commit, post-commit verifier or review
+metadata refresh occurred. Evidence still certifies clean old HEAD, not current edits.
+
+This failure record adds later unstaged edits to the same operational documents.
+**Next exact step:** user executes in their authorized shell, or explicitly changes
+delegate commit permissions before another attempt:
+
+```powershell
+git status --short
+git add -- docs/HANDOFF.md docs/_project.md docs/_presupuesto.md
+git commit -m "docs: record capture and accessibility QA evidence"
+git log -1 --format="%H %s"
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+git status --short
+```
+
+Allow900 seconds for verification. No push/merge/deploy. Refresh review SHA/patch
+only after full clean SHA-matched success; eight static delivery groups/final Gates
+C/D remain open. Do not try another tool/agent as a permission workaround.
+All pending checkpoint instructions below are superseded by this stop.
+
+### Active next task — Android QA explicitly selected
+
+**Android report received and inspected:** `shiftrelay-android-readonly-20261120.md`
+records existing Android17/SDK37 AVD, Chrome149.0.7827.5, portrait411×834 and
+signed-out landscape914×331. Native touch raised actual IME; focused fields stayed
+visible; no measured horizontal overflow/clipping. Initial signed-in portrait
+workspace had15 named visible controls, no measured overlap, label-extended checkbox
+targets. One synthetic sign-in and sign-out, no task mutations/inference or traffic
+capture. Master inspected delegate evidence, not an independent device replay.
+No Auth HTTP/App Check outcome, physical-device, TalkBack or zoom claim follows.
+
+Limitations retained: landscape keyboard leaves118 CSS px and requires scrolling;
+two coordinate misses, guest System UI wait dialog and one Chrome process death
+under memory pressure. Do not infer product performance/stability or full workflow
+accessibility from this run. Temporary AVD rotation was restored; owned forward and
+emulator closed, AVD preserved per report. The historical task-pending prose below
+is superseded.
+
+**Next exact step:** preserve accumulated operational records in an explicitly
+authorized local checkpoint and regenerate full clean SHA-matched evidence before
+any gate. Prior commit policy denial must not be bypassed: obtain current permission
+or let user commit in their own shell. No push/merge/deploy. Remaining substantive
+conditions include actual reader error/status announcements, mutation-state
+accessibility, physical-device limits if required by contract, hosted consented
+cloud/App Check proof, AC15 and public/judge/demo release conditions. Reconcile
+bounded device evidence with delivery docs in a separately delegated documentation
+cut; do not silently waive verifier's eight static delivery groups.
+
+User selected existing isolated Android emulator touch/layout and read-only workflow,
+with at most one safe synthetic sign-in; no task writes, inference or App Check
+experiments. Delegate `ses_e05d839ceffeVr01MRMd68SxTo` is running; report pending at
+`Temp/opencode/shiftrelay-android-readonly-20261120.md`. Inspect actual results on
+arrival, no polling; safe in-memory credential input is required or authenticated
+portion stops. Preserve AVD; close only owned resources. Emulator evidence must
+not be relabeled physical-device/TalkBack proof. Master owns three dirty operational
+docs; full clean evidence still certifies `ae527d1`, not later records. Final Gates
+C/D and real screen-reader error announcements remain open.
+
+### Capture adapter follow-up — local success report inspected
+
+### Desktop accessibility result — inspected, bounded coverage only
+
+Master inspected `Temp/opencode/shiftrelay-desktop-a11y-20261120.md`, not an
+independent browser replay. Delegate measured real Chrome157.0.8103.79 on Windows,
+display scale125%, signed-out and read-only signed-in states: true200% zoom via
+keyboard, DPR1.25→2.5 and viewport1266→633; no measured horizontal overflow,
+clipped text or overlapping interactive layout boxes. Keyboard/focus checks passed
+on inspected states (14 workspace stops). No full-app/WCAG certification follows.
+One safely entered synthetic sign-in, then sign-out; no task mutation/inference or
+network/console/HAR capture. Zoom restored and owned sessions closed per report.
+
+Real screen-reader behavior remains BLOCKED: NVDA/JAWS absent; available Narrator
+had no proven authorized observation/capture route for this agent. This is a
+tooling limitation, not proof ETW/admin is universally necessary. User-assisted
+observation is a possible next scoped route; no install/global AT change approved.
+
+Master rejected the report's initial blur-only form-validation finding as an
+established defect: native constraint validation ordinarily triggers on submit;
+absence of blur feedback alone does not establish a WCAG failure. Submit-time
+invalid-input/announcement behavior remains untested; do not add UI code on that
+observation alone. Also reject any statement that no Auth request/App Check
+exchange occurred in the whole run: sign-in succeeded; incidental attestation
+was unmeasured, not proven absent. Correction-only follow-up completed; master
+checked corrected report passages. No new browser/login or measurement occurred.
+
+**Next exact step:** resolve actual screen-reader observation with the user
+(assisted Narrator walkthrough or separately approved reader tooling), or scope
+remaining Android QA. No more sign-ins, mutation-inclusive accessibility checks,
+App Check retries, inference or cloud changes automatically follow. Before a
+gate, save the three operational docs and regenerate clean full SHA evidence;
+current clean report still certifies `ae527d1`, not these edits. Gates C/D open.
+This result supersedes the pending-desktop-task and scope-choice prose below.
+
+**User selected assisted Narrator walkthrough:** signed-out page only, no installation
+or sign-in. Await actual user-reported announcements for Email, Password and Sign in,
+then locally invalid-submit feedback (no valid credentials/Auth submission). Do not
+record screen-reader success before reports arrive. User controls Narrator; stop with
+Ctrl+Windows+Enter when finished. No broader authenticated/mutation QA is authorized.
+
+**User-observed Narrator baseline:** user reports Password: “password, editar,
+requerido”; Email: “email, editar, requerido, tiene menu emergente”; Sign in:
+“sign in, boton detectar”. Names, edit/button roles and required input states were
+announced per user observation; protected-password announcement was not reported.
+Source confirms native `type="password"` at `src/App.tsx:96`; do not infer a password
+exposure or a complete protected-state pass from speech alone. Narrator/Windows
+locale appears Spanish from reported speech; versions/config not yet recorded.
+Next: with BOTH fields empty, activate Sign in and report exact native validation
+announcement and focused control. No valid credentials or Auth request authorized.
+
+**User requested agent execution through Chrome extension instead:** delegate
+`ses_e05dd49b5ffeNufu5VGZ1bw9k5` performs one empty-submit check in its own signed-out
+extension tab, both fields verified empty, no credentials/Auth submission. Report
+pending at `Temp/opencode/shiftrelay-native-validation-20261120.md`. Inspect native
+validity/message/focus evidence; extension DOM access cannot establish Narrator's
+spoken output. Do not repeat the request for user-driven empty submission while
+this task is active. No global Narrator setting changes or unrelated tabs.
+
+**Extension result inspected:** `shiftrelay-native-validation-20261120.md` records
+one empty-submit click in owned real-Chrome extension tab, both inputs empty;
+zero submit events, two click-caused invalid events, native “Completa este campo”
+message and focus on Email. A later diagnostic checkValidity caused two additional
+invalid events, not another click. Native submit blocking is established for this
+signed-out state; Narrator error speech/cursor behavior remains unobserved.
+No credentials/Auth submission/traffic inspection; owned tab closed. Master inspected
+delegate report, not independent replay. No sign-in validation code fix is justified
+by the earlier blur-only observation. Next scope decision remains actual reader
+error-announcement observation or remaining Android QA; final Gates C/D stay open.
+
+**User selected Desktop accessibility:** bounded Phase8 QA is delegated to
+`ses_e05f1782fffeEi7XzyIk7F2P1Q`: real200%-zoom and actual installed screen-reader
+checks on existing hosted app, signed-out first, at most one safe synthetic sign-in
+if necessary. No task mutations/inference/App Check retry experiment/settings/deploy.
+Report pending at `Temp/opencode/shiftrelay-desktop-a11y-20261120.md`.
+Receive without polling, inspect evidence and limitations before claiming either
+manual accessibility condition complete. If real AT or safe input is unavailable,
+record the blocker instead of substituting DOM/axe evidence. This resolves the
+scope-selection question below; no broader hosted QA is authorized.
+
+Delegate `ses_e05fd14c8ffex9BI687DWXOKiP` completed two attempts and delivered
+`Temp/opencode/capture-guard/PHASE8-CAPTURE-SUCCESS-PROOF.md`, `prove_capture.py`,
+`containment_probe.py` and `probe_shapes.py`. Master inspected the report and success
+harness; no independent browser replay. Actual delegated success:26/26, exit0,
+five genuine loopback capture entries; four generated sentinels present in raw
+in-process capture, none in emitted output; method/status preserved, unknown
+hosts/paths redacted. Library and standalone guard produced the same validated
+single document. Owned browser/server cleanup reported complete.
+
+The local real-CLI success gap is resolved by inspected delegated evidence, not
+hosted evidence. `--allowed-domains 127.0.0.1` was configured; non-allowlisted
+`about:blank` refused. This does NOT independently prove external HTTP blocking
+or host-level egress containment; Chrome background networking was unmeasured.
+Do not claim zero external browser traffic.
+
+**Next exact step:** explicitly scope desktop screen-reader/200%-zoom or Android
+workflow QA with the user before authenticated traffic. Require this guarded
+capture entry point only, no raw network/console/HAR commands, rotated private
+config in memory, no App Check measurement retries/inference/settings/deploy.
+Do not rerun broad manual ownership QA already evidenced. Final Gates C/D stay
+open; three operational docs remain uncommitted and outside clean `ae527d1`
+evidence. Local security proof does not itself authorize or certify hosted QA.
+The older active-task and next-step prose below is historical.
+
+Outside-root `Temp/opencode/capture-guard/` now contains `capture_guard.py`,
+`synthetic_capture_child.py`, `capture_guard_selfcheck.py` and
+`shiftrelay-capture-adapter-proof-20261120.md`. Master inspected adapter/selfcheck
+and independently reran `--no-live`:70/70 pass, unsafe injection exit2 with zero
+bytes emitted. Host allowlist and literal path templates replace arbitrary captured
+segments; no reliance on sentinel matching for output safety. Child stdout/stderr
+stay in-process. Delegate additionally reported80/80 including a real CLI failure
+probe; master did not repeat that probe. No successful real capture is proven yet.
+
+Previously delegated task `ses_e05fd14c8ffex9BI687DWXOKiP`: actual CLI success
+path using an isolated browser and synthetic loopback-only server, with external
+requests blocked. Receive report without polling; independently inspect safe harness
+and reproduce before any success claim. No Firebase/Auth/private config/cloud traffic
+is authorized. Authenticated capture hold remains. Adapter limitations: post-read
+size cap, trusted child stdio behavior, no console/HAR support and no repository wiring.
+The earlier next-step paragraph below is superseded by this active task.
+
+This section supersedes the historical closure/save-blocked instructions below.
+User explicitly requested resumption. Phase 8 validation continues; final Gates C/D
+remain open. Completed framing, build, fix reviews and QA deployment are retained.
+
+- Branch `feat/hackathon-ideation`; actual HEAD
+  `ae527d16f0c5d99469929f2a8e0af91e52b88ff7` is the saved security-checkpoint WIP.
+  The former commit-permission blocker is resolved by existing Git history, not retried.
+  Fetch succeeded; remote feature remains `00c2b2e`, main `538ed9f`.
+- Required framing/build/delivery artifacts exist, including PUBLISH, verification and
+  ADR0009. Python 3.15.2, Node24.14.0, npm11.9.0, Git2.55.0, OpenCode2.3.0;
+  browse/context7/github connected. No setup or completed phase was repeated.
+- Full verifier finished `2026-11-20T17:09:07Z`: 16/16 exit0, `ok=true`,
+  `dirty=false`, stable/complete, SHA matching `ae527d1`. This certifies implemented
+  scope, not final delivery: eight static delivery groups remain, `gate_c_eligible=false`.
+  Existing review.sha still names `8036707`; no current review bundle or gate approval.
+- These subsequent HANDOFF/_project/_presupuesto edits are outside that clean report.
+  No commit/push/merge/deploy, authenticated QA, inference or cloud mutation in this resume.
+  `git clean -ndx` listed ignored build/dependency/log/cache paths; nothing was deleted.
+
+### Safe-capture fixture result and limits
+
+Delegate authored outside-root artifacts under `C:\Users\acer\AppData\Local\Temp\opencode\`:
+`capture-projection-selfcheck.py` and
+`shiftrelay-capture-projection-selfcheck-20261120.md`.
+Master inspected the script and independently ran both documented modes:
+35/35 checks pass, normal exit0; unsafe-output injection blocked, expected exit2.
+Fixtures cover bodies, headers, query/userinfo/fragment, console/HAR and sentinel-bearing
+path/hostname. No real credentials, private config, incident dumps or live traffic were read.
+
+This proves only this synthetic projection boundary. It does NOT establish that a real
+browser collector invokes it before tool output. Known-sentinel substring checks are not
+a general secret detector, including transformed/unknown values; schema validation and
+actual capture integration need separate proof. Do not lift the authenticated-capture hold
+or describe the live pipeline as safe based on these 35 checks.
+
+### Next exact step
+
+Delegate one bounded local-only task to prove the intended browser capture adapter invokes
+in-process allowlisted projection before any output, using synthetic traffic only. Require
+negative controls for bypass, encoded/unknown credential-bearing paths and malformed input;
+fail closed without raw exception payloads. Do not retrieve old incident output.
+Only after that proof explicitly scope screen-reader/200%-zoom/Android workflow QA with
+the rotated private config. No App Check retry/cloud comparison/deploy is automatically
+authorized. Existing App Check, AC13, AC15 and delivery/publication questions remain open
+as recorded below and in PUBLISH/DEBT.
+
+Before another review gate: save operational edits through an authorized delegate, rerun
+the full verifier on the resulting clean commit, then regenerate review SHA/patch.
+
+```powershell
+git status --short
+git log -1 --format="%H %s"
+py -3 C:/Users/acer/AppData/Local/Temp/opencode/capture-projection-selfcheck.py
+py -3 C:/Users/acer/AppData/Local/Temp/opencode/capture-projection-selfcheck.py --inject-unsafe
+# Expected exits above: 0, then 2. Allow 900 seconds for full verification:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills: security-and-hardening for the local capture boundary, agent-browser
+only when actual browser integration is scoped; verification-before-completion and handoff.
+
 ## SESSION CLOSED — November 20, 2026, security-contained QA checkpoint
 
 ### Closure save blocked by tool policy — authoritative final state
