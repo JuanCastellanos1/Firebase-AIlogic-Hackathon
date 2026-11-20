@@ -12,6 +12,60 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Orderly closure confirmed:** stop development/cloud work, preserve four operational/rules edits
+in a local WIP, no push/merge/deploy/delete. Security containment evidence retained; safe capture
+prerequisite and remaining delivery validation are next on authorized resume. No allocation change,
+invented labor totals or gate waiver. Post-WIP verification, if produced, must match actual SHA.
+
+**Save limitation:** pinned secret scan passed, staging succeeded, commit denied by tool policy.
+No post-commit verification or immutable closure checkpoint; user must complete the recorded local
+commit commands. Preserve work/index as-is. No further development budget consumed or gate changed.
+
+**Containment outcome:** inspected delegate evidence records exact-account password replacement,
+old/new verification and refresh-token revocation; unrelated configuration preserved. Remaining
+transcript/ID-token residue is explicit, not waived. Prioritize metadata-only capture prevention
+before resuming device/accessibility work; no optional scope or extra sign-in verification loops.
+
+**Security re-prioritization:** local-model validation produced hosted on-device evidence but its
+network-inspection tooling exposed an agent-created synthetic QA password/attestation-input token.
+Pause hosted/device QA; prioritize exact-account rotation/revocation and verification under retained
+permission. No optional work, enforcement weakening or quality waiver. Labor unmeasured; no completion
+percentage claimed. Delivery remains blocked pending containment and remaining checks.
+
+**Next bounded delivery check:** user authorized continuation; prioritize hosted Nano4 local drafting
+and privacy proof using existing approved setup, then accessibility/device validation. No optional
+polish, new download/install or broad rebuild. App Check measurement remains unresolved; allocations
+and quality floor unchanged, labor unmeasured.
+
+**Repeat measurement complete:** corrected extraction selfcheck passed; real-Chrome Auth succeeded
+but issued no exchange. No attestation status recovered; no more automatic retries. Cache explanation
+remains unverified. Preserve the blocker and spend further effort only on an explicitly scoped next
+task. No scope/budget/quality-floor change; final Gates C/D remain open.
+
+**Real-Chrome measurement:** safe stdin route and sign-in succeeded, but delegate lost exchange
+HTTP status through extraction error. No attestation credit; seek approval before one corrected
+measurement. Do not repeat broad QA or change configuration. Allocation unchanged; labor unmeasured.
+
+**Interactive-path follow-up:** page load alone was not a valid attestation discriminator because
+auto-refresh is off. User authorized one delegated real-Chrome synthetic sign-in with safe in-memory
+input; stop if tooling cannot preserve secrecy. No extra feature/refactoring scope or allocation change.
+
+**Hosted QA result — November 20:** bounded manual/Auth/privacy flow succeeded per inspected
+delegate evidence. Hosted App Check exchange failed403 and remains a release blocker.
+Read-only diagnosis is next; do not spend retries on throttled attestation or reduce enforcement.
+Allocation unchanged; no invented labor total or hybrid/final-gate completion claim.
+
+Read-only attestation diagnosis completed without exchanges/settings changes. No observed configuration
+drift; normal-browser success remains unknown and needs one user-assisted observation. Keep budget
+focused on this discriminator, not warning-only refactoring or automated retry loops.
+
+**Resume — November 20, after 06:19 UTC:** retained completed gates/cuts and deployed QA source.
+Full local verifier refreshed for clean `e16f6cc`: 16/16 pass, stable/complete; final Gates C/D
+remain open. Initial tool timeout required one longer retry, not weaker checks. Bounded transport
+diagnosis found the dropped PowerShell pipeline input; master independently verified 5/5 safe
+stdin checks. Hosted manual QA is delegated, outcome pending. No allocation or scope increase;
+labor unmeasured, free-tier-only. These later records need their own clean evidence before a gate.
+
 **Closure — November 20 UTC:** explicit user confirmation to stop/preserve local WIP. First QA
 deploy and HTTP evidence retained; unauthenticated browser smoke passed, Auth stopped at safe
 credential-input transport blocker before any data write/inference. No further deployment/push/

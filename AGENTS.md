@@ -21,3 +21,7 @@ PowerShell on Windows. Use `py -3` for Python. Pinned local dependencies, pure d
 ## Boundaries
 
 Use synthetic demonstration data. Keep credentials and personal data out of source and submission materials. Spending is free-tier-only: never enable billing or paid resources. Responsive Android web is approved; native Android/local-model support are not assumed. Implementation/tooling/reviewed Firebase skills and delegated feature pushes are approved; master never pushes. User specifically approved authenticated QA deployment after code review/automated checks, final reviewed Hosting/Rules release and PR merge after gates/CI. See `docs/_project.md` for scope. No legal-term acceptance, visibility changes, cloud deletion, YouTube publication or hackathon submission without specific approval. Use the safe emulator wrapper; raw Firebase CLI child environments can leak host credentials into debug logs.
+
+## Authenticated browser evidence
+
+Before collecting authenticated traffic, prove metadata-only projection with a synthetic credential-shaped fixture: emitted output must exclude fixture values, request/response bodies, headers and URL queries. Project in-process before tool output to method, status, hostname/path and sentinel-match booleans only. Raw request JSON, console dumps and HAR can expose passwords/tokens even when credential entry used safe stdin; never return or persist them. On exposure, stop QA and use the retained exact-account containment permission; deleting a local log does not erase tool transcripts.

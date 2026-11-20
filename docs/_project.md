@@ -13,6 +13,74 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Session closed by explicit confirmation:** preserve branch/work in a local WIP; no push/merge/
+deploy/delete. No agents running. Containment completed per inspected evidence; safe-capture
+synthetic-fixture validation is the exact prerequisite before future authenticated QA. Final Gates
+C/D remain open. HANDOFF's newest SESSION CLOSED section supersedes historical pending-task prose.
+Use actual Git/post-WIP evidence metadata, not this dated summary, to establish mechanical state.
+
+**Closure save blocked:** staging succeeded; tool policy denied WIP commit before execution.
+HEAD remains `e16f6cc`; four files remain uncommitted, with later closure-status edits to restage.
+No post-commit verifier ran. User-authorized shell action is recorded at the top of HANDOFF;
+no permission bypass, push, merge, deploy or deletion attempted.
+
+**Containment verified through inspected delegate evidence:** exact outgoing QA password rotated,
+old→400/new→200, refresh-token revocation200/readback, private config updated with unrelated keys
+preserved. Transcript residue remains unresolved; already-issued ID tokens may survive to expiry
+without backend revocation checks. No purge or instant universal invalidation claimed.
+Before further hosted QA: metadata-only in-process projection BEFORE tool output. Never return raw
+network request JSON, postData, token-bearing headers/bodies, console dumps or HAR from authenticated
+sessions. Allow only method/status/hostname/path and sentinel booleans, no query values.
+
+**SECURITY HOLD:** local validation delegate leaked outgoing synthetic QA password and client
+reCAPTCHA token into network-dump tool output. Raw output must not be retrieved/reprinted.
+Hosted QA paused; retained permission used to delegate exact-account password rotation, refresh-token
+revocation and secure private-config update. Containment is pending, not claimed complete.
+Local hosted generation was observed per inspected report, but no overall privacy/hybrid/gate pass.
+See HANDOFF security hold for report paths, residual-token caveats and exact next step.
+
+**Continued validation:** user requested continued work. Hosted Nano4 local-only drafting proof is
+delegated using existing approved setup, synthetic notes and privacy observations. No cloud inference,
+task writes or new configuration/download/terms; no App Check retry task. Accessibility/device
+checks follow after reviewing actual local-proof output. Details and report path: HANDOFF top update.
+
+**Approved repeat outcome:** real-Chrome synthetic Auth again succeeded; zero App Check exchanges
+observed, so no HTTP status recovered. Cache reuse plausible, unverified. Explicit sign-out and
+own-tab closure confirmed in inspected report. Stop retries; no additional attempt authorized.
+Hosted attestation/hybrid and final Gates C/D remain open.
+
+**Real-Chrome result:** one delegated synthetic sign-in succeeded; exchange HTTP status was lost
+through report-extraction error, so attestation remains unverified. Own tabs closed, no inference
+or task writes. Auth is configured in-memory; delegate's contrary persistence claim is rejected.
+Another measurement requires user approval and verified status extraction first.
+
+**User-authorized next action:** delegated one synthetic QA sign-in in real extension-connected Chrome
+to observe App Check acquisition. No credential values in tool calls/argv/logs; stop if a safe input
+route is unavailable. No headless substitution, data writes, inference or settings change.
+Session/report and exact next step are in HANDOFF's latest update.
+
+**Latest hosted QA result:** sanitized delegate report inspected by master: two-role Auth/membership,
+five-card publication, accept/resolve/reopen and sentinel/storage checks passed in this run.
+App Check exchange failed403 `App attestation failed.` with client throttle; no hosted token,
+local-model or cloud inference success is established. Read-only debugger
+`ses_e0859c86effeYjCO2LmMrBHLzf` is diagnosing docs/source/configuration, without retries,
+enforcement weakening or settings changes. HANDOFF top section names reports and exact next step.
+
+**Diagnosis result:** read-only report inspected; shipped/registered key and allowed domain match,
+threshold/TTL/enforcement show no observed drift. Assessment score and automation causation remain
+unknown. Next is a user-assisted normal-browser exchange-status observation, not an automated retry.
+Keep automatic collection disabled and enforcement unchanged; auto-refresh warning is separate.
+
+**Resumed at user request:** Phase 8 hosted manual QA, not repeated framing/build/deployment.
+Local `e16f6cc` passed a fresh full verifier at `06:19:50Z`: 16/16 pass, clean/stable/complete
+and matching SHA. Remote/deployed source remains `00c2b2e`. Final Gates C/D remain open;
+review.sha is stale and these subsequent operational edits are outside that clean report.
+Windows stdin transport cause is the npm PowerShell shim dropping pipeline input. Master
+independently verified the UTF-8 in-memory workaround (5/5 checks); hosted Auth is not yet proven.
+Delegate `ses_e0863e733ffepLLP9BsF5HmGcq` is running the bounded synthetic hosted manual QA path,
+without inference, deploy/settings changes, deletion/reset, push or merge. See HANDOFF's top
+active-resume section for exact report paths and next step. Older status paragraphs are history.
+
 **Session closed by explicit user confirmation:** preserve branch and local WIP; no push/merge/
 deploy/delete at closure. Both agents stopped and isolated QA browsers closed. Hosted unauthenticated
 page/config/banner/reCAPTCHA-load and no-CSP-error path observed; Auth blocked by agent-browser
