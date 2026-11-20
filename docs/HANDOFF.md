@@ -1,5 +1,133 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## SESSION CLOSED — November 20, 2026 UTC
+
+User explicitly confirmed safe closure: stop work, save all changes in a local WIP commit,
+preserve branch/work, and do not push, merge, deploy or delete. Both active agents acknowledged
+stop; isolated QA browser sessions were closed, unrelated browsers untouched. No tasks remain
+authorized to continue development or cloud actions in this session.
+
+### Stage / gates / Git
+
+- Phase 8, limited QA deployed; final Gates C/D remain unapproved. Code fix review D1–D4/U1
+  passed at `00c2b2e`; eight static verifier delivery groups remain named, not waived.
+- Branch `feat/hackathon-ideation`, preserved. Remote and deployed source both **`00c2b2e`**;
+  CI run44664598466 passed on that exact SHA. Local `8036707` preserves recovery records and
+  was not pushed/deployed. The closure WIP follows it; resolve with `git log -1 --format="%H %s"`.
+- WIP contains documentation only. Last completed full report before closure certified clean
+  `8036707`, 16/16 pass, finished03:53:56Z. It does not certify later documentation edits.
+  If a post-WIP report exists, validate its actual SHA/dirty/ok/complete fields rather than
+  inferring freshness from this dated text. No final release approval follows from green tests.
+
+### Deployed artifacts and evidence
+
+- QA URL https://shiftrelay-hybridai-2026.web.app ; source00c2b2e.
+- Ruleset137c406c-59b1-4081-96e3-4d810f358663 (release cloud.firestore,03:51:56Z);
+  Hosting release1795146753235000/version38fe83ad84b89cf9 (03:52:33Z). Billing remains disabled.
+- HTTP200 root/SPA/init.json, expected config shape, required headers and five hosted asset
+  hashes verified. Durable deploy facts: `docs/PUBLISH.md` §5.1, `docs/verification.md` §16.
+- Recovery: `docs/adr/0009-first-release-recovery.md`, reviewed exact deny-all candidate embedded
+  with hash a217d884…63dd9; five emulator tests pass with permission-denied assertions. No live
+  recovery drill. Containment is a new separately approved deployment, not a rollback to zero releases.
+- Clean source clone: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-qa-20261119-220928`.
+  Sealed stage: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-stage-qa-20261119-221754`.
+  Deploy logs/readbacks: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119`.
+  These paths are disposable; reviewed source, durable documentation and cloud IDs are the anchors.
+
+### Hosted browser result at stop / exact blocker
+
+- Report `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-hosted-qa-2026-11-20.md`.
+  Chrome for Testing157.0.8103.78, agent-browser0.43.0, Windows; srqa-out/srqa-in now closed.
+- Real hosted app consumed init.json, rendered sign-in, displayed correct hostedQA banner;
+  reCAPTCHA scripts/anchor loaded. No CSP violations or page errors observed in this unauthenticated
+  path. This does NOT prove attestation or authenticated flows.
+- **Auth QA blocked before credentials were entered:** `agent-browser eval --stdin` returned
+  undefined and left fields empty, even for harmless synthetic probes; inline eval worked.
+  Suspected Windows stdin/BOM transport issue, not diagnosed. No Identity Toolkit request from
+  the hosted browser; no authenticated read, handover/task/activity write or inference occurred.
+- App Check console warning: automatic token refresh blocked by automaticDataCollectionEnabled=false.
+  Impact on real token acquisition/renewal remains unverified; do not infer a single-token lifetime
+  or a failed attestation from this warning alone.
+
+### Next exact step / open decisions
+
+1. Inspect Git/evidence freshness; do not repeat framing/build/QA deployment that already succeeded.
+2. Delegate a bounded debugger task for agent-browser stdin transport using **harmless synthetic
+   values only**. Do not place credentials/base64-encoded credentials on argv, in tool calls,
+   persisted vaults or logs. Establish a safe in-memory input path before retrying synthetic-user Auth.
+3. Resume isolated hosted Auth + membership + sentinel + five-card publication and ownership closure;
+   observe actual reCAPTCHA/App Check exchange. No data reset/delete or cloud settings change implied.
+4. Separately test hosted Nano4/local and one explicitly consented cloud packet; investigate token
+   refresh warning against official docs if needed. No silent fallback, prompt logging or mock claims.
+5. Remaining: screen-reader/200%-zoom/Android app checks, AC15 coordinator validation, Firestore
+   enforcement/public-release conditions, demo/judge access/final artifact review and gated merge.
+   YouTube publication/hackathon submission/new billing/legal terms remain specifically unapproved.
+
+```powershell
+git status --short
+git log -4 --format="%h %s"
+git rev-parse HEAD
+Get-Content .git/opencode/evidence.json
+# Only regenerate if evidence is stale or another gate needs it:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills: handoff, verification-before-completion; debugging-and-error-recovery +
+agent-browser for the input blocker, official Firebase skills per bounded follow-up (max three).
+Master never pushes. All earlier sections below are retained dated history, superseded by this closure.
+
+## Latest state — first QA release deployed (November 20, 2026 UTC)
+
+Deployment delegate completed both explicitly approved targets; this supersedes pending/never-deployed
+status in earlier dated sections. Deployed source is reviewed, CI-green **`00c2b2e`**.
+
+- Rules release `cloud.firestore`, time `03:51:56.114653Z`, ruleset
+  `137c406c-59b1-4081-96e3-4d810f358663`; live content matches reviewed Rules (CRLF/LF accounted for).
+- Hosting release `1795146753235000`, version `38fe83ad84b89cf9`, time `03:52:33.235Z`.
+  URL: https://shiftrelay-hybridai-2026.web.app . Root, SPA route and reserved init JSON return200;
+  project/app shape validated without exposing config values. All five assets match sealed stage.
+  Master independently confirmed root200 and required security headers. Billing remains disabled.
+- Report: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119\deploy-report.md`
+  with sanitized readbacks/logs. No data writes or inference occurred during deploy smoke.
+- Browser QA `ses_e08e6db10ffe7Dn3lt1WRd9elL` running: isolated outgoing/incoming sessions,
+  real hosted mode/Auth/CSP/App Check observations, private sentinel, five-card publish and
+  accept/resolve/reopen. Synthetic writes authorized, no AI inference in this task. Results pending.
+- Deployment-record task `ses_e08eea521ffeYZYzn76Nsn2PjB` updating PUBLISH/verification only.
+  Master owns modified HANDOFF/_project/_presupuesto; preserve all concurrent documentation edits.
+
+**Next exact step:** receive browser results without polling, verify actual evidence and route any
+blocker to a bounded debugger/fix cut before more hosted tests. Only after manual path is sound,
+attempt hosted local Nano4 and separately consented cloud proof in their own tasks. No hosted
+Auth/model/reCAPTCHA success inferred from HTTP or CLI. Final gates remain open; verifier's static
+eight delivery groups need evidence reconciliation later, not silent waiver. No merge/submission.
+
+Recovery: there is now one live Rules release. ADR0009 deny-all containment is a new separately
+approved deploy if needed; no automatic recovery or live drill was performed. The first-release
+state cannot be returned to zero releases. Local docs commit8036707 is durable but not deployed.
+
+## Active deployment — explicit user confirmation received (November 20, 2026 UTC)
+
+User selected **Deploy limited QA** for reviewed/CI-green source `00c2b2e`: first Rules/indexes,
+then Hosting, project `shiftrelay-hybridai-2026`, Spark/billing disabled, synthetic QA only.
+No PR/merge/push/submission or recovery deployment is included. Caveman is off.
+
+Delegate `ses_e08eea521ffeYZYzn76Nsn2PjB` is executing the approved action from the sealed stage
+listed below, after fresh safety/hash/CLI/auth checks, with minimal child environment. Its report
+is pending; **deployment success is not yet established**. Stop on permission denial, terms,
+deletion or billing requirement; do not route around permission policy.
+
+Durable recovery/operational docs saved in local-only `803670724ba2a6c939bd986bb7b41b1d84e6c4ac`.
+Its full verifier finished `03:53:56Z`: 16/16 exit 0, clean/stable/complete, matching SHA; master
+refreshed local review.sha/patch afterwards. This is NOT the deploy source: the isolated clone
+and staged artifact remain `00c2b2e` with their own evidence, two code approvals and green CI.
+This later handoff update is uncommitted and does not change the sealed stage.
+
+**Next exact step:** receive deployment report without polling, independently validate resulting
+release IDs/HTTP/headers/config shape and billing-off status. If deployment succeeds, delegate
+real hosted browser QA (Auth/membership/manual ownership, reCAPTCHA/App Check, privacy sentinels,
+local model and separately consented cloud) with official skills. No hosted success is inferred
+from CLI success or localhost proof. If deploy is blocked, preserve exact partial state and stop.
+
 ## Latest preparation result — November 20, 2026 UTC
 
 Both preparation tasks completed, with independent master checks and narrow reviewer approval:

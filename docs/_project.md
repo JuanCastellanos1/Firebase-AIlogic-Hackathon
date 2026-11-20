@@ -13,6 +13,23 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Session closed by explicit user confirmation:** preserve branch and local WIP; no push/merge/
+deploy/delete at closure. Both agents stopped and isolated QA browsers closed. Hosted unauthenticated
+page/config/banner/reCAPTCHA-load and no-CSP-error path observed; Auth blocked by agent-browser
+Windows stdin transport before credentials entered. No hosted QA data writes or inference occurred.
+App Check auto-refresh warning remains an observation, not proof of failed attestation. Exact next
+debugging step and durable/temp artifacts are recorded in HANDOFF's SESSION CLOSED section.
+
+**First QA release deployed:** source00c2b2e; Rules137c406c-59b1-4081-96e3-4d810f358663;
+Hosting release1795146753235000/version38fe83ad84b89cf9. HTTP/root/SPA/init.json/config-shape,
+headers and stage asset matches verified; billing remains disabled. Hosted browser manual/Auth/
+reCAPTCHA/CSP/privacy checks are running, not yet passed. No merge or final release approval.
+
+**Concrete QA deployment approved:** user selected Deploy limited QA for `00c2b2e` sealed stage,
+Rules/indexes then Hosting; delegate `ses_e08eea521ffeYZYzn76Nsn2PjB` running, result pending.
+Recovery records are saved in local-only docs commit `8036707` (full clean verifier 16/16 pass,
+finished `03:53:56Z`). That docs commit is not the release source. No PR/merge/submission approval.
+
 **QA candidate prepared:** clean isolated clone and sealed stage of reviewed/CI-green `00c2b2e`
 passed full verifier, keyed-build safeguards and Q5 pre-deploy artifact review. Live preflight
 confirmed billing off, memberships valid and AI Logic enforcement. ADR 0009 records reviewed

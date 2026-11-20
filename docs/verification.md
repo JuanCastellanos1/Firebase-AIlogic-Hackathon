@@ -2283,7 +2283,9 @@ Not claimed here: the report stores per-check `exit`, `duration_ms` and `stdout_
 per-suite test counts, so no count is re-asserted for `a7711cd`. §15.6 remains the last **counted**
 run (121 unit / 41 Rules / 21 E2E / 84 tool / 2 diagrams) and those totals belong to that earlier
 dirty working tree. Also absent: Gate C approval, CI on the reviewed commit, any hosted/Hosting or
-Rules deployment, hosted QA, manual screen-reader/zoom/device checks and AC15.
+Rules deployment, hosted QA, manual screen-reader/zoom/device checks and AC15. (CI and the deployment
+question were answered later for a different SHA: run `44664598466` on `00c2b2e` and the first limited
+QA deploy in §16. Gate C and every browser-dependent check remain absent.)
 
 Documentation edits made after `02:22:47Z` (this section, `docs/PUBLISH.md`, and master's
 operational records) dirtied the working tree again. The report above certifies `a7711cd`; it does
@@ -2294,3 +2296,83 @@ the fix cut at `a7711cd` — D1–D4 and U1 closed, no blockers. That approval c
 this documentation-only follow-up. Still pending is clean verifier evidence for the final operational
 commit that records these edits; until such a report exists at its own SHA, Gate C and the overall
 release remain unapproved.
+
+## 16. First limited QA deploy — HTTP evidence only (November 20, 2026)
+
+Deploy source: `00c2b2ed78b1f43b01da430d7cca14699757d077` (`00c2b2e`), the reviewed and CI-green
+commit. The later local commit `803670724ba2a6c939bd986bb7b41b1d84e6c4ac` is the documentation-only
+recovery record; it was **not** deployed and no source, config or Rules file was edited for this run.
+
+Inputs checked immediately before the first mutation (read-only), all passing:
+
+- Clean clone at `00c2b2e`: `git status --porcelain` empty, `.git/opencode/evidence.json` `ok=true`,
+  `dirty=false`, `tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`,
+  `finished_at=2026-11-20T03:17:25Z`.
+- CI run `44664598466` on the same SHA: `conclusion=success`, `run_attempt=1`, re-read through the
+  public GitHub REST API.
+- Sealed stage `…\shiftrelay-stage-qa-20261119-221754`: 8 files, every SHA-256 equal to its approved
+  report (`firebase.json 9f563e39…`, `firestore.indexes.json 54c9d0b6…`, `firestore.rules 2aa81ebf…`,
+  `index.html cdf38e0f…`, `App-D3ukP5Gr.js 59192eb7…`, `index-CCtoaJ7i.js 9fa17223…`,
+  `index-DhjtbPNK.css bdce1526…`, `jsx-runtime-CB-FNcEI.js de6e2aa3…`).
+- Reviewer session `ses_e0908dad0ffe2MIBCEN4qxxnC8` approved the Q5 artifact boundary and the
+  recovery plan with no blockers.
+- Operator OAuth: existing session exchanged for an access token; no login, terms prompt or credential
+  creation. Billing `billingEnabled=false`, no billing account. Firestore Rules: 0 releases, 0
+  rulesets.
+- CLI syntax confirmed on the pinned `firebase-tools` 15.36.0: `deploy --help` lists `firestore` as
+  rules **and** indexes, and `lib/deploy/firestore/prepare.js` accepts the `firestore:rules` /
+  `firestore:indexes` sub-targets.
+
+Commands, run from the sealed stage with an allowlisted OS/runtime child environment (no inherited
+credential variables), no `--debug`, no `--force`, no secret on argv, Rules/indexes first, exit 0 each:
+
+```powershell
+firebase deploy --only firestore:rules,firestore:indexes --project shiftrelay-hybridai-2026
+firebase deploy --only hosting --project shiftrelay-hybridai-2026
+```
+
+| Resource | Observed identity |
+|---|---|
+| Firestore Rules release | `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`, `updateTime 2026-11-20T03:51:56.114653Z`, the only Rules release |
+| Ruleset | `projects/shiftrelay-hybridai-2026/rulesets/137c406c-59b1-4081-96e3-4d810f358663`, `createTime 2026-11-20T03:51:54.735288Z` |
+| Deployed ruleset content | `firestore.rules`, 19354 bytes, SHA-256 `2aa81ebf…` as served, LF-normalized `0b877ada…` = the reviewed repository file |
+| Hosting release | `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED`, `releaseTime 2026-11-20T03:52:33.235Z`, 5 files |
+| Billing after | `billingEnabled=false`, no billing account (`2026-11-20T03:53:23Z`) |
+
+Hosted bytes were fetched from `https://shiftrelay-hybridai-2026.web.app` and compared with the sealed
+stage: 5 of 5 identical, including the 670740-byte `App-D3ukP5Gr.js` and the 558-byte `index.html`.
+
+HTTP-only smoke (no generation, no data write):
+
+| Observation | Result |
+|---|---|
+| `GET /` | 200, `text/html; charset=utf-8`, 558 bytes, byte-identical to the deployed `index.html` |
+| `Content-Security-Policy` | present, exactly the reviewed policy from `firebase.json` |
+| `X-Content-Type-Options` / `Referrer-Policy` / `X-Robots-Tag` | `nosniff` / `strict-origin-when-cross-origin` / `noindex, nofollow` (platform HSTS also present) |
+| `GET /__/firebase/init.json` | **200**, `application/json`, 345 bytes, JSON object; keys `apiKey, appId, authDomain, databaseURL, messagingSenderId, projectId, storageBucket`; `projectId` and `appId` match. Only keys and match booleans were recorded — no config value, key or token |
+| SPA rewrite | `GET /venue/hall-01` → 200 `text/html` (558 bytes) |
+
+Limits of this evidence:
+
+- It is **HTTP only**. Not observed: a browser Auth session, console/CSP violations, the
+  reCAPTCHA-Enterprise App Check token exchange on the hosted origin, any local or cloud model call,
+  the share → accept → resolve → reopen flow, the sentinel check and the request budget. Browser QA is
+  being run separately and has produced **no result yet**; none of it may be inferred from this
+  section.
+- No recovery was executed. The reviewer-approved deny-all candidate now lives durably in
+  `docs/adr/0009-first-release-recovery.md` (`a217d884…`, 690 bytes). Since a ruleset is now live,
+  using it would be a **new deny-all Rules deployment** — containment of client access, not a
+  rollback to a previous release and not a restore; no drill was run.
+- Deployment hygiene: the sealed stage kept exactly its original 8 files with unchanged hashes and the
+  CLI cache/log artifacts were moved out of it. No commit, push, PR, merge, billing change, legal-term
+  acceptance, enforcement change, deletion or `--force` was performed.
+- Environment actually used: Node 24.14.0, `firebase-tools` 15.36.0, `py -3` = CPython **3.15.2** on
+  this host (CI installs 3.13 and the workflow enforces `>= 3.13`, so 3.13 is a floor, not an exact
+  local pin), Java not used for the live commands.
+- Sanitized private report (temp storage, disposable):
+  `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119\deploy-report.md`, with
+  `recheck.json`, `post-deploy.json` and `post-deploy-readback.json` alongside it. None contains a key,
+  site key, token, password or raw reserved config body. The accepted hardcoded venue constant
+  (`venue-hall-01`) is synthetic demonstration data, not a credential or a security boundary.
+- Gate C remains `NOT ELIGIBLE` (8 named scope items); this section is QA evidence, not release
+  approval.

@@ -1,8 +1,9 @@
 # ShiftRelay — publication, QA release and delivery
 
-Phase 8 delivery artifact, written November 17, 2026. **No deployment has been executed:** no
-Hosting release, no Firestore Rules release, no GitHub Actions run and no video exist. The reviewed
-`hosting` configuration, the keyed QA build and the sealed-stage helper are local artifacts only.
+Phase 8 delivery artifact, written November 17, 2026. **No deployment had been executed when this
+paragraph was written (superseded November 20, 2026 — see the dated corrections below):** no
+Hosting release, no Firestore Rules release, no GitHub Actions run and no video existed. The reviewed
+`hosting` configuration, the keyed QA build and the sealed-stage helper were local artifacts only.
 Every step below is either marked *verified* with the artifact that proves it, or *planned* and
 still owned by master/`github-sync`/the delegated release agent.
 
@@ -14,6 +15,18 @@ The earlier "never run / untracked" claim came from the pre-commit WIP state. Th
 the source at `b0910d3`; it does **not** validate the WIP commit `dbd217c` or these review fixes, so
 a green run on the exact reviewed commit is still required before merge. Deployment and video remain
 absent.
+
+**Dated correction — November 20, 2026 (first limited QA deploy executed).** A first Firestore Rules
+and Hosting release now exists, so every "never deployed" statement in this file is dated history, not
+current state. Both deployments were run from the sealed stage for the reviewed, CI-green source
+`00c2b2ed78b1f43b01da430d7cca14699757d077` (`00c2b2e`; CI run `44664598466`,
+`conclusion: success`). The later local commit `803670724ba2a6c939bd986bb7b41b1d84e6c4ac` is the
+documentation-only recovery record and was **not** deployed. Real results are in §5.1 and in the
+sanitized private report
+`C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119\deploy-report.md` (temp
+storage, disposable; it holds no API key, site key, token, password or reserved config value). Only the
+HTTP surface was observed: browser Auth, console/CSP, reCAPTCHA token exchange, model calls and app
+flows have no result yet, and no recovery was executed.
 
 Status legend: **verified** = an existing report or file says so, cited inline; **planned** = a
 documented command or checklist not yet run; **blocked** = needs a decision, a review or hardware.
@@ -37,7 +50,10 @@ operational commit is still pending, so Gate C and Gate D remain unapproved.
 | Consented cloud request from localhost | verified once | `gemini-3.5-flash-lite`, `inference_source in_cloud`, 161 bytes, 1912 ms, App Check debug exchange 200, `.git/opencode/live-config-evidence.json` (`docs/verification.md` §13.3) |
 | App Check **enforcement** | verified: `ENFORCED` for `firebaseml.googleapis.com`; valid `200`, missing/garbage `401` | controlled probes through the AI Logic proxy (`docs/adr/0007-appcheck-enforcement.md`) |
 | Hosting config, keyed QA build, sealed stage | implemented and locally exercised; **never deployed** | `firebase.json`, `scripts/release_prep.py`, `tests/test_release_prep.py`, `docs/verification.md` §14 |
-| Hosting / Rules deployment | never performed | `docs/HANDOFF.md`, `docs/_project.md`, `docs/verification.md` §13.6 |
+| Hosting / Rules deployment | not performed before 2026-11-20; **first limited QA deploy executed** on that date (§5.1) | `docs/verification.md` §16; private report `deploy-report.md` |
+| Firestore Rules + indexes release | **verified** November 20, 2026, `03:51:56Z` | release `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`; ruleset `137c406c-59b1-4081-96e3-4d810f358663` (19354 bytes, LF-normalized `0b877ada…` = reviewed content) |
+| Hosting release | **verified** November 20, 2026, `03:52:33Z`, 5 files byte-identical to the sealed stage | release `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED` |
+| Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows **not observed** | §5.1; all browser-dependent checks stay *planned* |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
 | `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean checkpoint: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
@@ -59,8 +75,11 @@ processing happens.
 
 ## 3. Reproducible candidate-release checklist (local)
 
-Prerequisites: Node 24.14.0/npm 11, Java 21 (Firestore emulator), Python 3.13 (`py -3`), the pinned
-Chromium, and the pinned Gitleaks asset installed. Exact pins: `package.json`; CI mirrors them.
+Prerequisites: Node 24.14.0/npm 11, Java 21 (Firestore emulator), Python **3.13 or newer** (`py -3`),
+the pinned Chromium, and the pinned Gitleaks asset installed. Exact pins: `package.json`; CI mirrors
+them. CI installs Python 3.13 (`.github/workflows/verification.yml` itself enforces
+`sys.version_info >= (3, 13)`); the QA host that produced the November 20, 2026 reports resolved
+`py -3` to CPython 3.15.2, so 3.13 is a floor, not an exact local pin.
 
 ```powershell
 npm ci
@@ -113,7 +132,11 @@ output, not tracked, ignored by git).
   `docs/_project.md`), never pushes to `main`; master never pushes. Merge after gates + green CI plus
   explicit user approval.
 
-## 5. QA release (authenticated) — planned, not run
+## 5. QA release (authenticated)
+
+**Status: the deployment step is executed (November 20, 2026, §5.1); the browser/QA evidence step is
+not.** The section body below is the pre-deploy plan, kept as written; §5.1 records what actually
+happened.
 
 User-approved sequence: authenticated QA deployment **after** code review + automated checks, to
 collect live evidence; the final reviewed release/PR merge comes after the remaining gates and CI.
@@ -181,6 +204,71 @@ Post-deploy verification (record each observation; do not assume):
 - Sentinel check: the private sentinel never appears in outbound bodies, storage, URL or console.
 - Five-card production Rules call-budget and latency recorded as observations, not promises.
 
+Checklist status after November 20, 2026: the HTTPS load, the response-header and `/__/firebase/init.json`
+bullets are **recorded** in §5.1; every browser-dependent bullet (mode banner, console/CSP violation,
+App Check token exchange, sign-in and the share/accept/resolve flow, sentinel check, request budget)
+remains **unobserved**.
+
+### 5.1 First limited QA deploy executed (November 20, 2026)
+
+Deploy source: `00c2b2ed78b1f43b01da430d7cca14699757d077` (`00c2b2e`), the reviewed and CI-green
+commit. The later local commit `803670724ba2a6c939bd986bb7b41b1d84e6c4ac` is the documentation-only
+recovery record and is **not** the deployed source.
+
+Gates checked immediately before the first mutation, all passing: clean clone at that SHA
+(`git status --porcelain` empty) with `.git/opencode/evidence.json` `ok=true`, `dirty=false`,
+`tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`; CI run `44664598466`
+`head_sha=00c2b2e…`, `conclusion=success` (GitHub REST re-read); sealed stage of 8 files whose SHA-256
+values equal the approved report (`firebase.json 9f563e39…`, `firestore.indexes.json 54c9d0b6…`,
+`firestore.rules 2aa81ebf…`, and the 5 `dist/` files); reviewer session
+`ses_e0908dad0ffe2MIBCEN4qxxnC8` had approved the Q5 artifact boundary and the recovery plan with no
+blockers; operator OAuth exchange succeeded with no new login, terms prompt or credential; billing
+`billingEnabled=false`; Firestore Rules at 0 releases and 0 rulesets.
+
+Commands, run from the sealed stage with the pinned `firebase-tools` 15.36.0, an allowlisted
+OS/runtime child environment (no inherited credential variables), no `--debug`, no `--force` and no
+secret on argv; exit 0 for both, Rules/indexes first:
+
+```powershell
+firebase deploy --only firestore:rules,firestore:indexes --project shiftrelay-hybridai-2026
+firebase deploy --only hosting --project shiftrelay-hybridai-2026
+```
+
+| Result | Identifier |
+|---|---|
+| Firestore Rules release | `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`, `updateTime 2026-11-20T03:51:56.114653Z` (the only Rules release) |
+| Ruleset | `projects/shiftrelay-hybridai-2026/rulesets/137c406c-59b1-4081-96e3-4d810f358663`, `createTime 2026-11-20T03:51:54.735288Z` |
+| Ruleset content | file `firestore.rules`, 19354 bytes, SHA-256 `2aa81ebf…` as served, LF-normalized `0b877ada…` = the reviewed repository content |
+| Hosting release | `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED`, `releaseTime 2026-11-20T03:52:33.235Z`, 5 files uploaded |
+| Billing after | `billingEnabled=false`, no billing account |
+
+Hosted bytes were fetched from `https://shiftrelay-hybridai-2026.web.app` and compared with the
+sealed stage: `index.html cdf38e0f…`, `App-D3ukP5Gr.js 59192eb7…`, `index-CCtoaJ7i.js 9fa17223…`,
+`index-DhjtbPNK.css bdce1526…`, `jsx-runtime-CB-FNcEI.js de6e2aa3…` — 5 of 5 identical.
+
+HTTP-only smoke (no generation, no data write):
+
+| Observation | Result |
+|---|---|
+| `GET /` | 200, `text/html; charset=utf-8`, 558 bytes = the deployed `index.html` |
+| `Content-Security-Policy` | present, exactly the reviewed policy from `firebase.json` (no `unsafe-eval`, no `unsafe-inline`) |
+| `X-Content-Type-Options` / `Referrer-Policy` / `X-Robots-Tag` | `nosniff` / `strict-origin-when-cross-origin` / `noindex, nofollow` (plus platform HSTS) |
+| `GET /__/firebase/init.json` | **200**, `application/json`, 345 bytes, parsed as a JSON object; keys `apiKey, appId, authDomain, databaseURL, messagingSenderId, projectId, storageBucket`; `projectId` and `appId` match the project and web app. This reserved URL is therefore empirically available to the modular SDK; no config value is recorded in this file |
+| SPA rewrite | `GET /venue/hall-01` → 200 `text/html` (558 bytes) |
+
+Boundary of this evidence: it is **HTTP-only**. Nothing here observes the hosted page running — no
+browser Auth session, no console/CSP-violation check, no reCAPTCHA-Enterprise App Check token exchange,
+no local or cloud model call, no share → accept → resolve → reopen flow, no sentinel check and no
+request budget. Browser QA is being run separately and has produced no result yet; it must not be
+inferred from this section. The accepted hardcoded venue constant (`venue-hall-01`) is synthetic
+demonstration data, not a credential and not a security boundary.
+
+Hygiene: the sealed stage kept exactly its original 8 files with unchanged hashes; CLI-generated cache
+and log artifacts were moved out of it. No commit, push, PR, merge, billing change, legal-term
+acceptance, enforcement change, deletion or recovery deploy happened. The sanitized private report is
+`C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119\deploy-report.md` (temp
+storage, disposable; it contains no key, site key, token, password or raw reserved config body).
+
 ## 6. Rollback — documented, not exercised
 
 - **Hosting**: the console's Release history offers **Roll back** for a chosen release, which
@@ -192,7 +280,29 @@ Post-deploy verification (record each observation; do not assume):
   release over the current rules. Record the SHA of the last known-good ruleset before every deploy.
 - **Client**: keep the previous `dist` build artifact and its commit SHA so a re-deploy of that exact
   build is possible. Never roll back by editing live files.
-- Rollback is documented and drillable; it has **not** been exercised (no deployment exists).
+- Rollback is documented and drillable; it had **not** been exercised when this list was written (no
+  deployment existed).
+
+**State after the first deploy — November 20, 2026.** One Rules release and one Hosting release now
+exist, and the recovery question changed with them:
+
+- **Hosting**: release `1795146753235000` (version `38fe83ad84b89cf9`) is the only release, so the
+  console's Roll back still has no earlier content to serve. Recovery for this site is a re-deploy of a
+  recorded `dist` + commit SHA, never a file edit.
+- **Firestore Rules**: release `cloud.firestore` on ruleset `137c406c…` is the only release. Rules
+  releases cannot be rolled back through the CLI, so there is still **no prior release to restore**;
+  recovery is a **new** deploy.
+
+**Future containment path (documented, not executed, not authorized here).** The reviewer-approved
+deny-all candidate is durably embedded in `docs/adr/0009-first-release-recovery.md`
+(690 bytes, SHA-256 `a217d884210709d68d3616ca9999465f2419bdd865724c195c462e4cc3763dd9`, extraction
+convention and local emulator proof in that ADR). Using it would be a *new deny-all Rules deployment*
+that either reaches a newly deployed ruleset (containment of client access) — it is **not** a
+prior-release rollback, not a restore and not a reproduction of a state the project never had.
+Returning to application behaviour would then be a second, separately approved deploy of
+`firestore.rules` (`0b877ada…` as LF). Neither step was executed, no recovery drill was run, and no
+restore is tested or claimed. Never `--force`, never delete a ruleset or release, never accept legal
+terms or enable billing as part of a recovery.
 
 ## 7. App Check, domains and API-key restrictions
 
@@ -329,33 +439,41 @@ claimed, the ordinary profile was not probed, and no hosted on-device request ex
 
 ## 13. Honest limits
 
-Unverified and not to be claimed: a hosted on-device request; the hosted origin's empirical
-`/__/firebase/init.json` behaviour and hosted reCAPTCHA-attested request; the deployed CSP actually
-running without violations; in-app cloud reconciliation on the deployed origin (needs the reviewed
-Rules); real Android Chrome touch; screen-reader and 200% zoom manual checks; AC15 user research; any
-WCAG certification; latency/quota/coverage numbers; performance (the build reports a ~809 kB JS chunk
-warning). Exercised and proven: App Check enforcement at the AI Logic service boundary
-(`docs/adr/0007-appcheck-enforcement.md`) and the sponsor-documented local v4 model path
-(`docs/adr/0006-nano4-runtime-proof.md`). Free-tier cloud processing is a separate caveat: Google may
+Unverified and not to be claimed: a hosted on-device request; a hosted reCAPTCHA-attested request; the
+deployed CSP actually running without violations (the header is served as reviewed, but no browser
+console was observed); in-app cloud reconciliation on the deployed origin; real Android Chrome touch;
+screen-reader and 200% zoom manual checks; AC15 user research; any WCAG certification;
+latency/quota/coverage numbers; performance (the build reports a ~809 kB JS chunk warning). Exercised
+and proven: App Check enforcement at the AI Logic service boundary
+(`docs/adr/0007-appcheck-enforcement.md`), the sponsor-documented local v4 model path
+(`docs/adr/0006-nano4-runtime-proof.md`), and — since November 20, 2026 — the deployed Rules/indexes and
+Hosting release with its HTTP surface, including `/__/firebase/init.json` returning 200 JSON (§5.1;
+HTTP only, no browser run). Free-tier cloud processing is a separate caveat: Google may
 use submitted content and generated responses to improve its products, and human reviewers may read
 them, so only synthetic data may ever reach the cloud model
 (`https://ai.google.dev/gemini-api/terms#unpaid-services`).
 
 ## 14. Open items before submission
 
+Status as of November 20, 2026 (earlier wording kept where still true):
+
 1. Reviewed commit + `dirty=false` verifier run + green CI on that SHA (owner: active agent,
-   `github-sync`); CI has run once, for `b0910d3`, and never for the reviewed commit.
-2. Keyed QA build from the outside-root private file (`npm run build:qa`) and the sealed stage
-   (`npm run release:stage`) — implemented and locally exercised; the actual deploy is still
-   delegated and unauthorized here.
-3. Reviewed Rules/indexes release, then hosted verification of `/__/firebase/init.json`,
-   reCAPTCHA-attested requests, the CSP headers and App Check rejection (owner: master-approved
-   gated release).
+   `github-sync`). **Done for `00c2b2e`:** 16/16 clean evidence and CI run `44664598466` succeeded on
+   that exact SHA. Still open: clean verifier evidence for the final operational commit that carries
+   these documentation edits, and the PR/merge step.
+2. Keyed QA build and sealed stage — implemented, exercised and now **deployed** from the sealed stage
+   (§5.1). Any *next* deploy needs a fresh reviewed build + stage, not a re-use of this one.
+3. Rules/indexes release — **done** (`cloud.firestore`, ruleset `137c406c…`, `03:51:56Z`); Hosting —
+   **done** (`1795146753235000`, `03:52:33Z`); HTTP surface observed (§5.1). Still open: the
+   browser-side hosted checks — Auth session, console/CSP violations, reCAPTCHA-attested App Check
+   exchange, and the share/accept/resolve + consented cloud flow. Browser QA is running separately
+   with no results yet.
 4. Decide the private judge-credential channel; keep values out of the repo.
 5. Record the ≤3 minute demo on the real runtime; upload is a separate user approval.
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user
    checks.
-7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging.
+7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging. Still applies to
+   any future stage; the November 20, 2026 stage itself was sealed and verified.
 
 ## 15. Sources
 

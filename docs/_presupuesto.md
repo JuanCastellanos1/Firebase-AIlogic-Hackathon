@@ -12,6 +12,23 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Closure — November 20 UTC:** explicit user confirmation to stop/preserve local WIP. First QA
+deploy and HTTP evidence retained; unauthenticated browser smoke passed, Auth stopped at safe
+credential-input transport blocker before any data write/inference. No further deployment/push/
+merge/delete; both agents stopped. Final validation/product/delivery gates remain open. Allocation
+unchanged; labor unmeasured. Preserve reproducible evidence rather than estimating completion.
+
+**QA release — November 20 UTC:** approved Rules/indexes and Hosting deployment completed from
+00c2b2e; HTTP/headers/init.json/assets verified, billing still disabled. Hosted manual browser QA
+and documentation reconciliation now running. No AI generation/data writes during deploy smoke,
+no final gate/merge/submission; allocation unchanged, labor unmeasured. Static verifier delivery
+groups are not waived by deployment; each needs explicit evidence reconciliation.
+
+**Active deployment — November 20 UTC:** user explicitly confirmed named first Rules/indexes and
+Hosting QA deploy from reviewed/CI-green `00c2b2e`; delegated execution pending, no success claim.
+Local recovery records commit `8036707` passed full 16-check clean verifier at `03:53:56Z`.
+Source/stage unchanged. No allocation change, PR, merge, submission or paid resource authorized.
+
 **QA preparation — November 20 UTC:** isolated clean `00c2b2e` clone passed full 16-check
 verifier at `03:17:25Z`, keyed build gates and sealed staging. Read-only live preflight confirms
 billing disabled, enforced AI Logic App Check and both synthetic membership shapes. Reviewer
