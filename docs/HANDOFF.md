@@ -2,6 +2,49 @@
 
 ## Resume checkpoint — November 20, 2026, after 17:09 UTC
 
+### Current checkpoint — user commit verified; delivery reconciliation running
+
+**Reconciliation completed and corrections inspected:** implementer changed only
+`docs/verification.md` (§17) and `docs/PUBLISH.md` (§5.2 and dated status corrections).
+Master inspected diff and corrected passages: exact ONLY_ON_DEVICE spelling,
+older hosted traffic/signed-out CSP evidence retained, later no-capture runs scoped
+accurately, basic Narrator evidence preserved, no physical-device/TalkBack/high-contrast
+scope expansion. Existing sealed artifact approval remains tied to unchanged00c2b2e
+bytes; documentation-only review does not require redeployment. All eight groups
+remain open with partial evidence and exact remaining checks. No code or verifier
+scope text was changed; no new QA/cloud action or gate approval.
+
+**Next exact step:** user saves the five documentation paths in an authorized shell
+(delegate commit remains policy-denied; do not retry without permission change):
+
+```powershell
+git diff --check
+git add -- docs/HANDOFF.md docs/_project.md docs/_presupuesto.md docs/PUBLISH.md docs/verification.md
+git commit -m "docs: reconcile delivery evidence and remaining gates"
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+git status --short
+```
+
+Allow900 seconds. After clean SHA-matched full success, regenerate review SHA/patch
+and obtain docs-only review; no push/merge/deploy. Static verifier prose drift is
+listed as a proposed future narrow edit (§17.4), not authorization to delete groups
+or weaken gate logic. Current evidence certifies16a23d6, not these five dirty docs.
+The earlier reconciliation-running prose below is historical.
+
+User saved local commit `16a23d61ee84e7938ea357203ae1d5c8607576a1`.
+Master independently confirmed clean tree and full16/16 evidence finished
+`2026-11-20T18:35:32Z`, ok/clean/stable/complete, matching HEAD. Review SHA and
+binary patch refreshed afterward, raw Git bytes, base `538ed9f`; no gate approval.
+This supersedes the historical commit-denied stop below.
+
+User requested continuation. Delegate `ses_e05bf1e24ffefhRXurjAe0jetk` is reconciling
+only PUBLISH/verification delivery evidence against all eight static verifier groups.
+No script/product/test/constraint changes or browser/cloud action authorized.
+Receive without polling; inspect exact evidence/remaining-blocker mapping and diff.
+Master owns operational docs. These later documentation edits are outside the clean
+`16a23d6` evidence and will need another checkpoint before any gate.
+Final Gates C/D remain open. No push/merge/deploy.
+
 ### STOP — local checkpoint commit denied by tool policy
 
 User requested continuation to local checkpoint. Delegate

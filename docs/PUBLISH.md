@@ -28,6 +28,15 @@ storage, disposable; it holds no API key, site key, token, password or reserved 
 HTTP surface was observed: browser Auth, console/CSP, reCAPTCHA token exchange, model calls and app
 flows have no result yet, and no recovery was executed.
 
+**Dated correction — November 20, 2026 (bounded hosted QA reconciled).** Four bounded delegated runs
+now cover hosted manual ownership, hosted local drafting, desktop zoom/keyboard and Android emulator
+touch; §5.2 records exactly what each produced and what it did not, and §13/§14 were corrected
+accordingly. They close no delivery group: the eight static verifier items remain open
+(`gate_c_eligible=false`), and no complete screen-reader result, hosted-attestation result or AC15
+result exists; no physical-device run was made, which is a recorded limit rather than an AC12
+requirement. The full per-group mapping, provenance and remaining blockers are in
+`docs/verification.md` §17.
+
 Status legend: **verified** = an existing report or file says so, cited inline; **planned** = a
 documented command or checklist not yet run; **blocked** = needs a decision, a review or hardware.
 
@@ -53,7 +62,8 @@ operational commit is still pending, so Gate C and Gate D remain unapproved.
 | Hosting / Rules deployment | not performed before 2026-11-20; **first limited QA deploy executed** on that date (§5.1) | `docs/verification.md` §16; private report `deploy-report.md` |
 | Firestore Rules + indexes release | **verified** November 20, 2026, `03:51:56Z` | release `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`; ruleset `137c406c-59b1-4081-96e3-4d810f358663` (19354 bytes, LF-normalized `0b877ada…` = reviewed content) |
 | Hosting release | **verified** November 20, 2026, `03:52:33Z`, 5 files byte-identical to the sealed stage | release `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED` |
-| Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows **not observed** | §5.1; all browser-dependent checks stay *planned* |
+| Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows not observed in §5.1 | §5.1; browser-dependent checks stay *planned* there and are only partly covered by §5.2 |
+| Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator) | **partial**: each run limited to the states it names; inspected delegate reports, not master replays; no delivery group closed | §5.2; `docs/verification.md` §17 |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
 | `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean checkpoint: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
@@ -260,7 +270,9 @@ Boundary of this evidence: it is **HTTP-only**. Nothing here observes the hosted
 browser Auth session, no console/CSP-violation check, no reCAPTCHA-Enterprise App Check token exchange,
 no local or cloud model call, no share → accept → resolve → reopen flow, no sentinel check and no
 request budget. Browser QA is being run separately and has produced no result yet; it must not be
-inferred from this section. The accepted hardcoded venue constant (`venue-hall-01`) is synthetic
+inferred from this section. *(Dated correction, later on November 20, 2026: bounded browser runs now
+exist and are recorded in §5.2; this HTTP-only boundary still applies to §5.1, and none of §5.2 closes
+a delivery group.)* The accepted hardcoded venue constant (`venue-hall-01`) is synthetic
 demonstration data, not a credential and not a security boundary.
 
 Hygiene: the sealed stage kept exactly its original 8 files with unchanged hashes; CLI-generated cache
@@ -268,6 +280,31 @@ and log artifacts were moved out of it. No commit, push, PR, merge, billing chan
 acceptance, enforcement change, deletion or recovery deploy happened. The sanitized private report is
 `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-release-run-20261119\deploy-report.md` (temp
 storage, disposable; it contains no key, site key, token, password or raw reserved config body).
+
+### 5.2 Bounded hosted QA reconciled (November 20, 2026)
+
+Four bounded runs against the deployed origin now exist. Every one is a sanitized delegate report
+inspected by master, **not** an independent master replay, and each is limited to the states it
+names. The eight-group mapping, provenance table and remaining blockers live in
+`docs/verification.md` §17; this subsection records only what reached the hosted origin.
+
+| Run | What it produced | What it did not |
+|---|---|---|
+| Hosted manual QA (delegate report) | both roles signed in and read membership; five reviewed cards published with v1 creation activity; incoming accept/resolve/reopen persisted at v4 with four activity entries; sentinel absent across 28 observed outbound requests and inspected storage | no inference; no cloud-reconciliation confirm/dismiss on the hosted origin |
+| Hosted local model (delegate report) | two genuine `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request | no hosted reCAPTCHA-attested cloud request; AC13/Q6 still open; legacy v3 install state must be rechecked |
+| Desktop 200% zoom / keyboard (delegate report) | real Chrome 157.0.8103.79, five real `Ctrl+=` presses to true 200% (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow, clipping or overlapping interactive boxes; keyboard order and visible focus on signed-out and read-only signed-in states | no screen-reader output; no mutation-state accessibility; no WCAG certification; no network/console capture |
+| Android emulator (delegate report) | Android 17/SDK 37 x86_64 AVD, Chrome 149.0.7827.5: native touch raised the real IME, focused fields stayed visible, no measured horizontal overflow at 411×834 or 914×331, 15 named controls in the initial workspace, one synthetic sign-in and sign-out | no task mutation or touch workflow; no traffic observation; no physical-device or TalkBack run (limits, not AC12 requirements) |
+
+Signed-out empty-submit native validation was also observed in the real browser (0 `submit` events,
+two click-caused `invalid` events, Chrome's native message, focus moved to Email): it establishes
+submit blocking, not screen-reader speech. Narrator evidence remains a user observation of the three
+sign-in controls' names, roles and required state; protected-password speech and any error/status
+announcement are unobserved.
+
+Status: this evidence reduces unknowns without closing any delivery group. Every browser-dependent
+bullet in §5 remains open except where the rows above give bounded coverage; none is fully closed,
+the hosted App Check exchange remains unresolved, `SCOPE.unimplemented` still names all eight items,
+and Gates C/D stay unapproved.
 
 ## 6. Rollback — documented, not exercised
 
@@ -398,6 +435,14 @@ unavailable state and the manual path. If time is short, cut in this order: the 
 second resolution, then the diagram card — keep the private note → local draft → approved share →
 accept/resolve spine. Each cut only shortens the video; it must not relabel unverified capability.
 
+**Dated correction — November 20, 2026.** The "still absent" list in the paragraph above has moved
+for three entries and not for two: a hosted HTTPS `ONLY_ON_DEVICE` generation now exists as an inspected
+delegate report (two generations, §5.2), Android Chrome touch exists on an x86_64 **emulator** only,
+and 200% zoom plus keyboard/focus were measured on desktop Chrome in read-only states. No observed
+screen-reader speech exists beyond the user-observed sign-in control naming, and AC15 is unvalidated;
+no hosted reCAPTCHA-attested cloud request exists. A shot of these runs may be described as bounded
+evidence, never as physical-device, WCAG or hybrid/cloud proof.
+
 ## 11. Submission draft (English, ~180 words)
 
 > **ShiftRelay — private shift notes become owned work.**
@@ -453,6 +498,17 @@ use submitted content and generated responses to improve its products, and human
 them, so only synthetic data may ever reach the cloud model
 (`https://ai.google.dev/gemini-api/terms#unpaid-services`).
 
+**Dated correction — November 20, 2026.** Two entries in the list above now have bounded evidence and
+must still not be overstated: 200% zoom and keyboard/focus were measured on desktop Chrome in
+signed-out and read-only signed-in states only, and native Android Chrome touch was measured on an
+x86_64 emulator only. Physical device and TalkBack specifically are **not** required by `docs/spec.md`
+AC12/`CONSTRAINTS.md` Q4 (responsive web, "No device-local Android-browser claim"), so their absence
+is a recorded limit, not a new blocker. Screen-reader announcements are only partially observed: one
+user-observed Narrator pass covered the three sign-in controls' names, roles and required state, and
+no status/alert/error announcement or protected-password announcement was observed. A hosted
+`ONLY_ON_DEVICE` generation exists; a hosted reCAPTCHA-attested cloud request does not, so AC13/Q6
+stay open. AC15 remains unvalidated. See §5.2 and `docs/verification.md` §17.
+
 ## 14. Open items before submission
 
 Status as of November 20, 2026 (earlier wording kept where still true):
@@ -464,14 +520,21 @@ Status as of November 20, 2026 (earlier wording kept where still true):
 2. Keyed QA build and sealed stage — implemented, exercised and now **deployed** from the sealed stage
    (§5.1). Any *next* deploy needs a fresh reviewed build + stage, not a re-use of this one.
 3. Rules/indexes release — **done** (`cloud.firestore`, ruleset `137c406c…`, `03:51:56Z`); Hosting —
-   **done** (`1795146753235000`, `03:52:33Z`); HTTP surface observed (§5.1). Still open: the
-   browser-side hosted checks — Auth session, console/CSP violations, reCAPTCHA-attested App Check
-   exchange, and the share/accept/resolve + consented cloud flow. Browser QA is running separately
-   with no results yet.
+   **done** (`1795146753235000`, `03:52:33Z`); HTTP surface observed (§5.1). **Updated November 20,
+   2026:** a synthetic sign-in and the share/accept/resolve/reopen workflow are now covered by an
+   inspected delegate run (§5.2). Console/CSP coverage is partial, not absent: the earlier signed-out
+   hosted smoke recorded no CSP violations and no page errors, while authenticated and model-path
+   console/CSP behavior, the hosted reCAPTCHA-attested App Check exchange and the hosted consented
+   cloud flow remain unverified. No group closed.
 4. Decide the private judge-credential channel; keep values out of the repo.
 5. Record the ≤3 minute demo on the real runtime; upload is a separate user approval.
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user
-   checks.
+   checks. **Updated November 20, 2026:** desktop 200% zoom/keyboard, submit-time native validation
+   and emulator touch are measured (bounded, §5.2). Still required by contract: full screen-reader
+   announcements (AC12) and the Android Chrome **touch workflow** AC12 names, neither of which the
+   read-only runs cover. Not required by AC12/Q4 and therefore limits/follow-ups only: physical
+   device, TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual
+   AT coverage of mutation states. Zoom measurements do not extend to mutation states.
 7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging. Still applies to
    any future stage; the November 20, 2026 stage itself was sealed and verified.
 

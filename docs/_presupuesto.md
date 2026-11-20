@@ -12,6 +12,17 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Reconciliation complete:** two delivery docs updated and master corrections inspected;
+eight groups remain open with evidence-specific limits. No added device/AT requirements,
+repeated QA or redeployment. Next is user-authorized shell checkpoint/full evidence and
+docs review; delegate commit still policy-blocked. Allocation/free-tier limits unchanged.
+
+**Checkpoint verified / reconciliation scoped:** user saved16a23d6; master confirmed
+full16/16 clean stable SHA-matched evidence and refreshed review metadata. Prior
+commit-permission stop resolved by user action. Next bounded effort reconciles recent
+QA with eight remaining delivery groups in PUBLISH/verification only; no repeated tests,
+cloud actions, scope increase or gate waiver. Allocation unchanged, labor unmeasured.
+
 **Checkpoint blocked by permission:** scan/diff checks passed, three docs staged, commit
 denied before execution; no post-commit verification or review refresh. Preserve work
 and stop automated commit attempts until user action/permission change. No allocation

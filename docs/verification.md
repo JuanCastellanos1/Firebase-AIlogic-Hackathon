@@ -2376,3 +2376,114 @@ Limits of this evidence:
   (`venue-hall-01`) is synthetic demonstration data, not a credential or a security boundary.
 - Gate C remains `NOT ELIGIBLE` (8 named scope items); this section is QA evidence, not release
   approval.
+
+**Dated correction — November 20, 2026 (later the same day).** The "Browser QA is being run
+separately and has produced **no result yet**" line above is superseded by the bounded runs
+reconciled in §17. Nothing in §17 upgrades this section's HTTP-only evidence: no hosted browser
+Auth, console/CSP-violation or attestation claim follows from it either.
+
+## 17. Phase 8 delivery-group evidence reconciliation (November 20, 2026)
+
+Scope: documentation only. This section maps the eight static delivery items in
+`scripts/verificar.py` `SCOPE.unimplemented` — the reason `gate_c_eligible=false` is retained — to
+the actual recent QA evidence, its provenance and what is still missing. It changes no check, gate,
+test, constraint or product behavior, and it marks **no group complete**: every item below stays
+open, and partial proof is recorded as partial.
+
+The current run read for this reconciliation is `.git/opencode/evidence.json` at HEAD
+`16a23d61ee84e7938ea357203ae1d5c8607576a1`: `ok=true`, `dirty=false`, `tree_stable=true`, 16/16
+checks `exit=0`, `scope.complete=true`, window `2026-11-20T18:31:33Z`–`18:35:32Z`,
+`gate_c_eligible=false` with the single reason `8 scope items unimplemented`; `.git/opencode/review.sha`
+names the same commit. That report certifies the commit only, not the edits added here.
+
+### 17.1 Provenance of the evidence cited below
+
+| Evidence | Produced by | Provenance and limit |
+|---|---|---|
+| Deployed HTTP surface (root, headers, `/__/firebase/init.json`, SPA rewrite) | deployment delegate, re-checked by master | §16; master independently confirmed root 200 and the headers. **HTTP only** |
+| Hosted manual workflow (two roles, membership, five-card publish, accept/resolve/reopen at v4, sentinel) | one delegate browser run | inspected sanitized `shiftrelay-hosted-qa-resume-20261120.md` outcome recorded in the HANDOFF record; **not** a master replay |
+| Real-Chrome synthetic sign-in | delegate | `shiftrelay-real-chrome-signin-20261120.md`; sign-in succeeded, first exchange status lost, repeat run measured zero App Check exchanges. No token or attestation success follows |
+| Hosted local model (two `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request) | one delegate run | `shiftrelay-hosted-local-20261120.md`, summarized in HANDOFF; raw report not re-read; not a master replay. The same run produced the contained credential-exposure incident |
+| Capture boundary (projection and guard) | delegate harness, inspected and partly rerun by master | `Temp/opencode/capture-guard/PHASE8-CAPTURE-SUCCESS-PROOF.md`; master reran the `--no-live` guard self-check (70/70) and the earlier projection fixture (35/35). No master replay of the success path |
+| Desktop true 200% zoom, keyboard/focus, read-only workspace | one delegate run | `shiftrelay-desktop-a11y-20261120.md` (corrected); master inspected, did not replay |
+| Signed-out empty-submit native validation | one delegate run (browse extension) | `shiftrelay-native-validation-20261120.md`; DOM facts only, no spoken output |
+| Android emulator touch/IME/reflow and one read-only workspace | one delegate run | `shiftrelay-android-readonly-20261120.md`; x86_64 emulator, not physical hardware |
+| Narrator announcements of the three sign-in controls | **user observation** | recorded in HANDOFF; versions and configuration not recorded; no protected-password announcement reported |
+
+No report grants an App Check, hybrid/cloud or physical-device result, and none is a complete
+screen-reader result: the user-observed Narrator pass is partial naming evidence for the three
+sign-in controls only. No full-flow accessibility certification follows.
+
+### 17.2 The eight groups, mapped
+
+| # | Static item (short) | Evidenced component | Exact source | Remaining blocking checks |
+|---|---|---|---|---|
+| 1 | Q5 reviewer closure: redacted scan report and pre-deploy public artifact set | Pinned Gitleaks 8.30.1 `secret-scan` exit 0 over working tree + `dist/`, `dist-guard` exit 0, production `dependency-audit` 0 high findings; the `00c2b2e` sealed artifact and Q5 boundary were reviewer-approved (§16) | This 16/16 report (`16a23d6`); §9; §16 | Two separate reviews: (a) **current documentation SHA** — its own clean verifier report and reviewer sign-off on this docs-only diff, still needed; (b) **release artifact** — the `00c2b2e` approval is retained for that exact byte-identical artifact. A docs-only commit changes no deployed byte, so it needs no rebuild, re-stage, re-deploy or artifact re-review; any *new* artifact or deploy does |
+| 2 | Hosted delivery checks: Hosting deploy, reserved `init.json`, hosted attested request | Hosting release `1795146753235000` from the sealed stage; 5/5 asset hashes identical; `GET /__/firebase/init.json` 200 `application/json` object with matching `projectId`/`appId`; the earlier signed-out hosted browser smoke recorded **no CSP violations and no page errors** on that unauthenticated path | §16, `docs/PUBLISH.md` §5.1; HANDOFF hosted-smoke summary | No hosted reCAPTCHA-Enterprise-attested request exists. Console/CSP coverage is partial, not absent: the signed-out smoke showed none, but authenticated and model-path CSP/console behavior is unverified. The item is conjunctive, so it stays open |
+| 3 | Hosted reCAPTCHA attestation and Firestore App Check enforcement | AI Logic service-boundary enforcement for `firebaseml.googleapis.com`: valid 200, missing/garbage 401 (ADR 0007, §13.3); reviewed Ruleset deployed | ADR 0007, §13.3, §16 | Hosted attestation not established: 403 `PERMISSION_DENIED / App attestation failed` in three automated page instances followed by the one-day client throttle; the real-Chrome runs measured no exchange or lost the status. Firestore App Check enforcement is still not enabled |
+| 4 | In-app live cloud reconciliation plus reviewed Ruleset deployment | Deployed ruleset `137c406c…` equals the reviewed file; inspected delegate run read membership and completed publish → accept → resolve → reopen (v4, four activity entries) on the deployed origin; one real-Chrome synthetic sign-in succeeded without task writes | §16; HANDOFF hosted-QA and sign-in summaries | The suggestion/confirm cloud-reconciliation flow on the deployed origin still has only labelled-mock evidence; no hosted consented cloud packet, confirm or dismiss was observed; the workflow result is an inspected delegate report, not a replay |
+| 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report; the legacy v3 pending-install state must be rechecked before any provenance claim |
+| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | True 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace | `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator observation; `shiftrelay-android-readonly-20261120.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, and the Android "touch workflow" was exercised only for sign-in/read-only, not the capture→share→accept→resolve/reopen actions AC12 names; the 200% manual check covers read-only states only. **Not** required by AC12/AC15 and therefore recorded as explicit limits, not new blockers: physical device, TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
+| 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
+| 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
+
+### 17.3 Capture boundary — what is proven, and its limits
+
+The AGENTS metadata-only rule now has a local proof and a guard; it is not a universal safety claim.
+
+- Success path (local, synthetic, loopback only): the installed `agent-browser` 0.43.0 CLI capture
+  output was read in-process, projected, validated and only then emitted. 26/26 checks, exit 0; five
+  genuine loopback entries (document, synthetic sign-in, health, sentinel path, favicon); four
+  per-run sentinels present in the raw in-process capture and 0/4 in the emitted document;
+  method/status preserved; `localhost` and unknown paths redacted to `<unlisted>` /
+  `<unlisted-path>` because the allowlist deliberately omits them. Library and standalone CLI
+  produced the same validated single document. Own session closed; zero sessions remained.
+- Guard self-checks: `capture_guard_selfcheck.py --no-live` 70/70 with unsafe injection exiting 2
+  and emitting zero bytes (master rerun; also rerun inside the desktop accessibility task); the
+  earlier synthetic projection fixture 35/35 with an unsafe-injection negative control (master
+  rerun).
+- Containment observed in the same launch mode: `--allowed-domains 127.0.0.1` configured,
+  non-allowlisted `about:blank` navigation refused, allowlisted loopback opened.
+
+Limits, to be repeated wherever this proof is cited:
+
+- It covers `network requests --json` only. `network request <id>`, `network har`, `console`,
+  `--verbose`, `--debug` and page reads are refused by the guard's argument check but were not
+  exercised against a live browser.
+- Sentinel detection is substring-based on known per-run values. It is **not** a general secret
+  detector for transformed or unknown values.
+- The guard is outside-root tooling with no repository wiring, so no verifier check or CI run
+  exercises it; using it before an authenticated capture is an operator convention, not an enforced
+  pipeline step.
+- External traffic is evidenced by configuration plus one refused non-allowlisted navigation, not by
+  observing a blocked real-host request. Chrome background networking is outside CDP interception
+  and was unmeasured, so **no universal egress claim** is made.
+- No raw request/response body, header, URL query, console dump or HAR is retained or reproduced in
+  this record.
+- The guard proof does not itself authorize authenticated capture. Earlier hosted runs did carry
+  explicitly approved traffic observation: the manual workflow recorded 28 outbound requests for its
+  sentinel check, the App Check sign-in attempts captured bodies-disabled request metadata, and the
+  hosted local run's raw request dump caused the contained credential incident. The later desktop,
+  native-validation and Android runs performed **no** network/console/HAR capture at all. That
+  distinction upgrades nothing: no Auth status, App Check attestation or request-inventory result is
+  proven here, and the incident caveats (rotated QA password, revoked refresh tokens, unresolved
+  transcript copies, possible residual ID tokens) stand.
+
+### 17.4 Static scope prose drift — proposed future narrow edit, not applied
+
+`scripts/verificar.py` `SCOPE.unimplemented` is static text, and four of its sentences now lag
+§16/§17 factually while the gate itself stays correct:
+
+- item 2 says no Hosting build was deployed and `/__/firebase/init.json` is "unproven"; §16 records
+  the deploy and a 200 JSON object.
+- item 4 bases the membership denial on "the current closed Rules" and calls the Ruleset deployment
+  pending; the reviewed ruleset is deployed.
+- item 5 says a hosted local-model request is "still absent"; the inspected hosted run reports two
+  `ONLY_ON_DEVICE` generations.
+- item 6 describes manual accessibility as only "automated axe …, keyboard and 320 px"; bounded
+  200% zoom/keyboard, submit-time native validation and emulator touch evidence now exist.
+
+Proposed future change (not performed here; needs its own review and a fresh clean verifier run):
+update only that prose to point at §16/§17 while keeping all eight items listed and the
+`gate_c_eligible` logic untouched. No item is removed, no group is completed and no gate is waived
+by this section.

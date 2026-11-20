@@ -13,6 +13,18 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Delivery reconciliation completed:** verification§17/PUBLISH§5.2 now retain bounded
+QA evidence and exact remaining checks without inventing requirements or closing any
+of eight groups. Master inspected corrections. Five docs are dirty; next is user-shell
+local commit/full verification (commands at HANDOFF top), then SHA-matched docs review.
+No code/verifier changes, QA/cloud actions or deployment required for this docs-only cut.
+
+**Current verified checkpoint:** user committed `16a23d6`; master confirmed clean
+full16/16 SHA-matched stable/complete evidence at18:35:32Z and refreshed raw-byte review
+bundle. Old commit-denied paragraphs are superseded. Documentation-only reconciliation
+of eight delivery groups is delegated; no test/script/constraint changes or new cloud
+QA. Later docs edits are outside clean checkpoint; final Gates C/D remain open.
+
 **Checkpoint save blocked:** pinned scan/diff check passed and exactly three operational
 docs were staged; tool policy denied commit before Git executed. Master confirmed HEAD
 unchanged at `ae527d1`; no post-commit verifier/review refresh. Later failure-record edits
