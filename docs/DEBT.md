@@ -15,6 +15,21 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ## November 20 fix-review reconciliation
 
+### Docs-only review at `88eaa15`
+
+Blocking B1 (stale PUBLISH hosted-local claim) and B2 (checkpoint-relative status)
+are fixes, not deferred debt; same-reviewer confirmation remains required.
+Group nonblocking documentation findings under existing **N6**, not a ninth group:
+spacing/SHA readability, accurate contract citations, named rather than misleading
+counts, contrast-evidence limits, static-scope drift enumeration, precise guard
+command/exit attribution and no-capture versus incidental Auth traffic.
+Physical Android wording in CONSTRAINTS measured Q4 conflicts with the narrower
+responsive-web framing; retain the ambiguity, do not assert a waiver.
+Master independently reran normal guard selfcheck (exit 0) AND
+`--no-live --inject-unsafe` (exit 2); reject the review suggestion that exit 2
+was only a transport-failure fixture. Clarify exact commands in delivery docs.
+No new quality requirement or gate exception is created by this ledger.
+
 Both replacement Qwen reviewers approved `dbd217c..a7711cd` with no code blockers. Follow-ups
 are grouped into the existing ledger, not added as a ninth group:
 

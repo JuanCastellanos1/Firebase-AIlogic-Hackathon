@@ -12,6 +12,16 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Docs review checkpoint:** user-saved `88eaa15` has verified clean full 16/16
+evidence at `18:55:09Z`; older pending-commit prose is historical, not current
+gate input. Narrow docs review found B1/B2; budget one bounded correction and
+same-reviewer re-review, not repeated QA or scope expansion. Subsequent edits
+need their own clean evidence. Allocations/free-tier limits unchanged.
+
+Bounded B1/B2 documentation fixes are implemented and master-inspected; no runtime
+QA repeated. Await authorized user-shell checkpoint/full evidence and same-reviewer
+confirmation, not another agent commit attempt. No blocking finding deferred as debt.
+
 **Reconciliation complete:** two delivery docs updated and master corrections inspected;
 eight groups remain open with evidence-specific limits. No added device/AT requirements,
 repeated QA or redeployment. Next is user-authorized shell checkpoint/full evidence and

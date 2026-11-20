@@ -13,6 +13,17 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Authoritative review update:** `88eaa15` was saved by user and certified clean,
+stable/complete full 16/16 at `2026-11-20T18:55:09Z`; historical statements below
+about dirty/uncommitted five docs predate that checkpoint. Subsequent docs fixes
+are not certified by it; actual Git/evidence defines current mechanical state.
+Docs reviewer returned DO_NOT_APPROVE B1 (stale hosted-local absence) and B2
+(stale checkpoint instructions); bounded Phase 6.5 corrections implemented and
+master-inspected, not yet re-reviewed. Next is user-shell local checkpoint/full
+evidence, then same-reviewer fix-only review. All eight
+delivery groups/final Gates C/D remain open. Physical Android wording conflict
+with measured Q4 must not be treated as waived or settled without clarification.
+
 **Delivery reconciliation completed:** verification§17/PUBLISH§5.2 now retain bounded
 QA evidence and exact remaining checks without inventing requirements or closing any
 of eight groups. Master inspected corrections. Five docs are dirty; next is user-shell

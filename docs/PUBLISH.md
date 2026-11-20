@@ -33,9 +33,9 @@ now cover hosted manual ownership, hosted local drafting, desktop zoom/keyboard 
 touch; §5.2 records exactly what each produced and what it did not, and §13/§14 were corrected
 accordingly. They close no delivery group: the eight static verifier items remain open
 (`gate_c_eligible=false`), and no complete screen-reader result, hosted-attestation result or AC15
-result exists; no physical-device run was made, which is a recorded limit rather than an AC12
-requirement. The full per-group mapping, provenance and remaining blockers are in
-`docs/verification.md` §17.
+result exists; no physical-device run was made, which is a recorded limit, and the contract wording on
+physical hardware is unresolved rather than waived (§13). The full per-group mapping, provenance and
+remaining blockers are in `docs/verification.md` §17.
 
 Status legend: **verified** = an existing report or file says so, cited inline; **planned** = a
 documented command or checklist not yet run; **blocked** = needs a decision, a review or hardware.
@@ -43,17 +43,30 @@ documented command or checklist not yet run; **blocked** = needs a decision, a r
 ## 1. Current status
 
 **Dated update — November 20, 2026.** The `Implemented-code checks`, `Test totals` and
-`scripts/verificar.py` gate rows below were reconciled to the clean checkpoint `a7711cd` recorded in
-`docs/verification.md` §15.7.
+`scripts/verificar.py` gate rows below were reconciled to the then-current clean checkpoint
+`a7711cd` recorded in `docs/verification.md` §15.7; they now cite the later verified snapshot
+`88eaa15` described in the next paragraph.
 The working tree is dirty again because of later documentation edits, so that report certifies
 `a7711cd` only, not those edits, a future commit, or any release. Both fix reviewers have since
-approved the fix cut at `a7711cd` (D1–D4/U1 closed, no blockers); clean evidence for the final
-operational commit is still pending, so Gate C and Gate D remain unapproved.
+approved the fix cut at `a7711cd` (D1–D4/U1 closed, no blockers); clean evidence for the commit
+current at gate time is still pending, so Gate C and Gate D remain unapproved.
+
+**Dated update — November 20, 2026 (later verified snapshot `88eaa15`, durable status semantics).**
+`.git/opencode/evidence.json` at `88eaa157646e0d44ce6f8346cd100660d2b916af` records `ok=true`,
+`dirty=false`, `status=[]`, `tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`,
+window `2026-11-20T18:51:28Z`–`18:55:09Z` (`finished_at=2026-11-20T18:55:09Z`),
+`gate_c_eligible=false` with the single reason `8 scope items unimplemented`; `.git/opencode/review.sha`
+names the same commit. Read that report as a **historical snapshot of one clean tree**: the live Git
+state, `evidence.json` and `review.sha` are authoritative whenever this file is read, and neither this
+paragraph nor the rows below is a standing claim about the current files. Any documentation-only edit
+after `88eaa15` is not certified by that report; conversely it needs no repeat of the earlier builds,
+deployments, hosted QA or artifact review, because none of those bytes changed. A report for a future
+commit certifies only that commit once it exists, and none is claimed here.
 
 | Item | Status | Evidence |
 |---|---|---|
-| Implemented-code checks (16) | verified at the clean checkpoint `a7711cd` (November 20, 2026) | `.git/opencode/evidence.json`: `ok=true`, `commit=a7711cd233303371cc71493b47b0a66061b41953`, `dirty=false`, `status=[]`, `tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`, `finished_at=2026-11-20T02:22:47Z` (`docs/verification.md` §15.7) |
-| Test totals | last **counted** on the earlier dirty run (§15.6), not re-counted at the checkpoint | 121 unit (7 files, incl. 17 ai-output, 20 reconciliation, 24 runtime-config), 41 Rules, 21 E2E, 84 tool tests, 2 diagrams, pinned Gitleaks clean, production audit 0 vulnerabilities — measured on `dbd217c` plus the fix working tree. The `a7711cd` report stores per-check `exit`/`duration_ms`/`stdout_sha256`, not per-suite counts, so no total is claimed for it |
+| Implemented-code checks (16) | verified at the clean snapshot `88eaa15` (November 20, 2026; that tree only) | `.git/opencode/evidence.json`: `ok=true`, `commit=88eaa157646e0d44ce6f8346cd100660d2b916af`, `dirty=false`, `status=[]`, `tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`, `finished_at=2026-11-20T18:55:09Z` (`docs/verification.md` §17) |
+| Test totals | last **counted** on the earlier dirty run (§15.6), not re-counted at a clean snapshot | 121 unit (7 files, incl. 17 ai-output, 20 reconciliation, 24 runtime-config), 41 Rules, 21 E2E, 84 tool tests, 2 diagrams, pinned Gitleaks clean, production audit 0 vulnerabilities — measured on `dbd217c` plus the fix working tree. The `88eaa15` and `a7711cd` reports store per-check `exit`/`duration_ms`/`stdout_sha256`, not per-suite counts, so no total is claimed for either clean snapshot |
 | Local drafting (ONLY_ON_DEVICE), v4 model path | verified once, loopback | isolated Chrome 157, `gemma4_component` 2026.8.7.929, `gemma4_gpu_low_tier_model` (`gemma4-2b-it`), genuine 5-card generation (`docs/adr/0006-nano4-runtime-proof.md`) |
 | Earlier local drafting run | verified once, **not** Nano 4 | component `nano_v3_gpu_component` 2025.8.8.1141, localhost only (`docs/verification.md` §10) |
 | Consented cloud request from localhost | verified once | `gemini-3.5-flash-lite`, `inference_source in_cloud`, 161 bytes, 1912 ms, App Check debug exchange 200, `.git/opencode/live-config-evidence.json` (`docs/verification.md` §13.3) |
@@ -65,7 +78,7 @@ operational commit is still pending, so Gate C and Gate D remain unapproved.
 | Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows not observed in §5.1 | §5.1; browser-dependent checks stay *planned* there and are only partly covered by §5.2 |
 | Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator) | **partial**: each run limited to the states it names; inspected delegate reports, not master replays; no delivery group closed | §5.2; `docs/verification.md` §17 |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
-| `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean checkpoint: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
+| `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean snapshot `88eaa15`: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
 ## 2. Actual cloud target
 
@@ -106,7 +119,7 @@ Accept as a candidate only if all of the following hold, and quote the run, not 
    current check names present, each exactly once — no missing, unexpected, or duplicated record. A
    `--only` run sets `scope.complete=false` and is never release evidence.
 2. `commit` equals the reviewed commit and `dirty=false` (a dirty run is not release evidence; the
-   November 20, 2026 checkpoint met both conditions for `a7711cd` and Gate C was still
+   November 20, 2026 snapshots met both conditions for `a7711cd` and `88eaa15`, and Gate C was still
    `NOT ELIGIBLE` for the eight scope gaps, so a clean report is not release approval).
 3. `GATE_C` still reports the 8 unimplemented scope items — they are named, not waived
    (`scripts/verificar.py` `SCOPE.unimplemented`).
@@ -291,9 +304,9 @@ names. The eight-group mapping, provenance table and remaining blockers live in
 | Run | What it produced | What it did not |
 |---|---|---|
 | Hosted manual QA (delegate report) | both roles signed in and read membership; five reviewed cards published with v1 creation activity; incoming accept/resolve/reopen persisted at v4 with four activity entries; sentinel absent across 28 observed outbound requests and inspected storage | no inference; no cloud-reconciliation confirm/dismiss on the hosted origin |
-| Hosted local model (delegate report) | two genuine `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request | no hosted reCAPTCHA-attested cloud request; AC13/Q6 still open; legacy v3 install state must be rechecked |
+| Hosted local model (delegate report) | two genuine `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request | no hosted reCAPTCHA-attested cloud request; AC13/Q6 still open; legacy v3 reported 0 MiB weights with install pending, so provenance must be rechecked before future model claims |
 | Desktop 200% zoom / keyboard (delegate report) | real Chrome 157.0.8103.79, five real `Ctrl+=` presses to true 200% (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow, clipping or overlapping interactive boxes; keyboard order and visible focus on signed-out and read-only signed-in states | no screen-reader output; no mutation-state accessibility; no WCAG certification; no network/console capture |
-| Android emulator (delegate report) | Android 17/SDK 37 x86_64 AVD, Chrome 149.0.7827.5: native touch raised the real IME, focused fields stayed visible, no measured horizontal overflow at 411×834 or 914×331, 15 named controls in the initial workspace, one synthetic sign-in and sign-out | no task mutation or touch workflow; no traffic observation; no physical-device or TalkBack run (limits, not AC12 requirements) |
+| Android emulator (delegate report) | Android 17/SDK 37 x86_64 AVD, Chrome 149.0.7827.5: native touch raised the real IME, focused fields stayed visible, no measured horizontal overflow at 411×834 or 914×331, 15 named controls in the initial workspace, one synthetic sign-in and sign-out | no task mutation or touch workflow; no traffic observation; no physical-device or TalkBack run (recorded limits; the physical-hardware scope wording is unresolved — see §13) |
 
 Signed-out empty-submit native validation was also observed in the real browser (0 `submit` events,
 two click-caused `invalid` events, Chrome's native message, focus moved to Email): it establishes
@@ -436,12 +449,13 @@ second resolution, then the diagram card — keep the private note → local dra
 accept/resolve spine. Each cut only shortens the video; it must not relabel unverified capability.
 
 **Dated correction — November 20, 2026.** The "still absent" list in the paragraph above has moved
-for three entries and not for two: a hosted HTTPS `ONLY_ON_DEVICE` generation now exists as an inspected
-delegate report (two generations, §5.2), Android Chrome touch exists on an x86_64 **emulator** only,
-and 200% zoom plus keyboard/focus were measured on desktop Chrome in read-only states. No observed
-screen-reader speech exists beyond the user-observed sign-in control naming, and AC15 is unvalidated;
-no hosted reCAPTCHA-attested cloud request exists. A shot of these runs may be described as bounded
-evidence, never as physical-device, WCAG or hybrid/cloud proof.
+for the hosted HTTPS `ONLY_ON_DEVICE`, Android Chrome touch and 200% zoom/keyboard entries, and has
+not moved for screen-reader speech or AC15: a hosted HTTPS `ONLY_ON_DEVICE` generation now exists as
+an inspected delegate report (two generations, §5.2), Android Chrome touch exists on an x86_64
+**emulator** only, and 200% zoom plus keyboard/focus were measured on desktop Chrome in read-only
+states. Still absent are screen-reader speech beyond the user-observed sign-in control naming and
+AC15 validation; no hosted reCAPTCHA-attested cloud request exists. A shot of these runs may be
+described as bounded evidence, never as physical-device, WCAG or hybrid/cloud proof.
 
 ## 11. Submission draft (English, ~180 words)
 
@@ -482,11 +496,23 @@ the model entry was `gemma4_gpu_low_tier_model` (`gemma4-2b-it`), and a genuine 
 sponsor FAQ mapping to that flag; no independent Google statement about this exact component is
 claimed, the ordinary profile was not probed, and no hosted on-device request exists.
 
+**Dated correction — November 20, 2026.** The closing "no hosted on-device request exists" claim is
+superseded. An inspected delegate run against `https://shiftrelay-hybridai-2026.web.app` reports two
+genuine Firebase AI Logic `ONLY_ON_DEVICE` generations on the deployed origin (four and five
+suggestions, 79.7 s and 24.5 s, no measured AI-host request) with the ADR 0006 Gemma 4 provenance
+(`gemma4_component` 2026.8.7.929, `gemma4_gpu_low_tier_model` / `gemma4-2b-it`). A legacy v3 asset
+was reported earlier at 0 MiB weights with its install pending, so v3 provenance must be rechecked
+before future model claims and nothing v3 is relabelled Nano 4. This is one delegate's inspected
+report, not a master replay (§5.2, `docs/verification.md` §17): it is hosted local-model evidence
+only, not a hosted reCAPTCHA-attested cloud request, not AC13 completion and not an independent
+"Nano 4" identification. A hosted attested cloud request remains unverified, so AC13/Q6 stay open.
+
 ## 13. Honest limits
 
-Unverified and not to be claimed: a hosted on-device request; a hosted reCAPTCHA-attested request; the
-deployed CSP actually running without violations (the header is served as reviewed, but no browser
-console was observed); in-app cloud reconciliation on the deployed origin; real Android Chrome touch;
+Unverified and not to be claimed: a hosted on-device request (**superseded — see the dated
+correction below**); a hosted reCAPTCHA-attested request; the deployed CSP actually running without
+violations (the header is served as reviewed, but no browser console was observed); in-app cloud
+reconciliation on the deployed origin; real Android Chrome touch;
 screen-reader and 200% zoom manual checks; AC15 user research; any WCAG certification;
 latency/quota/coverage numbers; performance (the build reports a ~809 kB JS chunk warning). Exercised
 and proven: App Check enforcement at the AI Logic service boundary
@@ -498,16 +524,27 @@ use submitted content and generated responses to improve its products, and human
 them, so only synthetic data may ever reach the cloud model
 (`https://ai.google.dev/gemini-api/terms#unpaid-services`).
 
-**Dated correction — November 20, 2026.** Two entries in the list above now have bounded evidence and
-must still not be overstated: 200% zoom and keyboard/focus were measured on desktop Chrome in
-signed-out and read-only signed-in states only, and native Android Chrome touch was measured on an
-x86_64 emulator only. Physical device and TalkBack specifically are **not** required by `docs/spec.md`
-AC12/`CONSTRAINTS.md` Q4 (responsive web, "No device-local Android-browser claim"), so their absence
-is a recorded limit, not a new blocker. Screen-reader announcements are only partially observed: one
-user-observed Narrator pass covered the three sign-in controls' names, roles and required state, and
-no status/alert/error announcement or protected-password announcement was observed. A hosted
-`ONLY_ON_DEVICE` generation exists; a hosted reCAPTCHA-attested cloud request does not, so AC13/Q6
-stay open. AC15 remains unvalidated. See §5.2 and `docs/verification.md` §17.
+**Dated correction — November 20, 2026.** The **hosted on-device request**, **200% zoom/keyboard** and
+**real Android Chrome touch** entries in the list above now have bounded evidence and must still not be
+overstated: 200% zoom and keyboard/focus were measured on desktop Chrome in signed-out and read-only
+signed-in states only, and native Android Chrome touch was measured on an x86_64 emulator only.
+The scope wording does not settle physical hardware, so the conflict is recorded as **unresolved and
+not waived**: `docs/spec.md` line 9 declares Android delivery as responsive web with "No device-local
+Android-browser claim", while AC12 (the acceptance-criteria table) still requires a manual "actual
+Android Chrome touch workflow", screen-reader announcements, 200% zoom and a recorded ordinary-text
+contrast `>=4.5:1`; `CONSTRAINTS.md` Q4's target row is responsive-web framed, but its measured row
+(line 33) says physical Android touch evidence remains open. No physical-device result is claimed and
+no pass is inferred in either direction. TalkBack specifically, Android font-scale/high-contrast and
+ordinary-profile probing are not named by AC12 or Q4, so their absence is a recorded limit rather than
+an automatic blocker. Screen-reader announcements are only partially observed: one user-observed
+Narrator pass covered the three sign-in controls' names, roles and required state, and no
+status/alert/error announcement or protected-password announcement was observed. No ordinary-text
+contrast **ratio** was recorded for any state: the only automated accessibility evidence is
+`e2e/accessibility.spec.ts` asserting zero axe serious/critical findings over sign-in, draft, review,
+incoming-list, resolve-form and resolved states at 320 CSS px, which does not satisfy AC12's recorded
+ratio requirement. A hosted `ONLY_ON_DEVICE` generation exists; a hosted reCAPTCHA-attested cloud
+request does not, so AC13/Q6 stay open. AC15 remains unvalidated. See §5.2 and
+`docs/verification.md` §17.
 
 ## 14. Open items before submission
 
@@ -515,8 +552,10 @@ Status as of November 20, 2026 (earlier wording kept where still true):
 
 1. Reviewed commit + `dirty=false` verifier run + green CI on that SHA (owner: active agent,
    `github-sync`). **Done for `00c2b2e`:** 16/16 clean evidence and CI run `44664598466` succeeded on
-   that exact SHA. Still open: clean verifier evidence for the final operational commit that carries
-   these documentation edits, and the PR/merge step.
+   that exact SHA. **Snapshot `88eaa15`:** full 16/16 clean/stable/complete at `18:55:09Z` (§1). Still
+   open: reviewer sign-off on the docs-only fixes and, at gate time, verifier evidence for the commit
+   then current (a report certifies only its own SHA); no re-run of the deployment, hosted QA or
+   artifact review is implied by a docs-only edit. PR/merge step open.
 2. Keyed QA build and sealed stage — implemented, exercised and now **deployed** from the sealed stage
    (§5.1). Any *next* deploy needs a fresh reviewed build + stage, not a re-use of this one.
 3. Rules/indexes release — **done** (`cloud.firestore`, ruleset `137c406c…`, `03:51:56Z`); Hosting —
@@ -531,10 +570,14 @@ Status as of November 20, 2026 (earlier wording kept where still true):
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user
    checks. **Updated November 20, 2026:** desktop 200% zoom/keyboard, submit-time native validation
    and emulator touch are measured (bounded, §5.2). Still required by contract: full screen-reader
-   announcements (AC12) and the Android Chrome **touch workflow** AC12 names, neither of which the
-   read-only runs cover. Not required by AC12/Q4 and therefore limits/follow-ups only: physical
-   device, TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual
-   AT coverage of mutation states. Zoom measurements do not extend to mutation states.
+   announcements (AC12), the Android Chrome **touch workflow** AC12 names, and a recorded
+   ordinary-text contrast ratio `>=4.5:1`; none of the read-only runs covers these. Scope wording
+   conflict left open, not waived: AC12 and `CONSTRAINTS.md` Q4's target row are responsive-web framed
+   (`docs/spec.md` line 9, "No device-local Android-browser claim"), while `CONSTRAINTS.md` line 33
+   (measured Q4 row) lists physical Android touch evidence as still open, so physical device and
+   TalkBack are neither certified nor declared unnecessary. Limits/follow-ups only: Android
+   font-scale/high-contrast, ordinary-profile probing, manual AT coverage of mutation states. Zoom
+   measurements do not extend to mutation states.
 7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging. Still applies to
    any future stage; the November 20, 2026 stage itself was sealed and verified.
 

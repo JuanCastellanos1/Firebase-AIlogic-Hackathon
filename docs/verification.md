@@ -2291,11 +2291,20 @@ Documentation edits made after `02:22:47Z` (this section, `docs/PUBLISH.md`, and
 operational records) dirtied the working tree again. The report above certifies `a7711cd`; it does
 not certify those edits or a future commit.
 
+**Later verified snapshot — November 20, 2026.** A later documentation-only commit,
+`88eaa157646e0d44ce6f8346cd100660d2b916af`, was saved and certified the same way: full 16/16,
+`dirty=false`, `tree_stable=true`, `scope.complete=true`, window `18:51:28Z`–`18:55:09Z`, the same
+single Gate C reason, and `.git/opencode/review.sha` names it (recorded in §17). That report is a
+historical snapshot of one clean tree: it certifies neither later edits nor a future commit, it does
+not need the earlier deployments/hosted QA repeated for a docs-only change, and the live Git state,
+`evidence.json` and `review.sha` are authoritative over this prose. §15.7 remains the dated record for
+`a7711cd`.
+
 Review status (November 20, 2026): both replacement `opencode-go/qwen3.8-flash` reviewers approved
 the fix cut at `a7711cd` — D1–D4 and U1 closed, no blockers. That approval covers the fix diff, not
-this documentation-only follow-up. Still pending is clean verifier evidence for the final operational
-commit that records these edits; until such a report exists at its own SHA, Gate C and the overall
-release remain unapproved.
+this documentation-only follow-up. Gate-time evidence must match whatever commit is current then, and
+a report certifies only its own SHA; until such a report exists, Gate C and the overall release remain
+unapproved.
 
 ## 16. First limited QA deploy — HTTP evidence only (November 20, 2026)
 
@@ -2390,11 +2399,17 @@ the actual recent QA evidence, its provenance and what is still missing. It chan
 test, constraint or product behavior, and it marks **no group complete**: every item below stays
 open, and partial proof is recorded as partial.
 
-The current run read for this reconciliation is `.git/opencode/evidence.json` at HEAD
-`16a23d61ee84e7938ea357203ae1d5c8607576a1`: `ok=true`, `dirty=false`, `tree_stable=true`, 16/16
-checks `exit=0`, `scope.complete=true`, window `2026-11-20T18:31:33Z`–`18:35:32Z`,
-`gate_c_eligible=false` with the single reason `8 scope items unimplemented`; `.git/opencode/review.sha`
-names the same commit. That report certifies the commit only, not the edits added here.
+The run this reconciliation was first written against is `.git/opencode/evidence.json` at
+`16a23d61ee84e7938ea357203ae1d5c8607576a1`. The latest verified snapshot is
+`88eaa157646e0d44ce6f8346cd100660d2b916af`: `ok=true`, `dirty=false`, `status=[]`,
+`tree_stable=true`, 16/16 checks `exit=0`, `scope.complete=true`, window
+`2026-11-20T18:51:28Z`–`18:55:09Z` (`finished_at=2026-11-20T18:55:09Z`), `gate_c_eligible=false` with
+the single reason `8 scope items unimplemented`; `.git/opencode/review.sha` names the same commit.
+That report is a **historical snapshot of one clean tree** and certifies that commit only — not the
+documentation edits added since, a future commit or any release. At any read time the actual Git
+state, `evidence.json` and `review.sha` are authoritative; a documentation-only fix after `88eaa15`
+is not certified by that report, does not need the earlier deployment, hosted QA or artifact review
+repeated, and needs only its own report at gate time.
 
 ### 17.1 Provenance of the evidence cited below
 
@@ -2404,7 +2419,7 @@ names the same commit. That report certifies the commit only, not the edits adde
 | Hosted manual workflow (two roles, membership, five-card publish, accept/resolve/reopen at v4, sentinel) | one delegate browser run | inspected sanitized `shiftrelay-hosted-qa-resume-20261120.md` outcome recorded in the HANDOFF record; **not** a master replay |
 | Real-Chrome synthetic sign-in | delegate | `shiftrelay-real-chrome-signin-20261120.md`; sign-in succeeded, first exchange status lost, repeat run measured zero App Check exchanges. No token or attestation success follows |
 | Hosted local model (two `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request) | one delegate run | `shiftrelay-hosted-local-20261120.md`, summarized in HANDOFF; raw report not re-read; not a master replay. The same run produced the contained credential-exposure incident |
-| Capture boundary (projection and guard) | delegate harness, inspected and partly rerun by master | `Temp/opencode/capture-guard/PHASE8-CAPTURE-SUCCESS-PROOF.md`; master reran the `--no-live` guard self-check (70/70) and the earlier projection fixture (35/35). No master replay of the success path |
+| Capture boundary (projection and guard) | delegate harness, inspected and partly rerun by master | `Temp/opencode/capture-guard/PHASE8-CAPTURE-SUCCESS-PROOF.md`; master reran `py -3 capture_guard_selfcheck.py --no-live` → exit 0, 70/70, and `py -3 capture_guard_selfcheck.py --no-live --inject-unsafe` → the expected negative-control exit 2 with zero **unsafe-payload** bytes emitted (the sanitized check summary still prints); also the earlier projection fixture `py -3 capture-projection-selfcheck.py` → 35/35, exit 0, and its `--inject-unsafe` negative control → exit 2. No master replay of the success path |
 | Desktop true 200% zoom, keyboard/focus, read-only workspace | one delegate run | `shiftrelay-desktop-a11y-20261120.md` (corrected); master inspected, did not replay |
 | Signed-out empty-submit native validation | one delegate run (browse extension) | `shiftrelay-native-validation-20261120.md`; DOM facts only, no spoken output |
 | Android emulator touch/IME/reflow and one read-only workspace | one delegate run | `shiftrelay-android-readonly-20261120.md`; x86_64 emulator, not physical hardware |
@@ -2418,12 +2433,12 @@ sign-in controls only. No full-flow accessibility certification follows.
 
 | # | Static item (short) | Evidenced component | Exact source | Remaining blocking checks |
 |---|---|---|---|---|
-| 1 | Q5 reviewer closure: redacted scan report and pre-deploy public artifact set | Pinned Gitleaks 8.30.1 `secret-scan` exit 0 over working tree + `dist/`, `dist-guard` exit 0, production `dependency-audit` 0 high findings; the `00c2b2e` sealed artifact and Q5 boundary were reviewer-approved (§16) | This 16/16 report (`16a23d6`); §9; §16 | Two separate reviews: (a) **current documentation SHA** — its own clean verifier report and reviewer sign-off on this docs-only diff, still needed; (b) **release artifact** — the `00c2b2e` approval is retained for that exact byte-identical artifact. A docs-only commit changes no deployed byte, so it needs no rebuild, re-stage, re-deploy or artifact re-review; any *new* artifact or deploy does |
+| 1 | Q5 reviewer closure: redacted scan report and pre-deploy public artifact set | Pinned Gitleaks 8.30.1 `secret-scan` exit 0 over working tree + `dist/`, `dist-guard` exit 0, production `dependency-audit` 0 high findings; the `00c2b2e` sealed artifact and Q5 boundary were reviewer-approved (§16) | This 16/16 snapshot (`88eaa15`); §9; §16 | Two separate reviews: (a) **documentation-only fixes after the snapshot** — reviewer sign-off on that diff, plus gate-time verifier evidence for the commit then current (a report certifies only its own SHA); (b) **release artifact** — the `00c2b2e` approval is retained for that exact byte-identical artifact. A docs-only commit changes no deployed byte, so it needs no rebuild, re-stage, re-deploy, artifact re-review or repeat of hosted QA; any *new* artifact or deploy does |
 | 2 | Hosted delivery checks: Hosting deploy, reserved `init.json`, hosted attested request | Hosting release `1795146753235000` from the sealed stage; 5/5 asset hashes identical; `GET /__/firebase/init.json` 200 `application/json` object with matching `projectId`/`appId`; the earlier signed-out hosted browser smoke recorded **no CSP violations and no page errors** on that unauthenticated path | §16, `docs/PUBLISH.md` §5.1; HANDOFF hosted-smoke summary | No hosted reCAPTCHA-Enterprise-attested request exists. Console/CSP coverage is partial, not absent: the signed-out smoke showed none, but authenticated and model-path CSP/console behavior is unverified. The item is conjunctive, so it stays open |
 | 3 | Hosted reCAPTCHA attestation and Firestore App Check enforcement | AI Logic service-boundary enforcement for `firebaseml.googleapis.com`: valid 200, missing/garbage 401 (ADR 0007, §13.3); reviewed Ruleset deployed | ADR 0007, §13.3, §16 | Hosted attestation not established: 403 `PERMISSION_DENIED / App attestation failed` in three automated page instances followed by the one-day client throttle; the real-Chrome runs measured no exchange or lost the status. Firestore App Check enforcement is still not enabled |
 | 4 | In-app live cloud reconciliation plus reviewed Ruleset deployment | Deployed ruleset `137c406c…` equals the reviewed file; inspected delegate run read membership and completed publish → accept → resolve → reopen (v4, four activity entries) on the deployed origin; one real-Chrome synthetic sign-in succeeded without task writes | §16; HANDOFF hosted-QA and sign-in summaries | The suggestion/confirm cloud-reconciliation flow on the deployed origin still has only labelled-mock evidence; no hosted consented cloud packet, confirm or dismiss was observed; the workflow result is an inspected delegate report, not a replay |
-| 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report; the legacy v3 pending-install state must be rechecked before any provenance claim |
-| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | True 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace | `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator observation; `shiftrelay-android-readonly-20261120.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, and the Android "touch workflow" was exercised only for sign-in/read-only, not the capture→share→accept→resolve/reopen actions AC12 names; the 200% manual check covers read-only states only. **Not** required by AC12/AC15 and therefore recorded as explicit limits, not new blockers: physical device, TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
+| 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report. The legacy v3 asset was reported at 0 MiB weights with install pending, so v3 provenance must be rechecked before future model claims; nothing v3 is relabelled Nano 4 |
+| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator observation; `shiftrelay-android-readonly-20261120.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming; the Android "touch workflow" was exercised only for sign-in/read-only, not the capture→share→accept→resolve/reopen actions AC12 names; the 200% manual check covers read-only states only; and no ordinary-text **contrast ratio** was recorded, so AC12's `>=4.5:1` recording stays open — the axe serious/critical scan is the only automated component and is not a ratio measurement or a WCAG verdict. Scope wording conflict recorded, unresolved and not waived: AC12 and Q4's target row are responsive-web framed (`docs/spec.md` line 9, "No device-local Android-browser claim"), while Q4's measured row (`CONSTRAINTS.md` line 33) lists physical Android touch evidence as still open, so physical device and TalkBack specifically are neither certified nor declared unnecessary. Not named by AC12/Q4, recorded as limits only: Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
 | 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
 | 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
 
@@ -2438,10 +2453,17 @@ The AGENTS metadata-only rule now has a local proof and a guard; it is not a uni
   method/status preserved; `localhost` and unknown paths redacted to `<unlisted>` /
   `<unlisted-path>` because the allowlist deliberately omits them. Library and standalone CLI
   produced the same validated single document. Own session closed; zero sessions remained.
-- Guard self-checks: `capture_guard_selfcheck.py --no-live` 70/70 with unsafe injection exiting 2
-  and emitting zero bytes (master rerun; also rerun inside the desktop accessibility task); the
-  earlier synthetic projection fixture 35/35 with an unsafe-injection negative control (master
-  rerun).
+- Guard self-checks (outside-root harness; master reruns): `py -3 capture_guard_selfcheck.py --no-live`
+  returns **exit 0** with 70/70 checks (that flag skips the installed-CLI probe);
+  `py -3 capture_guard_selfcheck.py --no-live --inject-unsafe` returns the expected negative-control
+  **exit 2** with zero **unsafe-payload** bytes emitted — the guard refused the intentionally unsafe
+  projection while still printing its sanitized check summary. That nonzero exit is the injected
+  negative control, **not** a transport-failure fixture — the transport failure, timeout, oversize,
+  missing-binary and non-allowlisted-argument refusals are separate named checks inside the 70 that
+  all pass. The earlier synthetic projection fixture behaves the same way:
+  `py -3 capture-projection-selfcheck.py` returns exit 0 with 35/35, and the same command with
+  `--inject-unsafe` returns exit 2 with the raw projection blocked (both master reruns; the guard
+  checks were also rerun inside the desktop accessibility task).
 - Containment observed in the same launch mode: `--allowed-domains 127.0.0.1` configured,
   non-allowlisted `about:blank` navigation refused, allowlisted loopback opened.
 
@@ -2471,8 +2493,8 @@ Limits, to be repeated wherever this proof is cited:
 
 ### 17.4 Static scope prose drift — proposed future narrow edit, not applied
 
-`scripts/verificar.py` `SCOPE.unimplemented` is static text, and four of its sentences now lag
-§16/§17 factually while the gate itself stays correct:
+`scripts/verificar.py` `SCOPE.unimplemented` is static text, and five of its named items (2, 4, 5, 6
+and 7) now lag §16/§17 factually while the gate itself stays correct:
 
 - item 2 says no Hosting build was deployed and `/__/firebase/init.json` is "unproven"; §16 records
   the deploy and a 200 JSON object.
@@ -2482,6 +2504,10 @@ Limits, to be repeated wherever this proof is cited:
   `ONLY_ON_DEVICE` generations.
 - item 6 describes manual accessibility as only "automated axe …, keyboard and 320 px"; bounded
   200% zoom/keyboard, submit-time native validation and emulator touch evidence now exist.
+- item 7 says live Hosting deployment, public release and any further provisioning "remain outside
+  this cut"; one Rules release and one Hosting release now exist (§16), so the deployment drift is
+  real. What stays open under item 7 is the public/judge release decision, PR/merge, further
+  provisioning and recovery — not the deployment itself.
 
 Proposed future change (not performed here; needs its own review and a fresh clean verifier run):
 update only that prose to point at §16/§17 while keeping all eight items listed and the
