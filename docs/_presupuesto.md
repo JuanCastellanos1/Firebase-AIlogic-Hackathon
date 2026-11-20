@@ -22,6 +22,10 @@ Bounded B1/B2 documentation fixes are implemented and master-inspected; no runti
 QA repeated. Await authorized user-shell checkpoint/full evidence and same-reviewer
 confirmation, not another agent commit attempt. No blocking finding deferred as debt.
 
+Executed checkpoint: `21d723f`, full clean 16/16 at `19:24:38Z`; B1/B2 re-reviewed
+closed. One new B3 unsupported-count correction only; remaining notes stay N6.
+No additional model/QA/cloud spend, allocation change or gate waiver.
+
 **Reconciliation complete:** two delivery docs updated and master corrections inspected;
 eight groups remain open with evidence-specific limits. No added device/AT requirements,
 repeated QA or redeployment. Next is user-authorized shell checkpoint/full evidence and

@@ -2,33 +2,34 @@
 
 ## Current review disposition — November 20, 2026
 
-User saved `88eaa157646e0d44ce6f8346cd100660d2b916af`. Master verified full
-16/16 clean, stable, complete evidence finished `2026-11-20T18:55:09Z` for that SHA
+User saved `21d723f1246d2049f155280062807c360165bfd7`. Master verified full
+16/16 clean, stable, complete evidence finished `2026-11-20T19:24:38Z` for that SHA
 and refreshed review metadata. That is a historical verified checkpoint, not a
 claim that subsequent edits are committed or certified. Resolve current state
 from Git/evidence metadata; do not repeat the older commit/QA instructions below.
 
-Docs-only Qwen review `ses_e05adecacffedFxL4nT3ixC2ex` returned DO_NOT_APPROVE:
-B1 PUBLISH§12 stale hosted-local absence; B2 operational checkpoint prose stale.
+Docs-only Qwen re-review `ses_e05adecacffedFxL4nT3ixC2ex` closed B1/B2.
+DO_NOT_APPROVE remains solely for B3: unsupported expansion of “4/5 suggestions”
+into separate “four and five” per-run counts in PUBLISH §12.
 Final Gates C/D remain open, eight delivery groups retained.
 
-**Fix status:** bounded delegate `ses_e05a73aa3ffe0tf96BSeH7U5aQ` completed
-B1/B2 corrections in PUBLISH/verification; master inspected diff and final narrowed
-provenance passages. Exact negative-control commands/exits clarified; no fresh
-legacy-model recheck invented. Diff check passed; no new runtime tests/QA.
-**Next exact step:** user saves six docs in an authorized shell, then full evidence:
+**Fix status:** bounded delegate `ses_e058f7ebdffeSq7deUptQbsznQ` corrected
+only that unsupported count and adjacent provenance attribution in PUBLISH;
+master inspected exact diff and reran diff check (passed). B3 awaits re-review.
+No model rerun/raw incident retrieval authorized. Other new review notes remain N6.
+**Next exact step:** inspect minimal correction, then user saves intended docs:
 
 ```powershell
 git diff --check
-git add -- docs/HANDOFF.md docs/_project.md docs/_presupuesto.md docs/DEBT.md docs/PUBLISH.md docs/verification.md
-git commit -m "docs: fix delivery review blockers and checkpoint semantics"
+git add -- docs/HANDOFF.md docs/_project.md docs/_presupuesto.md docs/DEBT.md docs/PUBLISH.md
+git commit -m "docs: preserve recorded suggestion counts"
 py -3 scripts/verificar.py --report .git/opencode/evidence.json
 git status --short
 ```
 
 After clean SHA-matched success, regenerate review metadata plus fix-only diff
-`88eaa15..HEAD` and ask the same reviewer `ses_e05adecacffedFxL4nT3ixC2ex`
-to confirm B1/B2. Do not mark them closed until re-reviewed.
+`21d723f..HEAD` and ask the same reviewer `ses_e05adecacffedFxL4nT3ixC2ex`
+to confirm B3. B1/B2 stay closed; do not mark B3 closed before re-review.
 No automated commit retry: policy previously denied commits.
 No push/merge/deploy, browser/Auth/cloud checks or contract weakening authorized.
 CONSTRAINTS measured Q4 says physical Android touch pending while approved scope
@@ -39,7 +40,7 @@ verification-before-completion, code-review-and-quality, handoff.
 
 ## Resume checkpoint — November 20, 2026, after 17:09 UTC
 
-### Current checkpoint — user commit verified; delivery reconciliation running
+### Historical checkpoint — user commit verified; delivery reconciliation
 
 **Reconciliation completed and corrections inspected:** implementer changed only
 `docs/verification.md` (§17) and `docs/PUBLISH.md` (§5.2 and dated status corrections).

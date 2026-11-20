@@ -24,6 +24,12 @@ evidence, then same-reviewer fix-only review. All eight
 delivery groups/final Gates C/D remain open. Physical Android wording conflict
 with measured Q4 must not be treated as waived or settled without clarification.
 
+Latest verified snapshot is `21d723f`, full 16/16 clean/stable/complete at
+`19:24:38Z`. Same reviewer closed B1/B2; new B3 is solely unsupported per-run
+suggestion counts. Minimal correction implemented/master-inspected, re-review pending;
+no new QA/cloud actions.
+Actual Git/evidence remains authoritative; later correction is not certified yet.
+
 **Delivery reconciliation completed:** verification§17/PUBLISH§5.2 now retain bounded
 QA evidence and exact remaining checks without inventing requirements or closing any
 of eight groups. Master inspected corrections. Five docs are dirty; next is user-shell

@@ -498,12 +498,14 @@ claimed, the ordinary profile was not probed, and no hosted on-device request ex
 
 **Dated correction — November 20, 2026.** The closing "no hosted on-device request exists" claim is
 superseded. An inspected delegate run against `https://shiftrelay-hybridai-2026.web.app` reports two
-genuine Firebase AI Logic `ONLY_ON_DEVICE` generations on the deployed origin (four and five
-suggestions, 79.7 s and 24.5 s, no measured AI-host request) with the ADR 0006 Gemma 4 provenance
-(`gemma4_component` 2026.8.7.929, `gemma4_gpu_low_tier_model` / `gemma4-2b-it`). A legacy v3 asset
-was reported earlier at 0 MiB weights with its install pending, so v3 provenance must be rechecked
-before future model claims and nothing v3 is relabelled Nano 4. This is one delegate's inspected
-report, not a master replay (§5.2, `docs/verification.md` §17): it is hosted local-model evidence
+genuine Firebase AI Logic `ONLY_ON_DEVICE` generations on the deployed origin (4/5 suggestions per the
+inspected HANDOFF summary; the per-run split is not recorded; 79.7 s and 24.5 s as reported timings; no
+measured AI-host request). The Gemma 4 provenance (`gemma4_component` 2026.8.7.929,
+`gemma4_gpu_low_tier_model` / `gemma4-2b-it`) is inherited from the ADR 0006 localhost evidence, not
+re-measured on the hosted origin. A legacy v3 asset was reported earlier at 0 MiB weights with its
+install pending, so v3 provenance must be rechecked before future model claims and nothing v3 is
+relabelled Nano 4. This is one delegate's inspected report, not a master replay (§5.2,
+`docs/verification.md` §17): it is hosted local-model evidence
 only, not a hosted reCAPTCHA-attested cloud request, not AC13 completion and not an independent
 "Nano 4" identification. A hosted attested cloud request remains unverified, so AC13/Q6 stay open.
 

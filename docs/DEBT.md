@@ -17,6 +17,15 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### Docs-only review at `88eaa15`
 
+Re-review at `21d723f` closed B1/B2. New B3 unsupported expansion of “4/5”
+suggestions into separate run counts is a blocker, not deferred debt.
+New nonblocking notes remain **N6**: PLAN hosted-local status correction,
+executed-next-step snapshots, historical dirty-tree tense, inherited-vs-measured
+model provenance, TalkBack/physical-hardware scope distinction, explicit emulator
+origin for axe evidence, reproducible full guard paths and old-history cosmetics.
+Address before submission-facing publication or when the relevant record is touched;
+do not reopen completed QA solely for documentation polish.
+
 Blocking B1 (stale PUBLISH hosted-local claim) and B2 (checkpoint-relative status)
 are fixes, not deferred debt; same-reviewer confirmation remains required.
 Group nonblocking documentation findings under existing **N6**, not a ninth group:
