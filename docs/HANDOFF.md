@@ -1,5 +1,111 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Latest preparation result — November 20, 2026 UTC
+
+Both preparation tasks completed, with independent master checks and narrow reviewer approval:
+
+- Release source remains **`00c2b2ed78b1f43b01da430d7cca14699757d077`**, not later operational records.
+- Clean clone: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-qa-20261119-220928`.
+  Full verifier finished `03:17:25Z`, all 16 pass, clean/stable/complete, same SHA.
+  Keyed build passed dist guard, exact-public-key-only scan classification/isolation proof and
+  zero-vulnerability production audit. Report: clone `.git/opencode/qa-delivery-report.md`.
+- Sealed stage: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-stage-qa-20261119-221754`.
+  Eight files; master verified every SHA256 against report. Staged Rules CRLF hash `2aa81ebf…`
+  differs from reviewed LF hash `0b877ada…` only by line endings; normalized equality verified.
+- Live report: `C:\Users\acer\AppData\Local\Temp\opencode\shiftrelay-preflight-20261119\preflight.json`.
+  Billing off; AI Logic enforcement and provider registered; both memberships valid; both
+  synthetic sign-ins succeed and client reads denied under closed default. Zero Rules releases.
+- Reviewer `ses_e0908dad0ffe2MIBCEN4qxxnC8` approved Q5 public-artifact boundary and ADR 0009
+  recovery semantics/integrity. Deny-all candidate hash `a217d884…63dd9`, five tests pass with
+  explicit permission-denied codes and disabled-Rules control. Durable exact bytes in ADR 0009.
+  No prior-release rollback exists: recovery is a new deny-all deploy, not restoring zero releases.
+
+**Next exact step:** save reviewed recovery/operational documentation locally without changing
+the sealed release source; confirm concrete first Rules/indexes and Hosting QA deployment with
+the user. Before mutation, recheck stage hashes, billing, current Rules release count, CLI syntax
+and existing operator auth with a minimal child environment. No new terms/billing/force/deletion.
+No PR/merge or final release implied. Hosted configuration/CSP/reCAPTCHA/flows remain untested.
+Eight delivery items remain named, not waived. Preserve the original four operational edits.
+
+## Active task — limited QA preparation (November 20, 2026 UTC)
+
+User requested continuation after exact-source CI success. Two independent Phase 8 preparation
+tasks are running; neither may deploy or mutate cloud state:
+
+- Artifact preparation `ses_e0912a40affe3p0jRI2k8XyVxv`: ordinary isolated local clone under
+  approved temp storage, exact detached `00c2b2e`, full verifier, reviewed keyed build and sealed
+  stage. Clone chosen because diagram tooling assumes `.git` is a directory. Original dirty
+  documentation must remain untouched; no stash/reset/discard or dependency/version changes.
+- Live preflight `ses_e09122678ffeYp5ogLtOjCAyR2`: read-only billing-off, membership shape,
+  AI Logic App Check and prior Rules release/source for rollback, using existing authorized OAuth.
+  No credentials in output; no repairs/provisioning/enforcement changes.
+
+**Next exact step:** receive both reports without polling; independently validate reported
+artifact paths/hashes, clean SHA-matched evidence and live safety prerequisites. Resolve blockers
+before any cloud action. Obtain concrete deployment confirmation with caveman off; code review
+and green CI do not certify hosted behavior. Preserve the four uncommitted operational docs.
+
+## Latest update — user push confirmed (November 20, 2026 UTC)
+
+User pushed the reviewed checkpoint. Master independently verified with `git ls-remote` that
+`origin/feat/hackathon-ideation` is `00c2b2ed78b1f43b01da430d7cca14699757d077`, matching local HEAD.
+GitHub REST confirms push-triggered Verification run `44664598466` on that exact SHA:
+**completed**, conclusion **success**, created `2026-11-20T02:59:24Z`, updated `2026-11-20T03:05:22Z`.
+https://github.com/JuanCastellanos1/Firebase-AIlogic-Hackathon/actions/runs/44664598466
+
+This supersedes the permission-blocked publication next step below; master/delegates did not push.
+**Next exact step:** prepare the already-approved limited hosted QA path from the exact reviewed
+and CI-green checkpoint: preserve these operational edits, obtain a clean release workspace without
+reset/discard, verify both live QA memberships and release evidence, then delegate the keyed QA
+build/sealed stage. Confirm the concrete cloud action before deployment; no PR/merge/deploy follows
+automatically from CI. Eight delivery gaps remain. The four operational documents are still uncommitted;
+preserve them. Existing clean evidence certifies the pushed checkpoint, not later document edits.
+
+## Latest stop — CI-only push denied (November 20, 2026 UTC)
+
+This section supersedes all earlier next-step/pending-status prose below. Current mechanical
+status is defined by Git plus `.git/opencode/evidence.json` and `review.sha`; dated operational
+text is historical and may trail those reports.
+
+- Reviewed checkpoint: `00c2b2ed78b1f43b01da430d7cca14699757d077`, branch
+  `feat/hackathon-ideation`. Full verifier finished `2026-11-20T02:50:35Z`: 16/16 exit 0,
+  `ok=true`, `dirty=false`, stable/complete, matching review SHA. Both replacement Qwen
+  reviewers explicitly approved implemented-code review at this exact SHA, with no blockers.
+- D1–D4/U1 are closed. Eight delivery gaps remain; `gate_c_eligible=false` is retained.
+  Neither final release nor hosted/manual/CI evidence is approved by the code verdicts.
+- User explicitly approved **CI-only fast-forward publication** of the three local commits,
+  not PR/merge/deploy. Caveman is off. GitHub preflight confirmed public repo, default main,
+  no PRs/templates/protections/rulesets, and an existing push-triggered verification workflow.
+- GitHub agent cannot execute shell. Implementer `ses_e091ecb55ffeyASZLFO2SIaoVn` proved clean
+  tree, evidence anchoring, and remote `b0910d3` ancestry (three commits); both push attempts
+  were rejected by tool policy before Git executed. No publication or current-source CI occurred.
+  Do not try another tool/agent as a permission bypass. Master never pushes.
+- This closure update changes documentation after the certified checkpoint. The saved report
+  certifies `00c2b2e`, not these uncommitted operational edits. Preserve them on resume; do not
+  silently treat the live tree as clean. No production code changed in this resume session.
+
+**Next exact step:** user runs the already-approved push in their own authenticated shell, or
+explicitly grants the delegate's push permission, then verifies remote SHA and CI for the pushed
+commit. Do not amend/rewrite the reviewed checkpoint or force-push. If committing these later
+operational records first, regenerate full evidence for the resulting SHA before using it at a gate.
+
+```powershell
+git log -1 --format="%H %s"
+git status --short
+git push origin feat/hackathon-ideation
+git fetch origin
+git rev-parse origin/feat/hackathon-ideation
+```
+
+Expected remote checkpoint for the CI-only push: `00c2b2ed78b1f43b01da430d7cca14699757d077`.
+Check https://github.com/JuanCastellanos1/Firebase-AIlogic-Hackathon/actions for a successful
+`Verification` run on that SHA; the older `44222898293` run covers only `b0910d3`.
+No PR/merge/deploy follows automatically. Live membership preflight and the remaining hosted,
+accessibility/device, product-validation and public-artifact conditions stay open.
+
+Suggested skills: `verification-before-completion`, `git-workflow-and-versioning`, `handoff`;
+Firebase/browser skills only when the separately gated hosted QA step is actually reached.
+
 ## Active resume update — November 20, 2026 UTC
 
 This update supersedes the closure-era next step and evidence status below.

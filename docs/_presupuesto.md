@@ -12,6 +12,24 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**QA preparation — November 20 UTC:** isolated clean `00c2b2e` clone passed full 16-check
+verifier at `03:17:25Z`, keyed build gates and sealed staging. Read-only live preflight confirms
+billing disabled, enforced AI Logic App Check and both synthetic membership shapes. Reviewer
+approved Q5 public artifacts and emulator-tested deny-all recovery; no prior live Rules release
+exists. No deployment yet. Original operational edits preserved; allocation unchanged.
+
+**Publication update — November 20 UTC:** user published `00c2b2e`, remote SHA independently
+confirmed. Verification run `44664598466` completed successfully for that source; GitHub REST
+independently checked (`updated_at=2026-11-20T03:05:22Z`). Current-source CI condition is now met.
+No allocation change, no PR/merge/deploy. This supersedes the publication block recorded below.
+
+**Latest stop — November 20 UTC:** both code fix reviews approved `00c2b2e`, all 16 post-commit
+checks passed on its clean/stable tree at `02:50:35Z`. No production changes or repeated build
+slices. CI-only push was explicitly approved but denied by delegate tool policy before execution;
+zero pushes/deployments/merges, current-source CI not started. Remaining work is permission/user
+publication, current-source CI and eight delivery gaps. Allocation unchanged; labor unmeasured.
+Closure records are later uncommitted documentation, not part of that certified checkpoint.
+
 **Resume update — November 20 UTC:** fix checkpoint `a7711cd` passed all 16 verifier checks on
 a clean/stable tree at `02:22:47Z`. Both replacement Qwen reviewers approved D1–D4/U1 with no
 code blockers; non-blocking follow-ups are grouped under existing N1/N6/N8. User authorized replacement sessions after parent-session access

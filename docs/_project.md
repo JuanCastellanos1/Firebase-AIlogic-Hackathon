@@ -13,6 +13,26 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**QA candidate prepared:** clean isolated clone and sealed stage of reviewed/CI-green `00c2b2e`
+passed full verifier, keyed-build safeguards and Q5 pre-deploy artifact review. Live preflight
+confirmed billing off, memberships valid and AI Logic enforcement. ADR 0009 records reviewed
+deny-all recovery for a first release (no prior release exists; restore not live-tested).
+Deployment confirmation is next; clone/stage/report paths and constraints are in HANDOFF.
+
+**Publication update:** user pushed `00c2b2e`; master confirmed remote SHA matches HEAD.
+Current-source Verification run `44664598466` completed successfully for that SHA; master verified
+GitHub REST conclusion `success`, updated `2026-11-20T03:05:22Z`. Next: assess gated QA prerequisites
+and prepare a clean release workspace without discarding later operational edits.
+No PR/merge/deploy authorized by this CI-only action. Later operational edits remain uncommitted.
+
+**Latest stop:** both reviewers approved implemented-code review at `00c2b2e`; full post-commit
+verifier finished `02:50:35Z`, 16/16 pass, clean/stable/complete, matching SHA. Eight delivery
+gaps and `gate_c_eligible=false` remain. User approved a CI-only feature push, but tool policy
+denied the delegate's push before execution. Nothing published; current-source CI remains absent.
+Master will not bypass permissions or push. Exact user action and commands: HANDOFF latest stop.
+This operational update is uncommitted after the certified checkpoint; use Git/evidence/review SHA
+as the source of current mechanical status, not older future-tense records below.
+
 Current fix checkpoint: `a7711cd233303371cc71493b47b0a66061b41953`. Its full verifier finished
 at `2026-11-20T02:22:47Z`: 16/16 exit 0, clean/stable tree, complete scope and matching SHA.
 The earlier milestone/next-step sections below describe the pre-fix review and are historical.

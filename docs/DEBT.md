@@ -23,17 +23,25 @@ are grouped into the existing ledger, not added as a ninth group:
   both synthetic QA memberships contain matching UID, venueId and a declared role. Historical
   provisioning records are not a fresh live pre-deploy check.
 - **N6:** HANDOFF/PUBLISH evidence status was reconciled November 20 through dated supersession;
-  future status edits must preserve dated evidence. Remaining comment caveat: reconciliation
+  future status edits must preserve dated evidence. Status prose can become stale when its own
+  commit is certified: use live Git/evidence.json/review.sha as authoritative, and treat run-specific
+  SHA/time/dirty/pending prose as dated snapshots, not gate input. Remaining comment caveat: reconciliation
   clearing is done by the render-time signature check, not the effect; App's emulator-only header
   is stale. Behavior is approved, comment cleanup remains open. Release documentation/docstrings
   should explicitly require complete executed-check coverage, not only green selected checks.
   Recount test totals on the next full run before publishing fresh totals.
+  QA-preparation follow-ups: reconcile Python prerequisite prose (actual 3.15.2, not 3.13);
+  the disposable preflight generator still has its old backup-directory label and must not be
+  mistaken for a repeatable recovery tool. ADR 0009 is the durable recovery source.
 - **N8:** strengthen release evidence schema validation on next gate-helper change: require
   complete scope, nonblank command, valid output hash/duration, and verifier-shaped fixtures in
   addition to the already-required full unique check list. This is non-blocking hardening, not
   permission to stage partial evidence. Hosted API-key prefix parity remains deferred. Uppercase
   UUID detection is stricter defense-in-depth, not proof that case-sensitive tokens are equivalent.
   Review patch encoding was corrected by writing raw git stdout bytes; avoid shell re-encoding.
+  Q5 pre-deploy review accepted `venue-hall-01` as an existing compiled synthetic source constant,
+  not a credential or venue-obscurity control. Stage public-artifact boundary approved for QA;
+  release agent must still verify CLI deploy sub-targets at run time.
 
 The eight original groups and all release conditions remain in force. Reviewer session outputs,
 not these operational summaries alone, establish the review verdicts.
