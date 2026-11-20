@@ -1,5 +1,34 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Active resume update — November 20, 2026 UTC
+
+This update supersedes the closure-era next step and evidence status below.
+
+- Resumed on clean `a7711cd233303371cc71493b47b0a66061b41953`; `git fetch origin` succeeded.
+  Feature branch remains two local commits ahead of its remote; no push/deploy/merge occurred.
+- Full verifier completed at `2026-11-20T02:22:47Z`: all 16 checks exit 0, `ok=true`,
+  `dirty=false`, `tree_stable=true`, complete scope and matching commit. Review SHA and full
+  patch were regenerated afterwards; `.git/opencode/fix-review.patch` covers `dbd217c..a7711cd`.
+  Eight delivery scope items remain unimplemented; this is not final release approval.
+- Original reviewer sessions cannot be resumed here (not children of this session). User explicitly
+  approved two replacement reviewers, both `opencode-go/qwen3.8-flash`.
+- Data/privacy replacement `ses_e093b17ebffeEXOTy0wYTGBzqo`: approved the fix diff; D1–D4/U1 closed,
+  evidence validated. Tooling replacement `ses_e093ae54dffehURaneBpqopltl`: approved U1, no blockers.
+- Both code fix reviews approved `a7711cd`; documentation-only reconciliation was also approved
+  by the data/privacy reviewer. Non-blocking follow-ups are mapped to N1/N6/N8 in `docs/DEBT.md`.
+  Gate C's final clean evidence checkpoint remains pending after these operational edits.
+  These operational edits make the working tree dirty after the verified checkpoint; the report
+  above certifies `a7711cd`, not these edits or a future commit.
+
+**Next exact step:** commit these reconciled operational records and regenerate full evidence
+before refreshing `review.sha` and review patches (use raw git bytes, not shell re-encoding).
+Both fix verdicts are approved; no code blockers remain. Do not repeat completed
+build/framing phases. Only after review closure proceed to delegated current-source CI, then the
+already-approved limited QA path. Never treat the eight delivery gaps as completed.
+
+Commands: `git status --short`; `git diff --stat`;
+`py -3 scripts/verificar.py --report .git/opencode/evidence.json`.
+
 ## Stage and gates
 
 User confirmed explicit safe closure: stop development, save the working tree in a local WIP

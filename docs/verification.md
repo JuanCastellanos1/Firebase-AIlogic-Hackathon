@@ -2261,3 +2261,36 @@ committed; Gate C stays NOT ELIGIBLE and no deployment, push, commit or merge ha
 Debt closed in this cut: N6 (stale remount comment), N7 (mode-neutral failure copy only), N8
 (case-insensitive debug-token guard with an uppercase regression). Everything else in `docs/DEBT.md`
 is unchanged, including the delivery conditions that no fix cut can satisfy.
+
+### 15.7 Clean checkpoint at `a7711cd` (November 20, 2026)
+
+The fix cut was committed as `a7711cd233303371cc71493b47b0a66061b41953` and the full verifier was
+rerun on that clean tree. `.git/opencode/evidence.json` records:
+
+- `commit`: `a7711cd233303371cc71493b47b0a66061b41953`; `dirty=false`; `status=[]`; `blockers=[]`.
+- Window: `started_at=2026-11-20T02:16:54Z`, `finished_at=2026-11-20T02:22:47Z`.
+- Checks: 16 of 16 named checks, every one `exit=0`; `scope.complete=true`, `scope.included` equals
+  `scope.planned` (the full 16), `ok=true`, `tree_stable=true`, `state_after.ok=true`.
+- Gate: `gate_c_eligible=false` with the single reason `8 scope items unimplemented`; the
+  `dirty working tree` and partial-scope reasons are gone, and `SCOPE.unimplemented` still names all
+  eight items verbatim.
+
+This is the current verification input and the first SHA-anchored run of the fix cut, so it
+supersedes the `dbd217c`/`dirty=true` state of §15.6. §15.6 is kept unchanged as the dated historical
+record of the pre-commit run.
+
+Not claimed here: the report stores per-check `exit`, `duration_ms` and `stdout_sha256`, not
+per-suite test counts, so no count is re-asserted for `a7711cd`. §15.6 remains the last **counted**
+run (121 unit / 41 Rules / 21 E2E / 84 tool / 2 diagrams) and those totals belong to that earlier
+dirty working tree. Also absent: Gate C approval, CI on the reviewed commit, any hosted/Hosting or
+Rules deployment, hosted QA, manual screen-reader/zoom/device checks and AC15.
+
+Documentation edits made after `02:22:47Z` (this section, `docs/PUBLISH.md`, and master's
+operational records) dirtied the working tree again. The report above certifies `a7711cd`; it does
+not certify those edits or a future commit.
+
+Review status (November 20, 2026): both replacement `opencode-go/qwen3.8-flash` reviewers approved
+the fix cut at `a7711cd` — D1–D4 and U1 closed, no blockers. That approval covers the fix diff, not
+this documentation-only follow-up. Still pending is clean verifier evidence for the final operational
+commit that records these edits; until such a report exists at its own SHA, Gate C and the overall
+release remain unapproved.

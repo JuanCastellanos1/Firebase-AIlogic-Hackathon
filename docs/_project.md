@@ -11,6 +11,18 @@ DEFAULT_BRANCH=main
 BASE_SHA=538ed9f9a83b6bda18b8fb6e4bacfb712ded575f
 RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
+## Active resume — November 20, 2026 UTC
+
+Current fix checkpoint: `a7711cd233303371cc71493b47b0a66061b41953`. Its full verifier finished
+at `2026-11-20T02:22:47Z`: 16/16 exit 0, clean/stable tree, complete scope and matching SHA.
+The earlier milestone/next-step sections below describe the pre-fix review and are historical.
+Both fix reviews approved D1–D4/U1 at `a7711cd`; no code blockers remain. Gate C's final clean
+evidence checkpoint is pending after operational record reconciliation.
+User approved two fresh Qwen 3.8 Flash reviewers because the original sessions are inaccessible
+from this parent session. Exact sessions and next step: `docs/HANDOFF.md`, active resume update.
+Operational record changes after this checkpoint require a commit and regenerated evidence.
+No push/deploy/merge. Eight hosted/manual/delivery scope items remain unimplemented.
+
 ## Current milestone — November 19, 2026
 
 Resumed from the clean amended WIP commit `dbd217c` on the existing feature branch. The closure handoff's `2fd7fc5` was the pre-amend SHA, not the final saved checkpoint. Completed framing/build work is retained; do not repeat ideation, Gate A or the three feature slices.

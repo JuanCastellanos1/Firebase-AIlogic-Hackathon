@@ -20,10 +20,18 @@ documented command or checklist not yet run; **blocked** = needs a decision, a r
 
 ## 1. Current status
 
+**Dated update — November 20, 2026.** The `Implemented-code checks`, `Test totals` and
+`scripts/verificar.py` gate rows below were reconciled to the clean checkpoint `a7711cd` recorded in
+`docs/verification.md` §15.7.
+The working tree is dirty again because of later documentation edits, so that report certifies
+`a7711cd` only, not those edits, a future commit, or any release. Both fix reviewers have since
+approved the fix cut at `a7711cd` (D1–D4/U1 closed, no blockers); clean evidence for the final
+operational commit is still pending, so Gate C and Gate D remain unapproved.
+
 | Item | Status | Evidence |
 |---|---|---|
-| Implemented-code checks (16) | verified locally on the uncommitted working tree | `.git/opencode/evidence.json`: `ok=true`, `commit=6cbfded72d2b027b8e17845ca92b4af72d629c47`, `dirty=true`; all 16 checks `exit=0` (`docs/verification.md` §14) |
-| Test totals in that run | verified | 120 unit (7 files, incl. 17 ai-output, 20 reconciliation, 23 runtime-config), 37 Rules, 21 E2E, 74 tool tests, 2 diagrams, `dist-guard`, pinned Gitleaks over 115 files / 2,269,361 bytes, production audit 0 vulnerabilities |
+| Implemented-code checks (16) | verified at the clean checkpoint `a7711cd` (November 20, 2026) | `.git/opencode/evidence.json`: `ok=true`, `commit=a7711cd233303371cc71493b47b0a66061b41953`, `dirty=false`, `status=[]`, `tree_stable=true`, `scope.complete=true`, all 16 checks `exit=0`, `finished_at=2026-11-20T02:22:47Z` (`docs/verification.md` §15.7) |
+| Test totals | last **counted** on the earlier dirty run (§15.6), not re-counted at the checkpoint | 121 unit (7 files, incl. 17 ai-output, 20 reconciliation, 24 runtime-config), 41 Rules, 21 E2E, 84 tool tests, 2 diagrams, pinned Gitleaks clean, production audit 0 vulnerabilities — measured on `dbd217c` plus the fix working tree. The `a7711cd` report stores per-check `exit`/`duration_ms`/`stdout_sha256`, not per-suite counts, so no total is claimed for it |
 | Local drafting (ONLY_ON_DEVICE), v4 model path | verified once, loopback | isolated Chrome 157, `gemma4_component` 2026.8.7.929, `gemma4_gpu_low_tier_model` (`gemma4-2b-it`), genuine 5-card generation (`docs/adr/0006-nano4-runtime-proof.md`) |
 | Earlier local drafting run | verified once, **not** Nano 4 | component `nano_v3_gpu_component` 2025.8.8.1141, localhost only (`docs/verification.md` §10) |
 | Consented cloud request from localhost | verified once | `gemini-3.5-flash-lite`, `inference_source in_cloud`, 161 bytes, 1912 ms, App Check debug exchange 200, `.git/opencode/live-config-evidence.json` (`docs/verification.md` §13.3) |
@@ -31,7 +39,7 @@ documented command or checklist not yet run; **blocked** = needs a decision, a r
 | Hosting config, keyed QA build, sealed stage | implemented and locally exercised; **never deployed** | `firebase.json`, `scripts/release_prep.py`, `tests/test_release_prep.py`, `docs/verification.md` §14 |
 | Hosting / Rules deployment | never performed | `docs/HANDOFF.md`, `docs/_project.md`, `docs/verification.md` §13.6 |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
-| `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | reasons: `dirty working tree`, `8 scope items unimplemented` (`.git/opencode/evidence.json`) |
+| `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean checkpoint: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
 ## 2. Actual cloud target
 
@@ -65,9 +73,12 @@ git clean -ndx
 
 Accept as a candidate only if all of the following hold, and quote the run, not this file:
 
-1. `ok=true` and every check `exit=0`.
-2. `commit` equals the reviewed commit and `dirty=false` (a dirty run, like today's, is not release
-   evidence).
+1. `ok=true`, every check `exit=0`, `scope.complete=true`, and full unique executed coverage: all 16
+   current check names present, each exactly once — no missing, unexpected, or duplicated record. A
+   `--only` run sets `scope.complete=false` and is never release evidence.
+2. `commit` equals the reviewed commit and `dirty=false` (a dirty run is not release evidence; the
+   November 20, 2026 checkpoint met both conditions for `a7711cd` and Gate C was still
+   `NOT ELIGIBLE` for the eight scope gaps, so a clean report is not release approval).
 3. `GATE_C` still reports the 8 unimplemented scope items — they are named, not waived
    (`scripts/verificar.py` `SCOPE.unimplemented`).
 4. Independent review of the full relevant code and of the sanitized evidence is recorded.
@@ -109,7 +120,8 @@ collect live evidence; the final reviewed release/PR merge comes after the remai
 
 Preconditions, all required:
 
-1. Reviewed commit SHA, `ok=true` + `dirty=false` verifier run, green CI, reviewer sign-off.
+1. Reviewed commit SHA; `ok=true`, `dirty=false`, `scope.complete=true` verifier run covering all 16
+   checks uniquely (a `--only` run never qualifies); green CI; reviewer sign-off.
 2. `firebase.json` now has the `hosting` block (`public: "dist"`, one SPA rewrite to
    `/index.html`, a CSP restricted to the official Firebase SDK, AI Logic and reCAPTCHA Enterprise
    hosts, plus `nosniff`, a referrer policy and `noindex`). There is deliberately no `.firebaserc`,
@@ -332,7 +344,7 @@ them, so only synthetic data may ever reach the cloud model
 ## 14. Open items before submission
 
 1. Reviewed commit + `dirty=false` verifier run + green CI on that SHA (owner: active agent,
-   `github-sync`); the workflow is authored but has never run.
+   `github-sync`); CI has run once, for `b0910d3`, and never for the reviewed commit.
 2. Keyed QA build from the outside-root private file (`npm run build:qa`) and the sealed stage
    (`npm run release:stage`) — implemented and locally exercised; the actual deploy is still
    delegated and unauthorized here.

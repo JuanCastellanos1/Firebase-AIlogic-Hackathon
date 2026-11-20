@@ -12,6 +12,13 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Resume update — November 20 UTC:** fix checkpoint `a7711cd` passed all 16 verifier checks on
+a clean/stable tree at `02:22:47Z`. Both replacement Qwen reviewers approved D1–D4/U1 with no
+code blockers; non-blocking follow-ups are grouped under existing N1/N6/N8. User authorized replacement sessions after parent-session access
+was refused. Gate C remains open; record reconciliation and post-commit evidence are still due.
+No repeated framing/build, no push/deploy/merge, no allocation or quality-floor change. Actual
+labor totals remain unmeasured. Earlier paragraphs below retain the November 19 review history.
+
 Review evidence is fresh for `dbd217c`, unlike the stale dirty pre-WIP report found at startup. Gate C remains **not approved** because of concrete code/evidence blockers, not because framing needs to be repeated. Prior localhost Nano 4 and AI-proxy App Check evidence is retained as dated evidence; hosted/manual checks are not marked complete.
 
 Allocation unchanged. Cut optional polish or scope extras before security, authorization, accessibility, critical tests, privacy or reproducible evidence. Non-blocking review findings are bounded in `docs/DEBT.md`; five-card and byte/permission limits remain unchanged.
