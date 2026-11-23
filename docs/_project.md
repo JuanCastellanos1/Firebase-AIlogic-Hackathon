@@ -13,6 +13,45 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+User explicitly confirmed orderly closure: stop active work safely, preserve branch/
+changes in localWIP, no push/merge/deploy/deletion. FinalC/D and seven technical
+groups remain open. Last certified/reviewed71d0871 does not certify closing work.
+HANDOFF top section records artifacts, scope/permits, final stop reports and exact
+resume commands; no speech/video/closing-checkpoint pass is assumed.
+Final stop reports inspected: portableNVDA setup completed but ZERO speechstrings
+observed; NVDA/browser/testresources stopped, no listeners on ownedports. Demo plan
+preserved with unresolved optional-row timing/wording; no video. All delegates idle.
+Closure save uses user-authorized gitadd-A/localWIP only, no fullsuite for statusnotes.
+
+User grants routine engineering/testing autonomy; ask only for actual permission
+blockers or near-finished milestone. Read-only hosted authenticated contrast and
+local stale-send contrast delegated as disjoint outside-root tasks; no live model
+or task writes/settings/deploy. HANDOFF records exact scopes. Existing billing,
+legal/destructive/publication boundaries remain; research stays removed.
+Local stale-send report/JSON inspected: state measured,min6.821,providerreceived0,
+no post-send task/activity change under synthetic fixture. Hostedcontrast pending.
+Read-only releasegapmap delegated to separate planner to distinguish stale static
+wording from actual remaining work without repeating completed evidence.
+Hostedoutgoing3-state report inspected,0ordinaryfailures,min4.608; bounded incoming
+read-only followup underway without membershipmutation/modelsend/taskwrites.
+Releasegapmap received in tooloutput (reportwrite policy-denied,no bypass). Actual
+reader-speech observation route feasibility delegated read-only, no ATactivation/
+audio capture/settings yet; exactpermit boundary to be reported if needed.
+Actualpermit obtained: officialtemporaryNVDA/displayedGPLv2+license/SpeechViewer
+localchecks only; no admin/permanentinstall/startup/addon/telemetry/audio/cloud.
+Task running, speechunverified. Hosted incoming5-state report/JSON inspected,
+0ordinaryfailures; combined§25precision fixes pending. Demo recording-plan artifact
+planned/delegated, not a producedvideo or newruntimeproof.
+Final§25/PUBLISH contrast record inspected with correct fresh-send guard attribution,
+hosted-only remaining list, precise inactivecounts and scope-limit separation;
+diffcheck exit0. Await actualNVDA and demo-plan outputs, no further contrast rerun.
+
+Reviewed checkpoint `71d0871`: full16/16 clean/stable SHA-matched evidence,
+E2E21/21, finished19:26:38Z; cumulative independent review APPROVED, no blockers.
+Phase7 test-sync rootcause/regression closed; original RED preserved. AC15 removed,
+seven technical groups/finalC/D remain open. HANDOFF top has next hosted-read-only
+authorization boundary; later operational notes are uncommitted/outside approval.
+
 STOP: checkpoint `08bee66` saved, but full evidence finished19:03:03Z is ok=false
 (15checks pass,e2e exit1: preview heading missing in stale-target test;20others pass).
 Master verified clean/stable report and unchanged review.sha `af421ae`; no review

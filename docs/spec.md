@@ -24,6 +24,16 @@ reconciliation of operational docs, CONSTRAINTS and the static verifier; until t
 work is reviewed, their older AC15 research blocker is stale wording, not a passing
 check. No existing gate or evidence result is changed by this scope note.
 
+**Cloud outcome clarification — November 23, 2026:** the response contract permits
+zero suggestions. A valid real cloud brief with zero suggestions is a genuine
+comparison, not a missing response; confirmation/dismissal is then not applicable,
+not passed. AC06/AC11 still require their deterministic fixture-based consent,
+confirmation/dismissal and stale-version tests. AC05/AC13/Q1/Q6 still require actual
+runtime privacy, preview-to-outbound allowlist, model/source and enforcement evidence.
+Do not reroll inference or create hosted observation writes solely to obtain a
+positive suggestion for a demo; a historical “confirm/dismiss” walkthrough step is
+conditional on a suggestion actually existing. No technical gate closes on HTTP200.
+
 ## Objective, users, and assumptions
 
 Close a non-emergency handover at **one community venue**: an outgoing volunteer turns private text into reviewed shared tasks; an incoming volunteer explicitly accepts responsibility, records resolution, and can reopen unfinished work. Success is recorded ownership and closure, not a polished summary.

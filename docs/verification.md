@@ -3186,3 +3186,85 @@ overwritten. `review.sha` remains `af421ae`; the failed `evidence.json` is not r
 verifier rerun is claimed. Limits: only this spec and the file-level checks above were re-run; the
 other 15 E2E tests, a fresh full-verifier report, hosted/cloud behaviour and any flake-rate
 statement are outside this record.
+
+## 25. Hosted-authenticated contrast (outgoing and incoming) and the local stale-send state (November 23, 2026)
+
+Scope: documentation only. This section records three bounded contrast runs that already happened
+outside the repository. It performs **no** browser, test, cloud, model or deployment action of its
+own, adds no check and waives none. Provenance: **delegated observed evidence** — master inspected the
+three outside-root reports, their JSON summaries and the inactive rows; nothing here is a replay.
+
+Hosted runs on the existing QA origin `https://shiftrelay-hybridai-2026.web.app` (user's real Chrome
+through the browse relay 0.1.5, one owned tab per run):
+
+| Run | Identity | States | Nodes measured | Min ordinary | Ordinary fails | Unmeasurable |
+|---|---|---|---|---|---|---|
+| outgoing | existing synthetic outgoing | 3 (workspace, all history expanded, local packet preview) | 115 / 123 / 134 | 4.608:1 | 0 | 0 |
+| incoming | existing synthetic incoming | 5 (workspace, resolve form open, preview, approval set, approval cleared) | 107 / 111 / 118 / 118 / 118 | 6.821:1 | 0 | 0 |
+
+Both hosted runs used **DOM metadata only** (computed colour/opacity/font, geometry, class/selector/
+role, count/boolean probes; no account identifier, task text, credential or query value emitted — only
+the public origin is recorded as metadata), started **no** network, console or HAR capture, and used
+the inspected stdin transport for one sign-in per existing role. No task write,
+accept/resolve/reopen/publish/confirm, model init/download/inference or consent-send occurred; each
+run signed out and closed its owned tab (0 agent tabs left). Inactive `:disabled` labels stayed in the
+separate SC 1.4.3 bucket: outgoing three per state (3.206:1, 3.206:1, 2.766:1).
+
+Inactive-count correction, incoming run: its **JSON is authoritative** and gives **1 / 1 / 1 / 0 / 1**
+— one `button-secondary:disabled` at **3.206:1** in states 1–2 only, one `button-primary:disabled`
+(the Send control) at **2.766:1** in states 3 and 5 only, and **none** in state 4, where approval
+enabled Send. The incoming report's prose bullet attributing the secondary 3.206:1 entry to "states
+1–3 and 5" is superseded by that JSON; cite the JSON for these counts, not that sentence. No
+threshold, colour or state measurement changes, and the outgoing rows are unaffected.
+
+Boundaries, recorded so nothing is overread: the page reports a reduced `Chrome/157.0.0.0` major
+only, so these records claim the page-reported **major** and not a full browser version;
+`prefers-color-scheme: dark` was set in the profile while the page rendered only its light tokens, so
+**no dark-mode result** exists; scrolled-out content was measured but there is no blanket
+all-viewport-visibility claim and no interaction or assistive-technology result. Two controls needed
+in-page native `element.click()` after pointer actionability timed out on a sticky header. That is
+disclosed as a **colour-only rendering route** with no proof of pointer or keyboard usability, and
+the sticky-header cause is the delegate's assessment, not independently reproduced.
+
+Boundary correction — consent versus result: toggling the packet-approval checkbox and the Send
+enabled/disabled transition are **local** and need no model call. Only result-driven controls (result
+panel, `status-confirmed`, suggestions, dismiss) need a cloud result; generic consent consumption and
+invalidation can also happen without a result. The earlier combined phrasing that grouped the consent
+checkbox and one-shot consumption with the controls that need a model request is superseded to that
+extent.
+
+Local stale-send state (**local only, not hosted, not live concurrency**): one state, **48** text
+nodes, minimum **6.821:1**, `status-info` **15.653:1**, **0** ordinary failures, **0** inactive-below,
+**0** unmeasurable. Two attempts: the first measured a bad no-write baseline taken before the
+harness's own fixture bump and is not evidence; the second used hard assertions that the provider
+received **0** calls and that the task and activity set were unchanged. The version change came from
+a seeded owner-bypass v1→2 with **no UI refresh**, so the component's props-signature invalidation
+could not fire — nothing in its `tasks` prop changed. The rejection came from `send()` itself: it
+re-reads the tasks (`rebuildFresh`), then requires `consentStatus(consent, freshPreview) === "valid"`,
+i.e. byte equality of the approved `packetText` against that fresh plan, **before** calling the
+provider; after the request a second fresh read discards a late result whose packet text changed.
+That is a guard-order proof about the send path, explicitly **distinct** from the earlier
+props-signature-change stale-consent state (§23), and it is not a live-concurrency, hosted or privacy
+observation.
+
+Current remaining **hosted** contrast gaps, exact — this is the unmeasured set for the hosted origin,
+not the remaining set for the product, since the local equivalents of several of these states are
+already recorded in §19, §21 and §23: resolved task and `task-resolution` text, the reopen form,
+post-accept feedback/pending, the cloud result panel / `status-confirmed` / suggestions / dismiss, the
+send path at the live boundary, queue-refresh failure and workspace `phase === "error"` on the hosted
+origin, hosted local-model states, and hover/focus colours. The **local stale-send wording is now
+covered** (recorded above in this section) and is not reopened here.
+
+Dated narrow supersessions: §21 item 5 and §23's "hosted-authenticated states" clauses are superseded
+only for the 3 outgoing and 5 incoming states above; §23's send-path "was **not separately rendered**"
+clause is superseded by the local stale-send state only. No other clause changes.
+
+No "all contrast complete", WCAG, privacy, eligibility or gate result follows; metadata-only counts
+are not a privacy pass. Q4, reader speech and the seven technical groups remain open. Non-text
+contrast, dark/high contrast, other engines and unmeasured hover states are **scope limits, not new
+thresholds**, and the physical-phone and 200% zoom evidence already recorded (§18, §19) is preserved
+and not reopened. Approved source remains `71d0871`, the operational docs
+are dirty and no fresh verifier report is claimed. Full reports:
+`Temp/opencode/shiftrelay-contrast-hosted-auth-20261123/REPORT.md`,
+`Temp/opencode/shiftrelay-contrast-hosted-incoming-20261123/REPORT.md`,
+`Temp/opencode/shiftrelay-contrast-stale-send-20261123/`.

@@ -411,6 +411,31 @@ hosted-authenticated states remain the unmeasured contrast states. Reader-speech
 seven technical items and release gates stay open; no fourth attempt, no scope waiver and no source
 change. Full record: `docs/verification.md` §23.
 
+**Dated narrow update — November 23, 2026 (hosted-authenticated contrast and local stale send).** Two
+bounded read-only runs on the existing hosted QA origin now record authenticated contrast, DOM
+metadata only with no network/console/HAR capture and one stdin-route sign-in per existing role:
+outgoing **3 states** (115/123/134 nodes) minimum **4.608:1**; incoming **5 states**
+(107/111/118/118/118) minimum **6.821:1**; each with **0 ordinary failures and 0 unmeasurable**.
+Inactive labels stay separate — outgoing 3.206:1 / 3.206:1 / 2.766:1 per state; incoming
+**1/1/1/0/1**, where the JSON is authoritative and the report's prose bullet mis-attributed the
+3.206:1 entry. A local stale-send state is also recorded (48 nodes, 6.821:1, `status-info` 15.653:1,
+0 ordinary/inactive/unmeasurable; no provider call, no task or activity change). Claim limits:
+page-reported reduced `Chrome/157.0.0.0` major only (no full browser version); no dark-mode result
+(dark preference rendered as light tokens); no all-viewport visibility, pointer, keyboard or AT
+result — two controls were activated by in-page native clicks after pointer timeouts, a colour-only
+rendering route. Toggling the packet approval and the Send enabled/disabled transition are local and
+need no model call; only result-driven controls need a cloud result. Still unmeasured **on the hosted
+origin** (local equivalents of several of these are already recorded in `docs/verification.md` §19,
+§21 and §23): resolved/reopen/post-accept, cloud result/`status-confirmed`/suggestions, queue-refresh
+failure, workspace error, hosted local-model states, hover/focus. No Q4, WCAG, privacy or eligibility
+claim. Full record: `docs/verification.md` §25.
+
+This supersedes only: the "hosted-authenticated states remain the unmeasured contrast states" clause
+in the queue-refresh block above, the same wording in §5.3's "Still open" list and in §5.4's dated
+paragraph (b) and §14 item 6's November narrow block — bounded now for those 3 outgoing and 5 incoming
+states only; and the reconciliation block's "send-path … was not separately rendered" clause, now
+measured locally. Every other unmeasured state, limit and gate stands.
+
 ### 5.3 Bounded local 200% mutation zoom (November 23, 2026)
 
 A separate bounded implementer run exercised the existing manual workflow on the **local emulators**,

@@ -17,6 +17,14 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+Cumulative local-contrast/AC15metadata/preview-sync checkpoint `71d0871`: same
+reviewer APPROVED `af421ae..71d0871`, no blockers; testfix rootcause/regression
+explicitly closed, failed RED preserved. Five notes remain N6: precommit snapshots;
+quote reviewed§23 transport correction instead of raw report's batchGet diagnosis;
+add semantic waits if future sibling fixtures change signatures; policy-denied
+ignored-tree hygiene; preserve intermediate fix-attempt log alongside RED if
+outside-root artifacts are later archived. No standalone polish/replay required.
+
 AC15 scope checkpoint `af421ae`: same reviewer APPROVED `84bd353..af421ae`,
 no blockers; decision and existing draft-copy claims review explicitly approved.
 Five notes remain N6: dated pre-commit snapshots; PUBLISH correction parenthetical

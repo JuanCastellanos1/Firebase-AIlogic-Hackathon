@@ -1,5 +1,212 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## SESSION CLOSED — November 23, 2026, explicit confirmation received
+
+User explicitly confirmed orderly closure: stop work, preserve the current branch
+and all changes in one local WIP commit, no push/merge/deploy/deletion. Caveman off.
+Temporary-NVDA and demo-plan delegates stopped; master inspected both final stop
+reports. Master also checked zero NVDA processes and zero listeners on the owned
+test ports (5173/5174/8080/9099/4400/4500/9150). No agents remain active.
+
+### Phase / gates / artifacts
+
+- Phase 8 delivery validation; final C/D remain OPEN, seven technical groups.
+- Branch `feat/hackathon-ideation`; last certified/reviewed checkpoint
+  `71d0871890966cd37d2ad5dab0517a475d704044`, full16/16/E2E21/21,
+  ok/clean/stable, finished `2026-11-23T19:26:38Z`, matching review.sha.
+  Cumulative reviewer approval covers af421ae..71d0871 and closes the preview-sync
+  root cause; original failed08bee66 report/trace remain preserved outside-root.
+- Later work is not certified: verification§25/PUBLISH bounded contrast records;
+  spec/PLAN zero-suggestion clarification; `docs/demo/README.md` recording plan;
+  DEBT/HANDOFF/_project/_presupuesto operational updates. No produced demo video.
+- Outside-root contrast reports: `shiftrelay-contrast-stale-send-20261123/`,
+  `shiftrelay-contrast-hosted-auth-20261123/`,
+  `shiftrelay-contrast-hosted-incoming-20261123/` under Temp/opencode.
+  Master inspected reports/JSON, not replays; no ordinary-text failures in measured
+  sets, no wholeQ4/privacy/eligibility verdict. Review §25's corrections, not raw
+  report count/guard wording slips.
+- Closing WIP has no fresh verifier/review approval. Resolve actual saved SHA with
+  Git after save; existing evidence certifies only71d0871, not any later WIP.
+- NVDA partial report: `Temp/opencode/shiftrelay-nvda-speech-20261123/REPORT.md`.
+  Official NVDA2026.3.1 download hash/signature validated per inspected report;
+  displayed permittedGPLv2+accepted, portable copy/isolatedconfig created, telemetry
+  declined, SpeechViewer startup flag set. NVDA exited BEFORE restarting with viewer.
+  ZERO actual speech strings observed; no app browser/walkthrough was opened.
+  Download/portable/config/logs preserved outside-root. `seed.out` contains generated
+  LOCAL emulator credentials: do not print, commit or expose it.
+- Demo delegate stopped with corrections preserved. Master reread §4/§8 and verified
+  required narration310words; no recording/captions/audio exists. Plan remains WIP:
+  reconcile “at most one optional row” versus “when both used”, split-card-row timing/
+  cut rule and estimated durations before filming; optional-wordcount claim is not
+  independently verified. Also review the overbroad system-font licensing sentence.
+  Do not treat the draft as an approved produced asset or perform new fixes at closure.
+
+### Decisions / open conditions
+
+- Coordinator research removed from delivery prerequisites; AC15 decision/current
+  draft-copy review approved. Usefulness unvalidated; no impact/comparative claims.
+- A genuine valid zero-suggestion cloud brief is allowed; confirm/dismiss N/A,
+  not pass. No rerolls solely to stage positive suggestions. Actual runtime privacy/
+  payload/provenance/enforcement evidence remains required.
+- User authorized routine engineering autonomy, but specifically restricted billing,
+  legal/destructive/publication actions. Explicit temporary-NVDA permit includes
+  official download/run, displayedGPLv2+acceptance, SpeechViewer localchecks only:
+  no permanentinstall/admin/startup/addons/telemetry/mic/audio/cloudtranscription.
+  Completion is limited to setup described above; speech remains wholly unverified.
+- Remaining: actual reader speech, remaining contractual runtime privacy/model/
+  quota/availability evidence, Firestore App Check before public release, private
+  judge channel, real-runtime <=3-minute video, current-sourceCI/finalreleasegates.
+  No blanket hosted-state remeasurement obligation; preserve existing phone/zoom.
+- Report write for release-gap map was edit-policy denied; findings retained in the
+  tool message, no alternate-write bypass. Ignored-tree hygiene remains uncertified
+  because git clean dry-run was policy-denied. No work/dependencies removed.
+
+### Next exact step / commands
+
+First inspect actual WIP-save result. On explicit project resume, inspect current
+Git/evidence and the partial NVDA report, then scope restarting the preserved portable
+NVDA/isolatedconfig, prove SpeechViewer can expose actual reader output, and run only
+the permitted synthetic local checks. No further execution is authorized while closed;
+new/different legal, admin, global settings, audio or installation actions need their
+own permit. Recheck demo-plan arithmetic/claims before deciding to record.
+Do not infer a speech pass, completed video or certification of closing docs.
+Batch next substantive evidence changes before full verifier/focused review.
+
+```powershell
+git status --short
+git branch --show-current
+git log -1 --format="%H %s"
+py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['gate_c_reasons'])"
+# Only before a later gate, after saving substantive changes:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills: handoff, verification-before-completion; accessibility/
+agent-desktop for the specifically permitted NVDA route; editing-videos for actual
+demo recording. All earlier active/pending checkpoints below are retained history.
+
+Closure save: user explicitly authorized `git add -A` and one local
+`git commit -m "chore: wip accessibility-demo-handoff"` if changes exist. Preserve
+the branch/all work; no empty commit, push, merge, deployment or deletion. If the
+tool denies saving, stop without bypass and report the preserved unstaged/index
+state. Resolve success from Git, not a pre-written future SHA.
+
+## Autonomous continuation — November 23, 2026
+
+User directed routine engineering/testing autonomy: do not repeatedly seek approval;
+return for actual permission blockers or near-finished product. This supersedes
+the pending narrow hosted-contrast question below. It does not authorize billing,
+new legal acceptance, destructive actions or publication/merge without applicable
+specific confirmation; master never pushes.
+
+Two disjoint evidence tasks active:
+- `ses_df61a6368ffeU9ru1bxaizel53`: hosted authenticated DOM-only contrast, at most
+  one safely entered existing synthetic sign-in, read-only controls/preview only,
+  no taskwrite/modelsend/networkdump/settingschange. Report:
+  `Temp/opencode/shiftrelay-contrast-hosted-auth-20261123/REPORT.md`.
+  Report received/master-inspected:3outgoing states,372node-instances,min4.608,
+  ordinaryfailures0/unmeasurable0,disabledseparate. One safe sign-in then signout/
+  ownedtabclose; no networkcapture/model/taskwrites. Report's incoming-role limitation
+  does not require membership mutation: same delegate now performs ONE safe existing
+  incoming-account read-only run, resolveformOPEN only if ownedacceptedtask exists,
+  preview/consentcheckbox toggle WITHOUT Send. New report:
+  `Temp/opencode/shiftrelay-contrast-hosted-incoming-20261123/REPORT.md`.
+- `ses_df663151dffeXSSA6s5y4303b4`: last named local stale-SEND contrast branch,
+  synthetic local version change without UI refresh, reject before provider invoke;
+  no hosted/cloud/model/realAuth. Report:
+  `Temp/opencode/shiftrelay-contrast-stale-send-20261123/REPORT.md`.
+  Report received/master-inspected; JSON independently confirms48nodes,min6.821,
+  stale-info15.653,zero failures/inactive-below/unmeasurable. Two attempts: first
+  no-write baseline incorrectly preceded own fixture bump, second corrected baseline/
+  hard assertions show providerreceived0 and task-update/activity counts unchanged.
+  Synthetic local owner-bypass version change, no hosted/concurrency/privacy proof.
+- Planner `ses_df614c737ffeuLUuW6FEiZHM9I` maps seven static groups against actual
+  latest evidence/remaining contractual gaps, read-only local docs. Expected report:
+  `Temp/opencode/shiftrelay-release-gap-map-20261123.md`; no new quality floor,
+  no automatic gate closure or repetition of completed runs.
+  Map received in tool message; outside-root report write was edit-policy denied.
+  No alternate write attempted. Keyremaining: runtimeprivacy/provenance/availability,
+  actualreaderspeech,Firestorebeforepublicrelease,judgechannel/demo/currentCI.
+- Debugger `ses_df6124b76ffe1Vi59PWvKv2D87` inspects installedactual-reader speech
+  observation tooling, read-only. No Narratoractivation/settings/audio capture/
+  install/admin action; return exact permission if unavoidable. No DOM-to-speech
+  inference or humanresearch substitute.
+  Feasibility result: Win10 22H2 Narrator has no speech recap, no installed offline
+  observer; no reader activated, no audio/ETW captured. Master fetched official NVDA
+  guide; user explicitly PERMITTED official temporary NVDA download/run, displayed
+  GPLv2-or-later license acceptance and SpeechViewer local synthetic checks.
+  No permanentinstall/admin/startup/addons/telemetry/mic/audio/cloudtranscription.
+  Implementer `ses_df5f89e47ffen5HHNPJSHGqYXC` executes that scoped task, report:
+  `Temp/opencode/shiftrelay-nvda-speech-20261123/REPORT.md`; actual output not assumed.
+- Hosted incoming report/JSON now master-inspected:5states572nodes,min6.821,
+  ordinaryfailures0/unmeasurable0; consenttoggle no modelcall, no taskwrites.
+  InactiveJSON1/1/1/0/1 corrects report's secondary-label count slip. NativeDOMclick
+  used after pointertimeouts supports colourrenderingonly, not pointerusability.
+  Recording delegate `ses_df61a6368ffeU9ru1bxaizel53` adds verification§25/PUBLISH
+  and four precision fixes (fresh-sendguard NOTsignatureguard, no sensitiveoutput,
+  hosted-specificunmeasuredlist, limitsnotnewgates). No more hostedQA in that task.
+  Final§25/PUBLISH diff and all four fixes now master-inspected; diffcheck exit0.
+  No new contrast run is needed merely to change those evidence words.
+- Demo preparation `ses_df5f7b4b3ffeYGOsQSaWElE0ki`: only planned
+  `docs/demo/README.md`, narration/shot/caption-QC package, no video/model/browser/
+  taskwrites. Wordcount/runtime estimates must not become recordedfootage claims.
+  Artifact received/master-inspected (228 lines): plan only,309spokenwordestimate,
+  not producedfootage. Same delegate corrects stale 'hostedattestationunverified',
+  fixed5card/source-span guarantees, contradictoryreopen cutorder, 'Recorded read'
+  wording and routineapproval assumptions. No recording/inference begun.
+- Planner releasegap followup distinguishes writtenAC13 requirements from forcing
+  a positive cloud suggestion merely for demo: responsecontract allows0suggestions,
+  no clouds retry is authorized by a presentationwish. Return toolmessage only
+  because previous reportwrite was policy-denied; no bypass/newartifact.
+  Followup received: specresponseup-to5allows0; AC06/11 requirefixturefunctional
+  tests, AC13no minimumpositivecount. Master added bounded clarification tospec/PLAN:
+  realzero-suggestionbrief allowed,confirm/dismissN/A,noforcedreroll,privacy/model/
+  enforcementevidencestillrequired. PUBLISH broaderwalkthrough/demoambition needs
+  conditional wording in nextcombinedrecord; no silenttechnicalwaiver/gatepass.
+
+Next exact step: receive final§25wording, actualNVDAreport and demo-plan artifact
+without polling; inspect coverage/measurements/source/permission boundaries
+Final§25wording is received; wait only for actualNVDAreport/demo-plan artifact,
+inspect outputs, route established defects if any, then batch substantive delivery
+records/checkpoint rather than another status-only verification loop.
+and privacy/side-effect boundaries, then combine durable evidence or fix established
+failures. No assumptions of Q4/reader-speech pass; research remains removed.
+Owned resources cleaned by each task; no repo edits in either evidence task.
+Immutable certification stays `71d0871`; later operational docs dirty.
+
+## Reviewed checkpoint — November 23, 2026, local contrast + preview fix approved
+
+- Saved `71d0871890966cd37d2ad5dab0517a475d704044`; master independently checked
+  clean tracked status, HEAD/evidence/review.sha match, full16/16 exit0,
+  ok/clean/stable, finished `2026-11-23T19:26:38Z`; E2E21/21.
+- Same reviewer `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED cumulative
+  `af421ae..71d0871`, no blockers: original08bee66 contrast/AC15metadata cut AND
+  minimal semantic-wait testfix. Phase7 rootcause/regression explicitly closed;
+  failed RED evidence retained outside-root, not erased. No further fix needed.
+- AC15 removed from static unimplemented list; seven technical groups remain.
+  Research attendance not required; usefulness remains unvalidated.
+  Five local contrast states measured, no wholeQ4/WCAG/hosted/privacy claim.
+- Final C/D OPEN. Send-path stale wording and hosted-authenticated contrast remain
+  unmeasured; actual reader status/error speech unverified. Other remaining runtime/
+  privacy/quota, Firestore public-release enforcement, judge/demo/CI/release conditions
+  remain independent. No push/merge/deploy or live inference occurred in this cut.
+- Five nonblocking reviewer notes stay under N6; no cosmetic certification loop.
+  Ignored-tree hygiene remains uncertified (policy-denied dry-run).
+  Later operational notes are uncommitted/outside immutable71d0871 approval.
+
+**Next exact step:** obtain narrow authorization for hosted read-only authenticated
+contrast evidence (existing synthetic account, at most one safe sign-in, no task
+mutations/model request/settings/deploy) before collecting it. Without approval,
+do not repeat hosted Auth or infer coverage from local mocks. Alternative next
+local task is separately scope the send-path stale text; no generic QA replay.
+Future final assets still require review, not research attendance.
+
+Commands: `git status --short`; `git rev-parse HEAD`;
+`py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['gate_c_reasons'])"`.
+Suggested skills: handoff, verification-before-completion; accessibility plus
+agent-browser for a newly authorized contrast task. Older pending/failure prose
+below is dated history, superseded by this exact reviewed checkpoint.
+
 ## STOP — November 23, 2026, preview E2E diagnosis
 
 - Checkpoint saved: `08bee665050c5fe9ecb40d6f15bd467eb1197867`, eight authorized

@@ -2,6 +2,17 @@
 
 ## Current scope change — November 23, 2026
 
+Delivery preparation artifact: `docs/demo/README.md` will hold the English narration,
+shot checklist and evidence-safe captions/cues for the required <=3-minute real-runtime
+demo. This is a recording plan, not a produced video, runtime result or publication
+approval; no inference or paid assets are needed to prepare it.
+
+For AC13's genuine cloud comparison, a valid zero-suggestion brief is an allowed
+outcome; confirm/dismiss walkthrough shots are conditional on actual suggestions.
+Keep AC06/AC11 deterministic confirmation/dismissal tests and all actual runtime
+privacy/provenance/enforcement obligations. No reroll merely to stage a positive
+suggestion or infer a gate pass from HTTP200.
+
 - [x] Record the user/product decision under spec AC15/G5: continue technical delivery
   without recruiting or representative-coordinator sessions. Product usefulness is
   **UNVALIDATED**, with **NO-GO for validated usefulness/impact claims**. This checks
