@@ -13,6 +13,20 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+**Session closed November 23, 2026** at explicit user request: one local WIP commit of the
+operational docs, no push/merge/deploy/delete, branch preserved. Last certified checkpoint
+`5d8ba43` (16/16, clean/stable, `07:16:32Z`, review approved). Final Gates C/D and the
+eight delivery groups remain open. App Check diagnosis found no code/config defect: the
+hosted 403 was reCAPTCHA scoring of automated clients, and the gated cloud flow needs one
+interactively authorized consented run. Narrator deferred, so speech evidence stays
+incomplete, not waived. HANDOFF top section carries the exact next step and commands.
+
+Latest direction: user deferred Narrator and requested autonomous hosted unblocking.
+Accessibility speech evidence remains incomplete, not waived. Phase 7 App Check
+diagnosis delegated to `ses_df8b14c81ffem2s65B5R3LtN74`, read-only configuration
+inspection plus bounded attestation reproduction, no cloud settings/task/model
+mutations or deployment. HANDOFF defines safe-capture and human-only stop boundaries.
+
 Phase 8 retained; final Gates C/D remain open. Master verified clean checkpoint
 `df9706f9b3b5f49fc3863f720d5e84e4cd1a3135` against existing full evidence
 finished `2026-11-23T01:48:35Z`: 16/16 exit 0, ok/clean/stable and matching review.sha.

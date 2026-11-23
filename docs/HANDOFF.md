@@ -1,5 +1,102 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## SESSION CLOSED — November 23, 2026, App Check diagnosis checkpoint
+
+Closure at explicit user request: one local WIP commit of the operational docs; no push,
+merge, deploy, deletion or cloud mutation. Branch and all work preserved. Caveman off.
+
+### Phase / gates / artifacts
+
+- Phase 8 delivery validation. Framing/build gates retained and not repeated. Final Gates
+  C/D remain **OPEN**; the eight static delivery groups remain open;
+  `gate_c_eligible=false` with the sole reason "8 scope items unimplemented".
+- Branch `feat/hackathon-ideation`. Last certified checkpoint
+  `5d8ba43c987361237b34d16bd718dcd04c009f4d`
+  (`docs: record bounded core workflow zoom evidence`): full verifier 16/16 exit 0,
+  `ok=true`, `dirty=false`, `tree_stable=true`, finished `2026-11-23T07:16:32Z`,
+  matching `review.sha`. Independently APPROVED for `df9706f..5d8ba43`, no blockers.
+  This closing WIP commit is above that checkpoint and is **not** certified: resolve its
+  SHA with `git log -1 --format="%H %s"` and treat the report above as covering only
+  `5d8ba43`.
+- Remote unchanged and never pushed: `origin/main` `538ed9f`,
+  `origin/feat/hackathon-ideation` `00c2b2e`. No Hosting/Rules deployment this session.
+- Outside-root evidence, not versioned: `Temp/opencode/shiftrelay-zoom-core-20261123/`
+  (zoom report/harness/results) and `Temp/opencode/shiftrelay-hosted-attestation-20261123.md`
+  (App Check diagnosis). `.git/opencode/` holds `evidence.json`, `review.sha`,
+  `review.patch`, `review-zoom-docs.patch`, `secret-scan.json`.
+
+### Decisions
+
+- User authorized agent Git handling and the implementer now has `git add *` allow /
+  `git commit *` ask, with push, reset/restore/clean/checkout denies retained
+  (independently checked 39/39). This closing commit used that permission.
+- User deferred the Narrator status/error walkthrough. Accessibility speech evidence
+  therefore remains **incomplete, not waived**, and no WCAG/Q4 claim follows.
+- Bounded true-browser-200% zoom evidence for the core manual mutations was recorded and
+  reviewed; it does not close AC12/Q4.
+- Hosted App Check diagnosis established the 403 as reCAPTCHA Enterprise scoring
+  automated clients below `minValidScore 0.5`, not a code or configuration defect. One
+  controlled interactive exchange returned 200. No threshold, key, enforcement or
+  billing setting was changed, and no model call was made.
+
+### Open conditions / next exact step
+
+1. Run the gated cloud reconciliation in an interactive real-Chrome session with a
+   synthetic account, under a separate explicit approval for one consented hosted cloud
+   request. Success requires observing the limited-use exchange 200 plus one
+   `firebasevertexai.googleapis.com` 200, then confirm/dismiss, and recording it in
+   `docs/verification.md`/`docs/PUBLISH.md`. The successful session exchange alone does
+   not prove the cloud path.
+2. Reconcile `firebaseml` DISABLED versus the ENFORCED service resource while the SDK
+   calls `firebasevertexai`, before any broader enforcement claim.
+3. Remaining contract-required accessibility: screen-reader status/alert/error speech and
+   ordinary-text contrast for unmeasured states.
+4. Delivery: final reviewed checkpoint with SHA-matched green CI, Firestore App Check
+   enforcement before public release, AC15 product validation, judge-access channel,
+   ≤3-minute demo on the real runtime, and explicit approval for PR/merge/submission.
+5. Do not repeat the physical-phone touch workflow, the full verifier or the zoom run for
+   this docs-only closure; rerun only when the tree next moves before a gate claim.
+
+```powershell
+git status --short
+git log -1 --format="%H %s"
+py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['tree_stable'])"
+# only after the tree moves, allow ~900 s:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills on resume: handoff, verification-before-completion;
+`firebase-ai-logic-basics` plus `agent-browser` for the hosted cloud run;
+accessibility only for the remaining speech/contrast checks.
+All sections below are retained dated history, superseded by this closure.
+
+## Verified checkpoint — November 23, 2026, focused review approved
+
+Master independently confirmed clean `5d8ba43c987361237b34d16bd718dcd04c009f4d`,
+the six-doc zoom/operational checkpoint. Full evidence finished `07:16:32Z`,
+16/16 exit 0, ok/clean/stable, matching review.sha. Focused patch:
+`.git/opencode/review-zoom-docs.patch` (`df9706f..5d8ba43`).
+Reviewer `ses_df8e8e6caffeMclzaM1hR3sDsT` APPROVED that immutable checkpoint,
+no blockers; no Phase 6.5/7 fix needed. Prior approvals/B1/B2/B3 remain closed.
+Nonblocking notes stay in N6: conservative Q4/ledger status, long-row readability,
+and pair the offscreen publication observation with eventual actual reader speech.
+No independent replay or traffic capture is newly required merely by this approval;
+existing contracts remain authoritative.
+User deferred Narrator work and explicitly requested autonomous hosted unblocking.
+No accessibility evidence is marked passed or waived by that deferral.
+Active Phase 7 diagnosis: `ses_df8b14c81ffem2s65B5R3LtN74`, hosted reCAPTCHA
+Enterprise/App Check failure, project shiftrelay-hybridai-2026 only.
+Next exact step: receive the outside-root
+`Temp/opencode/shiftrelay-hosted-attestation-20261123.md` diagnosis, inspect evidence,
+then authorize/route the smallest supported fix. Initial task permits read-only
+configuration inspection and at most one fresh controlled attestation attempt after
+safe metadata-projection proof; no model/task/admin mutations or deployments.
+No disabling App Check/billing, debug-token substitution, challenge bypass or retries
+through throttle; human-only login/CAPTCHA requires user handoff.
+No push/merge/deploy; eight delivery groups and C/D remain open.
+These new operational notes are outside the certified/reviewed snapshot. Older pending-commit
+instructions below are superseded; do not repeat the commit or verifier.
+
 ## Resume — November 23, 2026, focused review pending
 
 - Phase 8 delivery validation, focused Phase 6 documentation review. Gates C/D remain OPEN;
