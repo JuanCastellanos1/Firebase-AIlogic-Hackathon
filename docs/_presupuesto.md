@@ -10,6 +10,17 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 | Quality and fixes | 6–6.5 | 20% | Two requested Qwen 3.8 Flash reviews completed; both reject Gate C. D1–D4 and U1 are routed to one bounded correction cut with regressions and fix-only re-review. No quality threshold lowered. |
 | Delivery | 8 | 10% | Earlier CI succeeded only for `b0910d3`. Current-source CI, hosted QA, final validation/review, local demo video and gated merge pending. No push/deploy/merge during resume verification/review. |
 
+## Closure — November 22, 2026
+
+Explicit user closure: preserve branch/work in one local documentation WIP commit, no
+push/merge/deploy/delete, no new QA or cloud action. Full verifier regenerated on clean `bc97ad5`:
+16/16 exit 0, `ok=true`, `dirty=false`, `tree_stable=true` (314 s of checks), `gate_c_eligible=false`
+for the eight unimplemented scope items only. The earlier failed report at the same SHA was a 45 s
+E2E timeout under host contention, diagnosed and re-run green (21/21); no threshold, test or
+assertion was weakened. Effort for the next session goes to the focused docs review and the real
+remaining delivery evidence, not repeated QA. Allocations unchanged; labor still unmeasured;
+spending free-tier-only.
+
 ## Gate C update — November 19
 
 **Orderly closure confirmed:** stop work, preserve eight documentation edits in

@@ -1,5 +1,80 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## SESSION CLOSED — November 22, 2026, clean verifier checkpoint
+
+Closure at explicit user request: preserve branch and work in one local documentation WIP commit;
+no push, merge, deploy or deletion. Caveman off. This session ran no hosted sign-in, model call,
+cloud mutation or Auth/task action.
+
+### Phase / gates / artifacts
+
+- Phase 8 delivery validation. Framing/build and deployed QA source `00c2b2e` retained. Final
+  Gates C/D remain OPEN; eight static delivery groups retained; `gate_c_eligible=false`.
+- Branch `feat/hackathon-ideation`; certified HEAD `bc97ad5de5afdad7a3ca27b4b8f80604f1612b55`
+  (`chore: wip physical-android-contrast`), one commit above reviewed `dc5a273`, docs-only:
+  CONSTRAINTS, DEBT, HANDOFF, PLAN, PUBLISH, _project, _presupuesto, verification. Resolve the
+  closure docs commit with `git log -1 --format="%H %s"`; no future SHA is asserted here.
+- Full verifier on clean `bc97ad5`: 16/16 exit 0, `ok=true`, `dirty=false`, `tree_stable=true`,
+  01:32:15Z→01:37:30Z, sole open reason "8 scope items unimplemented"
+  (`.git/opencode/evidence.json`). If that report names the closure commit with the same flags,
+  use it; regenerate only when the tree moved.
+- `review.sha`/`review.patch` refreshed after the closure commit from raw Git bytes, base
+  `merge-base HEAD origin/main` = `538ed9f`. Remote unchanged: `origin/main` `538ed9f`,
+  `origin/feat/hackathon-ideation` `00c2b2e`. No push.
+- New outside-root artifact this session:
+  `Temp/opencode/shiftrelay-resume-e2e-diagnosis-20261122.md` (Phase 7 diagnosis).
+
+### E2E failure at bc97ad5 — diagnosed, not a product defect
+
+- The first full verifier at `bc97ad5` recorded `e2e-tests` exit 1 (15/16, `ok=false`): one test,
+  `e2e/accessibility.spec.ts:21` "320px layout, keyboard path, focus restoration and axe
+  serious/critical scan", hit `Test timeout of 45000ms exceeded`; suite took 356 s vs 140–148 s
+  baseline.
+- Phase 7 evidence: the timeout fired inside the 5th of 6 axe scans with every prior step
+  successful and the page state already correct; E2E/src/config are byte-identical to the
+  certified runs (`git diff dc5a273..HEAD -- e2e src playwright.config.ts vite.config.ts
+  firebase.json` empty); emulator log healthy; concurrent unrelated host load corroborated.
+  Root cause: environmental capacity against a thin per-test budget, not an assertion or app
+  failure. The 45 s cap was not widened, no test skipped, no assertion weakened.
+- Re-runs: failing spec alone 18.0 s exit 0; `npm run test:e2e` 21/21 exit 0; the full verifier
+  above 21/21 in 154 s.
+- Residual risk (accepted, not waived): 45 s leaves ~2.5× headroom on this 4-core host, so a
+  loaded machine can fail this check while the product is fine. Recurrence would need the
+  one-line `timeout: 45_000 → 90_000` change in `playwright.config.ts` under explicit approval;
+  a rerun pass proves neither flakiness nor a defect.
+
+### Decisions
+
+- Closure regenerated full evidence rather than accepting the failed report (user's choice).
+- No code, test, config, Rules or product change; no scope change; quality floor, free-tier-only
+  spending, synthetic-data and credential boundaries unchanged.
+- Prior docs approvals (`dc5a273`, B1/B2/B3 closed) do not cover the eight-doc cut. That cut is
+  evidence-certified only, not yet reviewed.
+- One marked synthetic physical-phone task remains as approved test data. Nothing deleted.
+
+### Open conditions / next exact step
+
+1. Ask the existing Qwen reviewer `ses_e05adecacffedFxL4nT3ixC2ex` for a focused docs review of
+   `dc5a273..HEAD` (physical Android + contrast + closure records). Do not reopen B1/B2/B3 or
+   treat docs approval as Gate C/D closure.
+2. Remaining substantive gaps: actual reader status/error speech, zoom coverage of core action
+   states, unmeasured core contrast states, hosted attested/consented cloud proof, Firestore
+   public-release enforcement, AC15, judge/demo/public-release conditions.
+3. No Auth/task/model/cloud/deploy action follows from this closure. Push/merge/deploy still need
+   explicit approval; master never pushes.
+
+```powershell
+git status --short
+git log -1 --format="%H %s"
+py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['tree_stable'])"
+# only if the tree moved after this closure; allow ~900 s
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills on resume: handoff, verification-before-completion; code-review-and-quality for
+the focused docs reviewer; accessibility for the remaining AT/zoom/contrast gaps.
+All sections below are retained dated history, superseded by this closure.
+
 ## SESSION CLOSED — November 20, 2026, physical-phone and contrast checkpoint
 
 **Final save result — BLOCKED by tool policy:** closure delegate
