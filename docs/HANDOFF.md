@@ -1,5 +1,76 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Requested gate-scope change — November 23, 2026
+
+User explicitly requested removing human validation from gates and a remaining-work
+summary. Planner `ses_df677cfeeffenN1o0YURdzAQSl` is reconciling ONLY spec/PLAN:
+remove coordinator recruitment/research as a delivery prerequisite, record product
+usefulness unvalidated and cut validated-impact claims. Accessibility, security,
+privacy and critical-evidence floors cannot be waived or marked passed.
+Next exact step: receive planner diff and hardcoded-gate inventory, inspect scope,
+then delegate required companion docs/verifier corrections with regressions, if any.
+No gate is closed by this request; no cloud/measurement action authorized.
+Planner spec/PLAN diff inspected and diff check passed; AC01–AC14/diagram sources
+unchanged. Master reconciled CONSTRAINTS with the explicit unvalidated product
+decision while preserving every technical floor. Implementer
+`ses_df67612b7ffehZ5zbaQLSDhqr7` now updates only verifier AC15 wording/regressions
+and verification/PUBLISH companion records. No technical blocker may be removed.
+Next exact step is receive that bounded diff/red-green evidence, inspect it, then
+checkpoint/full evidence/focused review. Public/demo claims review is still required,
+not research attendance; no invented effectiveness or timing result.
+Implementer diff/red-green inspected: new regression failed on old research wording,
+then targeted verifier suite passed 18/18; other seven technical gap strings and gate
+logic unchanged. Diff check and pinned secret scan passed per inspected output.
+Master inspected README/PUBLISH demo+submission copy and idea hypotheses; corrected
+README/idea research status. Same implementer now neutralizes three unsupported
+PUBLISH problem-framing/comparative sentences and records master's wording review,
+leaving independent confirmation pending. No claim of completed research.
+Next exact step: inspect these final passages, save the complete scope-change cut,
+run full clean evidence and obtain focused review. Static AC15 now names decision/
+claims review rather than research attendance; no technical gate is weakened.
+Final three PUBLISH passages inspected on disk; master reran diff check (exit 0)
+and `py -3 -m unittest tests.test_verificar` (18/18, exit 0). Its printed BLOCKER
+messages come from negative test fixtures, not a failed suite. Complete checkpoint
+scope is 13 modified files: CONSTRAINTS, README, DEBT, HANDOFF, PLAN, PUBLISH,
+_presupuesto, _project, idea, spec, verification, verificar.py and its test.
+Next is authorized local save/full clean evidence/focused review against `84bd353`;
+no post-save certification is asserted in this pre-commit note.
+Existing immutable certification remains `84bd353`; current operational edits are
+outside it. The paused checkpoint below remains dated history.
+
+## Paused after approved checkpoint — November 23, 2026
+
+- Phase 8. Saved checkpoint `84bd353184fe2b7e995d0f9f94d4bf16da17784c`;
+  master independently confirmed clean tracked status, SHA-matched evidence/review.sha,
+  ok/clean/stable, 16/16 exit 0, finished `2026-11-23T17:42:45Z`.
+- Same focused reviewer `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED
+  `0001fa1..84bd353`, no blockers. No Phase 6.5/7 fix required. Five nonblocking
+  notes remain under N6; no standalone polish/replay cycle.
+- Naming discrepancy resolved by official App Check reference, not cloud changes;
+  14 additional contrast states recorded as local synthetic delegated evidence.
+  No new live enforcement or hosted-authenticated contrast certification.
+- Final C/D and eight static delivery groups remain OPEN. User declined human
+  validation; no actual reader-speech or AC15 usefulness evidence is invented.
+  No push, merge, deployment or submission occurred. No agents remain running.
+- Later closure notes in operational docs are uncommitted and outside the approved
+  immutable checkpoint. Do not rerun the suite merely to certify these status notes.
+  Ignored-tree hygiene remains uncertified because its dry-run was policy-denied.
+
+**Next exact step:** on user direction, select a concrete remaining delivery condition
+and scope its required access/approval before execution. Human reader-speech checks
+remain unverified; AC15 remains unvalidated/no-go for usefulness claims. Other gaps
+include named unmeasured contrast states (§21), remaining AC13/Q6 provenance/privacy/
+quota conditions, Firestore App Check before public release, judge-access channel
+and real-runtime demo. Do not resume completed cloud, phone, zoom or naming checks.
+No additional hosted/cloud action or contract waiver follows from this pause.
+
+Inspect with `git status --short`, `git rev-parse HEAD`, and
+`py -3 -c "import json; d=json.load(open('.git/opencode/evidence.json')); print(d['commit'], d['ok'], d['dirty'], d['gate_c_eligible'])"`.
+Use verification §21, PUBLISH and ADR0007 §6 instead of the outside-root reports'
+known prose slips. Suggested skills: handoff, verification-before-completion;
+accessibility only for a newly scoped remaining accessibility check.
+All pending-checkpoint/review language below is retained pre-commit history.
+
 ## Active continuation — November 23, 2026
 
 User requested continued work until human input is needed. Two non-overlapping

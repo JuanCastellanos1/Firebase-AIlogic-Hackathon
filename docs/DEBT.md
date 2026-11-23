@@ -17,6 +17,14 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+Enforcement/contrast checkpoint `84bd353`: same focused reviewer
+`ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED `0001fa1..84bd353`, no blockers.
+Five nonblocking notes stay under N6: dated pre-commit snapshots; quote reviewed §21
+rather than the report's additional workspace-count/JSON-unrendered-list slips;
+quote ADR0007's historical causal sentence alongside §6 limits; policy-denied
+ignored-tree hygiene inspection; existing long-row readability. Batch if touched,
+no standalone polish/replay or new debt group; final C/D remain open.
+
 Hosted-cloud documentation checkpoint `0001fa1`: reviewer
 `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED `5d8ba43..0001fa1`, no blockers.
 Group its four nonblocking notes under N6: pre-commit status snapshots (now

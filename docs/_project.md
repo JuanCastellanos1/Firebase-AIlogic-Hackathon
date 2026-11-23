@@ -13,6 +13,30 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+Scope-change request: user wants human validation removed from gates. Planner is
+reconciling spec/PLAN so coordinator research is not a delivery prerequisite and
+usefulness stays explicitly unvalidated (no impact claims). Accessibility/security/
+privacy evidence floors remain unchanged. Companion gate inventory pending;
+do not count a removed research activity as a passed validation.
+Planner spec/PLAN change inspected; CONSTRAINTS now explicitly records no research
+attendance prerequisite, unvalidated usefulness/no validated-impact claims. Implementer
+is reconciling the static AC15 gap/tests and companion delivery docs; other seven
+technical groups and all technical quality floors stay unchanged.
+Verifier/docs diff inspected: targeted suite 18/18 after genuine red/green for the
+research-prerequisite regression. Master reviewed public draft wording; final three
+PUBLISH framing corrections pending, then checkpoint/full evidence/focused review.
+README/idea explicitly mark usefulness unvalidated and research not prerequisite.
+Final wording inspected; master independently reran verifier unit suite 18/18 and
+diff check, both exit 0. Thirteen-file scope-change checkpoint/evidence/review is
+pending; existing `84bd353` evidence does not certify these edits.
+
+Latest completed checkpoint `84bd353`: master-verified full 16/16 clean/stable,
+SHA-matched evidence finished `17:42:45Z`; independent focused review APPROVED,
+no blockers. Naming reconciliation and 14 local contrast states are durably recorded.
+Paused after user declined human validation; final C/D and eight groups remain open.
+HANDOFF top section has remaining conditions and exact resumption boundary.
+These later operational notes are uncommitted, not covered by checkpoint approval.
+
 User requested autonomous continuation until input is needed. Public-doc/local-source
 enforcement-target research and local-only remaining contrast measurement are delegated
 as separate outside-root tasks; no credentialed live services. Research received:

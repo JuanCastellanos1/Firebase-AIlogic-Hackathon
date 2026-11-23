@@ -2443,7 +2443,7 @@ touch evidence. No full-flow accessibility or WCAG certification follows.
 | 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report. The legacy v3 asset was reported at 0 MiB weights with install pending, so v3 provenance must be rechecked before future model claims; nothing v3 is relabelled Nano 4 |
 | 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation (**November 23 update:** bounded local mutation-state coverage at 200% is recorded in §19; the states §19 does not sample remain open); and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured (**November 23, 2026:** the transient/local-model/queue states are now recorded in §21; hosted-authenticated states remain unmeasured); non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
 | 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
-| 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
+| 8 | AC15 product decision and claims review (supersedes "representative-user product usefulness") | Dated product decision recorded November 23, 2026: continue without coordinator research; usefulness **UNVALIDATED**; NO-GO for validated usefulness/impact claims (spec AC15/G5, PLAN, CONSTRAINTS; §22) | `docs/spec.md` AC15/G5; `docs/PLAN.md` current scope change; `CONSTRAINTS.md` "Guard the bar"; §22 | Master/reviewer verification of the recorded decision and matching PLAN entry, plus the public/demo/submission wording review for unsupported usefulness, timing, comparative or impact claims. Recruiting, sessions, acceptance timing and cloud-utility comparison are no longer delivery prerequisites and no measured result is claimed. AC01–AC14 remain independently required; no gate passes from the wording change |
 
 ### 17.3 Capture boundary — what is proven, and its limits
 
@@ -2933,3 +2933,47 @@ This record adds no check and waives none: all eight static delivery items remai
 WCAG result, no Q4 pass, and no hosted, cloud, model, App Check, screen-reader, zoom, touch,
 non-text-contrast, privacy or eligibility result follows. Full outside-root record:
 `Temp/opencode/shiftrelay-contrast-remaining-20261123/REPORT.md`.
+
+## 22. AC15 product decision without research (November 23, 2026)
+
+Scope: documentation and static verifier wording only. This section records the user/product-owner
+decision relayed by master on November 23, 2026 and its narrow effect on delivery scope. It adds no
+check, waives no threshold, closes no delivery group and claims no result.
+
+**Decision.** Continue technical delivery without representative-coordinator recruiting, user
+sessions, three-task acceptance timing or cloud-utility comparison against deterministic matching.
+Product usefulness is explicitly **UNVALIDATED**; validated usefulness, comparative-improvement,
+timing or impact claims are **NO-GO**. This supersedes the earlier AC15 research prerequisite,
+including §17.2 row 8 as written before this date and the AC15 wording in earlier dated sections;
+those records are retained as history, not renewed gates. `docs/spec.md` AC15/G5, the current
+`docs/PLAN.md` scope-change checklist and `CONSTRAINTS.md` "Guard the bar" carry the same decision.
+
+**What remains open for AC15.** Independent reviewer confirmation of the dated decision, the matching
+PLAN entry and the corrected public/demo/submission wording. Master inspected the existing draft copy
+and three unsupported framing/comparative statements were corrected in `docs/PUBLISH.md` §10-§11: the
+demo title card, the submission opening and the hybrid-differentiation sentence now describe only this
+product's local-only/one-shot-consent split, with no external comparison or measured outcome. README and
+`docs/idea.md` research-status wording were updated separately by master. That inspection is not a
+research pass, claims clearance or gate result, and no research attendance, measured result or product
+outcome is claimed here. No gate or eligibility pass follows from the text change.
+
+**Deferred research versus unchanged floors.** Deferred: coordinator recruitment, participant
+sessions, acceptance timing and utility comparison, plus the validated-impact claims they would
+support. Unchanged and still independently required: AC01-AC14 functional and evidence obligations;
+Q1-Q6 technical thresholds; AC12 actual screen-reader speech for status/error announcements and the
+physical Android hardware requirement; AC13/Q6 genuine runtime, exact model provenance and
+eligibility evidence; App Check enforcement and the Firestore public-release enforcement condition;
+privacy sentinel and one-shot consent behavior; in-product human review, sharing approval, cloud
+consent and observation confirmation; the eight static delivery groups, Final Gates C/D and
+fail-closed `gate_c_eligible`.
+
+**Static verifier wording.** In `scripts/verificar.py`, `SCOPE.unimplemented` item 8 changed only
+from "AC15 representative-user product usefulness validation" to the outstanding decision/claims-
+review wording. The other seven technical items, the check list and the gate logic are untouched, and
+the item count stays eight, so `gate_c_eligible` remains false while any item is listed.
+`tests/test_verificar.py` adds one regression asserting that the AC15 gap names no research-attendance
+prerequisite, that the seven technical blockers remain, and that all eight items stay listed.
+
+**Evidence boundary.** No verifier run was executed for this edit; the targeted tooling suite, the
+diff check and the pinned secret scan are the evidence for this cut. A clean full report for the
+eventual commit remains a gate-time step owned by master.

@@ -1,5 +1,24 @@
 # ShiftRelay — Three-slice implementation plan
 
+## Current scope change — November 23, 2026
+
+- [x] Record the user/product decision under spec AC15/G5: continue technical delivery
+  without recruiting or representative-coordinator sessions. Product usefulness is
+  **UNVALIDATED**, with **NO-GO for validated usefulness/impact claims**. This checks
+  off the scope decision only, not research, functional validation or release.
+- [ ] Master/reviewer reconciles operational docs, CONSTRAINTS and static verifier
+  wording with AC15, then inspects public/demo/submission copy for unsupported
+  usefulness, timing, comparative-improvement or impact claims. Research is not a
+  delivery prerequisite; this claims review remains required.
+
+This clarification supersedes earlier AC15 research prerequisites in dated records;
+those records are retained as history. AC01–AC14 and Q1–Q6 remain independent and
+unchanged, including AC12 status/error reader-speech evidence, accessibility quality
+floor and actual hardware requirements. Participant sessions may be omitted only
+where equally valid actual technical evidence exists; mocks, DOM/live-region checks
+and axe cannot replace real reader speech. In-product human review/consent/confirmation
+remain mandatory. No gate or new evidence pass is claimed.
+
 **Delivery clarification — November 20, 2026:** user requires a physical Android
 phone for release touch-workflow evidence; emulator-only results do not meet that
 hardware condition. Scope remains responsive web, not native Android/local-model
@@ -240,7 +259,7 @@ cloud call or deployment was added.
 
 **Demo:** reviewed projector/supply tasks from successive handovers yield a real source-linked duplicate/contradiction suggestion and incoming brief; a human confirms or dismisses without automatic state/owner changes, then accepts/resolves. Declining cloud gives the same manual ownership path.
 
-**Dependencies:** slices 1–2, G3 approved cloud model/access/budget/judging window, G6 AI Logic/App Check and later Hosting skill tasks, G5 coordinator access/value checkpoint. Production/public availability and deployment need separate master/user authorization. Do not treat a mock as real cloud/hybrid evidence.
+**Dependencies:** slices 1–2, G3 approved cloud model/access/budget/judging window, G6 AI Logic/App Check and later Hosting skill tasks, G5 explicit unvalidated product decision/claims boundary (not coordinator access or research). Production/public availability and deployment need separate master/user authorization. Do not treat a mock as real cloud/hybrid evidence.
 
 **Files:** created `src/reconciliation.ts`, `src/cloudReconcile.ts`, `src/CloudReconciliation.tsx`,
 `tests/reconciliation.test.ts`, `e2e/reconciliation.spec.ts`; extended `src/App.tsx`,
@@ -272,9 +291,9 @@ target-version checks and the coupled activity, and its suites already cover the
   screen-reader and 200%-zoom walkthrough; mobile emulation alone does not establish actual device
   support.
 - [ ] Complete AC13 real hosted hybrid protocol with App Check enforcement and approved real cloud model. Repeat sentinel/packet capture, denied/failed consent and end-to-end closure. Record local and cloud source/model provenance separately; privacy evidence must not expose tokens or credentials.
-- [ ] Product lead completes AC15 two-coordinator comparison, times the three-task acceptance path and records cloud utility against deterministic matching. Master closes G5 or explicitly records no-go/unvalidated product claims; do not invent impact or interview results.
+- [x] AC15/G5 product decision recorded November 23, 2026: proceed without the formerly planned two-coordinator comparison, three-task timing or cloud-utility research. Usefulness UNVALIDATED; NO-GO for validated usefulness/impact claims. Public wording review remains open in the current scope-change checklist; no research or gate pass is implied.
 - [ ] Prepare reproducible setup/judge-access/rollback instructions, license/public-repository review, English public demo <=3 minutes and availability plan through December 16. Private credentials use separately approved access instructions; no live secrets or demo passwords in source/build/public materials. A limited sprint quota alone is insufficient.
-- [ ] Evidence: all actual verifier outputs + reviewed commit/clean-tree evidence when history exists, sanitized hosted network checks, real runtime provenance, device/accessibility results, representative-user decision and authorized delivery walkthrough. Reviewer/master close subsequent gates; this checklist grants no commit/push/merge/deploy permission.
+- [ ] Evidence: all actual verifier outputs + reviewed commit/clean-tree evidence when history exists, sanitized hosted network checks, real runtime provenance, device/accessibility results, explicit unvalidated product decision/claims review and authorized delivery walkthrough. Reviewer/master close subsequent gates; this checklist grants no commit/push/merge/deploy permission.
 
 Implemented in the slice 3 cut (November 17, 2026, local only): the frozen reconciliation contract in
 `docs/INTERFACES.md` §10 and `contrato.json` `reconciliation`; the pure selection/consent/validation

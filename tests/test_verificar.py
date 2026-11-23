@@ -181,6 +181,34 @@ class VerifierTest(unittest.TestCase):
         ):
             self.assertIn(gap, gaps)
 
+    def test_ac15_gap_requires_the_decision_and_claims_review_not_research_attendance(self) -> None:
+        items = self.verificar.SCOPE["unimplemented"]
+        # Eight items stay listed, so the gate keeps failing closed on unimplemented scope.
+        self.assertEqual(len(items), 8)
+        matches = [item for item in items if "ac15" in item.lower()]
+        self.assertEqual(len(matches), 1, matches)
+        gap = matches[0].lower()
+        # The November 23, 2026 scope decision moved the obligation from research attendance
+        # to a dated decision plus a wording review.
+        self.assertNotIn("representative-user product usefulness validation", gap)
+        self.assertIn("decision", gap)
+        self.assertIn("claims review", gap)
+        self.assertIn("unvalidated", gap)
+        self.assertIn("not delivery prerequisites", gap)
+        self.assertIn("no research result is required", gap)
+        # The seven technical blockers remain byte-for-byte present.
+        technical = "\n".join(item.lower() for item in items if item not in matches)
+        for needle in (
+            "q5 reviewer closure",
+            "hosted delivery",
+            "app check",
+            "cloud reconciliation",
+            "local model",
+            "manual accessibility",
+            "live firebase",
+        ):
+            self.assertIn(needle, technical)
+
     def test_passing_phase4_checks_never_claim_gate_c_or_product_scope(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

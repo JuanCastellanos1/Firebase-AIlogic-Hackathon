@@ -558,7 +558,7 @@ screen-reader/200% zoom, and AC15.
 
 | Time | Shot | Note |
 |---|---|---|
-| 0:00–0:08 | Title card: "Handovers fail when private notes never become owned work" | own text only |
+| 0:00–0:08 | Title card: "ShiftRelay: private shift notes become reviewed tasks" | own text only |
 | 0:08–0:22 | Who it is for and the problem: an outgoing volunteer's private note, an incoming volunteer who must accept and close work | on-screen text, synthetic venue |
 | 0:22–0:30 | The hybrid split: private note → on-device model (no cloud fallback); shared records → one-shot consented cloud comparison | own diagram |
 | 0:30–0:55 | Sign in (synthetic identity), type a synthetic shift note, show the local model state, generate, show drafted cards with source links | real app, real local request |
@@ -594,9 +594,8 @@ footage exists.
 
 > **ShiftRelay — private shift notes become owned work.**
 >
-> Community venues hand over non-emergency work through chat notes, so the next volunteer inherits
-> unowned tasks and no record of what was closed. ShiftRelay turns one shift's note into reviewed,
-> accepted and resolved tasks.
+> ShiftRelay explores a community-venue handover workflow: a private shift note becomes reviewed
+> tasks with explicit ownership and recorded resolution.
 >
 > The AI split is deliberate. Drafting runs `ONLY_ON_DEVICE` through Firebase AI Logic: the raw note is
 > page memory, the model is initialized only on an explicit user action, and there is no
@@ -610,9 +609,10 @@ footage exists.
 > the official Firebase agent skills (pinned revision
 > `99954a30898bb5ddc8152ee10e124dc3b4106bf7`).
 >
-> Differentiation is a hypothesis, not a measured result: most hybrid examples fall back to cloud;
-> ShiftRelay refuses that fallback for private text and still records ownership. No user-impact,
-> interview, latency or coverage figure is claimed.
+> Differentiation remains an unvalidated hypothesis, not a measured result and not a claim about
+> other tools: within ShiftRelay, private drafting stays on the device with no local-to-cloud
+> fallback, and cloud reconciliation runs only after a separate one-shot consent. No user-impact,
+> interview, latency, coverage or external-comparison figure is claimed.
 
 ## 12. Chrome setup prerequisite (pending)
 
@@ -714,6 +714,21 @@ the single observation in §5.4: one hosted attested cloud request returned 200 
 and zero suggestions. AC13/Q6 stay open because the served model is unknown, provenance is the
 adapter's own check rather than a captured field, there is no quota/latency coverage beyond this one
 call, and the rest of AC13/Q6 (hosted local-model provenance recheck, product decision) is untouched.
+
+**Dated correction — November 23, 2026 (AC15 scope).** References in this file that treat "AC15 user
+research", "AC15 validation" or an AC15 result as a missing evidence item (§10 demo list and the
+"Honest limits" entry above) are superseded as delivery prerequisites: the product decision
+(`docs/spec.md` AC15/G5, `docs/PLAN.md` current scope change, `CONSTRAINTS.md` "Guard the bar")
+proceeds without coordinator recruiting, sessions, acceptance timing or utility comparison, with
+product usefulness explicitly **UNVALIDATED** and **NO-GO** for validated usefulness,
+comparative-improvement, timing or impact claims. What stays open is independent reviewer
+confirmation of that dated decision and of the corrected public/demo/submission wording. Master
+inspected the existing draft copy and three unsupported framing/comparative statements were corrected
+in §10 and §11 (demo title card, submission opening, hybrid-differentiation sentence); that
+inspection is not a research pass, not claims clearance and not a gate result. Deferred
+research is not a waiver of AC01–AC14, Q1–Q6, actual reader-speech and hardware evidence, genuine
+runtime/provenance, consent, or in-product human review/confirm actions, all unchanged.
+`docs/verification.md` §17.2 row 8 and §22 record the same decision and limits.
 
 ## 14. Open items before submission
 

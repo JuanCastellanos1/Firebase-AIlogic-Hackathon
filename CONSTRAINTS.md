@@ -17,6 +17,15 @@ Proposed November 16, 2026. Owner: master; enforcement: implementer + independen
 
 ## Guard the bar
 
+**Product-scope decision — November 23, 2026:** AC15/G5 no longer require
+representative-coordinator recruitment, sessions or timing research before delivery.
+Proceed with usefulness explicitly **UNVALIDATED** and no validated usefulness,
+comparative-improvement or impact claims. Q3 still requires an explicit product
+decision and review of public/demo/submission wording; this is not a research pass.
+AC01–AC14 and Q1–Q6 technical evidence/thresholds remain unchanged, including actual
+reader status/error speech, hardware, privacy, authorization and genuine runtime.
+In-product human review/consent/confirmation remain mandatory.
+
 No lowering thresholds, narrowing fixtures to dodge a failure, silently excluding routes/cases, accepting test skips, adding `@ts-ignore`/`eslint-disable`/coverage ignores, or weakening Rules to make checks green. No exceptions are granted here. A blocker returns to master; a user-approved scope change requires explicit spec/plan/budget review, **not** waiver of privacy, authorization, accessibility, critical evidence or secret hygiene. Cut extras instead.
 
 Rules, runtime boundary validation, error handling that prevents data loss, and human confirmation are mandatory even when a particular bad input is not in the current fixture. Under Q3/AC02, all text caps use the spec's **UTF-8 byte** contract, with unchanged numeric maxima; **zero client/Rules verdict discrepancies** are allowed for ASCII, supplementary, combining, precomposed and mixed boundary fixtures. Verify through `npm run test:unit -- tests/validation.test.ts` and `npm run test:rules -- tests/rules/permissions.test.ts`, including exact accepted read-back and no implicit normalization. Rules `toUtf8().size()` is the documented byte measure; Rules `String.size()` is not assumed equivalent to JavaScript `.length` (official String/Bytes sources are cited in the spec). This refines existing boundary checks, not a seventh threshold or a passing result. Red checks and unavailable hardware/tooling stay visible as no-go/pending. App Check and spending alerts do not establish a hard budget cap; G3 still needs a project-administrator-approved budget/quota/access plan.
@@ -41,4 +50,4 @@ Gate A passed with real rendered diagrams. At committed checkpoint6cbfded72d2b02
 | Q5 | Verified pinnedGitleaks8.30.1 reports no source/build leaks and npm productionaudit reports0vulnerabilities after scopedgRPC fix. Finalpublicartifact review and independentreview closure remain open. Private devconfiguration is stored outside repository, never excluded through a scan allowlist. |
 | Q6 | One genuine FirebaseAI Logic ONLY_ON_DEVICE localhost generation reported with sourceon_device. No genuine cloud or intended-hosted-origin completion yet; downloaded component namednano_v3_gpu_component, so exactNano4 compatibility remains unproven. |
 
-Current source may be ahead of that checkpoint during live integration; re-run and inspect evidence before any new gate claim. Product usefulness/user timing and final accessibility/model claims require actual external evidence, not mocks or permission alone.
+Current source may be ahead of that checkpoint during live integration; re-run and inspect evidence before any new gate claim. Product usefulness/user timing claims require actual external evidence if made; the November 23 decision omits that research and forbids validated-impact claims rather than requiring participant sessions for delivery. Final accessibility/model claims still require actual evidence, not mocks or permission alone.

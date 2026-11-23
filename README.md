@@ -136,8 +136,11 @@ only.
   Check enforcement through the AI Logic proxy (valid token 200; missing and garbage token 401).
 - Not verified: a hosted HTTPS on-device request, the hosted build's empirical `/__/firebase/init.json`
   behaviour, a hosted reCAPTCHA-Enterprise-attested request, real Android Chrome touch,
-  screen-reader and 200%-zoom walkthroughs, and representative-user usefulness. Automated axe
+  screen-reader and 200%-zoom walkthroughs. Automated axe
   checks are not a WCAG certification.
+- Product usefulness is **unvalidated**. Coordinator/user research is not a delivery
+  prerequisite; no validated usefulness, timing, comparative-improvement or impact claim is made
+  (November 23, 2026 scope decision, `docs/spec.md` AC15/G5).
 - The Firestore emulator does not prove production Rules call-budget caching; the five-card
   publication remains a documented risk in `docs/ARCHITECTURE.md`.
 

@@ -12,6 +12,26 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+User requested cutting human research from delivery gates. Rebaseline by removing
+coordinator-session effort, not accessibility/security/privacy evidence. Reserve one
+bounded scope/gate reconciliation; no new features or invented value claims.
+Existing percentage allocations remain effort guidance, labor still unmeasured.
+Planner scope diff inspected; CONSTRAINTS reconciled. One bounded verifier/docs
+correction with red/green regression is delegated, followed by checkpoint/review;
+do not spend on coordinator recruitment, invented outcomes or unrelated gate rewrites.
+Bounded red/green completed and 18/18 verifier tests passed. Master wording review
+identified three unsupported framing/comparative sentences for neutral correction;
+finish that pass and checkpoint/review, without research or new product work.
+Final wording pass inspected and targeted suite independently passed 18/18.
+Reserve only local checkpoint/full verification/focused review for this 13-file
+scope reconciliation; no coordinator work or added technical requirement.
+
+Checkpoint `84bd353` completed: full clean/stable SHA-matched 16/16 and independent
+focused review APPROVED, no blockers. End this bounded evidence cycle; no further
+QA/research/status-only certification loop. Pause at unresolved delivery conditions;
+allocations/free-tier limits and quality floor unchanged, actual labor unmeasured.
+Later operational closure notes are outside immutable checkpoint certification.
+
 Continuation allocates bounded parallel effort to service-target research and remaining
 local-mock contrast states, reusing existing harnesses. No broad QA replay, additional
 hosted inference, new dependency or paid resource; results pending, no gate credit.
