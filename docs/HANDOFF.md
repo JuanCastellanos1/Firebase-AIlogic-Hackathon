@@ -1,5 +1,59 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Active resume — November 23, 2026, one hosted request approved
+
+- Phase 8 retained; final Gates C/D and eight delivery groups remain OPEN.
+- Resume inspected clean HEAD `19a90a1d770a7bdc1b9d809eac284bbfdd3d4141`,
+  branch `feat/hackathon-ideation`. Fetch succeeded; origin/main remains `538ed9f`,
+  remote feature remains `00c2b2e`. Required phase artifacts exist.
+- Python 3.15.2, Node 24.14.0, npm 11.9.0, Git 2.55.0.windows.5,
+  OpenCode 2.3.0; browse/context7/github connected.
+- Evidence/review.sha certify `5d8ba43`, NOT current HEAD. The intervening commit
+  changes only these three operational docs. No full suite repeated or gate claimed.
+  These resume edits are also outside that certification.
+- User explicitly approved one interactive real-Chrome hosted cloud reconciliation:
+  existing synthetic account, reviewed shared-task packet, explicit in-app consent,
+  metadata-only observation, then DISMISS without task writes. Stop on failure,
+  throttle or human-only challenge; no retries/settings/billing/deploy/push/merge.
+- Delegate `ses_df6b3b80affeqq3YzzRhk1PBqQ` is executing that bounded check.
+  Expected outside-root report: `Temp/opencode/shiftrelay-hosted-cloud-20261123.md`.
+  Safe in-memory input and synthetic projection proof precede authenticated capture;
+  no raw network, console, headers, bodies, queries or incident-log retrieval.
+
+**Result inspected:** master read the outside-root report and projection source,
+plus `src/cloudReconcile.ts:110-127`, not an independent browser replay. Delegated
+run observed two App Check POST 200 and one consented firebasevertexai POST 200;
+preview 1101 bytes, one source/five context tasks, brief with zero suggestions.
+Consent consumed; dismissal N/A with no suggestion control, no confirm/task-write
+action taken. Limited-use identity is position/source-supported, not direct flag
+capture; served model unknown, cloud source inferred from the adapter check.
+Projection 12/12 is delegated evidence, not master-replayed. Report includes two
+transport failures; do not turn HTTP 200 into complete-network/privacy certification.
+Owned tab closed per report; no new request/retry is authorized.
+
+**Durable recording inspected:** new verification §20/PUBLISH §5.4 and narrow dated
+supersessions record the bounded run. Master inspected the actual two-file diff;
+`git diff --check` exited 0. Three precision edits were applied and master-inspected:
+do not assert the uncaptured flag's wire location; distinguish per-task fields from
+packet structure; do not introduce a generic 320px/200% rerun obligation.
+
+**Next exact step:** preserve the five-doc substantive checkpoint through authorized
+local Git handling and regenerate full evidence before focused review. Master
+inspected corrected passages on disk and reran `git diff --check` (exit 0).
+Checkpoint saving/verification is pending; resolve actual SHA/result from Git and
+evidence rather than treating this pre-commit note as certification.
+No further browser/cloud action or source changes are authorized by this task.
+Before any future gate, save the substantive checkpoint and regenerate full clean
+SHA-matched evidence, then review.sha/patch; do not reuse `5d8ba43` for current HEAD.
+Enforcement-target reconciliation, reader speech/remaining contrast, AC15 and final
+judge/demo/release conditions remain open; Narrator deferral is not a waiver.
+
+Commands: `git status --short`; `git log -1 --format="%H %s"`;
+before a gate, `py -3 scripts/verificar.py --report .git/opencode/evidence.json`.
+Suggested skills: verification-before-completion, handoff; delegate uses
+firebase-ai-logic-basics and agent-browser for the bounded hosted check.
+Older closure sections below are dated history.
+
 ## SESSION CLOSED — November 23, 2026, App Check diagnosis checkpoint
 
 Closure at explicit user request: one local WIP commit of the operational docs; no push,

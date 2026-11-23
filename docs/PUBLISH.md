@@ -80,7 +80,7 @@ commit certifies only that commit once it exists, and none is claimed here.
 | Firestore Rules + indexes release | **verified** November 20, 2026, `03:51:56Z` | release `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`; ruleset `137c406c-59b1-4081-96e3-4d810f358663` (19354 bytes, LF-normalized `0b877ada…` = reviewed content) |
 | Hosting release | **verified** November 20, 2026, `03:52:33Z`, 5 files byte-identical to the sealed stage | release `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED` |
 | Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows not observed in §5.1 | §5.1; browser-dependent checks stay *planned* there and are only partly covered by §5.2 |
-| Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator, physical-phone user walkthrough) | **partial**: each run limited to the states it names; delegate reports inspected, not master replays; the physical-phone walkthrough is user-observed; no delivery group closed | §5.2; `docs/verification.md` §17, §18 |
+| Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator, physical-phone user walkthrough, one consented hosted cloud request on November 23, 2026 — §5.4) | **partial**: each run limited to the states it names; delegate reports inspected, not master replays; the physical-phone walkthrough is user-observed; no delivery group closed | §5.2, §5.4; `docs/verification.md` §17, §18, §20 |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
 | `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean snapshot `88eaa15`: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
@@ -340,6 +340,12 @@ bullet in §5 remains open except where the rows above give bounded coverage; no
 the hosted App Check exchange remains unresolved, `SCOPE.unimplemented` still names all eight items,
 and Gates C/D stay unapproved.
 
+**November 23, 2026 supersession (narrow):** the hosted App Check exchange and one hosted consented
+cloud request are no longer unobserved — §5.4 records one delegated observation (two App Check POST
+200, one `firebasevertexai` POST 200, zero suggestions, no task write). The exchange 403/throttle
+blocker is **not** established as reproducibly resolved, no served model or limited-use flag was
+captured, and the rest of this paragraph is unchanged.
+
 ### 5.3 Bounded local 200% mutation zoom (November 23, 2026)
 
 A separate bounded implementer run exercised the existing manual workflow on the **local emulators**,
@@ -376,6 +382,37 @@ or HAR capture occurred. Master inspected the outside-root report, not a replay.
   observation, not an established defect); non-text contrast, other engines/viewports, dark/high
   contrast, real AT; the physical-phone Chrome version (desktop 157.0.8103.79 does not fill that gap).
   No group closed, no WCAG/Q4 verdict, Gates C/D open.
+
+### 5.4 One consented hosted cloud reconciliation (November 23, 2026)
+
+One bounded delegate run, under the user's explicit narrow approval: one synthetic-account sign-in,
+one reviewed shared-task-packet cloud request from the app's own consent control, then dismiss with
+no task write. **Delegated observed evidence**, not a master replay: master inspected the outside-root
+report and `src/cloudReconcile.ts:110-127`, not the browser. No browser or cloud action was taken for
+this record. Full record: `docs/verification.md` §20 and
+`Temp/opencode/shiftrelay-hosted-cloud-20261123.md`.
+
+| Item | Observed |
+|---|---|
+| Route | user's real Chrome via the browse extension (relay 0.1.5); credential entry through the inspected stdin transport; capture `bodies:false`, `capturedBodyBytes 0`, no raw traffic retrieved |
+| Sign-in demand | one synthetic sign-in; `content-firebaseappcheck` **POST 200**, then `identitytoolkit` **POST `/v1/accounts:{seg}` 200** |
+| Consented request | exact local preview **1101 UTF-8 bytes**, **1 source + 5 context** synthetic published tasks, per-task fields `id, version, title, detail, state` inside `sources`/`context`; approval checkbox then one send |
+| Cloud leg | second `content-firebaseappcheck` **POST 200**, then `firebasevertexai` **OPTIONS 200 / POST 200**; brief rendered with **0 suggestions**; one-shot approval consumed (checkbox reset, send disabled) |
+| Dismissal | **N/A** — no suggestion existed, so no dismiss control rendered; no confirm action, no task write requested or performed |
+| Network completeness | 37 entries, 2 transport failures, 3 status-0 entries, no 4xx/5xx; zero HTTP errors is not a completeness claim |
+| Cleanup | capture stopped, owned tab closed, 0 agent tabs; in-memory Auth meant no sign-out was needed; token store untouched |
+
+Not established: the served model name (requested `gemini-3.5-flash-lite` only), the `limited_use`
+flag (session vs limited-use exchange distinguished by position plus the source-verified
+`useLimitedUseAppCheckTokens: true`, not by reading the flag), and `inferenceSource` as a raw field
+(cloud source is the adapter's `not_in_cloud` check not firing). Reproducibility is limited to this
+interactive real-Chrome profile and run; reCAPTCHA scoring still governs the path, and this record
+does not claim future automation can never succeed. The metadata projection was proven 12/12 on a
+loopback fixture by the delegate; master inspected the projection source and did not replay it.
+
+No group is closed and no gate moves. `firebaseml` DISABLED versus the enforced service resource,
+Firestore App Check enforcement, screen-reader speech, remaining contrast states, AC13/Q6 as a whole,
+AC15, judge access, the ≤3-minute demo, PR/merge and release all remain open.
 
 ## 6. Rollback — documented, not exercised
 
@@ -589,6 +626,14 @@ use submitted content and generated responses to improve its products, and human
 them, so only synthetic data may ever reach the cloud model
 (`https://ai.google.dev/gemini-api/terms#unpaid-services`).
 
+**Dated correction — November 23, 2026.** The "hosted reCAPTCHA-attested request" and "in-app cloud
+reconciliation on the deployed origin" entries above are no longer unobserved: §5.4 records one
+delegated observation of a consented hosted cloud request (App Check exchange POST 200 twice,
+`firebasevertexai` POST 200, brief with zero suggestions, no task write). It establishes only that;
+the served model, the limited-use flag and `inferenceSource` were not directly observed, the path is
+not shown to be reproducible without an interactive real-Chrome session, and the projection proof
+cited there is the delegate's (master inspected the source, not a replay).
+
 **Dated correction - November 20, 2026 (updated after the physical-phone and contrast evidence).**
 The **hosted on-device request**, **200% zoom/keyboard**, **real Android Chrome touch** and
 **ordinary-text contrast** entries above now have bounded evidence and must still not be overstated:
@@ -627,6 +672,12 @@ hosted reCAPTCHA-attested cloud request does not, so AC13/Q6 stay open. AC15 rem
 See §5.2 and
 `docs/verification.md` §17.
 
+**Dated correction — November 23, 2026.** The preceding sentence's "does not" is superseded only for
+the single observation in §5.4: one hosted attested cloud request returned 200 with a validated brief
+and zero suggestions. AC13/Q6 stay open because the served model is unknown, provenance is the
+adapter's own check rather than a captured field, there is no quota/latency coverage beyond this one
+call, and the rest of AC13/Q6 (hosted local-model provenance recheck, product decision) is untouched.
+
 ## 14. Open items before submission
 
 Status as of November 20, 2026 (earlier wording kept where still true):
@@ -646,7 +697,11 @@ Status as of November 20, 2026 (earlier wording kept where still true):
    Console/CSP coverage is partial, not absent: the earlier signed-out
    hosted smoke recorded no CSP violations and no page errors, while authenticated and model-path
    console/CSP behavior, the hosted reCAPTCHA-attested App Check exchange and the hosted consented
-   cloud flow remain unverified. No group closed.
+   cloud flow remain unverified. No group closed. **November 23, 2026:** the App Check exchange and
+   one hosted consented cloud request now have one delegated observation (§5.4: exchange POST 200
+   twice, `firebasevertexai` POST 200, zero suggestions, no task write); authenticated console/CSP
+   behavior, reproducibility, served-model provenance and Firestore App Check enforcement remain
+   unverified, and no group is closed.
 4. Decide the private judge-credential channel; keep values out of the repo.
 5. Record the ≤3 minute demo on the real runtime; upload is a separate user approval.
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user

@@ -2711,3 +2711,101 @@ completed, no WCAG/Q4 verdict follows, and Gates C/D remain open. It updates onl
 at 200% zoom" wording in §17.2 row 6 and §18.3, and the corresponding PUBLISH
 §5.2/§5.3/§10/§13/§14 remaining lists, to the bounded states above; every other item in those lists
 stands.
+
+## 20. One consented hosted cloud reconciliation (November 23, 2026)
+
+Scope: evidence recording only. One separate bounded implementer run, under the user's explicit
+narrow approval of one synthetic-account sign-in, one reviewed shared-task-packet cloud request from
+the app's own consent control, then dismiss with no task write. This section changes no check, test,
+gate, constraint or product behavior, and it no longer performs any browser or cloud action. Full
+sanitized record: `Temp/opencode/shiftrelay-hosted-cloud-20261123.md` (outside root, not versioned);
+projection proof in `Temp/opencode/shiftrelay-projection-proof-20261123/`.
+
+Provenance — read this before citing anything below. Everything is **delegated observed evidence**:
+the delegate inspected the run as it happened and wrote the sanitized report; master then inspected
+that report and `src/cloudReconcile.ts:110-127`, and additionally inspected the projection source.
+Master did **not** replay the run, did not retrieve raw traffic, and performed no browser or cloud
+action for this record. Nothing here is independently reproduced.
+
+Environment and route, as reported: the user's real Chrome through the browse extension (relay
+0.1.5, `chrome-this-computer`, protocol 3); credential entry through the previously inspected
+stdin transport (`browse execute --file -`), values read in-process from the approved outside-root
+config, never on argv, stdout, stderr or disk. Capture (`bodies: false`, `capturedBodyBytes 0`) was
+started before navigation and never fetched a body; raw capture text stayed in the relay and **no
+raw request, header, query, console dump or HAR was retrieved or retained**.
+
+Observed timeline (UTC, 2026-11-23):
+
+| Time | Observation |
+|---|---|
+| 16:50:43.677Z | capture started; `GET /` on `shiftrelay-hybridai-2026.web.app` → 200, no challenge; signed-out load issued no App Check exchange |
+| ~16:51 | one stdin-driven synthetic sign-in; `content-firebaseappcheck.googleapis.com` **POST 200** preceded `identitytoolkit.googleapis.com` **POST `/v1/accounts:{seg}` 200**; signed-in workspace rendered |
+| ~16:52 | exact local preview rendered: requested model `gemini-3.5-flash-lite`, ONLY_IN_CLOUD, **1101 UTF-8 bytes**, **1 source + 5 context** tasks, per-task fields `id, version, title, detail, state` inside `sources`/`context` (published synthetic tasks only; no private note field) |
+| ~16:52 | approval checkbox set, one `Send one cloud request` click; second `content-firebaseappcheck.googleapis.com` **POST 200** immediately followed by `firebasevertexai.googleapis.com` **OPTIONS 200** and **POST 200** |
+| 16:52:22.661Z | result rendered: a brief was returned with **zero** suggestions; approval checkbox reset to unchecked and the send control disabled — the one-shot consent was consumed |
+| 16:52:2x | capture stopped, projected; owned tab closed; zero agent tabs remained |
+
+Capture inventory as reported: 37 entries, 34 responses, **2 transport failures**, 3 entries with
+status 0 (one unlisted POST, one `www.google.com` GET, one `firestore` GET) and **no 4xx/5xx on any
+host**. Zero HTTP errors therefore does **not** mean the capture was complete or failure-free; those
+2 failures and 3 zero-status entries are part of the record.
+
+What the observation does and does not establish:
+
+- One `firebasevertexai.googleapis.com` POST returned 200 for the app's `ONLY_IN_CLOUD` call, and the
+  app rendered a schema-validated brief. That is one consented hosted cloud request, not a
+  transport-wide guarantee and not a quota/latency measurement.
+- **Limited-use identity is inferred, not captured.** The second exchange is identified by its
+  position immediately before the vertex POST plus the source-verified path
+  (`useLimitedUseAppCheckTokens: true`, `src/cloudReconcile.ts:110`). The flag was outside the
+  permitted metadata projection and was not read. Session exchange and limited-use exchange are
+  therefore distinguished by position and source, not by reading the flag.
+- **Requested model only.** `gemini-3.5-flash-lite` is the app constant shown in the consent preview;
+  the served model name is in the response body and was not captured, so it is unknown here.
+- **Cloud source is adapter-check inference.** `generateInCloud` throws `not_in_cloud` before it
+  returns text; a rendered brief therefore implies that check passed. That is an inference from app
+  behaviour plus HTTP 200, not a raw `inferenceSource` observation.
+- **Dismissal was not applicable.** The model returned no duplicate or contradiction, so the UI
+  rendered no dismiss control. No confirmation, observation or task write was requested or
+  performed. This is app-level observation, not an audited write log: no Firestore write attempt was
+  independently inspected in this run.
+- No throttle, CAPTCHA, challenge or handoff occurred, and no retry was sent. No App Check threshold,
+  site key, provider, enforcement, API, debug-token or billing setting was changed, and the hosted
+  origin received no debug token.
+- **Reproducibility is limited to this interactive profile and run.** reCAPTCHA scoring still governs
+  the path and automated clients were previously scored below `minValidScore`. This record does not
+  claim that future automation can never succeed; it claims only that this observation came from an
+  interactive real-Chrome session and is not established as repeatable without one.
+
+Metadata boundary: before any authenticated traffic, the delegate proved the projection on a
+loopback-only fixture with synthetic credential-shaped sentinels — 12/12, exit 0, sentinels present in
+the raw in-relay capture and absent from the emitted document, unknown host/path redacted. That is a
+**delegated proof**: master inspected the projection source and the reported output, did not replay
+the fixture. The inspected `capture-guard/capture_guard.py` targets the `agent-browser` CDP CLI and is
+**not compatible** with this relay route, so its allowlist/template contract was ported into a new
+in-sandbox projector; `firebasevertexai.googleapis.com` and `content-firebaseappcheck.googleapis.com`
+were added to that run's allowlist because the frozen list predates them. No inspected guard was
+modified.
+
+Cleanup as reported: capture stopped before teardown, owned tab closed, `tabs list` → 0 agent tabs,
+no user tab touched. No explicit sign-out was needed because Auth uses `inMemoryPersistence` and
+Firestore `memoryLocalCache`; the App Check token store was neither inspected nor modified. Repository
+untouched by the run: `HEAD 19a90a1d770a7bdc1b9d809eac284bbfdd3d4141`, with three operational docs
+dirty from another session before the run started.
+
+Dated supersession, narrow: this section supersedes only these specific earlier clauses to the bounded
+extent recorded above — §17.2 row 3's "hosted attestation not established" sentence, row 4's "no hosted
+consented cloud packet, confirm or dismiss was observed", and row 5's "A hosted reCAPTCHA-attested
+cloud request" gap, plus the matching pending sentences in PUBLISH §5.2/§13/§14 item 3. Every other
+statement in those rows and sections stands, including: no hosted confirmation or dismissal was
+observed (dismissal was N/A with zero suggestions); no served-model or `inferenceSource` field was
+observed; no quota/latency coverage beyond this single call; no Firestore App Check enforcement; and no
+public release.
+
+Still open, unchanged by this record: all eight static delivery items (`gate_c_eligible=false`), Final
+Gates C/D, the `firebaseml.googleapis.com` DISABLED versus enforced-resource discrepancy, the
+contract-required accessibility coverage still unmeasured (screen-reader status/alert/error speech and
+the ordinary-text contrast states not yet sampled; the bounded checks already recorded in §17-§19 are
+not reopened here), AC13/Q6 as a whole, AC15, the judge-access channel, the ≤3-minute demo on the real
+runtime, PR/merge and release. No hybrid, Gemini Nano 4, whole-AC13, whole-Q6 or enforcement closure
+follows, and no delivery group is completed.

@@ -12,6 +12,18 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Active resume: retain completed gates and allocations. Spend next bounded effort
+on the newly approved single interactive hosted cloud request, not repeated
+framing/build/physical/zoom checks or a status-only certification loop.
+Evidence is stale for HEAD `19a90a1`; refresh at the next substantive gate checkpoint.
+No paid resources, retries, quality waiver or measured labor total authorized.
+Bounded cloud result inspected: POST 200 with brief/zero suggestions, no confirmation
+action; no retry or additional inference planned. Reserve one durable-recording pass
+then substantive checkpoint, not another cloud/QA loop. Final C/D remain open.
+Durable two-file diff and three precision corrections inspected; next is the
+five-doc checkpoint/full evidence/focused review. No additional generic zoom rerun
+requirement or hosted experiment introduced.
+
 Closed November 23, 2026 at user request: WIP documentation commit only, no
 push/merge/deploy, no new QA. Last certified full evidence remains `5d8ba43`
 (16/16, `07:16:32Z`). Effort accounting unchanged and labor still unmeasured;
