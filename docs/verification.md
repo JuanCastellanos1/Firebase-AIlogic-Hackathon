@@ -2441,7 +2441,7 @@ touch evidence. No full-flow accessibility or WCAG certification follows.
 | 3 | Hosted reCAPTCHA attestation and Firestore App Check enforcement | AI Logic service-boundary enforcement for `firebaseml.googleapis.com`: valid 200, missing/garbage 401 (ADR 0007, §13.3); reviewed Ruleset deployed | ADR 0007, §13.3, §16 | Hosted attestation not established: 403 `PERMISSION_DENIED / App attestation failed` in three automated page instances followed by the one-day client throttle; the real-Chrome runs measured no exchange or lost the status. Firestore App Check enforcement is still not enabled |
 | 4 | In-app live cloud reconciliation plus reviewed Ruleset deployment | Deployed ruleset `137c406c…` equals the reviewed file; inspected delegate run read membership and completed publish → accept → resolve → reopen (v4, four activity entries) on the deployed origin; one real-Chrome synthetic sign-in succeeded without task writes | §16; HANDOFF hosted-QA and sign-in summaries | The suggestion/confirm cloud-reconciliation flow on the deployed origin still has only labelled-mock evidence; no hosted consented cloud packet, confirm or dismiss was observed; the workflow result is an inspected delegate report, not a replay |
 | 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report. The legacy v3 asset was reported at 0 MiB weights with install pending, so v3 provenance must be rechecked before future model claims; nothing v3 is relabelled Nano 4 |
-| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation; and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured; non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
+| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation (**November 23 update:** bounded local mutation-state coverage at 200% is recorded in §19; the states §19 does not sample remain open); and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured; non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
 | 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
 | 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
 
@@ -2617,12 +2617,97 @@ coverage attempt is possible. No product test hook was added for this.
   `CONSTRAINTS.md` "Hardware clarification", `docs/PLAN.md` "Delivery clarification"). Emulator
   results are supplementary, not acceptance.
 - Still open for group 6 and AC12/Q4: screen-reader announcements beyond the three named sign-in
-  controls (no status/alert/error speech); core actions at 200% zoom and in mutation states; and
-  ordinary-text contrast >=4.5:1 for the unmeasured core states above. Scope limits, not additional
-  thresholds: non-text contrast, other engines/viewports, dark mode/high contrast, 320 px and 200%
-  re-measurement, real AT.
+  controls (no status/alert/error speech); core actions at 200% zoom and in mutation states
+  (**November 23 update:** bounded local coverage of the core mutation states is recorded in §19;
+  the states it does not sample remain open); and ordinary-text contrast >=4.5:1 for the unmeasured
+  core states above. Scope limits, not additional thresholds: non-text contrast, other
+  engines/viewports, dark mode/high contrast, 320 px and 200% re-measurement, real AT.
 - No group is completed: hosted App Check attestation, the hosted consented cloud flow, AC13/Q6,
   AC15, public/judge release, PR/merge and Gates C/D are untouched. In particular, no
   hosted-authenticated contrast result and no WCAG verdict exists - the hosted signed-out and local
   authenticated-mock measurements above stand as measured - and the earlier B1/B2/B3 review closure
   remains tied to `dc5a273`; it is not a statement about this working tree.
+
+## 19. Local 200% zoom across core manual mutations (November 23, 2026)
+
+Scope: evidence recording only. A separate bounded implementer run exercised the existing manual
+workflow against the local emulators at true desktop browser zoom. The run made no repository, check,
+test, gate or product change; no hosted, cloud, Auth-live or model action was performed; and no
+network, console or HAR capture occurred. Master inspected the outside-root report, not a replay.
+Full record:
+`Temp/opencode/shiftrelay-zoom-core-20261123/REPORT.md` (`results.json` and `run_zoom_core.py` with it).
+
+Environment: Windows 10.0.19045; 1536×864 logical display (1920×1080 at 125% OS scale); real Google
+Chrome 157.0.8103.79 on an owned profile, attached with agent-browser 0.43.0 over CDP; Vite on
+`127.0.0.1:5173` in `emulator` mode; local Auth 9099 / Firestore 8080 started with the reviewed
+allowlisted `scripts/firebase_safe.py` child environment. Two synthetic emulator users were created
+at runtime and used in sequential outgoing → sign-out → incoming → sign-out sessions; values were not
+persisted or printed. The user's own Chrome processes and profile were not attached or modified. The
+app's optional local-drafting capability probe ran during rendering and reported the model as
+"downloadable"; it was not enabled and no generation was requested.
+
+Zoom: the browser's own accelerator, five real `Ctrl+=` key events delivered to the verified-foreground
+owned Chrome window, produced the 110/125/150/175/200% ladder: DPR 1.25 → 2.5, CSS viewport
+1266×766 → 633×383, outer window unchanged at 1280×860, `visualViewport.scale` 1 and computed CSS
+`zoom` 1. `Ctrl+0` restored DPR 1.25 and 1266×766. No CSS zoom, `deviceScaleFactor`, viewport override
+or pinch emulation was used.
+
+Coverage precision: 13 named states were sampled; **12 are at 200%**, and `signed-out-100` is the
+100% baseline. Ten states have an actual keyboard Tab traversal (nine at 200%, one baseline). The
+other three 200% states are geometry/live-region probes only: `signed-out-after-outgoing-200`,
+`incoming-resolved-200` and `signed-out-final-200`; the resolved state's Reopen control was reached
+by Tab and activated (4 Tabs) before its form opened. The nine traversed 200% states are outgoing
+empty draft, filled capture form, exact review, publish-confirmed, and incoming open task, accepted,
+resolve form, reopen form and reopened history.
+
+At 200% on the twelve states: no horizontal document overflow, no element beyond the viewport's right
+edge, no clipped-text candidate (`overflow:hidden`/ellipsis with `scrollWidth > clientWidth`) and no
+overlapping interactive-box pair. In the nine traversed states every focus stop had a solid 2.8px
+focus ring, lay within the 633×383 viewport and was not covered by another element; the disabled
+`Remove card 1` in the empty draft was skipped by Tab. These are focus-rect and layout-box
+measurements, not proof that every result string or full textarea content is visible.
+
+Mutations: one publication of two manually typed synthetic cards, then accept, resolve and reopen on
+the first card, each activated from the keyboard (Tab then Enter; publish 13 Tabs; accept 4; resolve
+trigger 4 and confirm 6; reopen trigger 4 and confirm 6). UI confirmations were the persistent
+"Server confirmed 2 open tasks…", "Accepted…", "Resolved…" and "Reopened…" status texts; history
+rendered create/accept/resolve/reopen at v1–v4. The local Firestore emulator, read with the owner
+bypass, recorded the first card as `accepted` v4 owned by the incoming user with `resolution = null`,
+activities `create/accept/resolve/reopen` at v1–v4, and the second card still `open` and unowned.
+The synthetic private-note sentinel was absent from those **inspected shared documents**. That is
+storage-only evidence: no traffic was captured, so no transport-wide or "never transmitted" claim
+follows.
+
+Visibility precision: after the keyboard publish the `role="status"` confirmation measured
+top −474 / bottom −428 in the 383 px-tall viewport, above the current scroll position; it must be
+scrolled to, not treated as visible. The accept, resolved and reopened confirmations measured
+top 228–242 and were within the viewport. Focus visibility was checked for focused controls only;
+the at-200% textarea rectangles are control geometry, not a full-content visibility measurement.
+No blanket "all result text visible" claim is made.
+
+Still open for group 6 and AC12/Q4 (contract-required, not closed by this cut): screen-reader speech
+beyond the user-observed sign-in control naming (no status/alert/error or mutation-control speech);
+ordinary-text contrast ≥4.5:1 for the unmeasured states above (transient/local-model/queue,
+hosted-authenticated and the states this run did not sample); and core-action 200% coverage beyond
+the mutation states sampled here.
+
+Scope limits and observations, not additional Q4/AC12 thresholds: non-text contrast; other engines
+and viewports; dark mode and Windows high contrast; 320 px and 200% re-measurement; real assistive
+technology. Recorded observations: the publish confirmation's offscreen position at 200%
+(top −474 / bottom −428) is a visibility observation, not an established defect; the physical-phone
+Chrome version remains a partial record ("latest" only), and the desktop Chrome 157.0.8103.79
+provenance above **does not fill that gap** - no physical-phone zoom, speech or version claim
+follows. Evidence limits: the three geometry-only states were measured for geometry and live regions
+only; the resolved state's Reopen control was separately Tab-activated but is not part of a recorded
+full traversal; geometry is layout-box based, not pixel inspection, so sub-pixel or paint-only
+overlap is not excluded; one implementer run, and master inspected its report, not a replay.
+
+Report correction: §19 supersedes two claims in the outside-root `REPORT.md` - its presentation of
+all 13 named states as 200% states, and its transport-wide "private note was never sent" wording.
+`REPORT.md` itself remains uncorrected; do not quote it for those claims, cite this section.
+
+This record adds no check and waives none: the eight static delivery items remain listed, no group is
+completed, no WCAG/Q4 verdict follows, and Gates C/D remain open. It updates only the "core actions
+at 200% zoom" wording in §17.2 row 6 and §18.3, and the corresponding PUBLISH
+§5.2/§5.3/§10/§13/§14 remaining lists, to the bounded states above; every other item in those lists
+stands.

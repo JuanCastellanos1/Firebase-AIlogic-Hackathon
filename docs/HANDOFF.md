@@ -1,5 +1,99 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Resume — November 23, 2026, focused review pending
+
+- Phase 8 delivery validation, focused Phase 6 documentation review. Gates C/D remain OPEN;
+  completed framing/build gates are retained, not repeated.
+- Master inspected clean HEAD `df9706f9b3b5f49fc3863f720d5e84e4cd1a3135`
+  (`chore: wip closure-handoff`). Existing full verifier evidence finished
+  `2026-11-23T01:48:35Z`: 16/16 exit 0, `ok=true`, `dirty=false`,
+  `tree_stable=true`, matching HEAD/review.sha; `gate_c_eligible=false`.
+  No full suite was repeated: that report certifies this unchanged checkpoint only.
+- Fetch succeeded; origin/default branch remain configured as recorded. Required phase
+  artifacts exist. Python 3.15.2, Node 24.14.0, npm 11.9.0, Git 2.55.0.windows.5,
+  OpenCode 2.3.0; browse/context7/github MCP connections reported connected.
+- Refreshed raw-byte review.patch/review.sha and generated
+  `.git/opencode/review-docs-resume.patch` for `dc5a273..df9706f`.
+  No runtime/tests/config changes in that range.
+- Original reviewer session could not resume: tool reported it is not a child of this
+  session. Replacement reviewer `ses_df8e8e6caffeMclzaM1hR3sDsT` is reviewing
+  the checkpoint docs only. This is not a same-reviewer continuation.
+- These new resume notes in HANDOFF/_project/_presupuesto are uncommitted operational
+  changes outside the certified/reviewed snapshot. No current-tree certification claimed.
+
+**Review received:** replacement reviewer APPROVED `dc5a273..df9706f` at the certified
+checkpoint, no blockers. B1/B2/B3 remain closed; no Phase 6.5/7 correction needed.
+Six nonblocking follow-ups are grouped under N6. Approval excludes these resume edits.
+
+**Active task after user said continue:** implementer
+`ses_df8e1e675ffe2kNhCkYqTcz8VH` is checking core manual actions at true desktop
+200% browser zoom using local emulators and synthetic data only. Expected report:
+`Temp/opencode/shiftrelay-zoom-core-20261123/`. No source edits, hosted Auth,
+cloud/model calls, installs, commits or deployment. Actual zoom must be proven,
+not substituted with CSS/device emulation; inability to prove it is a stop.
+
+**Result inspected:** master read REPORT.md, not a browser replay. Core manual
+actions were exercised at verified true 200% zoom on desktop Chrome 157.0.8103.79;
+the publication status was above the viewport (top -474, bottom -428).
+No automatic accessibility failure or code fix inferred. Table contains 13 states
+including a 100% baseline: only 12 are at 200%, and some lack keyboard traversal.
+Storage sentinel absence is not transport-wide privacy proof.
+
+**Durable record inspected:** verification §19 and PUBLISH §5.3 now record 12 zoomed
+states plus a baseline, nine zoomed traversals and storage-only sentinel evidence.
+Master inspected actual diff; no runtime/test/config changes. Outside-root REPORT.md
+was not corrected: its broader count/privacy sentences must not be quoted as proof.
+
+**Final precision edit inspected:** verification §19 now separates contractual
+remaining checks from limits/observations and explicitly supersedes REPORT.md's
+count and transport-wide privacy claims. No further correction requested.
+
+**Next exact step:** preserve the six-doc cut via a user-shell authorized checkpoint
+(historical agent commit policy denial remains respected), then regenerate
+full clean SHA-matched evidence before independent review. Current operational and
+zoom records are uncommitted and uncertified; prior df9706f approval excludes them.
+**Latest checkpoint attempt:** user explicitly authorized agent Git permissions,
+but the delegate's commit call was still rejected by tool policy before Git ran.
+Preflight pinned Gitleaks scan and staged diff checks passed; exactly six docs were
+staged and HEAD remained df9706f. No verifier or review refresh followed. Do not retry
+or route around the denial. The user must enable commit permission in OpenCode or
+commit in their own authorized shell. This failure-record edit itself is unstaged;
+restage the six paths before committing, then regenerate clean evidence.
+**User-requested permission task:** after the denial, user explicitly asked master
+to configure commit permission. Delegate `ses_df8c34d79ffe0SomrRxQTBaPJH` is inspecting
+user-managed OpenCode configuration and applying only implementer `git add *` allow /
+`git commit *` ask if permitted. No hard/managed policy bypass, broad Git grant,
+commit retry, push or deployment authorized by that task. Receive configuration
+result before another checkpoint attempt; permission effectiveness is not yet proven.
+**Permission configuration result inspected:** user-managed implementer frontmatter
+now allows `git add *` and asks for `git commit *`; push/destructive denies retained.
+Master independently ran the config repository's permission checker: 39/39 passed,
+exit 0. Delegate also adjusted its test expectations; unrelated pre-existing config
+edits were preserved. Configuration is global to the implementer, not project-only.
+A fresh delegate is needed for the pending checkpoint; approve its commit prompt.
+No commit has yet been exercised under the new permission.
+No new QA, source changes or cosmetic cleanup. Reader
+status/error speech remains unverified; accessibility-tree output is not speech.
+Record the exact physical Chrome version when available; that browser record is partial.
+Do not repeat completed touch QA or start a standalone documentation-polish cycle.
+Docs approval alone cannot close C/D. Keep the eight static delivery groups and the
+remaining substantive conditions listed in the retained closure below.
+No hosted sign-in, task/model/cloud action, push, merge or deployment performed.
+
+```powershell
+git status --short
+git log -1 --format="%H %s"
+# In the user's authorized shell, save only these six documentation paths:
+git add -- docs/DEBT.md docs/HANDOFF.md docs/PUBLISH.md docs/_presupuesto.md docs/_project.md docs/verification.md
+git commit -m "docs: record bounded core workflow zoom evidence"
+# After authorized checkpoint saving, regenerate evidence for the actual clean HEAD:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills: verification-before-completion, handoff; code-review-and-quality
+for review, accessibility only when resuming a separately scoped accessibility check.
+The dated sections below are history; actual Git/evidence controls certification.
+
 ## SESSION CLOSED — November 22, 2026, clean verifier checkpoint
 
 Closure at explicit user request: preserve branch and work in one local documentation WIP commit;

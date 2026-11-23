@@ -333,10 +333,49 @@ overall Q4 closure and no WCAG verdict (`docs/verification.md` §18.2).
 
 Status: this evidence reduces unknowns without closing any delivery group. The touch workflow AC12
 names is now user-observed on the required physical phone, but screen-reader announcements, 200%
-zoom/keyboard on mutation states and the unmeasured contrast states remain open. Every browser-dependent
+zoom/keyboard on mutation states and the unmeasured contrast states remain open (**November 23
+update:** the local core mutation states now have bounded 200% evidence in §5.3; the states not
+sampled there remain open). Every browser-dependent
 bullet in §5 remains open except where the rows above give bounded coverage; none is fully closed,
 the hosted App Check exchange remains unresolved, `SCOPE.unimplemented` still names all eight items,
 and Gates C/D stay unapproved.
+
+### 5.3 Bounded local 200% mutation zoom (November 23, 2026)
+
+A separate bounded implementer run exercised the existing manual workflow on the **local emulators**,
+not the hosted origin. No hosted, cloud, Auth-live or model action was performed; no network, console
+or HAR capture occurred. Master inspected the outside-root report, not a replay. Full record:
+`docs/verification.md` §19 and `Temp/opencode/shiftrelay-zoom-core-20261123/REPORT.md`.
+
+- Environment: Windows 10.0.19045; 1536×864 logical display (1920×1080 at 125% OS scale); real Google
+  Chrome 157.0.8103.79 on an owned profile through agent-browser 0.43.0/CDP; Vite `127.0.0.1:5173` in
+  emulator mode with local Auth 9099/Firestore 8080. Two runtime-created synthetic users in sequential
+  outgoing and incoming sessions. The local-model capability probe reported "downloadable"; it was
+  not enabled and no generation was requested.
+- Zoom: five real browser `Ctrl+=` presses to true 200%: DPR 1.25→2.5, CSS viewport 1266×766→633×383,
+  outer window unchanged, `visualViewport.scale = 1`, computed CSS `zoom = 1`; `Ctrl+0` restored
+  1.25/1266. No CSS zoom, device-scale or viewport emulation.
+- Coverage: 13 sampled states, **12 at 200%** plus one 100% baseline; nine 200% states have real
+  keyboard traversal and three are geometry/live-region probes only. Traversed states: outgoing
+  empty/filled/review/publish-confirmed and incoming open/accepted/resolve-form/reopen-form/
+  reopened-history.
+- Measured at 200%: no horizontal document overflow, right-edge overflow, clipped-text candidate or
+  overlapping interactive-box pair. In the nine traversed states every focus stop was in the
+  633×383 viewport with a solid 2.8px ring and no covering element.
+- Mutations: one publication (two synthetic cards), then accept, resolve and reopen on the first card,
+  all activated by Tab+Enter. The local Firestore emulator recorded accepted v4 with the incoming
+  owner, activities create/accept/resolve/reopen v1–v4, and the second card open/unowned. The
+  synthetic note sentinel was absent from those **inspected shared documents** (storage only; no
+  traffic capture, so no transport-wide claim).
+- Visibility: the publish `role="status"` confirmation was above the viewport (top −474 / bottom
+  −428 at 383 px height) and must be scrolled to; accept/resolved/reopened confirmations were in
+  view. Focus-rect geometry does not prove full textarea or all result-text visibility; no blanket
+  visibility claim is made.
+- Still open: screen-reader speech; ordinary-text contrast for unmeasured states; 200% coverage of
+  states not sampled here; the publish confirmation's offscreen position above (a visibility
+  observation, not an established defect); non-text contrast, other engines/viewports, dark/high
+  contrast, real AT; the physical-phone Chrome version (desktop 157.0.8103.79 does not fill that gap).
+  No group closed, no WCAG/Q4 verdict, Gates C/D open.
 
 ## 6. Rollback — documented, not exercised
 
@@ -474,7 +513,8 @@ an inspected delegate report (two generations, §5.2), Android Chrome touch exis
 **emulator** and - later the same day - as a **user-observed walkthrough on the user's own physical
 Android 16 phone** (no agent instrumentation, no screenshot or recording; §5.2,
 `docs/verification.md` §18.1), and 200% zoom plus keyboard/focus were measured on desktop Chrome in
-read-only states. Still absent are screen-reader speech beyond the user-observed sign-in control
+read-only states (**November 23 update:** the local core mutation states also have bounded 200%
+evidence, §5.3). Still absent are screen-reader speech beyond the user-observed sign-in control
 naming and AC15 validation; no hosted reCAPTCHA-attested cloud request exists. Ordinary-text contrast
 ratios now exist for 31 measured states (§5.2, `docs/verification.md` §18.2). Any shot of these runs
 may be described as bounded evidence, never as WCAG or hybrid/cloud proof, and no physical-phone
@@ -553,7 +593,9 @@ them, so only synthetic data may ever reach the cloud model
 The **hosted on-device request**, **200% zoom/keyboard**, **real Android Chrome touch** and
 **ordinary-text contrast** entries above now have bounded evidence and must still not be overstated:
 200% zoom and keyboard/focus were measured on desktop Chrome in signed-out and read-only signed-in
-states only; the Android touch workflow was performed by the user on their own physical Android 16
+states only (**November 23 update:** the core mutation states now have bounded local 200% evidence,
+§5.3; hosted read-only remains the hosted measurement); the Android touch workflow was performed by
+the user on their own physical Android 16
 phone (Chrome reported as "latest", exact version unrecorded) against the hosted origin, with
 portrait/landscape reachability, no portrait horizontal scrolling, the empty-submit native required
 message, one synthetic sign-in per role, a manually typed draft, one publication with the confirmed
@@ -617,7 +659,9 @@ Status as of November 20, 2026 (earlier wording kept where still true):
    explicit user decision (`CONSTRAINTS.md` "Hardware clarification"), so the earlier unresolved
    scope-wording note no longer applies. Still required by contract: full screen-reader announcements
    (AC12 - only the three sign-in controls' names/roles/required state were user-observed), 200%
-   zoom/keyboard core actions after a mutation, and ordinary-text contrast >=4.5:1 for the unmeasured
+   zoom/keyboard core actions after a mutation (**November 23 update:** core mutation states now have
+   bounded local evidence, §5.3; states not sampled there remain required), and ordinary-text contrast
+   >=4.5:1 for the unmeasured
    core states (transient/local-model/queue, hosted authenticated). Scope limits only, not additional
    thresholds: non-text contrast, other engines and viewports, dark mode/high contrast, 320 px/200%
    re-measurement. Limits/

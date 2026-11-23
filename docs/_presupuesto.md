@@ -10,6 +10,30 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 | Quality and fixes | 6–6.5 | 20% | Two requested Qwen 3.8 Flash reviews completed; both reject Gate C. D1–D4 and U1 are routed to one bounded correction cut with regressions and fix-only re-review. No quality threshold lowered. |
 | Delivery | 8 | 10% | Earlier CI succeeded only for `b0910d3`. Current-source CI, hosted QA, final validation/review, local demo video and gated merge pending. No push/deploy/merge during resume verification/review. |
 
+## Resume — November 23, 2026
+
+Retain allocations and completed gates. Existing full evidence certifies clean
+`df9706f` (16/16, finished `2026-11-23T01:48:35Z`); avoid repeating that suite
+for the unchanged checkpoint. Spend the next bounded effort on focused docs review,
+then actual remaining delivery conditions. Original reviewer session was inaccessible
+by ancestry; replacement review APPROVED the focused checkpoint, no blockers,
+not same-reviewer sign-off. Batch six nonblocking follow-ups under N6; prioritize
+the next user-scoped substantive delivery check, not standalone documentation polish.
+Continuation now allocates the next bounded task to local-emulator core actions at
+true 200% desktop browser zoom; no repeated physical QA, cloud spending or source
+changes. Evidence pending; no accessibility or delivery gate closure inferred.
+Zoom report now inspected; reserve one bounded durable-recording pass with precise
+coverage/limits, not a QA rerun or UI rewrite. Offscreen publish status remains an
+explicit observation; screen-reader speech and final accessibility gates stay open.
+Durable zoom-record diff inspected; one final contract-vs-limits wording correction
+pending. Next checkpoint/review must cover the six-doc cut, not reuse df9706f
+certification. No additional runtime QA or cosmetic pass planned.
+Final wording correction inspected; bounded recording complete, not independently
+approved. Reserve next effort for authorized checkpoint/full evidence/focused review;
+no further documentation correction loop requested.
+Operational resume notes are outside the certified snapshot. No gate waiver, paid
+resource, cloud action or measured labor total added; final C/D remain open.
+
 ## Closure — November 22, 2026
 
 Explicit user closure: preserve branch/work in one local documentation WIP commit, no

@@ -11,6 +11,39 @@ DEFAULT_BRANCH=main
 BASE_SHA=538ed9f9a83b6bda18b8fb6e4bacfb712ded575f
 RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
+## Resume — November 23, 2026
+
+Phase 8 retained; final Gates C/D remain open. Master verified clean checkpoint
+`df9706f9b3b5f49fc3863f720d5e84e4cd1a3135` against existing full evidence
+finished `2026-11-23T01:48:35Z`: 16/16 exit 0, ok/clean/stable and matching review.sha.
+No repeated full suite or cloud QA. All required phase artifacts exist; fetch succeeded.
+Focused physical/contrast/closure docs review completed in replacement reviewer session
+`ses_df8e8e6caffeMclzaM1hR3sDsT`; original reviewer continuation was blocked by session
+ancestry. Immutable focused patch: `.git/opencode/review-docs-resume.patch`.
+Verdict APPROVED for `dc5a273..df9706f`, no blockers; B1/B2/B3 stay closed.
+Six nonblocking follow-ups are grouped under N6; final Gates C/D remain open.
+These operational resume edits are outside that clean checkpoint and need later
+authorized saving/verification; no current-tree gate claim. HANDOFF defines next step.
+Scope, deadline, free-tier limits and authorization boundaries remain unchanged.
+
+User requested continuation: bounded local-emulator true-200%-zoom core-action
+validation delegated to `ses_df8e1e675ffe2kNhCkYqTcz8VH`. Synthetic local mutations
+only; no hosted/cloud/model actions or source changes. Result pending, not a pass.
+Screen-reader speech remains unverified. HANDOFF records the exact receive/inspect step.
+
+Zoom report received and master-inspected, not replayed: bounded core-action evidence
+on desktop Chrome 157.0.8103.79 with true browser zoom. Publish status was offscreen;
+no WCAG/Q4 claim or code fix inferred. Same delegate is correcting state-count and
+storage-vs-transport wording, then recording evidence in verification/PUBLISH only.
+That desktop browser version does not resolve the missing physical-phone version.
+Durable verification §19/PUBLISH §5.3 edits now inspected. Final delegated wording
+adjustment separates contract obligations from limits and flags uncorrected
+outside-root REPORT.md claims. Six documentation paths are currently modified;
+no clean current-cut evidence or independent review yet.
+Final §19 wording inspected: contract-vs-limits and report-correction note present.
+Next is user-shell six-doc checkpoint, then full clean verification and focused
+review; no automated commit-policy retry or broader QA action.
+
 ## Closure — November 22, 2026 UTC
 
 **Session closed by explicit user request:** preserve branch/work in one local documentation WIP

@@ -15,6 +15,19 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ## November 20 fix-review reconciliation
 
+### November 23 replacement focused review
+
+Reviewer `ses_df8e8e6caffeMclzaM1hR3sDsT` APPROVED the focused
+`dc5a273..df9706f` physical/contrast/closure documentation cut, no blockers.
+B1/B2/B3 stay closed. Approval excludes subsequent operational resume notes;
+final C/D remain open. Group six follow-ups under existing **N6**, not new debt groups:
+conservative Q4/dated-checkpoint status supersession; mark superseded ledger notes
+resolved by dated decisions; retain the inaccessible reviewer step only as history;
+explicitly list the missing exact physical Chrome version as a partial browser record;
+incidental formatting; reduce duplicated contrast tables/long-row review friction.
+Batch with the next substantive documentation pass, preserving provenance and scope.
+No standalone polish cycle, quality waiver or repeated physical QA required.
+
 ### Docs-only review at `88eaa15`
 
 Re-review at `21d723f` closed B1/B2. New B3 unsupported expansion of “4/5”
