@@ -1,5 +1,14 @@
 # ShiftRelay — Three-slice implementation plan
 
+**Delivery clarification — November 20, 2026:** user requires a physical Android
+phone for release touch-workflow evidence; emulator-only results do not meet that
+hardware condition. Scope remains responsive web, not native Android/local-model
+support. Next bounded automated check records explicit contrast ratios (AC12).
+Later dated state in PUBLISH §5.2 / verification §17 supersedes the pre-deploy
+status snapshots below, including the old claim that hosted local inference is
+absent: an inspected delegate report exists, but hosted attested cloud/AC13 stays
+unverified. No earlier QA is repeated solely for these documentation corrections.
+
 Status: slice 1 manual workflow implemented locally (November 16, 2026), emulator-only; slice 2
 strictly-local drafting implemented with mocked failure branches plus one real Chrome 157
 download/ON_DEVICE request on localhost; slice 3 consented reconciliation contract, UI, pure tests,

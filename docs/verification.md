@@ -2424,10 +2424,13 @@ repeated, and needs only its own report at gate time.
 | Signed-out empty-submit native validation | one delegate run (browse extension) | `shiftrelay-native-validation-20261120.md`; DOM facts only, no spoken output |
 | Android emulator touch/IME/reflow and one read-only workspace | one delegate run | `shiftrelay-android-readonly-20261120.md`; x86_64 emulator, not physical hardware |
 | Narrator announcements of the three sign-in controls | **user observation** | recorded in HANDOFF; versions and configuration not recorded; no protected-password announcement reported |
+| Physical Android Chrome touch workflow | **user observation** on the user's own phone | HANDOFF record and §18.1; Android 16, Chrome reported as "latest" with the exact version unrecorded; no agent instrumentation, replay or capture |
+| Ordinary-text contrast ratios | outside-root harness; reports and self-check source inspected by master | `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` and `REPORT-cloud-mock-states.md`; algorithm self-check 13/13 per delegate; master inspected the reports and the self-check source, not the full collector, and did not rerun; no hosted sign-in, model call or cloud write; measured tree `dc5a273` |
 
-No report grants an App Check, hybrid/cloud or physical-device result, and none is a complete
-screen-reader result: the user-observed Narrator pass is partial naming evidence for the three
-sign-in controls only. No full-flow accessibility certification follows.
+No report grants an App Check, hybrid/cloud or automated physical-device measurement, and none is a
+complete screen-reader result: the user-observed Narrator pass is partial naming evidence for the
+three sign-in controls only, and the physical-phone walkthrough in §18.1 is bounded user-observed
+touch evidence. No full-flow accessibility or WCAG certification follows.
 
 ### 17.2 The eight groups, mapped
 
@@ -2438,7 +2441,7 @@ sign-in controls only. No full-flow accessibility certification follows.
 | 3 | Hosted reCAPTCHA attestation and Firestore App Check enforcement | AI Logic service-boundary enforcement for `firebaseml.googleapis.com`: valid 200, missing/garbage 401 (ADR 0007, §13.3); reviewed Ruleset deployed | ADR 0007, §13.3, §16 | Hosted attestation not established: 403 `PERMISSION_DENIED / App attestation failed` in three automated page instances followed by the one-day client throttle; the real-Chrome runs measured no exchange or lost the status. Firestore App Check enforcement is still not enabled |
 | 4 | In-app live cloud reconciliation plus reviewed Ruleset deployment | Deployed ruleset `137c406c…` equals the reviewed file; inspected delegate run read membership and completed publish → accept → resolve → reopen (v4, four activity entries) on the deployed origin; one real-Chrome synthetic sign-in succeeded without task writes | §16; HANDOFF hosted-QA and sign-in summaries | The suggestion/confirm cloud-reconciliation flow on the deployed origin still has only labelled-mock evidence; no hosted consented cloud packet, confirm or dismiss was observed; the workflow result is an inspected delegate report, not a replay |
 | 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report. The legacy v3 asset was reported at 0 MiB weights with install pending, so v3 provenance must be rechecked before future model claims; nothing v3 is relabelled Nano 4 |
-| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator observation; `shiftrelay-android-readonly-20261120.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming; the Android "touch workflow" was exercised only for sign-in/read-only, not the capture→share→accept→resolve/reopen actions AC12 names; the 200% manual check covers read-only states only; and no ordinary-text **contrast ratio** was recorded, so AC12's `>=4.5:1` recording stays open — the axe serious/critical scan is the only automated component and is not a ratio measurement or a WCAG verdict. Scope wording conflict recorded, unresolved and not waived: AC12 and Q4's target row are responsive-web framed (`docs/spec.md` line 9, "No device-local Android-browser claim"), while Q4's measured row (`CONSTRAINTS.md` line 33) lists physical Android touch evidence as still open, so physical device and TalkBack specifically are neither certified nor declared unnecessary. Not named by AC12/Q4, recorded as limits only: Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
+| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation; and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured; non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
 | 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
 | 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
 
@@ -2503,7 +2506,8 @@ and 7) now lag §16/§17 factually while the gate itself stays correct:
 - item 5 says a hosted local-model request is "still absent"; the inspected hosted run reports two
   `ONLY_ON_DEVICE` generations.
 - item 6 describes manual accessibility as only "automated axe …, keyboard and 320 px"; bounded
-  200% zoom/keyboard, submit-time native validation and emulator touch evidence now exist.
+  200% zoom/keyboard, submit-time native validation, emulator touch, a user-observed physical-phone
+  touch workflow and recorded contrast ratios now exist (§18).
 - item 7 says live Hosting deployment, public release and any further provisioning "remain outside
   this cut"; one Rules release and one Hosting release now exist (§16), so the deployment drift is
   real. What stays open under item 7 is the public/judge release decision, PR/merge, further
@@ -2513,3 +2517,112 @@ Proposed future change (not performed here; needs its own review and a fresh cle
 update only that prose to point at §16/§17 while keeping all eight items listed and the
 `gate_c_eligible` logic untouched. No item is removed, no group is completed and no gate is waived
 by this section.
+
+## 18. Physical Android touch workflow and ordinary-text contrast (November 20, 2026)
+
+Scope: documentation only. Two bodies of evidence arrived after §17 was written: a user-performed
+walkthrough on the user's own physical Android phone against the hosted QA origin, and ratio
+measurements from an outside-root contrast harness. This section records both, their bounds, and the
+remaining conditions; it changes no check, gate, test, constraint or product behavior and closes no
+delivery group.
+
+### 18.1 Physical Android Chrome touch workflow - user observation
+
+Environment: Android 16 physical phone; Chrome reported by the user as "latest", exact version
+unrecorded. Origin: the deployed QA site, `https://shiftrelay-hybridai-2026.web.app`. The user drove
+the phone: no agent instrumentation, no `adb`, no replay, no agent-captured screenshots, no
+network/console/HAR capture and no agent-side device or settings change. No account identifiers,
+credentials or private content are recorded here; only the explicitly synthetic task marker
+`PHONE QA — touch check` appears.
+
+| Step | User-reported result |
+|---|---|
+| Signed-out portrait, native keyboard open | Email, Password and Sign in reachable; no horizontal scrolling needed |
+| Signed-out landscape, native keyboard open | controls still reachable |
+| Empty submit with both fields empty | native required-field message shown; no sign-in |
+| Outgoing synthetic sign-in; manually typed draft `PHONE QA — touch check` with synthetic chair-check detail | typing, in-page scrolling and review-card layout reported working |
+| Review, then publication once | marked task appeared in the shared list; after scrolling back to draft/review the exact persistent status "Server confirmed 1 open task. The private note was cleared from this tab." was observed; no repeat publication |
+| Incoming synthetic sign-in; find the marked task; accept once | Accepted, with the user as owner |
+| Resolve with a clearly synthetic resolution note | Resolved, with the note displayed |
+| Reopen once | returns to **Accepted with the same owner** |
+| History and sign-out | both confirmed by the user |
+
+Reopen is correct behavior: `src/validation.ts:445-453` requires a resolved task and its current
+owner, transitions it to `accepted`, retains the owner and clears the current resolution, so the
+resolution and reopen reasons belong to the recorded history. An earlier master instruction predicted
+`Open`; that prediction was wrong and no product defect follows.
+
+Bounds: one task only; the draft was typed manually, so no AI capture/generation was exercised on the
+phone; no unrelated task mutation was reported (the shared list was visible, so reads are not
+claimed absent); no screen reader, no zoom measurement, no font-scale or high-contrast change, no
+exact timings, network statuses or App Check codes were recorded. What is user-observed is the touch
+workflow itself (create, share, accept, resolve, reopen) plus history and sign-out - not an automated
+measurement and not an accessibility certification.
+
+### 18.2 Ordinary-text contrast ratio measurement
+
+Provenance: outside-root harness `Temp/opencode/shiftrelay-contrast-20261120/` with reports
+`REPORT.md` and `REPORT-cloud-mock-states.md`; master inspected the reports and the self-check
+source, not the full collector implementation, and did not rerun the harness, so no independent
+algorithm verification is claimed. Engine Chromium 159.0.8154.6 via the repository's pinned
+`@playwright/test` 1.65.1, viewport 1280x900 CSS px, device scale 1, light scheme, synthetic data
+only. Measured tree `dc5a2734493ac78dff0c90668daf8b0496470d8d`; `src/` there is identical to deployed
+`00c2b2e` and `src/styles.css` blob `904815b1...` matches both, so the ratios apply to the deployed
+stylesheet. Hosted measurement was the signed-out page only; signed-in states were local emulator
+runs, and the pending/error/consent states came from the app's existing labelled
+`window.__shiftrelayTestCloud` test double ("TEST MOCK - not a real cloud request."). No real cloud or
+AI request, no hosted sign-in and no repository edit occurred.
+
+Method: computed styles only; ancestor backgrounds composited through opacity groups; WCAG 2.x
+relative-luminance ratio; **4.5:1 applied to all text**, including large and helper text; unknown
+colour syntax or gradient chains fail closed as unmeasurable, never assumed white. Inactive
+(`:disabled`) controls are listed in a separate bucket because WCAG 1.4.3 exempts inactive components.
+Algorithm self-check: 13/13, exit 0; the control fixture caught a real compositor defect (white text in
+an `opacity: 0.55` group first reported as 7.977:1, corrected to 2.733:1), and the 4.40-fails /
+4.60-passes / large-text-3:1-not-accepted controls behaved as intended.
+
+| Set | Rendered states | Active ordinary failures | Unmeasurable | Minimum active ordinary ratio |
+|---|---|---|---|---|
+| Hosted signed-out page (initial + primary-button hover) | 2 | 0 | 0 | 6.821:1 |
+| Local synthetic signed-in workflow and hover states | 17 | 0 | 0 | 4.608:1 |
+| Local labelled cloud-mock: consent, packet preview, in-flight, five error branches, mock result, local sign-in rejection | 12 | 0 | 0 | 6.821:1 (set minimum; 4.608:1 stays the overall minimum) |
+
+The tightest active ordinary text is the textarea placeholder at 4.608:1 (UA default
+`rgba(0,0,0,0.54)` over the white field), passing with 0.108 margin; no threshold or colour was
+changed. Newly measured tokens: `status-pending` 9.776:1, `status-error` 10.145:1, `status-info`
+15.653:1, exact `cloud-packet` preview 16.283:1, review-panel helper 7.262:1, footer/helper 6.821:1.
+
+Inactive bucket, recorded and not counted as passes: `button.button-quiet:disabled` and
+`button.button-secondary:disabled` at 3.206:1, and `button.button-primary:disabled` on the
+review-panel background at 2.766:1, all from `.button:disabled { opacity: 0.55 }`. These are exempt
+inactive components under SC 1.4.3; whether Q4's wording also covers inactive text remains a
+contract-wording decision for master, not decided here, and no CSS change was made.
+
+Not measured (no pass inferred). Contract-relevant under Q4/AC12, still required at 4.5:1:
+on-device-drafting pending/error and queue-item pending/error, the `phase === "loading"` status,
+cloud `status-confirmed`, and hosted-authenticated states. Scope limits only, not additional
+thresholds: non-text contrast (borders, icons, focus rings), 320 px and 200% zoom re-measurement,
+dark mode, Windows high contrast, other browsers and real assistive technology. The
+cloud-mock report's "no local model seam" claim is not accepted as proof that local-model transient
+states are unreachable: the repository already has local-draft E2E mocks, so a future bounded
+coverage attempt is possible. No product test hook was added for this.
+
+### 18.3 What this changes, and what it does not
+
+- §17.2 row 6 now records the physical-phone touch workflow as user-observed and the contrast ratios
+  as recorded, replacing the earlier "touch only sign-in/read-only" and "no ratio recorded" cells.
+- The physical-touch workflow portion of AC12/Q4 is therefore user-observed as completed for one
+  synthetic task on the required hardware; that is the whole of what is complete.
+- The hardware question is settled by the user's explicit decision (physical phone required;
+  `CONSTRAINTS.md` "Hardware clarification", `docs/PLAN.md` "Delivery clarification"). Emulator
+  results are supplementary, not acceptance.
+- Still open for group 6 and AC12/Q4: screen-reader announcements beyond the three named sign-in
+  controls (no status/alert/error speech); core actions at 200% zoom and in mutation states; and
+  ordinary-text contrast >=4.5:1 for the unmeasured core states above. Scope limits, not additional
+  thresholds: non-text contrast, other engines/viewports, dark mode/high contrast, 320 px and 200%
+  re-measurement, real AT.
+- No group is completed: hosted App Check attestation, the hosted consented cloud flow, AC13/Q6,
+  AC15, public/judge release, PR/merge and Gates C/D are untouched. In particular, no
+  hosted-authenticated contrast result and no WCAG verdict exists - the hosted signed-out and local
+  authenticated-mock measurements above stand as measured - and the earlier B1/B2/B3 review closure
+  remains tied to `dc5a273`; it is not a statement about this working tree.

@@ -12,6 +12,16 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Gate C update — November 19
 
+**Orderly closure confirmed:** stop work, preserve eight documentation edits in
+local WIP if policy permits, no push/merge/deploy/delete. Physical/contrast evidence
+retained with provenance/limits; next authorized resume starts from actual save/
+evidence state and focused review, not repeated QA. No allocation change, claimed
+labor total, paid resource or gate waiver.
+
+Closure save blocked by tool policy before staging/commit. Scan/diff passed before
+this failure record; no saved WIP/post-save verification. Stop automated attempts;
+user shell needed to make working-tree records durable. No gate/budget waiver.
+
 **Docs review checkpoint:** user-saved `88eaa15` has verified clean full 16/16
 evidence at `18:55:09Z`; older pending-commit prose is historical, not current
 gate input. Narrow docs review found B1/B2; budget one bounded correction and
@@ -25,6 +35,42 @@ confirmation, not another agent commit attempt. No blocking finding deferred as 
 Executed checkpoint: `21d723f`, full clean 16/16 at `19:24:38Z`; B1/B2 re-reviewed
 closed. One new B3 unsupported-count correction only; remaining notes stay N6.
 No additional model/QA/cloud spend, allocation change or gate waiver.
+
+Docs-fix closure: reviewer approved `dc5a273`, B1/B2/B3 closed; clean full 16/16
+finished `19:37:50Z`. End documentation-fix loop; batch later operational status with
+next substantive checkpoint. Prioritize remaining actual delivery evidence, no
+quality-floor waiver, automatic cloud action or invented labor total.
+
+User clarified physical Android phone is required: reserve release validation
+effort for actual device access, do not substitute emulator evidence. Scope remains
+responsive web; no new native build. Explicit AC12 contrast measurement running
+on safe states without hosted Auth/cloud calls. Allocation unchanged pending device
+availability; free-tier-only and no invented delivery-time estimate.
+
+Bounded contrast evidence obtained (hosted signed-out/local synthetic/mock only);
+no active-text failure in measured sets, inactive and unmeasured cases explicit.
+Physical USB preflight now read-only; no installs/settings/personal-data access.
+Do not expand measurement into broad UI rewrites or repeat tests without a concrete
+gap. Allocations unchanged; actual physical-workflow scope still needs approval.
+
+Physical preflight blocked on0 adb-visible devices; stop retries until user
+resolves connection/authorization. No device QA credit or extra spending.
+
+User switched to guided physical-phone testing due to non-data USB cable.
+Avoid driver/debugging troubleshooting or hardware purchase; retain actual
+user-observed evidence with clear coverage, no invented phone-workflow pass.
+
+Signed-out physical-phone observations obtained via user walkthrough; next requires
+synthetic-account access and scoped touch task actions, no repeated USB effort.
+
+User completed guided physical touch workflow with explicit one-task write approval.
+Record user-observed evidence and end USB/device retries; no new native development.
+Next bounded effort is durable evidence recording, then remaining real release
+conditions, not replay of successful phone actions. No paid resources/model calls.
+
+Physical/contrast documentation cut completed and inspected; checkpoint eight docs
+through user shell, full clean evidence then focused review. Batch records together
+instead of status-only commit loops; existing allocations/quality bar unchanged.
 
 **Reconciliation complete:** two delivery docs updated and master corrections inspected;
 eight groups remain open with evidence-specific limits. No added device/AT requirements,

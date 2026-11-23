@@ -13,6 +13,17 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Active resume — November 20, 2026 UTC
 
+**Session closed by explicit confirmation:** preserve branch/all work in local WIP
+if permitted; no push/merge/deploy/delete or further QA. Physical-phone/contrast
+evidence recorded, not yet independently reviewed at this documentation cut.
+Last clean report certifies `dc5a273`, not later edits. HANDOFF's newest closure
+section defines the exact save/recovery/resume steps; use actual Git/evidence
+metadata for closure SHA and verification result, no invented future certification.
+
+Closure save failed before staging/commit due to shell permission policy; master
+confirmed eight unstaged docs and unchanged `dc5a273` HEAD. Work preserved, no bypass
+or post-save verifier. User-shell save commands are at HANDOFF top; no WIP SHA exists.
+
 **Authoritative review update:** `88eaa15` was saved by user and certified clean,
 stable/complete full 16/16 at `2026-11-20T18:55:09Z`; historical statements below
 about dirty/uncommitted five docs predate that checkpoint. Subsequent docs fixes
@@ -24,11 +35,48 @@ evidence, then same-reviewer fix-only review. All eight
 delivery groups/final Gates C/D remain open. Physical Android wording conflict
 with measured Q4 must not be treated as waived or settled without clarification.
 
-Latest verified snapshot is `21d723f`, full 16/16 clean/stable/complete at
-`19:24:38Z`. Same reviewer closed B1/B2; new B3 is solely unsupported per-run
-suggestion counts. Minimal correction implemented/master-inspected, re-review pending;
-no new QA/cloud actions.
+Latest verified snapshot is `dc5a273`, full 16/16 clean/stable/complete at
+`19:37:50Z`. Same reviewer APPROVED docs fixes; B1/B2/B3 closed, no docs blockers.
+Next substantive delivery work: scope explicit contrast recording and resolve
+physical Android contract wording, not repeated docs polish. No automatic new
+Auth/model/task/cloud actions. Final Gates C/D remain open.
 Actual Git/evidence remains authoritative; later correction is not certified yet.
+
+User clarification: physical Android phone is REQUIRED for release touch-workflow
+evidence; emulator results remain partial, no hardware waiver. CONSTRAINTS/PLAN
+record the decision; no native Android or local-model support added. Contrast-ratio
+measurement delegated, hosted signed-out/local synthetic states only; no new cloud
+Auth/model actions. Real device availability/check scope remains pending.
+
+Contrast reports inspected: hosted signed-out min6.821:1, local synthetic active
+text min4.608:1; additional12 labelled-cloud-mock states had0 active failures.
+Disabled text2.766–3.206:1 listed separately; no Q4/WCAG closure, unmeasured states
+remain. User has USB phone; read-only sanitized connection/version preflight
+running, no personal data/settings/Auth/device workflow actions authorized yet.
+
+Physical preflight stopped: adb saw0 device rows, no versions queried or phone
+interaction. User connection/data-cable/debugging authorization step required
+before one requested rerun. Hardware release condition remains blocked.
+
+User reports charge-only/non-data USB cable and selected guided manual physical
+Android walkthrough instead. No adb retry/debugging setup; signed-out checks first.
+Physical touch workflow remains pending until actual user observations are recorded.
+
+User-reported physical Android16 signed-out checks: portrait and landscape controls
+reachable, portrait no horizontal scroll, empty-submit required feedback observed.
+Chrome exact version unknown (“latest”); no signed-in/task/AT/zoom claim follows.
+
+Subsequent guided user test completed physical Android16 synthetic touch workflow:
+outgoing manual draft/review/publish, located server confirmation, incoming accept
+with ownership, resolve note, reopen to Accepted/same owner, retained history and
+sign-out. Physical hardware condition met by USER OBSERVATION; no instrumented
+replay/AT/zoom/HTTP/attestation/AI claim. One marked test task retained, no other
+tasks changed. Durable verification/PUBLISH update delegated; final gates open.
+
+Delivery records now updated and master-inspected (verification §18, PUBLISH §5.2);
+corrections preserve exact user/delegate provenance and scope limits. Eight docs
+await authorized user-shell checkpoint/full evidence, then narrow docs review.
+No new QA/runtime behavior changes or final gate approval.
 
 **Delivery reconciliation completed:** verification§17/PUBLISH§5.2 now retain bounded
 QA evidence and exact remaining checks without inventing requirements or closing any

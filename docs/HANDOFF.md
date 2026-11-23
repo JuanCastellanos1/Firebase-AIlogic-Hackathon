@@ -1,39 +1,268 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
-## Current review disposition — November 20, 2026
+## SESSION CLOSED — November 20, 2026, physical-phone and contrast checkpoint
 
-User saved `21d723f1246d2049f155280062807c360165bfd7`. Master verified full
-16/16 clean, stable, complete evidence finished `2026-11-20T19:24:38Z` for that SHA
-and refreshed review metadata. That is a historical verified checkpoint, not a
-claim that subsequent edits are committed or certified. Resolve current state
-from Git/evidence metadata; do not repeat the older commit/QA instructions below.
+**Final save result — BLOCKED by tool policy:** closure delegate
+`ses_e0503031fffeJyKbH4XxOrE91w` received `permission.rejected` before the combined
+`git add -A` / WIP commit call executed. No staging or commit occurred, no retry/
+bypass. Master independently confirmed unchanged branch/HEAD `dc5a273`, exactly
+eight unstaged modified docs, empty index. Work remains intact but uncommitted.
+Pre-save pinned Gitleaks scan passed (116 files, no leaks, exit0), diff check
+passed. This later failure-record edit is outside that scan. No post-save verifier
+ran; no new certification/review metadata. User must run the save commands below
+in an authorized shell; do not reset/checkout/clean or delete the branch/work.
 
-Docs-only Qwen re-review `ses_e05adecacffedFxL4nT3ixC2ex` closed B1/B2.
-DO_NOT_APPROVE remains solely for B3: unsupported expansion of “4/5 suggestions”
-into separate “four and five” per-run counts in PUBLISH §12.
-Final Gates C/D remain open, eight delivery groups retained.
+User explicitly confirmed orderly closure: stop work, preserve branch/all changes,
+save local WIP if permitted, no push/merge/deploy/deletion. Caveman is off.
+All delegated QA/documentation tasks have completed; no continued development or
+cloud action is authorized by this closure. Owned browser/emulator resources were
+closed per inspected task reports; the physical phone was user-controlled and the
+user confirmed sign-out. No branch or work is to be removed.
 
-**Fix status:** bounded delegate `ses_e058f7ebdffeSq7deUptQbsznQ` corrected
-only that unsupported count and adjacent provenance attribution in PUBLISH;
-master inspected exact diff and reran diff check (passed). B3 awaits re-review.
-No model rerun/raw incident retrieval authorized. Other new review notes remain N6.
-**Next exact step:** inspect minimal correction, then user saves intended docs:
+### Phase / gates / artifacts
+
+- Phase 8 delivery validation. Framing/build and deployed QA source `00c2b2e`
+  retained; final Gates C/D remain OPEN, all eight static delivery groups retained.
+- Docs-only B1/B2/B3 approved by same Qwen reviewer at `dc5a273`; that approval
+  does not cover the later physical/contrast documentation cut.
+- Eight modified documentation paths at closure: CONSTRAINTS, DEBT, HANDOFF,
+  PLAN, PUBLISH, _project, _presupuesto and verification. No production code changed.
+  Delivery evidence: `docs/verification.md` §18, `docs/PUBLISH.md` §5.2;
+  user hardware decision: CONSTRAINTS/PLAN. Existing contract/ADRs remain in place.
+- Branch `feat/hackathon-ideation`, pre-save HEAD
+  `dc5a2734493ac78dff0c90668daf8b0496470d8d`. Resolve actual closure WIP SHA with
+  `git log -1 --format="%H %s"`; no future SHA is asserted here.
+- Last completed full verifier certified clean `dc5a273`, 16/16, stable/complete,
+  finished `2026-11-20T19:37:50Z`, `gate_c_eligible=false`. It does NOT certify
+  these later edits. Inspect actual post-save report if produced; no gate waiver.
+
+### Decisions / bounded outcomes
+
+- Physical Android phone explicitly required by user; responsive web remains scope,
+  no native app or Android local-model claim. User-guided Android16 touch workflow
+  completed on one marked synthetic task: manual draft/review/publish once, server
+  confirmation found after scrolling, incoming accept/resolve/reopen/history/logout.
+  Reopen correctly retains owner and returns Accepted; master's earlier Open prediction
+  was wrong. Exact Chrome version unknown (“latest”); no instrumented replay/AT claim.
+- Contrast reports inspected: hosted signed-out minimum6.821:1; local synthetic
+  workflow minimum4.608:1; additional labelled-cloud-mock pending/error/consent states
+  measured. No active failures in measured sets; inactive2.766/3.206:1 explicitly
+  separate, no general Q4/WCAG pass. No real cloud/AI/hosted Auth by contrast harness.
+- Safe-capture guard proof retained outside-root; only allowlisted in-process
+  metadata projection may precede authenticated traffic output. Never retrieve raw
+  incident logs or expose credentials. Earlier containment caveats remain in history.
+- No deploy/push/merge, model calls or unrelated task writes in this last evidence cut.
+  The one physical-phone synthetic task remains as approved test data.
+
+### Open conditions / next exact step on explicit resume
+
+1. First inspect actual Git state and closure-save result. Agent commits were
+   previously denied by policy; no workaround/retry without permission change.
+   If WIP failed, user must save preserved work in an authorized shell.
+2. After a saved clean WIP, regenerate full evidence if absent/stale; refresh raw
+   review SHA/patch and focused `dc5a273..HEAD` documentation patch. Ask existing
+   reviewer `ses_e05adecacffedFxL4nT3ixC2ex` to review only the physical/contrast cut.
+   Do not reopen already-closed B1/B2/B3 or treat docs approval as final C/D.
+3. Remaining substantive gaps: actual reader status/error speech, core-action zoom
+   coverage, unmeasured core contrast states, hosted attested/consented cloud proof,
+   Firestore public-release enforcement, AC15, judge/demo/public-release conditions.
+   No new Auth/task/model/cloud actions automatically follow from resumption.
+4. Keep exact-model provenance and “4/5 suggestions” ambiguity intact; no per-run
+   suggestion counts inferred, no raw incident-adjacent report retrieval.
 
 ```powershell
-git diff --check
-git add -- docs/HANDOFF.md docs/_project.md docs/_presupuesto.md docs/DEBT.md docs/PUBLISH.md
-git commit -m "docs: preserve recorded suggestion counts"
+git status --short
+git branch --show-current
+git log -1 --format="%H %s"
+# If closure saving failed: user-authorized shell only
+git add -A
+git commit -m "chore: wip physical-android-contrast"
+# After successful save, allow 900 seconds; report certifies only its actual SHA:
 py -3 scripts/verificar.py --report .git/opencode/evidence.json
 git status --short
 ```
 
-After clean SHA-matched success, regenerate review metadata plus fix-only diff
-`21d723f..HEAD` and ask the same reviewer `ses_e05adecacffedFxL4nT3ixC2ex`
-to confirm B3. B1/B2 stay closed; do not mark B3 closed before re-review.
+Suggested skills on resume: handoff, verification-before-completion;
+code-review-and-quality for the focused reviewer, accessibility for remaining AT/zoom.
+All sections below are retained dated history, superseded by this closure.
+
+## Current review disposition — November 20, 2026
+
+User saved `dc5a2734493ac78dff0c90668daf8b0496470d8d`. Master verified full
+16/16 clean, stable, complete evidence finished `2026-11-20T19:37:50Z` for that SHA
+and refreshed review metadata. That is a historical verified checkpoint, not a
+claim that subsequent edits are committed or certified. Resolve current state
+from Git/evidence metadata; do not repeat the older commit/QA instructions below.
+
+Docs-only Qwen re-review `ses_e05adecacffedFxL4nT3ixC2ex` APPROVED
+the fix diff at `dc5a273`; B1/B2/B3 are CLOSED, no remaining docs blockers.
+Final Gates C/D remain open, eight delivery groups retained.
+
+**Next exact step:** receive contrast delegate `ses_e056452b2ffe1wfwDhfkAhXZKG`
+without polling, inspect explicit AC12 ratio measurement/algorithm/coverage and
+route actual failures to a bounded fix. Report/harness under
+`Temp/opencode/shiftrelay-contrast-20261120/`; no hosted sign-in/model/cloud writes.
+User resolved hardware scope: **physical Android phone required** for release.
+Emulator evidence is partial, not hardware acceptance; CONSTRAINTS/PLAN updated.
+Device availability and separately scoped physical-phone workflow remain pending.
+
+**Contrast results inspected:** outside-root `shiftrelay-contrast-20261120/REPORT.md`
+and `REPORT-cloud-mock-states.md`: algorithm selfcheck 13/13 per delegate; hosted
+signed-out minimum 6.821:1; 17 local synthetic workflow/hover states minimum
+ordinary text 4.608:1; 12 additional local labelled-cloud-mock/pending/error/consent
+states, active-text failures 0, unmeasurable 0 in those measured sets. Pending
+9.776:1, error 10.145:1, packet preview 16.283:1. Master inspected reports/selfcheck
+source, did not independently replay. No actual cloud/model or hosted Auth action.
+Inactive control labels measured 3.206:1 and 2.766:1, listed separately under
+SC1.4.3's inactive-component exception, not ordinary-text passes or silent omissions.
+No overall Q4/WCAG closure: other transient/local-model/queue states unmeasured,
+hosted authenticated states/non-text contrast/other engines/viewports unmeasured.
+Report's “no local model seam” statement is not accepted as proof of impossibility:
+existing local-draft E2E mocks may permit future bounded coverage. Do not add product
+test hooks or repeat whole suites just to force a contrast claim.
+
+**Active next task:** user confirmed USB physical phone availability. Read-only
+preflight delegated to `ses_e05223f53ffe4WBQtN5wwUoRrd`, report pending at
+`Temp/opencode/shiftrelay-physical-android-preflight-20261120.md`. Counts/state and
+Android/Chrome versions only, identifiers filtered in-process. No personal data,
+tabs, installs, debugging/settings changes, Auth, forward/reverse or task actions.
+Receive result without polling; if unauthorized/unavailable, ask user to resolve
+connection themselves. Full physical workflow needs separate explicit scope.
+
+**Physical preflight STOP:** delegate report received: adb exited0/header present,
+zero device rows (physical/emulator/authorized/unauthorized/offline all0).
+Android/Chrome facts not queried; no device interacted with. Missing connection,
+data cable, driver/debugging or authorization state cannot be distinguished.
+Zero rows does not prove no RSA prompt exists on the phone. Next exact step:
+user connects/unlocks phone, verifies data-capable cable and USB debugging themselves,
+accepts any trusted-computer prompt only if they choose, then requests one read-only
+preflight rerun. No automatic retry or device workflow authorized by this stop.
+
+**User changed physical test route:** USB cable is not data-capable; use a guided
+manual walkthrough on the user's physical Android phone, no adb retry/debugging
+setup needed. Start signed-out portrait at hosted QA URL; collect Android/Chrome
+versions (no identifiers), reflow and native keyboard visibility observations.
+Do not request credentials in chat or infer signed-in/task-workflow results.
+Any synthetic-account access and mutation-inclusive steps must be scoped before
+proceeding. User observations are evidence only for what they actually report.
+
+**Physical-phone observation (user-reported):** Android16, Chrome described as
+“latest” (exact version unverified); signed-out portrait, native keyboard open:
+user can reach Email/Password/Sign in, no horizontal scroll reported. No clipping
+answer separately established; no landscape, authenticated, AT or task-action
+pass inferred. Next guided step: landscape keyboard reachability and empty-submit
+native validation; no credentials or Auth submission.
+
+**Physical-phone follow-up (user-reported):** user confirmed landscape controls
+remain reachable and empty Sign in shows required-field feedback; “Everything
+looks fine.” Treat as bounded signed-out portrait/landscape/native-validation
+observations, not automated measurement/full accessibility certification.
+No account sign-in/task publication/ownership transitions tested on physical phone
+yet. Next: confirm access to existing synthetic QA accounts and explicitly scope
+one synthetic physical touch workflow; never request credential values in chat.
+
+**Account-access blocker:** user has no synthetic QA account access, so physical
+signed-in workflow is paused before Auth/task writes. Safe next route: user
+privately opens the existing rotated outside-root config on their own computer
+(`Temp/opencode/shiftrelay-private/firebase-development.env`) and checks whether
+the outgoing/incoming synthetic QA entries are available. Agents must not print,
+read back or transmit its contents. Do not expose credentials through chat,
+screenshots, QR codes, logs or new files. If entries cannot be identified, stop
+and scope a private access method; no new accounts/reset/cloud action implied.
+
+**User regained private QA access:** user identified both existing synthetic
+accounts locally. Guided physical-phone outgoing sign-in, manual draft
+`PHONE QA — touch check` / synthetic chair-check detail, and Review cards;
+user reports “everything works” for typing/scrolling/review layout. No credentials
+shared, no AI invoked, no publication/ownership transition reported yet.
+Before publishing, obtain explicit approval for one marked synthetic task and
+incoming accept/resolve/reopen, leaving unrelated tasks untouched.
+
+**Explicit synthetic-write approval:** user approved publication of that one marked
+physical-phone task, then incoming accept/resolve/reopen on the same task only.
+No deletion, unrelated task edits, AI/cloud inference or settings changes.
+Next guided step: publish reviewed card once, wait for confirmed shared state;
+if uncertain/error, stop without retry. Publication outcome not yet reported.
+
+**Physical publish observation:** user tapped publication once; marked test task
+appeared in shared list, but user reports no success message. Do not republish or
+mark status feedback passed. Source expects persistent draft status “Server
+confirmed 1 open task…” near draft/review area (`PrivateDraft.tsx` share/status).
+Next user check: scroll back to draft/review, look for that status and whether draft
+fields cleared. No extra write/refresh/retry required; if absent, record bounded UX
+issue for debugger instead of inferring cause. Ownership transitions not yet tested.
+
+**Confirmation located:** after scrolling to draft/review, user observed exact
+“Server confirmed 1 open task. The private note was cleared from this tab.”
+Earlier no-message report was viewport visibility, not established missing-status
+defect. Publication/status text confirmed by user; no repeat publication.
+Next: outgoing sign-out, incoming synthetic sign-in privately, find marked task
+and accept once. No other task actions or AI controls.
+
+**Physical acceptance observed:** user signed into incoming role, accepted the
+marked task once; reports Accepted and self as owner. No account identifier
+recorded. Next guided step: resolve only same task with clearly synthetic resolution
+text, then inspect Resolved/recorded note before reopen. No resolution yet reported.
+
+**Physical resolution observed:** user reports marked task Resolved and the
+synthetic resolution note displayed. Next: Reopen only that task once; inspect Open
+and history sequence, then sign out. Reopen/history/logout not yet observed.
+
+**Physical reopen observed / master instruction corrected:** user reports reopening
+returns task to Accepted with same owner. This is CORRECT: `src/validation.ts:445-453`
+requires resolved/current owner, transitions to accepted, retains owner and clears
+current resolution. Master's prior instruction predicting Open was wrong; no
+product bug or scope change. Next inspect recorded history for create/accept/resolve/
+reopen (resolution/reopen reason retained there), then sign out. Do not accept again,
+release owner or mutate another task. History and logout still pending.
+
+**Physical walkthrough complete (user-observed):** user confirms history and sign-out
+worked after the preceding explicit instructions. Record publication→accept→resolve→
+reopen (Accepted/same owner), history retained, return to sign-in on physical Android16.
+Exact Chrome version unknown, described as latest. No agent instrumentation/replay,
+AT/zoom/HTTP status/model/attestation evidence. One marked synthetic task remains,
+no deletion or unrelated task change authorized. The physical touch-workflow gap is
+met at user-observed provenance, not whole Q4/accessibility/release completion.
+
+**Evidence-record cut complete:** delegate `ses_e050db233ffeGZYf9K1pZDwUIM`
+recorded bounded physical/contrast results in verification §18 / PUBLISH §5.2.
+Master inspected full diff; factual wording corrected (hosted signed-out contrast
+preserved, no unsupported absent-reads claim, only reports/selfcheck source inspected).
+Diff check passed; no collector replay/product change or extra threshold.
+Master owns other modified docs. Hardware wording
+conflict resolved by user's physical-phone requirement, now exercised; do not
+keep current-status claims saying no physical run. Remaining substantive checks
+include actual reader error/status speech, zoom coverage of core action states,
+hosted attested/consented cloud proof, AC15 and final judge/demo/public-release
+conditions. No automatic additional Auth/task/model/cloud action.
+
+**Next exact checkpoint step:** eight documentation paths are modified since
+reviewed `dc5a273`. User commits in an authorized shell (agent policy still denies
+commits), then full verifier; no immediate rework of historical status snapshots.
+
+```powershell
+git diff --check
+git add -- CONSTRAINTS.md docs/DEBT.md docs/HANDOFF.md docs/PLAN.md docs/PUBLISH.md docs/_project.md docs/_presupuesto.md docs/verification.md
+git commit -m "docs: record physical Android and contrast evidence"
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+git status --short
+```
+
+After clean SHA-matched full evidence, refresh raw review bundle and ask existing
+reviewer `ses_e05adecacffedFxL4nT3ixC2ex` to review only `dc5a273..HEAD`.
+Do not reopen prior B1/B2/B3 or grant final C/D approval from docs acceptance.
+Record actual ratio/hardware coverage, no model reruns/Auth/deploy. Last clean
+report still certifies `dc5a273` only; these later docs are not yet certified.
+Actual reader status/error speech, full Android touch task workflow, hosted
+consented cloud/attestation, AC15 and judge/demo/public-release conditions remain.
+No new sign-in, task mutations, model call or deployment automatically authorized.
+Batch these later operational records with the next real work checkpoint;
+do not require an immediate commit solely to keep status prose current.
+At any future gate, require full clean SHA-matched evidence for the then-current
+commit and preserve the review approval's exact scope/SHA.
 No automated commit retry: policy previously denied commits.
 No push/merge/deploy, browser/Auth/cloud checks or contract weakening authorized.
-CONSTRAINTS measured Q4 says physical Android touch pending while approved scope
-is responsive web; record that wording conflict until resolved, never silently waive.
+Responsive web scope is unchanged; no native Android/on-device Android AI claim.
 
 All lower sections are dated operational history. Suggested skills:
 verification-before-completion, code-review-and-quality, handoff.

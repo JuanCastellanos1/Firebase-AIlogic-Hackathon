@@ -23,6 +23,13 @@ Rules, runtime boundary validation, error handling that prevents data loss, and 
 
 ## Measured results
 
+**Hardware clarification — November 20, 2026 (user decision):** a physical Android
+phone is required for release touch-workflow evidence. The existing Android OS
+emulator results remain useful but do not satisfy that hardware condition.
+Responsive Android web remains the product scope; no native app or on-device
+Android AI claim is introduced. Full touch-workflow and accessibility obligations
+remain unchanged; no threshold is waived.
+
 Gate A passed with real rendered diagrams. At committed checkpoint6cbfded72d2b027b8e17845ca92b4af72d629c47 master regenerated evidence after commit:ok=true,dirty=false,SHA matches,14 implemented checks pass. Automated totals:91unit tests (including17AI-output and20reconciliation tests),31Rules emulator tests,20E2E tests,37tool tests; targetedAI/reconciliation commands rerun subsets, not additional unique tests. Typecheck/lint/build,realGitleaks source+dist scan,production dependency audit and2diagrams passed. No threshold above was lowered or waived.
 
 | Contract | Current evidence and remaining limit |

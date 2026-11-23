@@ -19,6 +19,9 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 Re-review at `21d723f` closed B1/B2. New B3 unsupported expansion of “4/5”
 suggestions into separate run counts is a blocker, not deferred debt.
+Same reviewer subsequently APPROVED `dc5a273`: B1/B2/B3 all closed.
+Provenance attribution and duplicate-current-heading notes are fixed; remaining
+N6 notes below stay deferred with the existing trigger, not new blockers.
 New nonblocking notes remain **N6**: PLAN hosted-local status correction,
 executed-next-step snapshots, historical dirty-tree tense, inherited-vs-measured
 model provenance, TalkBack/physical-hardware scope distinction, explicit emulator

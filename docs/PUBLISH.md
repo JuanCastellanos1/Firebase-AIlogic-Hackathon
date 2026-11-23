@@ -28,14 +28,18 @@ storage, disposable; it holds no API key, site key, token, password or reserved 
 HTTP surface was observed: browser Auth, console/CSP, reCAPTCHA token exchange, model calls and app
 flows have no result yet, and no recovery was executed.
 
-**Dated correction — November 20, 2026 (bounded hosted QA reconciled).** Four bounded delegated runs
+**Dated correction - November 20, 2026 (bounded hosted QA reconciled).** Four bounded delegated runs
 now cover hosted manual ownership, hosted local drafting, desktop zoom/keyboard and Android emulator
 touch; §5.2 records exactly what each produced and what it did not, and §13/§14 were corrected
 accordingly. They close no delivery group: the eight static verifier items remain open
 (`gate_c_eligible=false`), and no complete screen-reader result, hosted-attestation result or AC15
-result exists; no physical-device run was made, which is a recorded limit, and the contract wording on
-physical hardware is unresolved rather than waived (§13). The full per-group mapping, provenance and
-remaining blockers are in `docs/verification.md` §17.
+result exists. **Later on November 20, 2026** the user performed the touch workflow on their own
+physical Android 16 phone (user observation, no agent instrumentation; §5.2) and an outside-root
+harness recorded ordinary-text contrast ratios for 31 states. Physical hardware is required by
+explicit user decision - `CONSTRAINTS.md` "Hardware clarification", `docs/PLAN.md` "Delivery
+clarification" - so that earlier scope-wording question is resolved, not waived (§13). No group is
+closed. The full per-group mapping, provenance and remaining blockers are in
+`docs/verification.md` §17 and §18.
 
 Status legend: **verified** = an existing report or file says so, cited inline; **planned** = a
 documented command or checklist not yet run; **blocked** = needs a decision, a review or hardware.
@@ -76,7 +80,7 @@ commit certifies only that commit once it exists, and none is claimed here.
 | Firestore Rules + indexes release | **verified** November 20, 2026, `03:51:56Z` | release `projects/shiftrelay-hybridai-2026/releases/cloud.firestore`; ruleset `137c406c-59b1-4081-96e3-4d810f358663` (19354 bytes, LF-normalized `0b877ada…` = reviewed content) |
 | Hosting release | **verified** November 20, 2026, `03:52:33Z`, 5 files byte-identical to the sealed stage | release `sites/shiftrelay-hybridai-2026/releases/1795146753235000`, version `sites/shiftrelay-hybridai-2026/versions/38fe83ad84b89cf9`, `FINALIZED` |
 | Hosted HTTP surface | **verified HTTP only** (status, headers, `init.json`, asset bytes); browser Auth/CSP/reCAPTCHA/model/flows not observed in §5.1 | §5.1; browser-dependent checks stay *planned* there and are only partly covered by §5.2 |
-| Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator) | **partial**: each run limited to the states it names; inspected delegate reports, not master replays; no delivery group closed | §5.2; `docs/verification.md` §17 |
+| Bounded hosted QA runs (manual ownership, hosted local model, desktop zoom/keyboard, Android emulator, physical-phone user walkthrough) | **partial**: each run limited to the states it names; delegate reports inspected, not master replays; the physical-phone walkthrough is user-observed; no delivery group closed | §5.2; `docs/verification.md` §17, §18 |
 | GitHub Actions | verified once, **not for the WIP commit**: run `44222898293` succeeded for `b0910d32f7cd6403ccb59419613eadfa0fe40c83` (REST metadata re-read November 19, 2026). The workflow is tracked; the earlier "never run / untracked" entry described the pre-commit WIP state | `.github/workflows/verification.yml`; the run predates `dbd217c` and these review fixes |
 | `scripts/verificar.py` gate | `GATE_C: NOT ELIGIBLE` | single reason at the clean snapshot `88eaa15`: `8 scope items unimplemented`; `dirty working tree` is no longer listed (`.git/opencode/evidence.json`: `gate_c_eligible=false`, `gate_c_reasons`) |
 
@@ -296,9 +300,11 @@ storage, disposable; it contains no key, site key, token, password or raw reserv
 
 ### 5.2 Bounded hosted QA reconciled (November 20, 2026)
 
-Four bounded runs against the deployed origin now exist. Every one is a sanitized delegate report
+Four bounded delegate runs against the deployed origin now exist, plus one user-performed
+physical-phone walkthrough of the same origin. Every delegate run is a sanitized report
 inspected by master, **not** an independent master replay, and each is limited to the states it
-names. The eight-group mapping, provenance table and remaining blockers live in
+names. The user-driven walkthrough is evidence only for what the user actually reported. The
+eight-group mapping, provenance table and remaining blockers live in
 `docs/verification.md` §17; this subsection records only what reached the hosted origin.
 
 | Run | What it produced | What it did not |
@@ -306,7 +312,8 @@ names. The eight-group mapping, provenance table and remaining blockers live in
 | Hosted manual QA (delegate report) | both roles signed in and read membership; five reviewed cards published with v1 creation activity; incoming accept/resolve/reopen persisted at v4 with four activity entries; sentinel absent across 28 observed outbound requests and inspected storage | no inference; no cloud-reconciliation confirm/dismiss on the hosted origin |
 | Hosted local model (delegate report) | two genuine `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request | no hosted reCAPTCHA-attested cloud request; AC13/Q6 still open; legacy v3 reported 0 MiB weights with install pending, so provenance must be rechecked before future model claims |
 | Desktop 200% zoom / keyboard (delegate report) | real Chrome 157.0.8103.79, five real `Ctrl+=` presses to true 200% (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow, clipping or overlapping interactive boxes; keyboard order and visible focus on signed-out and read-only signed-in states | no screen-reader output; no mutation-state accessibility; no WCAG certification; no network/console capture |
-| Android emulator (delegate report) | Android 17/SDK 37 x86_64 AVD, Chrome 149.0.7827.5: native touch raised the real IME, focused fields stayed visible, no measured horizontal overflow at 411×834 or 914×331, 15 named controls in the initial workspace, one synthetic sign-in and sign-out | no task mutation or touch workflow; no traffic observation; no physical-device or TalkBack run (recorded limits; the physical-hardware scope wording is unresolved — see §13) |
+| Android emulator (delegate report) | Android 17/SDK 37 x86_64 AVD, Chrome 149.0.7827.5: native touch raised the real IME, focused fields stayed visible, no measured horizontal overflow at 411×834 or 914×331, 15 named controls in the initial workspace, one synthetic sign-in and sign-out | no task mutation or touch workflow; no traffic observation; no physical-device or TalkBack run (supplementary only; physical hardware is now the required condition - see §13) |
+| Physical Android phone (user report) | Android 16, Chrome reported as "latest" with the exact version unrecorded: portrait/landscape reachability with the native keyboard, portrait no horizontal scrolling, empty-submit native required message; one synthetic sign-in per role; manually typed draft, review and one publication followed by the exact persistent status "Server confirmed 1 open task. The private note was cleared from this tab."; accept with the user as owner, resolve with a synthetic note, reopen returning Accepted with the same owner; history and sign-out | no agent instrumentation or replay, no agent-captured screenshot or traffic capture, no AI call, no second task mutated, no screen-reader, zoom, timing, network or App Check measurement; no delivery group closed (`docs/verification.md` §18.1) |
 
 Signed-out empty-submit native validation was also observed in the real browser (0 `submit` events,
 two click-caused `invalid` events, Chrome's native message, focus moved to Email): it establishes
@@ -314,7 +321,19 @@ submit blocking, not screen-reader speech. Narrator evidence remains a user obse
 sign-in controls' names, roles and required state; protected-password speech and any error/status
 announcement are unobserved.
 
-Status: this evidence reduces unknowns without closing any delivery group. Every browser-dependent
+Ordinary-text contrast ratios were recorded outside these hosted runs by an outside-root harness:
+algorithm self-check 13/13; hosted signed-out minimum 6.821:1; 17 local synthetic signed-in/hover
+states with 4.608:1 minimum; 12 local labelled cloud-mock states (pending 9.776:1, error 10.145:1,
+packet preview 16.283:1) - 31 states, **0 active ordinary failures, 0 unmeasurable** in the measured
+sets. Disabled controls at 3.206:1 and 2.766:1 are listed separately as SC 1.4.3 inactive components,
+not counted as passes; no CSS or threshold changed. Unmeasured: transient/local-model/queue and
+hosted-authenticated states at the required 4.5:1. Scope limits, not extra thresholds: non-text
+contrast, other engines and viewports, dark mode/high contrast, 320 px/200% re-measurement. No
+overall Q4 closure and no WCAG verdict (`docs/verification.md` §18.2).
+
+Status: this evidence reduces unknowns without closing any delivery group. The touch workflow AC12
+names is now user-observed on the required physical phone, but screen-reader announcements, 200%
+zoom/keyboard on mutation states and the unmeasured contrast states remain open. Every browser-dependent
 bullet in §5 remains open except where the rows above give bounded coverage; none is fully closed,
 the hosted App Check exchange remains unresolved, `SCOPE.unimplemented` still names all eight items,
 and Gates C/D stay unapproved.
@@ -448,14 +467,18 @@ unavailable state and the manual path. If time is short, cut in this order: the 
 second resolution, then the diagram card — keep the private note → local draft → approved share →
 accept/resolve spine. Each cut only shortens the video; it must not relabel unverified capability.
 
-**Dated correction — November 20, 2026.** The "still absent" list in the paragraph above has moved
+**Dated correction - November 20, 2026.** The "still absent" list in the paragraph above has moved
 for the hosted HTTPS `ONLY_ON_DEVICE`, Android Chrome touch and 200% zoom/keyboard entries, and has
 not moved for screen-reader speech or AC15: a hosted HTTPS `ONLY_ON_DEVICE` generation now exists as
 an inspected delegate report (two generations, §5.2), Android Chrome touch exists on an x86_64
-**emulator** only, and 200% zoom plus keyboard/focus were measured on desktop Chrome in read-only
-states. Still absent are screen-reader speech beyond the user-observed sign-in control naming and
-AC15 validation; no hosted reCAPTCHA-attested cloud request exists. A shot of these runs may be
-described as bounded evidence, never as physical-device, WCAG or hybrid/cloud proof.
+**emulator** and - later the same day - as a **user-observed walkthrough on the user's own physical
+Android 16 phone** (no agent instrumentation, no screenshot or recording; §5.2,
+`docs/verification.md` §18.1), and 200% zoom plus keyboard/focus were measured on desktop Chrome in
+read-only states. Still absent are screen-reader speech beyond the user-observed sign-in control
+naming and AC15 validation; no hosted reCAPTCHA-attested cloud request exists. Ordinary-text contrast
+ratios now exist for 31 measured states (§5.2, `docs/verification.md` §18.2). Any shot of these runs
+may be described as bounded evidence, never as WCAG or hybrid/cloud proof, and no physical-phone
+footage exists.
 
 ## 11. Submission draft (English, ~180 words)
 
@@ -526,26 +549,40 @@ use submitted content and generated responses to improve its products, and human
 them, so only synthetic data may ever reach the cloud model
 (`https://ai.google.dev/gemini-api/terms#unpaid-services`).
 
-**Dated correction — November 20, 2026.** The **hosted on-device request**, **200% zoom/keyboard** and
-**real Android Chrome touch** entries in the list above now have bounded evidence and must still not be
-overstated: 200% zoom and keyboard/focus were measured on desktop Chrome in signed-out and read-only
-signed-in states only, and native Android Chrome touch was measured on an x86_64 emulator only.
-The scope wording does not settle physical hardware, so the conflict is recorded as **unresolved and
-not waived**: `docs/spec.md` line 9 declares Android delivery as responsive web with "No device-local
-Android-browser claim", while AC12 (the acceptance-criteria table) still requires a manual "actual
-Android Chrome touch workflow", screen-reader announcements, 200% zoom and a recorded ordinary-text
-contrast `>=4.5:1`; `CONSTRAINTS.md` Q4's target row is responsive-web framed, but its measured row
-(line 33) says physical Android touch evidence remains open. No physical-device result is claimed and
-no pass is inferred in either direction. TalkBack specifically, Android font-scale/high-contrast and
+**Dated correction - November 20, 2026 (updated after the physical-phone and contrast evidence).**
+The **hosted on-device request**, **200% zoom/keyboard**, **real Android Chrome touch** and
+**ordinary-text contrast** entries above now have bounded evidence and must still not be overstated:
+200% zoom and keyboard/focus were measured on desktop Chrome in signed-out and read-only signed-in
+states only; the Android touch workflow was performed by the user on their own physical Android 16
+phone (Chrome reported as "latest", exact version unrecorded) against the hosted origin, with
+portrait/landscape reachability, no portrait horizontal scrolling, the empty-submit native required
+message, one synthetic sign-in per role, a manually typed draft, one publication with the confirmed
+open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and
+sign-out. No agent instrumented, replayed or captured the phone. Emulator results stay supplementary.
+
+The hardware question is **resolved by explicit user decision**, recorded in `CONSTRAINTS.md`
+("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"): a physical Android phone is
+required for release touch-workflow evidence and emulator-only results do not satisfy it. The earlier
+"unresolved scope wording" note (responsive-web framing in `docs/spec.md` line 9 versus AC12's manual
+physical-device checklist) is superseded as a scope question; what remains open is unmeasured
+content, not whether hardware is required. TalkBack specifically, Android font-scale/high-contrast and
 ordinary-profile probing are not named by AC12 or Q4, so their absence is a recorded limit rather than
 an automatic blocker. Screen-reader announcements are only partially observed: one user-observed
 Narrator pass covered the three sign-in controls' names, roles and required state, and no
-status/alert/error announcement or protected-password announcement was observed. No ordinary-text
-contrast **ratio** was recorded for any state: the only automated accessibility evidence is
-`e2e/accessibility.spec.ts` asserting zero axe serious/critical findings over sign-in, draft, review,
-incoming-list, resolve-form and resolved states at 320 CSS px, which does not satisfy AC12's recorded
-ratio requirement. A hosted `ONLY_ON_DEVICE` generation exists; a hosted reCAPTCHA-attested cloud
-request does not, so AC13/Q6 stay open. AC15 remains unvalidated. See §5.2 and
+status/alert/error announcement or protected-password announcement was observed.
+
+Ordinary-text contrast **ratios** are now recorded for 31 rendered states by an outside-root harness
+(algorithm self-check 13/13; hosted signed-out minimum 6.821:1; 17 local synthetic signed-in/hover
+states at 4.608:1 minimum; 12 local labelled cloud-mock states, pending 9.776:1, error 10.145:1,
+packet preview 16.283:1; 0 active failures and 0 unmeasurable in those sets). Disabled controls
+(3.206:1, 2.766:1) are recorded separately under SC 1.4.3's inactive-component exemption. This does
+not close AC12/Q4: ordinary-text contrast >=4.5:1 for transient/local-model/queue and
+hosted-authenticated states remains unmeasured; non-text contrast (SC 1.4.11), other engines and
+viewports, dark mode/high contrast, 320 px/200% re-measurement and real assistive technology are
+scope limits, not additional thresholds, and no WCAG certification follows (`docs/verification.md`
+§18). A hosted `ONLY_ON_DEVICE` generation exists; a
+hosted reCAPTCHA-attested cloud request does not, so AC13/Q6 stay open. AC15 remains unvalidated.
+See §5.2 and
 `docs/verification.md` §17.
 
 ## 14. Open items before submission
@@ -563,23 +600,29 @@ Status as of November 20, 2026 (earlier wording kept where still true):
 3. Rules/indexes release — **done** (`cloud.firestore`, ruleset `137c406c…`, `03:51:56Z`); Hosting —
    **done** (`1795146753235000`, `03:52:33Z`); HTTP surface observed (§5.1). **Updated November 20,
    2026:** a synthetic sign-in and the share/accept/resolve/reopen workflow are now covered by an
-   inspected delegate run (§5.2). Console/CSP coverage is partial, not absent: the earlier signed-out
+   inspected delegate run and, later the same day, user-observed on a physical Android phone (§5.2).
+   Console/CSP coverage is partial, not absent: the earlier signed-out
    hosted smoke recorded no CSP violations and no page errors, while authenticated and model-path
    console/CSP behavior, the hosted reCAPTCHA-attested App Check exchange and the hosted consented
    cloud flow remain unverified. No group closed.
 4. Decide the private judge-credential channel; keep values out of the repo.
 5. Record the ≤3 minute demo on the real runtime; upload is a separate user approval.
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user
-   checks. **Updated November 20, 2026:** desktop 200% zoom/keyboard, submit-time native validation
-   and emulator touch are measured (bounded, §5.2). Still required by contract: full screen-reader
-   announcements (AC12), the Android Chrome **touch workflow** AC12 names, and a recorded
-   ordinary-text contrast ratio `>=4.5:1`; none of the read-only runs covers these. Scope wording
-   conflict left open, not waived: AC12 and `CONSTRAINTS.md` Q4's target row are responsive-web framed
-   (`docs/spec.md` line 9, "No device-local Android-browser claim"), while `CONSTRAINTS.md` line 33
-   (measured Q4 row) lists physical Android touch evidence as still open, so physical device and
-   TalkBack are neither certified nor declared unnecessary. Limits/follow-ups only: Android
-   font-scale/high-contrast, ordinary-profile probing, manual AT coverage of mutation states. Zoom
-   measurements do not extend to mutation states.
+   checks. **Updated November 20, 2026 (later):** desktop 200% zoom/keyboard, submit-time native
+   validation, emulator touch, a **user-observed physical Android 16 phone walkthrough of the touch
+   workflow** (sign-in per role, manual draft, review, one publication with the confirmed open-task
+   status, accept as self, resolve, reopen returning Accepted with the same owner, history and
+   sign-out) and **recorded ordinary-text contrast ratios** (31 states, 0 active failures, minimum
+   4.608:1) now exist (bounded, §5.2 and `docs/verification.md` §18). Physical hardware is required by
+   explicit user decision (`CONSTRAINTS.md` "Hardware clarification"), so the earlier unresolved
+   scope-wording note no longer applies. Still required by contract: full screen-reader announcements
+   (AC12 - only the three sign-in controls' names/roles/required state were user-observed), 200%
+   zoom/keyboard core actions after a mutation, and ordinary-text contrast >=4.5:1 for the unmeasured
+   core states (transient/local-model/queue, hosted authenticated). Scope limits only, not additional
+   thresholds: non-text contrast, other engines and viewports, dark mode/high contrast, 320 px/200%
+   re-measurement. Limits/
+   follow-ups only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing,
+   manual AT coverage of mutation states. No WCAG certification follows.
 7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging. Still applies to
    any future stage; the November 20, 2026 stage itself was sealed and verified.
 
