@@ -13,6 +13,21 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+STOP: checkpoint `08bee66` saved, but full evidence finished19:03:03Z is ok=false
+(15checks pass,e2e exit1: preview heading missing in stale-target test;20others pass).
+Master verified clean/stable report and unchanged review.sha `af421ae`; no review
+metadata refreshed. Phase7 diagnosis delegated; HANDOFF top section gives exact
+report/agent/nextstep. No flake/product-defect inference, blind fullsuite retry or
+test weakening. Seven technical groups/finalC/D open; later operational notes dirty.
+Diagnosis inspected: test clicked second Preview before refreshed accepted target
+version arrived; intended signature guard invalidated it. Test-only semantic-wait
+fix delegated with original failure-artifact preservation and targeted verification;
+no product behavior, timeout or safety threshold change.
+Test fix diff inspected: accepted-target expected-version guard, no safety assertion
+removed. Targeted1pass/spec6pass/typecheck/filelint green; original failedreport/trace
+preserved outside-root. Two evidence precision clauses pending, then five-file local
+fixcheckpoint/full verification/review of cumulativeaf421ae..fixHEAD.
+
 Continuation: delegated remaining local reconciliation contrast states and removal
 of the already-approved static AC15 decision/draft-copy item. Seven technical gaps
 and fail-closed gate logic must remain unchanged. No hosted/cloud actions or human

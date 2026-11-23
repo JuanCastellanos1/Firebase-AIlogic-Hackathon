@@ -1,5 +1,55 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## STOP — November 23, 2026, preview E2E diagnosis
+
+- Checkpoint saved: `08bee665050c5fe9ecb40d6f15bd467eb1197867`, eight authorized
+  files; clean status at verification. Master independently inspected report:
+  full verifier finished `2026-11-23T19:03:03Z`, ok=false, dirty=false,
+  tree_stable=true. Fifteen checks exit0; e2e exit1, 20passed/1failed.
+- Failure: reconciliation stale-target test at e2e/reconciliation.spec.ts:284,
+  preview heading absent after Preview. Cause NOT established; not called flaky.
+- Review metadata deliberately NOT refreshed: review.sha still `af421ae`.
+  No review admission, gate pass, full-suite retry or test weakening.
+- Debugger `ses_df634d9c5ffeMWP7ffe6MajdmA` inspects retained trace/screenshot/
+  error-context and runtime/test bytes first. At most one targeted local safe-wrapper
+  reproduction is authorized if needed, preserving original artifacts first.
+  No file edits/fix until diagnosis. Outside-root report:
+  `Temp/opencode/shiftrelay-reconciliation-preview-diagnosis-20261123.md`.
+
+**Next exact step:** receive diagnosis without polling, inspect actual timeline/
+state/root-cause evidence, then choose the smallest supported fix/regression or
+environmental recovery. Do not infer a defect or harmless flake from unchanged code.
+Diagnosis received and master-inspected: retained trace shows the SECOND Preview
+clicked while refresh was in flight; expected target version arrived ~20ms later,
+and the signature guard correctly cleared preview. Test synchronization defect,
+not an established product-safety failure. No reproduction was needed to diagnose.
+Same debugger now fixes only reconciliation.spec.ts semantic refreshed-data waits
+and records diagnosis in verification. Original failed report/trace must be copied
+outside-root before targeted safe-wrapper runs; no source behavior/timeouts change.
+Next exact step is receive test diff and targeted stale-target/spec outputs, inspect
+regression mapping, then checkpoint/full verification before review.
+Test-only diff and green evidence inspected: one new scoped accepted-target/version
+wait before second preview; existing packet/conflict/no-write assertions retained.
+Targeted first fix attempt had whitespace mismatch in adjacent DOM spans, corrected
+with `Accepted\\s*version`; targeted1pass36.1s and reconciliation6pass1.4m, typecheck/
+filelint/diffcheck exit0. No product source/timeout change; sibling refresh sites
+reviewed and left alone because their task signatures do not change in those fixtures.
+Original failed report/full trace preserved byte-identically outside-root at
+`Temp/opencode/shiftrelay-reconciliation-red-preserved-20261123/`; new targeted
+outputs separate at `Temp/opencode/shiftrelay-reconciliation-fix-20261123/`.
+Two verification§24 precision clauses pending (scope no-additional-request/write
+to race interval; other15tests). Next is inspect those clauses, save five-file fix
+(HANDOFF,_project,_presupuesto,verification,reconciliation.spec.ts), full verifier,
+then focused review covering BOTH original unreviewed eight-file cut and test fix
+from `af421ae`. Failed08bee66 evidence remains retained, never silently discarded.
+Do not overwrite failed evidence.json merely to obtain a green badge.
+Later operational notes are dirty/outside `08bee66`; final C/D remain OPEN, seven
+technical groups remain, research item stays removed. No hosted/cloud action.
+Commands: `git status --short`; `git rev-parse HEAD`;
+`py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],[(c['name'],c['exit']) for c in d['checks'] if c['exit']])"`.
+Suggested skills: debugging-and-error-recovery, verification-before-completion,
+handoff. All pending-save/review statements below predate this failed checkpoint.
+
 ## Active continuation — November 23, 2026, remaining local evidence
 
 User requested Continue. Two bounded tasks are running:

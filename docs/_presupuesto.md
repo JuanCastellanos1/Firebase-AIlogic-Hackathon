@@ -12,6 +12,17 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Stop-the-line at saved `08bee66`: full verifier failed one E2E preview assertion;
+15otherchecks pass. Reserve bounded retained-artifact diagnosis (at most one
+targeted local reproduction), not broad retries or new features. No quality-floor
+change, invented flakiness, cloud spending or review admission; gates stay open.
+Retained-trace rootcause established as test synchronization, not hostcapacity.
+Allocate one test-only semantic-wait fix and targeted regression/spec check, then
+full checkpoint verification; no optional product hardening or threshold increase.
+Semantic-wait fix and targeted/spec green inspected; original RED preserved. Finish
+two evidence wording precisions, one fixcheckpoint/fullverify/cumulativereview.
+No more targeted retry or product hardening; scope remains test synchronization.
+
 Continuation spends bounded effort on three remaining local contrast cases and
 removing stale satisfied AC15 metadata, not reopening research or prior approvals.
 Reuse harness/fixtures; no new dependency/cloud spending, no third induction attempt.

@@ -3105,3 +3105,84 @@ are not relisted; the third report's §8 "untouched" list applies only to that r
 speech, every other unmeasured contract gap, Q4, the seven technical items, release gates and the
 inactive-bucket wording question remain open. No scope waiver, no source change, no check or test
 waived, and no gate moved.
+
+## 24. Stale-target preview E2E synchronization (November 23, 2026)
+
+Scope: **test-only** repair of one E2E missing-synchronization defect, plus this record. No product
+source, UI, prop, timing, threshold or check changed; no timeout widened, no assertion removed or
+skipped, no retry or flake suppression added. Only `e2e/reconciliation.spec.ts` and this section are
+edited. Master owns the operational docs.
+
+Red evidence (original retained, not recreated). The full verifier at checkpoint `08bee66` finished
+`2026-11-23T19:03:03Z` with `ok=false`: 15 checks exit 0, `e2e-tests` exit 1 with 20 passed / 1
+failed (`retries: 0`, `workers: 1`). The failure was `e2e/reconciliation.spec.ts:284` "a stale target
+rejects confirmation and writes no observation", assertion at line 95
+(`getByRole('heading', { name: 'Exact outgoing packet (not sent yet)' })`, 10 s). The retained trace
+shows it was the **second** preview (line 338 in the red run's numbering), not the first: at
+18:59:49.222Z `Refresh shared tasks`
+was clicked; its DOM snapshot at .244 had the refresh button `disabled` with label `Refreshing…`; the
+`Preview exact cloud packet` click completed at .323 while that snapshot still showed `Refreshing…`;
+the refresh reads applied the accepted target (`v1 open → v2 accepted`) around .343; the .352 snapshot
+then showed the card re-rendered `task-accepted` v2 plus
+"Shared tasks changed, so the preview, approval and suggestions were cleared. Preview again." That
+status only exists when a preview is cleared (`src/CloudReconciliation.tsx:139-151`), so the preview
+was built from the pre-refresh snapshot and dropped when the refresh landed. During this
+refresh/preview race, no additional model request or observation-confirmation write was triggered:
+`send()` and `confirm()` re-read versions and reject a stale packet. The test's earlier labelled-mock
+send and the other session's target acceptance are separate, expected actions and are not denied
+here.
+
+Cause: the test's missing wait for its own async refresh. `Refresh shared tasks` runs two Firestore
+reads before `setTasks` (`src/App.tsx:249-270`); Playwright's `click` does not wait for that. Preview
+built from the old `tasks` prop is then invalidated by the component's intended signature guard. The
+identical bytes and verifier scope passed this spec on November 19 (`verify-20261119-final.log`: 21
+passed, 2.3 m), and the checkpoint diff `af421ae..08bee66` touches only docs and verifier scope/tests,
+so this is a test synchronization defect exposed by read latency, **not** a regression from the
+checkpoint, a product defect, an environment fault, or a measured flake rate.
+
+Fix (one call site). Before the second preview the spec now waits for the refresh's visible result —
+the accepted target card at exactly `target.version + 1`:
+
+```ts
+await first.page.getByRole("button", { name: "Refresh shared tasks" }).click();
+const acceptedTarget = first.page
+  .locator("article.task")
+  .filter({ has: first.page.getByRole("heading", { name: target!.title, exact: true }) });
+await expect(acceptedTarget).toContainText(
+  new RegExp(`Accepted\\s*version ${target!.version + 1}`),
+);
+const refreshed = await preview(first.page);
+```
+
+The `\\s*` matches the real DOM: the state pill and version tag are adjacent spans whose
+`textContent` is `Acceptedversion 2`. The guard is causal, not cosmetic: the card can only show
+that state/version after the refresh applies, and the packet assertions at the next lines still pin
+`refreshedSource.version = 1` and `refreshedTarget.version = target.version + 1`. Every other
+refresh→preview site in the spec (pre-fix numbering in the red run: 213→217, 297→302, 386→390,
+436→438) refreshes tasks whose signature is unchanged, so the guard cannot fire and no wait was
+added there; the line 271 refresh is followed by a retrying card assertion, not a one-shot preview,
+and is unchanged. The existing conflict and no-write assertions (source stays v1, no activity at v2,
+later accept still conflicts) are retained unchanged.
+
+Run record (local emulators through `scripts/firebase_safe.py`, synthetic `demo-shiftrelay`, no
+hosted/cloud/model call; artifacts and logs outside the repository). Attempt 1 of 2 on the targeted
+case failed on my own assertion string (`"Accepted version 2"` vs `Acceptedversion 2`); its call log
+showed the app side already correct (card resolved `task-open` twice, then `task-accepted` 21 times),
+so that was not an app failure. Attempt 2 passed:
+
+```text
+playwright test e2e/reconciliation.spec.ts:284  →  1 passed (36.1s), wrapper exit 0
+playwright test e2e/reconciliation.spec.ts      →  6 passed (1.4m),  wrapper exit 0
+npm run typecheck → exit 0 · npx eslint e2e/reconciliation.spec.ts → exit 0 · git diff --check → exit 0
+```
+
+Preservation and untouched evidence: the original failed `.git/opencode/evidence.json` and the whole
+original `.git/opencode/playwright/` failure directory (trace, 16 screenshots, `error-context.md`,
+`.last-run.json`; `trace.zip` SHA-256 `982AC98B…32F`) were copied byte-identical to
+`Temp/opencode/shiftrelay-reconciliation-red-preserved-20261123/` before any run, and the in-repo
+failure artifacts remain in place; the targeted runs wrote to
+`Temp/opencode/shiftrelay-reconciliation-fix-20261123/` (`--output`), so no red evidence was
+overwritten. `review.sha` remains `af421ae`; the failed `evidence.json` is not refreshed and no full
+verifier rerun is claimed. Limits: only this spec and the file-level checks above were re-run; the
+other 15 E2E tests, a fresh full-verifier report, hosted/cloud behaviour and any flake-rate
+statement are outside this record.

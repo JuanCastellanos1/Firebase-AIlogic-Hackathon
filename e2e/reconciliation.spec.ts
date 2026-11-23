@@ -333,8 +333,16 @@ test.describe("separately consented cloud reconciliation", () => {
     expect(integerField(await readTask(source!.id), "version")).toBe(1);
     expect(await readActivity(source!.id, 2)).toBeNull();
 
-    // The same stale check applies to a changed source task.
+    // The same stale check applies to a changed source task. The refresh must be visible before
+    // previewing: a preview built from pre-refresh props is cleared by the shared-task signature
+    // guard, so this waits for the accepted target at its new version first.
     await first.page.getByRole("button", { name: "Refresh shared tasks" }).click();
+    const acceptedTarget = first.page
+      .locator("article.task")
+      .filter({ has: first.page.getByRole("heading", { name: target!.title, exact: true }) });
+    await expect(acceptedTarget).toContainText(
+      new RegExp(`Accepted\\s*version ${target!.version + 1}`),
+    );
     const refreshed = await preview(first.page);
     const refreshedSource = refreshed.packet.sources[0];
     const refreshedTarget = refreshed.packet.context[0];
