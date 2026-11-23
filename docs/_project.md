@@ -13,6 +13,29 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+User requested autonomous continuation until input is needed. Public-doc/local-source
+enforcement-target research and local-only remaining contrast measurement are delegated
+as separate outside-root tasks; no credentialed live services. Research received:
+master independently confirmed official firebaseml policy-ID mapping; naming
+discrepancy resolved, no config fix, no new live enforcement verification. Delegate
+appended ADR0007 §6; master inspected its 16-line additive clarification and limits.
+Contrast report inspected: 14 additional local synthetic states, no reported ordinary
+failure, disabled/unmeasured cases separate. Combined verification/PUBLISH recording
+is delegated; no further measurement/cloud action. HANDOFF defines review/checkpoint
+and next human-dependent reader/coordinator decision.
+User declined human validation ("No human validation needed"). Do not schedule it
+now; no claim of actual speech or representative usefulness follows. Existing
+contract stays unchanged: reader speech unverified, AC15 unvalidated, final gates open.
+Combined verification/PUBLISH record and ADR0007 clarification inspected; diff check
+exited 0. Seven documentation paths await local checkpoint/full evidence/focused
+review against `0001fa1`; no source change or further cloud test is indicated.
+
+Checkpoint `0001fa1` saved and master-verified: full 16/16 clean/stable evidence
+finished `2026-11-23T17:06:52Z`, matching review.sha. Independent focused reviewer
+APPROVED, no blockers; final C/D and eight groups remain open. HANDOFF top section
+defines the next enforcement-target research scope and certification limits.
+Later operational notes are uncommitted, outside that immutable approval.
+
 Active resume: clean saved HEAD `19a90a1` inspected, fetch successful, required
 artifacts/toolchain/MCP available. Existing evidence/review.sha name `5d8ba43`,
 not current HEAD; no current gate certification claimed. User explicitly approved

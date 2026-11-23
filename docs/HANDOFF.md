@@ -1,5 +1,86 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Active continuation — November 23, 2026
+
+User requested continued work until human input is needed. Two non-overlapping
+bounded tasks continue with the file permissions stated below:
+
+1. Debugger `ses_df698c170ffeiVkyEyIvfrcda5` returned the enforcement-target
+   report at `Temp/opencode/shiftrelay-enforcement-target-reconciliation-20261123.md`.
+   Master inspected it and independently fetched the official App Check Service
+   reference: `firebaseml` explicitly identifies Firebase AI Logic and need not match
+   the traffic domain or enabled API. Naming discrepancy resolved; no config fix.
+   No fresh live-state verification, replay-protection observation or PATCH-causation
+   proof follows. ADR0007 §6 appended and master-inspected: 16 added lines, no
+   historical row changed, namespace/source/causation limits retained. Delegate's
+   diff check exited 0; no cloud action or config fix.
+2. Implementer `ses_df6987032ffe2c2x03wHl9bV0h`: remaining ordinary-text contrast
+   report received and master-inspected at
+   `Temp/opencode/shiftrelay-contrast-remaining-20261123/REPORT.md`, with JSON count
+   independently confirmed as 14. Ten local-model/two queue/two workspace states,
+   local synthetic mocks/delay/abort only; reported ordinary failures 0, minimum
+   4.608:1. Disabled labels separate: 24 below4.5, minimum2.744; no Q4 pass.
+   Two induction targets resisted bounded attempts; report also records teardown
+   failure before final exit0. No more measurements authorized in this task.
+   Same delegate now edits ONLY verification/PUBLISH to combine this result and
+   ADR0007's resolved naming. Report's contradictory count/minimum narrative must
+   not supersede its actual table/JSON.
+
+**Combined record inspected:** verification §21 and PUBLISH dated corrections
+record the 14-state contrast result and ADR0007 namespace clarification. Master
+inspected the actual diff, JSON state count/minimum summaries and ran diff check
+(exit 0). No new measurement or cloud action. Report count/minimum slips are
+explicitly superseded; no whole Q4 or fresh enforcement claim follows.
+
+**Next exact step:** save the seven-doc substantive checkpoint (DEBT, HANDOFF,
+PUBLISH, _presupuesto, _project, ADR0007, verification), regenerate clean full
+evidence and obtain focused review against `0001fa1`. No code fix is indicated.
+Do not reopen resolved naming or run live probes.
+Next human-dependent step: choose actual reader-speech observation or arrange the
+two representative-coordinator AC15 walkthroughs; no result may be invented.
+User answered "No human validation needed" when offered those routes. Do not
+schedule or request human walkthroughs now. This is not evidence or a quality-bar
+waiver: actual reader speech remains unverified, AC15 remains unvalidated/no-go for
+usefulness claims, and final release gates cannot be closed on that answer.
+Finish the in-flight record/checkpoint/review, then report the unresolved conditions.
+After review, pause instead of inferring release acceptance: no human validation,
+additional hosted request, enforcement mutation, public release, push/merge or
+submission is authorized by this evidence-recording cut.
+Actual reader speech remains deferred; AC15 needs representative coordinators,
+and judge channel/demo/public release still require scoped decisions/evidence.
+No new hosted request follows from the general continuation instruction.
+Certified/reviewed checkpoint remains `0001fa1`; later operational docs are dirty.
+Use the commands and suggested skills in the reviewed-checkpoint section below.
+
+## Reviewed checkpoint — November 23, 2026, hosted-cloud record approved
+
+- Saved checkpoint `0001fa10c0330b757950bba93c492ad1da0f604a`; master verified
+  clean status and matching HEAD/evidence/review.sha. Full verifier finished
+  `2026-11-23T17:06:52Z`, 16/16 exit 0, ok/clean/stable.
+- Independent reviewer `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED the focused
+  five-doc `5d8ba43..0001fa1` record, no blockers. No Phase 6.5/7 fix needed.
+  Four nonblocking notes remain grouped under N6 in DEBT; do not start a polish loop.
+- Phase 8 continues; final C/D and all eight static delivery groups remain OPEN.
+  Approval is for documentation only, not hybrid eligibility or release.
+- `git clean -ndx` was policy-denied and not bypassed: ignored-tree hygiene is
+  uncertified, despite clean tracked status and the passing secret scan.
+- These later operational notes are uncommitted and outside the approved checkpoint;
+  they do not invalidate or extend certification of the immutable `0001fa1`.
+
+**Next exact step:** scope read-only reconciliation of the `firebaseml` DISABLED /
+ENFORCED resource versus the SDK's `firebasevertexai` target, using official
+documentation and existing evidence first. No further inference, Auth, enforcement
+change, deployment, push or merge is authorized by the completed one-request test.
+Reader speech/remaining contrast, AC15, judge access and real-runtime demo remain.
+Do not repeat the completed hosted request, phone or bounded zoom checks.
+
+Commands to inspect certification: `git status --short`; `git rev-parse HEAD`;
+`py -3 -c "import json; d=json.load(open('.git/opencode/evidence.json')); print(d['commit'], d['ok'], d['dirty'])"`.
+Before a later gate, save substantive changes and regenerate full evidence before
+review metadata. Suggested skills: handoff, verification-before-completion;
+firebase-ai-logic-basics for enforcement-target research.
+All pending-save/review statements below are dated pre-checkpoint history.
+
 ## Active resume — November 23, 2026, one hosted request approved
 
 - Phase 8 retained; final Gates C/D and eight delivery groups remain OPEN.

@@ -331,6 +331,20 @@ hosted-authenticated states at the required 4.5:1. Scope limits, not extra thres
 contrast, other engines and viewports, dark mode/high contrast, 320 px/200% re-measurement. No
 overall Q4 closure and no WCAG verdict (`docs/verification.md` §18.2).
 
+**Dated narrow update, November 23, 2026.** Fourteen further states are now recorded outside these
+hosted runs (all local, none hosted) — ten local-model (probing, unavailable, downloadable,
+downloading 50 %, enable failure, unusable output, drafting in flight, cancelled by button, cancelled
+by editing the note, suggestions panel), two queue (action pending/failure) and two workspace phase
+(loading, denied) — with **0 active ordinary failures and 0 unmeasurable**, ordinary
+minimum **4.608:1** (the unchanged placeholder), the pending/info/error tokens at 9.776:1 / 15.653:1 /
+10.145:1, and **24** disabled-label instances below 4.5 (lowest **2.744:1**) kept in the separate
+SC 1.4.3 inactive bucket, not counted as passes and not a waiver. Provenance and limits — including
+that the local-model states reuse the existing `e2e/local-draft.spec.ts` test double and that queue
+and phase states were harness-induced on loopback only — are in `docs/verification.md` §21. Still
+unmeasured after this update: queue refresh failure, workspace `phase === "error"`, cloud
+`status-confirmed`, stale-consent/context-layout tone, and hosted-authenticated states. No CSS,
+threshold or scope change and no new failure.
+
 Status: this evidence reduces unknowns without closing any delivery group. The touch workflow AC12
 names is now user-observed on the required physical phone, but screen-reader announcements, 200%
 zoom/keyboard on mutation states and the unmeasured contrast states remain open (**November 23
@@ -377,7 +391,10 @@ or HAR capture occurred. Master inspected the outside-root report, not a replay.
   −428 at 383 px height) and must be scrolled to; accept/resolved/reopened confirmations were in
   view. Focus-rect geometry does not prove full textarea or all result-text visibility; no blanket
   visibility claim is made.
-- Still open: screen-reader speech; ordinary-text contrast for unmeasured states; 200% coverage of
+- Still open: screen-reader speech; ordinary-text contrast for unmeasured states (**November 23
+  update:** the transient/local-model/queue states are now recorded in `docs/verification.md` §21;
+  queue refresh failure, workspace `phase === "error"` and hosted-authenticated states remain
+  unmeasured); 200% coverage of
   states not sampled here; the publish confirmation's offscreen position above (a visibility
   observation, not an established defect); non-text contrast, other engines/viewports, dark/high
   contrast, real AT; the physical-phone Chrome version (desktop 157.0.8103.79 does not fill that gap).
@@ -413,6 +430,22 @@ loopback fixture by the delegate; master inspected the projection source and did
 No group is closed and no gate moves. `firebaseml` DISABLED versus the enforced service resource,
 Firestore App Check enforcement, screen-reader speech, remaining contrast states, AC13/Q6 as a whole,
 AC15, judge access, the ≤3-minute demo, PR/merge and release all remain open.
+
+**Dated supersession, narrow, November 23, 2026 — two clauses of the paragraph above only.** (a)
+`firebaseml` DISABLED versus the enforced service resource is no longer an unreconciled target:
+ADR 0007 §6 records that an App Check `service_id` is a policy key, not a host (`service_id` "has no
+semantic meaning beyond identifying the service to App Check … nor is it necessarily the API that
+should be enabled to use the service"), that `firebaseml.googleapis.com` is the control resource
+labelled "Firebase AI Logic" while `firebasevertexai.googleapis.com` is the SDK traffic host and the
+API that must be enabled, and that a DISABLED Service Usage entry for the former is expected rather
+than a defect — <https://firebase.google.com/docs/reference/appcheck/rest/v1/projects.services>
+(fetched 2026-11-23). No configuration fix is made or recommended and **no** new current-live-
+enforcement, `PATCH`-causation or replay-state claim follows; ADR 0007 §6 declines all three. (b)
+"remaining contrast states" is refined, not closed: the transient/local-model/queue states are
+recorded in `docs/verification.md` §21, while queue refresh failure, workspace `phase === "error"`,
+cloud `status-confirmed`, stale-consent/context-layout tone and hosted-authenticated states remain
+unmeasured. Every other item in the paragraph, including Firestore App Check enforcement, the
+screen-reader item and every gate, stands unchanged.
 
 ## 6. Rollback — documented, not exercised
 
@@ -667,7 +700,11 @@ not close AC12/Q4: ordinary-text contrast >=4.5:1 for transient/local-model/queu
 hosted-authenticated states remains unmeasured; non-text contrast (SC 1.4.11), other engines and
 viewports, dark mode/high contrast, 320 px/200% re-measurement and real assistive technology are
 scope limits, not additional thresholds, and no WCAG certification follows (`docs/verification.md`
-§18). A hosted `ONLY_ON_DEVICE` generation exists; a
+§18). **November 23, 2026, narrow:** the transient/local-model/queue half of that gap is now
+measured — 14 further local states, 0 active failures, ordinary minimum 4.608:1, 24 disabled-label
+instances below 4.5 recorded separately with a 2.744:1 low (`docs/verification.md` §21) — while
+hosted-authenticated states and the states §21 names as unrendered stay unmeasured; the scope limits
+listed here are unchanged, not newly required. A hosted `ONLY_ON_DEVICE` generation exists; a
 hosted reCAPTCHA-attested cloud request does not, so AC13/Q6 stay open. AC15 remains unvalidated.
 See §5.2 and
 `docs/verification.md` §17.
@@ -722,6 +759,13 @@ Status as of November 20, 2026 (earlier wording kept where still true):
    re-measurement. Limits/
    follow-ups only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing,
    manual AT coverage of mutation states. No WCAG certification follows.
+
+   **November 23, 2026, narrow:** the transient/local-model/queue contrast states are no longer in
+   this open list — 14 further states are recorded in `docs/verification.md` §21 (ten local-model,
+   two queue, two workspace phase) with 0 active ordinary failures; hosted-authenticated states, queue
+   refresh failure, workspace `phase === "error"`,
+   cloud `status-confirmed` and the stale-consent/context-layout tone remain open. No new
+   requirement is added by this update.
 7. Remove `firestore-debug.log`; confirm clean tree (`git clean -ndx`) before staging. Still applies to
    any future stage; the November 20, 2026 stage itself was sealed and verified.
 

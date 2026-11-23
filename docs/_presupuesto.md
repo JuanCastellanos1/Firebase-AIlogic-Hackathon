@@ -12,6 +12,28 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Continuation allocates bounded parallel effort to service-target research and remaining
+local-mock contrast states, reusing existing harnesses. No broad QA replay, additional
+hosted inference, new dependency or paid resource; results pending, no gate credit.
+Naming research resolved the namespace discrepancy without a code/cloud change;
+ADR clarification inspected; combine evidence recording with the pending
+contrast outcome. No live-read or causation experiment needed for this conclusion.
+Contrast report received: reuse 14-state bounded evidence, no further induction
+attempts or UI fix without an established failure. One combined two-file record,
+then checkpoint/full evidence/review; human speech/AC15 work needs participation.
+User declined human validation now. Finish in-flight evidence work without spending
+effort on invented substitutes or weakening the quality contract; speech/AC15 gaps
+stay explicit and final delivery remains blocked where those checks are required.
+Combined evidence recording inspected. Finish one seven-doc checkpoint, full verifier
+and focused review, then pause at the unresolved human/release conditions rather
+than launch another documentation-polish or hosted experiment cycle.
+
+Executed checkpoint `0001fa1`: full 16/16 clean/stable evidence and focused review
+APPROVED, no blockers. End this recording/review loop; reserve next effort for
+enforcement-target reconciliation and remaining substantive delivery conditions.
+Allocations/free-tier limits unchanged; no further inference or rerun authorized.
+Later operational notes are outside that certification; final C/D remain open.
+
 Active resume: retain completed gates and allocations. Spend next bounded effort
 on the newly approved single interactive hosted cloud request, not repeated
 framing/build/physical/zoom checks or a status-only certification loop.

@@ -2441,7 +2441,7 @@ touch evidence. No full-flow accessibility or WCAG certification follows.
 | 3 | Hosted reCAPTCHA attestation and Firestore App Check enforcement | AI Logic service-boundary enforcement for `firebaseml.googleapis.com`: valid 200, missing/garbage 401 (ADR 0007, §13.3); reviewed Ruleset deployed | ADR 0007, §13.3, §16 | Hosted attestation not established: 403 `PERMISSION_DENIED / App attestation failed` in three automated page instances followed by the one-day client throttle; the real-Chrome runs measured no exchange or lost the status. Firestore App Check enforcement is still not enabled |
 | 4 | In-app live cloud reconciliation plus reviewed Ruleset deployment | Deployed ruleset `137c406c…` equals the reviewed file; inspected delegate run read membership and completed publish → accept → resolve → reopen (v4, four activity entries) on the deployed origin; one real-Chrome synthetic sign-in succeeded without task writes | §16; HANDOFF hosted-QA and sign-in summaries | The suggestion/confirm cloud-reconciliation flow on the deployed origin still has only labelled-mock evidence; no hosted consented cloud packet, confirm or dismiss was observed; the workflow result is an inspected delegate report, not a replay |
 | 5 | Hosted local model request, quota/latency beyond one cloud call, hosted cloud comparison (AC13/Q6) | Two genuine hosted `ONLY_ON_DEVICE` generations, 4/5 suggestions, 79.7 s and 24.5 s, ADR 0006 Gemma 4 provenance, no measured AI-host request; localhost Nano 4 proof unchanged (ADR 0006); one consented cloud request from localhost (§13.3) | HANDOFF hosted-local summary; ADR 0006; §13.3 | A hosted reCAPTCHA-attested cloud request; quota/latency beyond that single measured cloud call; the AC13/Q6 product decision; the hosted result is one delegate's inspected report. The legacy v3 asset was reported at 0 MiB weights with install pending, so v3 provenance must be rechecked before future model claims; nothing v3 is relabelled Nano 4 |
-| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation (**November 23 update:** bounded local mutation-state coverage at 200% is recorded in §19; the states §19 does not sample remain open); and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured; non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
+| 6 | Manual accessibility: screen-reader announcements, 200% zoom, actual Android Chrome touch | Automated: `e2e/accessibility.spec.ts` asserts zero axe serious/critical findings at 320 CSS px over sign-in, outgoing draft, review, incoming list, resolve form and resolved states, plus a keyboard path (sign-in → capture → review → share → accept → resolve), focus restoration after cancel and no horizontal document overflow. Manual: true 200% zoom by five real `Ctrl+=` presses (DPR 1.25→2.5, viewport 1266→633 CSS px), no measured horizontal overflow/clipping/overlapping interactive boxes, keyboard order and visible focus, on signed-out and read-only signed-in states; signed-out empty-submit native validation (0 `submit` events, 2 click-caused `invalid` events, native message, focus on Email); user-observed Narrator naming of Email/Password/Sign in; Android emulator native touch raising the real IME, focused fields kept visible, no measured horizontal overflow at 411×834 and 914×331, 15 named controls in the initial workspace; **user-observed physical Android 16 phone walkthrough of the touch workflow** (portrait/landscape reachability, native keyboard, empty-submit required message, one synthetic sign-in per role, manual draft/review/single publication with the confirmed open-task status, accept as self, resolve, reopen returning Accepted with the same owner, history and sign-out - §18.1); **recorded ordinary-text contrast ratios** from an outside-root harness (active ordinary failures 0, unmeasurable 0, minimum 4.608:1 across 31 measured states - §18.2) | `e2e/accessibility.spec.ts`; `shiftrelay-desktop-a11y-20261120.md`; `shiftrelay-native-validation-20261120.md`; HANDOFF Narrator and physical-phone observations; `shiftrelay-android-readonly-20261120.md`; `Temp/opencode/shiftrelay-contrast-20261120/REPORT.md` | Contract-required (`docs/spec.md` AC12; `CONSTRAINTS.md` Q4): screen-reader announcements are unobserved beyond the user-observed sign-in control naming, so no status/alert/error speech exists; the 200% manual check covers read-only states only, not core actions after a mutation (**November 23 update:** bounded local mutation-state coverage at 200% is recorded in §19; the states §19 does not sample remain open); and the recorded contrast ratios cover the 31 named states only - ordinary-text contrast >=4.5:1 for transient/local-model/queue and hosted-authenticated states stays required and unmeasured (**November 23, 2026:** the transient/local-model/queue states are now recorded in §21; hosted-authenticated states remain unmeasured); non-text contrast, other engines/viewports, dark mode/high contrast, 320 px/200% re-measurement and real AT are scope limits, not additional Q4/AC12 thresholds (§18.2). The hardware question is no longer a scope conflict: the user explicitly requires a physical Android phone, recorded in `CONSTRAINTS.md` ("Hardware clarification") and `docs/PLAN.md` ("Delivery clarification"), and §18.1 is that phone's user-observed touch evidence; emulator results stay supplementary. Not named by AC12/Q4, recorded as limits only: TalkBack specifically, Android font-scale/high-contrast, ordinary-profile probing, manual mutation-state AT. No WCAG certification |
 | 7 | Live Hosting deployment, public release, further provisioning | One Rules release and one Hosting release, billing off, `noindex` served, reserved `init.json` reachable | §16, `docs/PUBLISH.md` §5.1, §6 | Public/judge release decision, PR/merge, and any further deploy or provisioning under its own approval; recovery remains a new deploy, not a prior-release rollback |
 | 8 | AC15 representative-user product usefulness | None | — | Two-coordinator comparison, three-task acceptance timing, cloud utility against deterministic matching, explicit product go/no-go |
 
@@ -2607,6 +2607,13 @@ cloud-mock report's "no local model seam" claim is not accepted as proof that lo
 states are unreachable: the repository already has local-draft E2E mocks, so a future bounded
 coverage attempt is possible. No product test hook was added for this.
 
+**Dated narrow supersession, November 23, 2026.** The sentence above is not retroactively changed,
+but three of its items are now measured rather than pending: on-device-drafting pending/error,
+queue-item pending/error and the `phase === "loading"` status are recorded in §21, which also records
+the two workspace-phase states found while attempting the `phase === "error"` route. Cloud
+`status-confirmed` and hosted-authenticated states remain unmeasured exactly as written here, and
+nothing in this section's inactive-control or scope-limit statements changes.
+
 ### 18.3 What this changes, and what it does not
 
 - §17.2 row 6 now records the physical-phone touch workflow as user-observed and the contrast ratios
@@ -2622,6 +2629,10 @@ coverage attempt is possible. No product test hook was added for this.
   the states it does not sample remain open); and ordinary-text contrast >=4.5:1 for the unmeasured
   core states above. Scope limits, not additional thresholds: non-text contrast, other
   engines/viewports, dark mode/high contrast, 320 px and 200% re-measurement, real AT.
+  **November 23, 2026, narrow:** the transient/local-model/queue part of that contrast item is now
+  measured in §21 (14 states, 0 active ordinary failures); hosted-authenticated states and the
+  states §21 names as unrendered stay open, and the scope limits listed here are unchanged, not
+  newly required.
 - No group is completed: hosted App Check attestation, the hosted consented cloud flow, AC13/Q6,
   AC15, public/judge release, PR/merge and Gates C/D are untouched. In particular, no
   hosted-authenticated contrast result and no WCAG verdict exists - the hosted signed-out and local
@@ -2689,7 +2700,9 @@ Still open for group 6 and AC12/Q4 (contract-required, not closed by this cut): 
 beyond the user-observed sign-in control naming (no status/alert/error or mutation-control speech);
 ordinary-text contrast ≥4.5:1 for the unmeasured states above (transient/local-model/queue,
 hosted-authenticated and the states this run did not sample); and core-action 200% coverage beyond
-the mutation states sampled here.
+the mutation states sampled here. **November 23, 2026, narrow:** the transient/local-model/queue
+contrast part is measured in §21; hosted-authenticated states and the states §21 names as unrendered
+are still open. No screen-reader or 200% item changes here.
 
 Scope limits and observations, not additional Q4/AC12 thresholds: non-text contrast; other engines
 and viewports; dark mode and Windows high contrast; 320 px and 200% re-measurement; real assistive
@@ -2809,3 +2822,114 @@ the ordinary-text contrast states not yet sampled; the bounded checks already re
 not reopened here), AC13/Q6 as a whole, AC15, the judge-access channel, the ≤3-minute demo on the real
 runtime, PR/merge and release. No hybrid, Gemini Nano 4, whole-AC13, whole-Q6 or enforcement closure
 follows, and no delivery group is completed.
+
+**Dated supersession, narrow, November 23, 2026 — two clauses of the paragraph above only.** The
+`firebaseml.googleapis.com` DISABLED-versus-enforced-resource item is no longer an unreconciled
+target: ADR 0007 §6 records that an App Check service id is a policy key, not a host ("the
+`service_id` has no semantic meaning beyond identifying the service to App Check … nor is it
+necessarily the API that should be enabled to use the service"), that `firebaseml.googleapis.com` is
+the control resource naming "Firebase AI Logic" while `firebasevertexai.googleapis.com` is the SDK
+traffic host and required API, and that a DISABLED Service Usage entry for the former is therefore
+expected rather than a defect. Source: <https://firebase.google.com/docs/reference/appcheck/rest/v1/projects.services>
+(ADR 0007 §6, fetched 2026-11-23). No configuration fix is made or recommended, and **no** new
+current-live-enforcement, `PATCH`-causation or replay-state claim follows — ADR 0007 §6 explicitly
+declines all three. Separately, "the ordinary-text contrast states not yet sampled" is refined, not
+closed, by §21: the transient/local-model/queue states are now measured, and the states §21 names as
+unrendered plus hosted-authenticated states are still unmeasured. Every other item in that paragraph,
+including the eight static items, Gates C/D and the enforcement non-claims, stands unchanged.
+
+## 21. Remaining ordinary-text contrast states (November 23, 2026)
+
+Scope: durable evidence recording only. One combined documentation pass; this record performs **no**
+measurement, browser, cloud or model action and changes no check, test, gate, constraint or product
+behaviour. It records a bounded contrast run that already happened outside the repository; the App
+Check naming reconciliation it relies on is recorded as a dated narrow supersession inside §20.
+
+Provenance: **delegated observed evidence**. One implementer run wrote
+`Temp/opencode/shiftrelay-contrast-remaining-20261123/REPORT.md` with
+`contrast-local-remaining-states.md` / `.json`; master inspected the report and the JSON rows and did
+not replay the run. This section follows that provenance model, not an independent measurement.
+Environment as reported: local Vite dev server on `127.0.0.1:5174` in emulator mode
+(`demo-shiftrelay`), Auth 9099 / Firestore 8080 started through the reviewed
+`scripts/firebase_safe.py emulators:exec` wrapper, Chromium 159.0.8154.6 via the pinned
+`@playwright/test` 1.65.1, 1280×900 CSS px, device scale 1, light scheme, synthetic users and one
+synthetic published task. No hosted origin, hosted sign-in, cloud/AI request, App Check exchange,
+private configuration or real-traffic capture was involved.
+
+Method and its exact reuse boundary: the WCAG 2.x relative-luminance algorithm, the ancestor/opacity
+compositing walk, the fail-closed colour handling and the separate inactive bucket are the earlier
+harness's, reused by copying `collect.js`, `lib.mjs`, `selfcheck.mjs` and `fixture.html`
+byte-identically (SHA-256 verified) from `Temp/opencode/shiftrelay-contrast-20261120/`; the threshold
+stays 4.5:1 applied to all text. The harness is **not** claimed to be entirely byte-identical: the
+new spec adds state-rendering code, because no existing label could hold these transients. The
+local-model states reuse the **existing** test-only `LanguageModel` browser-API double already in
+`e2e/local-draft.spec.ts` (`page.addInitScript`), adapted in the outside-root harness with additional
+delay knobs (`availabilityDelayMs`, `downloadDelayMs`) alongside the double's existing prompt delay,
+so a transient could be held long enough to measure; headless Chromium has no real Prompt API, so that
+shim stands in for the browser capability only and every measured element comes from
+`src/PrivateDraft.tsx`'s own render path. The queue and workspace-phase states use Playwright route
+delay/abort against the **loopback** Firestore emulator (`127.0.0.1:8080`) only — no source hook, no
+Rules change, no production seam. They are therefore harness-induced renderings: they show that the
+application's own text tokens meet 4.5:1 when those states render, and are **not** observations of a
+real backend failure or denial.
+
+Coverage: **14 rendered states — ten local-model, two queue, two workspace.** On-device drafting
+probing, unavailable, downloadable, downloading 50 %, enable failure, unusable output, drafting in
+flight, cancelled by button, cancelled by editing the note, and the suggestions panel; queue action
+failure and queue action pending; workspace `phase === "loading"` and the `No venue access` denied
+panel found while attempting the `phase === "error"` route. Active ordinary failures **0**,
+unmeasurable **0**; the ordinary minimum across these states is **4.608:1** (the unchanged textarea
+placeholder, ten local-model states), and the four states without the draft panel bottom out at
+6.821:1. The three previously pending tokens repeat existing values and are not new colours:
+`status-pending` 9.776:1, `status-info` 15.653:1, `status-error` 10.145:1. Inactive controls: **24**
+`:disabled` label instances below 4.5 across these states, from `.button:disabled { opacity: 0.55 }`,
+lowest **2.744:1** (disabled primary "Accepting…" while an accept commit is in flight) — recorded in
+the separate inactive bucket under WCAG 1.4.3, **not** counted as ordinary passes and **not** a
+contract waiver; whether Q4's wording covers inactive text remains the earlier contract-wording
+question for master. No CSS, threshold or fixture changed, and no new failure was established.
+
+Report-narrative check: the outside-root `REPORT.md` prose contains count/minimum slips — it names
+eight local-model states instead of ten and, in one summary sentence, attributes the 4.608:1 minimum
+to local-model *and* queue states. Its per-state tables and `contrast-local-remaining-states.json`
+are authoritative (ten/two/two, queue and workspace minima 6.821:1) and are what this section
+records; the faulty sentences are not repeated or relied on here. `REPORT.md` itself is left
+uncorrected — this pass edits documentation only — so cite §21, not that prose, for the counts and
+the minimum.
+
+Run history, recorded rather than smoothed: three local runs, not a single-run claim. Run 1 failed
+at the originally intended `phase === "error"` induction (aborting every loopback Firestore request
+rendered the denied branch instead) and wrote no report. Run 2 measured the same 14 states and wrote
+the report, but its wrapper command returned exit code 1 while Playwright reported the test passed —
+diagnosed as a delayed `route.continue()` rejecting when its context closed, surfacing as a teardown
+error after the test. Run 3, with that continuation made non-throwing, reported `1 passed (1.2m)`,
+`Script exited successfully (code 0)` and wrapper exit 0. Algorithm self-check before measurement:
+`node selfcheck.mjs` → `13/13 algorithm checks passed`, exit 0. One wrapper probe was refused
+(`--help` not allowed, exit 2) and had no effect. Summed totals for the recorded run:
+`TOTAL ordinary-failing=0 inactive-below=24 unmeasurable=0 states=14 unrendered=2`.
+
+Still unmeasured, named exactly and with no pass inferred:
+
+1. **Queue refresh failure** (`src/App.tsx:249-270`, `refreshError`). Two bounded attempts: aborting
+   all loopback Firestore requests at sign-in reached the denied branch instead (measured separately
+   as the `No venue access` state), and aborting only `…/documents:batchGet` during a signed-in
+   refresh hung on Firestore SDK retry, so no error surfaced. The untried candidate — fulfilling
+   `batchGet` with a `403`-shaped `permission-denied` body — was not attempted under this pass's
+   attempt budget. The token it would render (`status-error`) is already measured.
+2. **Workspace `phase === "error"`** (`Shared workspace unavailable`, `src/App.tsx:451-456`).
+   Same retry barrier and same two attempts; still unrendered. Its `status-error` token is measured,
+   and the denied panel's own text is measured at 17.148:1.
+3. **Cloud `status-confirmed`** ("Observation recorded…", `src/CloudReconciliation.tsx:352-357`) —
+   needs a confirm, i.e. a task write; out of scope and unchanged.
+4. **Retry/stale-consent `tone: "info"` invalidation and the 20+ context-selection layout** — same
+   `status-info` / `field-help` tokens; not re-rendered.
+5. **Hosted-authenticated states** — untouched; no hosted sign-in or hosted measurement.
+
+Scope limits, unchanged and not newly required by this record: non-text contrast (SC 1.4.11), 320 px
+and 200 % zoom re-measurement, dark mode, Windows high contrast, other engines, real assistive
+technology. Nothing here reopens or replaces the bounded 200 % and touch evidence in §18–§19.
+
+This record adds no check and waives none: all eight static delivery items remain listed
+(`gate_c_eligible=false`), Final Gates C/D stay open, and no group is completed. No whole-application
+WCAG result, no Q4 pass, and no hosted, cloud, model, App Check, screen-reader, zoom, touch,
+non-text-contrast, privacy or eligibility result follows. Full outside-root record:
+`Temp/opencode/shiftrelay-contrast-remaining-20261123/REPORT.md`.
