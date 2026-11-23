@@ -2934,6 +2934,22 @@ WCAG result, no Q4 pass, and no hosted, cloud, model, App Check, screen-reader, 
 non-text-contrast, privacy or eligibility result follows. Full outside-root record:
 `Temp/opencode/shiftrelay-contrast-remaining-20261123/REPORT.md`.
 
+**Dated narrow supersession — November 23, 2026.** Items 3 (cloud `status-confirmed`) and 4
+(stale-consent `tone: "info"` and the >20 context-selection layout) of the unmeasured list above are
+now measured locally; §23 records the states, ratios and provenance. Items 1, 2 and 5 stand
+unchanged, and §23 keeps the send-path stale wording explicitly unrendered. The closing "eight static
+delivery items" sentence is superseded for item count only by the reviewer-approved AC15 closure in
+§23 (7 technical items now listed); `gate_c_eligible` semantics and the no-waiver position are
+unchanged.
+
+**Dated narrow supersession — November 23, 2026 (third bounded attempt).** Items 1 and 2 of the
+unmeasured list above (queue refresh failure, workspace `phase === "error"`) are now measured locally
+under explicit user approval; §23 records the dated update with the protocol adaptation and limits.
+Item 5 (hosted-authenticated states) and the send-path stale wording still stand. The §21
+"`batchGet` hung on SDK retry" diagnosis is **not established**: these reads are WebChannel `Listen`
+targets and `documents:batchGet` is never requested, so the earlier abort never reached them; the
+historical raw reports are retained uncorrected as history.
+
 ## 22. AC15 product decision without research (November 23, 2026)
 
 Scope: documentation and static verifier wording only. This section records the user/product-owner
@@ -2977,3 +2993,115 @@ prerequisite, that the seven technical blockers remain, and that all eight items
 **Evidence boundary.** No verifier run was executed for this edit; the targeted tooling suite, the
 diff check and the pinned secret scan are the evidence for this cut. A clean full report for the
 eventual commit remains a gate-time step owned by master.
+
+**Dated narrow supersession — November 23, 2026.** The reviewer confirmation of the dated decision
+and of the existing draft copy is recorded at `af421ae` (research was not a prerequisite), and a
+separate implementer then removed that satisfied AC15 item from `SCOPE.unimplemented`. The remaining
+seven technical items are byte-identical, the gate logic is unchanged, and the historical eight-item
+wording above stays as history. §23 records the combined static metadata and the tooling result.
+Product usefulness remains **UNVALIDATED** and validated-impact claims remain **NO-GO**.
+
+## 23. Remaining contrast states reconciled and static metadata (November 23, 2026)
+
+Scope: documentation only. This section records a bounded contrast run that already happened outside
+the repository and the static-metadata change that followed the reviewer's AC15 approval. It performs
+**no** measurement, browser, cloud, model, test, code or deployment action of its own, adds no check
+and waives none.
+
+Provenance: **delegated observed evidence**. One implementer run wrote
+`Temp/opencode/shiftrelay-contrast-reconciliation-final-20261123/REPORT.md` with
+`contrast-reconciliation-final-states.json` / `.md`; master inspected the 147-line report, not a
+browser replay. The final JSON and its per-state table are authoritative for counts and ratios.
+Environment as reported: local Vite `127.0.0.1:5174` in emulator mode `demo-shiftrelay`, Auth 9099 /
+Firestore 8080 started through the reviewed `scripts/firebase_safe.py emulators:exec` wrapper,
+Chromium 159.0.8154.6 via pinned `@playwright/test` 1.65.1, 1280×900 CSS px, device scale 1, light
+scheme, synthetic seeded tasks plus one synthetic owner-bypass version bump. No hosted origin, hosted
+sign-in, cloud/AI request, App Check exchange, private configuration or real-traffic capture was
+involved.
+
+Method reuse boundary: `collect.js`, `lib.mjs`, `selfcheck.mjs` and `fixture.html` are byte-identical
+(SHA-256 verified) copies of the §21 harness; the only new files are a state-rendering spec and its
+Playwright config. The threshold stays 4.5:1 applied to all text, the compositing/fail-closed
+algorithm is unchanged, and
+`node selfcheck.mjs` reported `13/13 algorithm checks passed` (delegated). Cloud states render
+through the app's existing dev-only labelled `window.__shiftrelayTestCloud` double
+(`kind: "test-network-mock"`; the UI prints "TEST MOCK - not a real cloud request."). The
+confirmation is the app's own observation transition writing to the **local** demo emulator through
+the real Rules path: source task version 1→2 and one activity at the next version, target version
+unchanged. It is never a hosted confirmation.
+
+Coverage: **3 rendered states**, all with ordinary-text minimum **6.821:1** (the unchanged eyebrow
+token), **0 ordinary failures, 0 inactive-below-4.5, 0 unmeasurable**:
+
+| State | Measured | Target token observed |
+|---|---|---|
+| cloud `status-confirmed` after the local confirmation | 48/48 | `status-confirmed` **10.231:1** (also the labelled-mock `status-info` at 15.653:1) |
+| stale-consent `tone: "info"` invalidation after a synthetic local version change | 48/48 | `status-info` **15.653:1** (×2 with the mock notice) |
+| >20 context selection, 21 eligible, 20 chosen | 249/249 | `field-help` **7.694:1**; source/context labels and legends **17.148:1** (43 labels, 2 legends) |
+
+Reachability limits, stated so nothing is overread: the stale-consent state is the signature-change
+branch ("Shared tasks changed, so the preview, approval and suggestions were cleared… Preview
+again."); the send-path wording ("The approved packet is stale…") was **not separately rendered** and
+is not proven by this state, though it uses the same measured `status-info` class. In the >20 layout
+the 21st context `input` is disabled but its `<label>` is a sibling, so no disabled label text was
+measured; the empty inactive bucket here is an observed count, not a waiver of the separate
+SC 1.4.3 wording question recorded in §21. No CSS, threshold, fixture or product behaviour changed.
+
+Run history, recorded rather than smoothed: two runs, within the two-attempt limit. Run 1 measured 2
+of 3 states and reported the stale-consent state `UNMEASURED` (`expect(locator).toBeVisible() failed`)
+while the wrapper still exited 0 — a harness-ordering defect, because the shared task list is fetched
+rather than live, so the synthetic version change could not reach props until the ordinary "Refresh
+shared tasks" click. Run 2 added that click, rendered all three states, reported
+`1 passed (16.0s)`, `unrendered=0` and wrapper exit 0. No blanket first-run, full-pass or
+hosted-verification inference follows from either run.
+
+Still unmeasured, named exactly and with no pass inferred: **queue refresh failure** and workspace
+`phase === "error"` (each already at two failed attempts; a third needs explicit user approval and
+was not retried here), the send-path stale wording above, and hosted-authenticated states. No hosted,
+genuine-model, privacy, Q4 or WCAG claim follows; no generic phone or zoom re-measurement obligation
+is added, and the bounded §18–§19 evidence is untouched.
+
+Static metadata (combined into this record): a separate implementer removed the satisfied AC15 item
+from `SCOPE.unimplemented` after the reviewer explicitly approved the November 23, 2026 decision and
+the existing draft copy at `af421ae`, with research not a prerequisite. The remaining **7** technical
+items are byte-identical to their earlier wording, the gate logic is unchanged, and
+`gate_c_eligible` stays false while any item is listed; earlier eight-item reports (§17.2 row 8,
+§18–§22) remain dated history. Future public/demo/submission assets still need the recorded review.
+The full verifier evidence remains at `af421ae` (`ok=true`, 16 checks, dirty=false,
+`8 scope items unimplemented`) until a checkpoint; master reran the targeted tooling suites
+(**19 + 8 = 27** tests) with exit 0, and no new full verifier report is recorded or claimed here.
+
+**Dated update — November 23, 2026 (third bounded attempt: queue refresh and workspace phase
+error).** The user explicitly approved one third local-only attempt per state; there was no fourth
+attempt and no fallback strategy. Provenance: one delegated implementer run; master inspected the
+204-line outside-root report and the JSON summaries, not a replay. The algorithm copies remain
+byte-identical (SHA-256) and the threshold and inactive-bucket semantics of §21 are unchanged; only
+new route specs were added. The rendered errors are a harness-side simulation of the SDK's permanent
+per-target error shape: **no HTTP 403 was observed** and this is not a real backend, Rules or hosted
+denial.
+
+Protocol adaptation: a pre-flight transport probe (no state measured) showed every read is a
+WebChannel `Listen` target on `POST .../Firestore/Listen/channel`; the earlier attempts aborted
+`documents:batchGet`, a URL these reads never request, so the §21 "batchGet hung on SDK retry"
+diagnosis is **not established**. Fulfilling the Listen POST with HTTP 403 maps to retryable
+`UNAVAILABLE`, so the approved strategy was adapted to the SDK-compatible non-retryable route: an
+in-band `targetChange {targetChangeType:"REMOVE", targetIds, cause:{code:7}}`, which rejects that
+target only and leaves other listeners alive.
+
+Pre-flight validation (distinct from a state attempt): validation run 1 targeted the app's own cached
+`tasks` query, returned `resolved:0` on a cache hit, failed its assertion, and its log was overwritten
+by run 2 — only its reported output is recorded; validation run 2 used a never-cached query and
+observed `rejected:permission-denied` (exit 0). After the transport probe exited 0, each state had
+exactly one attempt block in a single `retries: 0` run (wrapper `1 passed (45.3s)`, exit 0,
+`states=2 unrendered=0`): queue refresh failure **26/26** text nodes and workspace `phase === "error"`
+**15/15**, each minimum **6.821:1**, each `status-error` **10.145:1**, with **0** ordinary failures,
+**0** inactive-below and **0** unmeasurable. Neither state renders a disabled control; the §21
+inactive-bucket rules are unchanged and simply had no instance here. No all-first-try claim follows:
+the two validations and the earlier failed attempts are counted above.
+
+Current remaining contrast states: only the separately unrendered send-path stale wording and
+hosted-authenticated states. The three reconciliation states measured earlier in §23 are measured and
+are not relisted; the third report's §8 "untouched" list applies only to that report. Actual reader
+speech, every other unmeasured contract gap, Q4, the seven technical items, release gates and the
+inactive-bucket wording question remain open. No scope waiver, no source change, no check or test
+waived, and no gate moved.

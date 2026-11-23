@@ -195,12 +195,6 @@ SCOPE = {
         "(automated axe serious/critical, keyboard and 320px checks only)",
         "live Firebase Hosting deployment, public release and any further cloud provisioning remain "
         "outside this cut and need their own confirmation",
-        "AC15 recorded product decision and claims review: master/reviewer verification of the "
-        "November 23, 2026 decision and matching PLAN entry, plus the public/demo/submission "
-        "wording review for unsupported usefulness, timing, comparative or impact claims, remain "
-        "open; usefulness is UNVALIDATED (NO-GO for validated impact claims). Coordinator "
-        "recruiting, sessions, acceptance timing and utility comparison are not delivery "
-        "prerequisites and no research result is required",
     ],
 }
 

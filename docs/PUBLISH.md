@@ -360,6 +360,57 @@ cloud request are no longer unobserved — §5.4 records one delegated observati
 blocker is **not** established as reproducibly resolved, no served model or limited-use flag was
 captured, and the rest of this paragraph is unchanged.
 
+**Dated correction — November 23, 2026 (reconciliation contrast states and static metadata).** Three
+further ordinary-text contrast states were recorded outside the hosted runs, all local: cloud
+`status-confirmed` reached by a confirmation written to the **local** demo emulator only, the
+signature-change stale-consent `tone: "info"` invalidation, and the >20 context-selection layout
+(21 eligible, 20 chosen). Per-state minimum **6.821:1**, **0 ordinary failures, 0 inactive-below,
+0 unmeasurable**; target tokens `status-confirmed` **10.231:1**, `status-info` **15.653:1**,
+`field-help` **7.694:1**, labels/legends **17.148:1**. Provenance: one delegated implementer run,
+report inspected by master, not a replay; the existing labelled `test-network-mock` double drove the
+cloud panel, the harness algorithm files are byte-identical copies, and the confirmation is a local
+emulator write through the app's real Rules path, never a hosted confirmation. The measured stale
+state is the signature-change branch; the send-path "approved packet is stale" wording was not
+separately rendered. Still unmeasured: queue refresh failure and workspace `phase === "error"` (both
+attempts already exhausted on each; a third needs explicit user approval), the send-path wording, and
+hosted-authenticated states. No hosted, genuine-model, privacy, Q4 or WCAG claim follows, and no
+generic phone/zoom re-measurement obligation is added. Full record: `docs/verification.md` §23.
+
+The same record updates static metadata: after the reviewer explicitly approved the November 23, 2026
+AC15 decision and the existing draft copy at `af421ae` (research not a prerequisite), a separate
+implementer removed that satisfied item from `SCOPE.unimplemented`; the remaining **7** technical
+items are byte-identical, the gate logic is unchanged, and `GATE_C` stays `NOT ELIGIBLE` while any
+item is listed. The last full verifier evidence remains `af421ae` (`ok=true`, 16 checks,
+`dirty=false`, `8 scope items unimplemented`) until a checkpoint; master reran the targeted tooling
+suites (19 + 8 = 27 tests) with exit 0, and no new full verifier result is claimed. Future
+public/demo/submission assets still need review.
+
+This supersedes only: the "still unmeasured" clause naming cloud `status-confirmed` and
+stale-consent/context-layout in the November 23 narrow update above; "`SCOPE.unimplemented` still
+names all eight items" in the status paragraph above (count only); §5.4's clause (b) naming those two
+states; §13's "states §21 names as unrendered" clause and its AC15 reviewer-confirmation sentence;
+and §14 item 6's cloud `status-confirmed` / stale-consent list. Everything else in those passages,
+including Gates C/D and every non-claim, stands; the earlier eight-item counts remain historical
+snapshots of their own runs.
+
+**Dated narrow update — November 23, 2026 (queue refresh and workspace phase error).** With explicit
+user approval, one third local-only attempt per state rendered both remaining error states: queue
+refresh failure **26/26** text nodes and workspace `phase === "error"` **15/15**, each minimum
+**6.821:1**, each `status-error` **10.145:1**, with **0** ordinary failures, **0** inactive-below and
+**0** unmeasurable. The attempt adapted to the SDK's actual transport: reads are WebChannel `Listen`
+targets, so the harness used an in-band per-target `targetChange` `REMOVE` with `cause.code` 7
+(permission-denied) — not an HTTP 403 and not `documents:batchGet`, which these reads never request.
+The emulator never received the fulfilled request, so this is not a real backend/Rules denial and no
+HTTP 403 was observed. Pre-flight, kept distinct from the state attempt: one transport probe (no
+state measured), validation run 1 failed on a cache hit with its log overwritten (reported output
+only), validation run 2 used an uncached query and was rejected as expected; the states were then
+single attempts in a `retries: 0` run after that preflight (wrapper exit 0). This supersedes only the
+"queue refresh failure and workspace `phase === "error"` … a third needs explicit user approval"
+clause in the block above and the same clause in §14 item 6; the send-path stale wording and
+hosted-authenticated states remain the unmeasured contrast states. Reader-speech evidence, Q4, the
+seven technical items and release gates stay open; no fourth attempt, no scope waiver and no source
+change. Full record: `docs/verification.md` §23.
+
 ### 5.3 Bounded local 200% mutation zoom (November 23, 2026)
 
 A separate bounded implementer run exercised the existing manual workflow on the **local emulators**,

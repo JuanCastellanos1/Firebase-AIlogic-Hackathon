@@ -13,6 +13,34 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+Continuation: delegated remaining local reconciliation contrast states and removal
+of the already-approved static AC15 decision/draft-copy item. Seven technical gaps
+and fail-closed gate logic must remain unchanged. No hosted/cloud actions or human
+research; reports pending. HANDOFF names exact scope and agents.
+Static AC15 removal inspected; master independently ran 27 verifier/scanner tests,
+all passed. Seven technical gap strings and gate logic unchanged. Contrast report
+pending; combine documentation/checkpoint before any new gate claim.
+Three-state reconciliation contrast report/JSON inspected: minimum6.821 each,
+zero ordinary failures; local mocks/emulator only. Durable recording underway.
+User explicitly approved one third local synthetic403 induction per remaining
+queue-refresh/workspace-error state; separate report pending, no fourth attempt.
+That report/JSON now inspected: both error renderings measured with minimum6.821,
+zero ordinary failures. Actual strategy is WebChannel per-target permission-denied,
+not HTTP403/batchGet. Local simulated transport only, no backend/Rules result.
+Final combined recording pending; no further test attempt authorized.
+Final combined recording inspected, diff check exit0; eight-file checkpoint/full
+evidence/review pending. Five additional local contrast states recorded, no full
+Q4/hosted enforcement/model claim. Static list now seven technical groups only.
+
+AC15 scope change completed at `af421ae`: full 16/16 clean/stable SHA-matched
+evidence and independent review APPROVED, no blockers. Recorded product decision
+and existing public/demo/submission draft copy explicitly approved. Coordinator
+research is not a delivery prerequisite; usefulness remains UNVALIDATED.
+Future produced assets need review, not research. Static verifier item8 still has
+pending wording; actual scoped approval controls decision/draft status.
+Final C/D and unresolved technical requirements remain open. HANDOFF has next steps;
+later operational notes are uncommitted/outside that immutable approval.
+
 Scope-change request: user wants human validation removed from gates. Planner is
 reconciling spec/PLAN so coordinator research is not a delivery prerequisite and
 usefulness stays explicitly unvalidated (no impact claims). Accessibility/security/

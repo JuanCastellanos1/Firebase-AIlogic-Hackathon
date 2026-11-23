@@ -15,6 +15,35 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 VERIFIER = REPO_ROOT / "scripts" / "verificar.py"
 PY = [sys.executable]
 
+# The seven technical gaps that must stay byte-identical while scope changes are reviewed.
+# AC15 is absent by the approved November 23, 2026 decision: its master/reviewer product-decision
+# and existing draft-copy claims review is satisfied, so it is no longer unimplemented scope.
+EXPECTED_UNIMPLEMENTED = (
+    "Q5 reviewer closure: the pinned Gitleaks scan (working tree + dist, no project allowlist), "
+    "the production dependency audit and the new dist-guard now run locally, but reviewer sign-off "
+    "on the redacted report and on the pre-deploy public artifact set is still open",
+    "hosted delivery checks: the `hostedQA` mode is implemented and unit-tested, but no Hosting "
+    "build was deployed, the reserved /__/firebase/init.json endpoint is unproven for the modular "
+    "SDK and must be checked empirically after the gated deployment, and no hosted "
+    "reCAPTCHA-Enterprise-attested request exists",
+    "App Check enforcement is ENFORCED for `firebaseml.googleapis.com` and probe-proven (valid "
+    "token 200, missing or garbage token 401; docs/adr/0007-appcheck-enforcement.md), but hosted "
+    "reCAPTCHA-Enterprise attestation and Firestore App Check enforcement before public release "
+    "remain pending",
+    "in-app live cloud reconciliation: the signed-in live app reaches the Auth success path and "
+    "is denied at the membership read by the current closed Rules; the reviewed Ruleset "
+    "deployment (separately approved, not performed here) is required, and the cloud "
+    "reconciliation suggestion/confirm flow has only labelled-mock evidence",
+    "hosted local model ON_DEVICE request, quota/latency beyond one measured cloud call and the "
+    "separately consented hosted cloud comparison (AC13/Q6 remain open); the local model path is "
+    "proven on localhost for Nano 4 by docs/adr/0006-nano4-runtime-proof.md, while a hosted "
+    "local-model request and the hosted reCAPTCHA-attested cloud request are still absent",
+    "manual accessibility: screen-reader announcements, 200% zoom and actual Android Chrome touch "
+    "(automated axe serious/critical, keyboard and 320px checks only)",
+    "live Firebase Hosting deployment, public release and any further cloud provisioning remain "
+    "outside this cut and need their own confirmation",
+)
+
 EXPECTED_CHECKS = {
     "typecheck",
     "lint",
@@ -177,37 +206,35 @@ class VerifierTest(unittest.TestCase):
             "cloud reconciliation",
             "manual accessibility",
             "live firebase",
-            "ac15",
         ):
             self.assertIn(gap, gaps)
 
-    def test_ac15_gap_requires_the_decision_and_claims_review_not_research_attendance(self) -> None:
+    def test_ac15_is_no_longer_unimplemented_scope_and_seven_gaps_stay_exact(self) -> None:
         items = self.verificar.SCOPE["unimplemented"]
-        # Eight items stay listed, so the gate keeps failing closed on unimplemented scope.
-        self.assertEqual(len(items), 8)
-        matches = [item for item in items if "ac15" in item.lower()]
-        self.assertEqual(len(matches), 1, matches)
-        gap = matches[0].lower()
-        # The November 23, 2026 scope decision moved the obligation from research attendance
-        # to a dated decision plus a wording review.
-        self.assertNotIn("representative-user product usefulness validation", gap)
-        self.assertIn("decision", gap)
-        self.assertIn("claims review", gap)
-        self.assertIn("unvalidated", gap)
-        self.assertIn("not delivery prerequisites", gap)
-        self.assertIn("no research result is required", gap)
-        # The seven technical blockers remain byte-for-byte present.
-        technical = "\n".join(item.lower() for item in items if item not in matches)
-        for needle in (
-            "q5 reviewer closure",
-            "hosted delivery",
-            "app check",
-            "cloud reconciliation",
-            "local model",
-            "manual accessibility",
-            "live firebase",
-        ):
-            self.assertIn(needle, technical)
+        # AC15's product decision and the existing draft-copy claims review were approved at
+        # checkpoint af421ae, so that item is removed; the seven technical gaps stay byte-identical
+        # and the gate keeps failing closed on them.
+        self.assertEqual(items, list(EXPECTED_UNIMPLEMENTED))
+        lowered = "\n".join(items).lower()
+        for gone in ("ac15", "coordinator", "research", "recruitment"):
+            self.assertNotIn(gone, lowered)
+
+    def test_seven_technical_gaps_keep_gate_c_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            init_repo(root)
+            (root / "a.txt").write_text("a\n", encoding="utf-8")
+            commit_all(root)
+            evidence = self.verificar.build_evidence(
+                root,
+                [{"name": "ok", "command": [*PY, "-c", "print('ok')"]}],
+                60,
+                "full",
+                self.verificar.SCOPE,
+            )
+        self.assertTrue(evidence["ok"])
+        self.assertFalse(evidence["gate_c_eligible"])
+        self.assertIn("7 scope items unimplemented", evidence["gate_c_reasons"])
 
     def test_passing_phase4_checks_never_claim_gate_c_or_product_scope(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

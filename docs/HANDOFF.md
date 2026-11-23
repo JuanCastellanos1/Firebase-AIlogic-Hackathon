@@ -1,5 +1,102 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Active continuation — November 23, 2026, remaining local evidence
+
+User requested Continue. Two bounded tasks are running:
+
+1. Implementer `ses_df6634d4effep1STNM0u3AVsDS`: local-emulator/labelled-mock
+   contrast for observation-confirmed, stale-consent/info and >20 context selection.
+   Local synthetic writes only to reach the confirmed UI; no hosted/inference/Auth
+   with live services, new hooks/install or repo edits. Outside-root report:
+   `Temp/opencode/shiftrelay-contrast-reconciliation-final-20261123/REPORT.md`.
+   Queue-refresh/workspace-error induction is NOT retried; two-attempt limit retained.
+2. Implementer `ses_df663151dffeXSSA6s5y4303b4`: remove only the satisfied static
+   AC15 item from verifier unimplemented scope, with red/green regression and exact
+   retention of the other seven technical gaps and fail-closed gate logic. Edits
+   limited to verificar.py/its test. Decision and existing draft claims review were
+   explicitly approved at `af421ae`; future produced assets still require review.
+   Result inspected: verifier removes only AC15; seven remaining strings unchanged,
+   no gate/check-list logic edits. Regression strengthened to exact seven-string
+   equality and explicit gate-not-eligible reason. Master independently ran verifier
+   plus scanner tooling tests: 27/27 exit 0; diff check exit 0. Full evidence still
+   certifies `af421ae`, not the uncommitted seven-item metadata change.
+
+Reconciliation contrast report received/master-inspected; JSON independently shows
+three measured states (48/48/249 nodes), minimum6.821 each, zero failing/inactive-
+below/unmeasurable. Run1 missed signature invalidation; run2 after ordinary refresh
+rendered all3. Confirmation write was LOCAL emulator only, not hosted/real model.
+Same delegate records only verification/PUBLISH plus seven-item scope supersession.
+Durable diff now master-inspected: verification §23/PUBLISH dated summary, insertion-
+only, three-state ratios/provenance/run1 miss/local-write limits retained. Diff check
+exited 0. Its two-attempt/no-third-yet wording is a snapshot of that completed run;
+the separately approved third attempt below remains in flight, not assumed passed.
+
+User explicitly approved a bounded third attempt for queue-refresh/workspace-error
+contrast using one local-only synthetic non-retryable403 strategy per state.
+Implementer `ses_df663151dffeXSSA6s5y4303b4` now runs that separate outside-root task;
+report `Temp/opencode/shiftrelay-contrast-errors-third-20261123/REPORT.md`.
+No fourth attempt, no hooks/Rules changes or live traffic. Prior no-third-attempt
+language above is superseded ONLY by this exact approval.
+Third-attempt report received and master-inspected (204 lines); JSON independently
+confirms two states, 26/15 nodes, minimum6.821 each, zero failing/inactive-below/
+unmeasurable. Actual strategy adapted to SDK WebChannel Listen per-target REMOVE
+cause7; it was NOT an HTTP403 or batchGet response. Prior batchGet/retry causal
+diagnosis is superseded, not proven. Two protocol validation runs (first cache-hit
+assertion failed/log overwritten, second uncached rejected), then one state attempt
+each rendered. No fourth state attempt; no real backend/Rules denial established.
+Recording delegate now adds bounded two-state result/protocol clarification to
+verification/PUBLISH only. Remaining contrast includes send-path stale wording and
+hosted-authenticated states; actual-reader evidence remains unverified.
+
+Next exact step: receive final two-file recording diff without polling and inspect
+it, then save one combined substantive checkpoint/full evidence/focused review.
+Final verification/PUBLISH diff now inspected; diff check exit 0. Five newly measured
+local states are recorded with simulation/mock/protocol/preflight limits, plus removal
+of satisfied AC15 metadata. Eight-file checkpoint scope: DEBT, HANDOFF, PUBLISH,
+_presupuesto, _project, verification, scripts/verificar.py, tests/test_verificar.py.
+Next exact step is authorized save, full clean evidence, focused review against
+`af421ae`. No new certification asserted by these pre-commit notes.
+No further measurement authorized by the exhausted third-attempt permission.
+No hosted request/cloud configuration/publication
+authorized. Last immutable certification remains `af421ae`; operational docs dirty.
+Research attendance stays removed; accessibility/security/privacy floors unchanged.
+Use skills/inspection commands in the approved checkpoint section below.
+
+## AC15 scope change approved — November 23, 2026
+
+- Saved checkpoint `af421aefdd897464fe6a631faeacf1a8a66c7bbc`. Master verified
+  clean tracked status and matching HEAD/evidence/review.sha; full verifier 16/16
+  exit 0, ok/clean/stable, finished `2026-11-23T18:07:52Z`.
+- Same reviewer `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED the 13-file
+  `84bd353..af421ae` cut, no blockers. AC15 product decision AND existing public/
+  demo/submission draft-copy review explicitly approved.
+- Coordinator research/recruitment/sessions/timing/utility comparison are NOT
+  delivery prerequisites. Usefulness remains UNVALIDATED; no validated usefulness/
+  comparative-improvement/impact claims. In-product review/consent stay mandatory.
+- Existing draft claims review is satisfied, not research or future-asset clearance.
+  Future recorded video/final published copy/judge materials need normal artifact
+  review, not coordinator sessions. Verifier's static eighth item still lists
+  decision/claims review; its pending text does not override this exact approval.
+- Final C/D remain OPEN. Technical floors unchanged; no new technical failures,
+  cloud action, push, merge or deployment. Ignored-tree hygiene remains uncertified.
+- These later operational notes are uncommitted, outside the immutable approval.
+  No status-only certification loop is needed. Five notes remain grouped under N6.
+
+**Next exact step:** select a remaining technical/delivery item, not human research:
+actual reader status/error evidence by an authorized valid collection route; named
+unmeasured contrast states; remaining hosted provenance/privacy/quota checks;
+Firestore App Check before public release; judge-access channel/availability;
+real-runtime demo and final artifact/CI/release/approved-publication steps.
+No live inference, enforcement change, public publishing or merge follows from
+the scope request. Do not reopen completed runtime/device/zoom/naming evidence.
+At the next substantive verifier edit, reconcile static AC15 text with this approval
+and future-asset review boundary, preserving every unresolved technical blocker.
+
+Commands: `git status --short`; `git rev-parse HEAD`;
+`py -3 -c "import json; d=json.load(open('.git/opencode/evidence.json')); print(d['commit'], d['ok'], d['dirty'], d['gate_c_eligible'])"`.
+Suggested skills: handoff, verification-before-completion; task-specific skills only
+for the next scoped delivery item. All pending-review language below is history.
+
 ## Requested gate-scope change — November 23, 2026
 
 User explicitly requested removing human validation from gates and a remaining-work

@@ -17,6 +17,15 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+AC15 scope checkpoint `af421ae`: same reviewer APPROVED `84bd353..af421ae`,
+no blockers; decision and existing draft-copy claims review explicitly approved.
+Five notes remain N6: dated pre-commit snapshots; PUBLISH correction parenthetical
+under-enumerates its governing blanket supersession; idea's historical research
+checkpoint superseded at top; policy-denied ignored-tree hygiene; PLAN's pending
+claims-review checkbox now satisfied for existing drafts only. At next substantive
+verifier change reconcile static item8 with actual approval/future-asset review.
+No research session or immediate cosmetic/checkpoint loop required.
+
 Enforcement/contrast checkpoint `84bd353`: same focused reviewer
 `ses_df69e6660ffeWf4eXej8AhaiI9` APPROVED `0001fa1..84bd353`, no blockers.
 Five nonblocking notes stay under N6: dated pre-commit snapshots; quote reviewed §21
