@@ -1,6 +1,454 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## SESSION CLOSED — November 24, 2026, explicit confirmation received
+
+User explicitly confirmed orderly closure: one local WIP commit of the six pending
+documents, no push, merge, deploy, publication or deletion. Branch
+`feat/hackathon-ideation` and all work are preserved. Resolve the WIP SHA with
+`git log -1`; no future SHA is asserted here.
+
+### Phase / gates / artifacts
+
+- Phase 8 delivery validation. Final Gates C/D remain **OPEN**; the static seven
+  scope groups remain and `gate_c_eligible=false`. No gate closes at closure.
+- Last approved immutable checkpoint `2c3d3ca5a9d69650a2a0a5835e044eb70208fade`
+  (docs-only on top of the application checkpoint): full verifier 16/16 exit 0,
+  `ok=true`, `dirty=false`, `tree_stable=true`, finished `2026-11-24T06:35:32Z`,
+  matching `review.sha`, focused review APPROVED. It records four targeted success
+  reader reconfirmations as evidenced: review status, accept/Resolve control,
+  resolve/Reopen control and reopen/Resolve control — Speech Viewer text channel only.
+- Application checkpoint `5f87582381b3e2867385afbe0e1552185269e346`: accepted-focus
+  correction, full 16/16 at `2026-11-24T05:29:20Z`, focused review approved, with a
+  controlled exact-approved-source RED versus candidate GREEN pair.
+- Closure work is docs-only and is **not** certified by those checkpoints: the WIP
+  save has no fresh verifier or independent review. Do not treat it as gate evidence.
+- Outside-root artifacts (not versioned): reader reports under
+  `Temp/opencode/shiftrelay-nvda-*`; rough manual clips and reports under
+  `Temp/opencode/shiftrelay-demo-manual-retry-20261124/`; hosted one-call record under
+  `Temp/opencode/shiftrelay-hosted-payload-onecall-20261124/attempt2-20261124/`;
+  selector fix under `Temp/opencode/shiftrelay-hosted-payload-selectorfix-20261124/`;
+  integrated rev2 collector under
+  `Temp/opencode/shiftrelay-hosted-payload-integrated-20261124/` (V3 freeze manifest).
+- `.git/opencode/` holds `evidence.json`, `review.sha`, `review.patch` and the focused
+  patches, all certifying `2c3d3ca` only.
+
+### Decisions
+
+- The accepted-focus correction is approved for the original defect. Historical
+  `GREEN2`/`GREEN4` failures remain **unattributed**: no per-run source identity was
+  retained, their traces were overwritten, and no current-candidate failure rate is
+  established. Do not claim that race is fixed or absent.
+- Denied/stale/error accept focus restoration is an explicit scoped limitation of the
+  success-path correction. It is **not** a contract waiver, a passed check or reader
+  coverage; any remedy needs its own regression and review.
+- Four targeted reader success states are evidenced (text channel, one reader/config,
+  one machine). Whole AC12/Q4 remains open; the written scope beyond those states is
+  underdetermined and no blanket state/hardware/reader floor is invented.
+- One consented hosted cloud request returned 200 with a valid zero-suggestion brief.
+  Zero suggestions is a valid outcome; no reroll was or should be made to stage a
+  positive suggestion. The request body was discarded by design, so preview/payload
+  equality and outbound sentinel absence stay **UNMEASURED**.
+- Served assets match the reviewed `00c2b2e` sealed stage; the served **AI model**,
+  literal SDK `inferenceSource` field and any optional wire flag remain unknown and
+  are not gates. Requested model is `gemini-3.5-flash-lite`.
+- The corrected collector reached engineering preflight **GO** offline: pinned-SDK path
+  derived, 192/192 projection assertions and 26/26 runner stubs, 27-conjunct fail-closed
+  verdict, full five-asset hash gate before credentials. This is engineering approval
+  only; no live permission is granted and no live payload proof exists.
+- The rough manual clips are source inventory only: not the demo, not approved for
+  publication, retimed derivatives with approximate internal timing and partial review
+  framing. The required real-runtime AI demonstration, narration and captions do not exist.
+- Product usefulness remains **UNVALIDATED**; no impact, comparative, timing or
+  eligibility claim is supported.
+
+### Process deviations (recorded, not waived)
+
+- Reader reconfirmation: six failed harness executions exceeded the two-attempt
+  discipline, and six generated raw Playwright page-snapshot directories were deleted
+  after capture without a scoped deletion permit. No credential exposure is
+  established; "none exposed" cannot be claimed, and the deletion is not a privacy control.
+- Hosted comparison: three sign-ins/preview attempts exceeded the two-attempt guidance;
+  the first two made no AI request and the third changed strategy, but this is not an
+  automatic retry right.
+- First demo capture failed before recording with its log and wrapper exit lost; the
+  pre-fix harness had no hash. An encoder probe directory was removed in that run. The
+  successful capture was a disclosed second, final take.
+- Ignored-tree hygiene remains uncertified: `git clean -ndx` was policy-denied and was
+  not bypassed. Clean tracked state comes from the verifier, not from that probe.
+
+### Open conditions and exact next step
+
+1. **Real-path payload proof.** Needs a fresh explicit permit for one execution of
+   `run_preview_once.py`: one tab, one sign-in, one preview click, one send, at most one
+   `firebasevertexai` POST, plus five same-origin asset GETs authorized separately; no
+   rerun for any outcome. A failed pre-send orchestration still spends the execution
+   permit though not the AI call. A pass would establish exactly one measurement on one
+   machine — not AC13/Q6 closure, served-model identity or privacy certification.
+2. **Demo asset.** Required real-runtime demo with AI output actually generated on
+   screen, narration, captions, the section 8 QC and explicit final asset review.
+   Upload/publication remains a separate approval. The rough manual clips do not satisfy it.
+3. **Release conditions.** Firestore App Check enforcement before public release;
+   release-time AI enforcement verification; administrator-approved free-tier quota and
+   availability through the judging window; private judge credential channel; final-source
+   CI, gated release, post-deploy proof and a live rollback drill.
+4. **Accessibility/contract limits.** Whole AC12/Q4 stays open; denied/error focus remains
+   an accepted limitation; the observer `document_value_absent` signature is unexplained.
+5. No further reader runs, blind soak, extra AI request or status-only certification loop
+   is authorized. Any of the above needs its own scoped permission.
+
+```powershell
+git status --short
+git log -1 --format="%H %s"
+py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['finished_at'])"
+# Only after a later substantive change, before any gate claim:
+py -3 scripts/verificar.py --report .git/opencode/evidence.json
+```
+
+Suggested skills on resume: handoff, verification-before-completion;
+agent-browser plus firebase-ai-logic-basics for the scoped payload run; editing-videos
+for the actual demo asset. All delegates are idle; no owned services are running.
+Sections below are retained dated history and do not override this closure.
+
 ## Active resume — November 23, 2026, local reader evidence
+
+## November 24 — full served-build gate rev2 offline green; final preflight review
+
+Master independentlyranintegrated`node selector.test.mjs --label master-rev2-check`
+192/192exit0 and`py -3 py_stub_check.py`26/26exit0. Variant0002591f02ce6e97,
+flow532c7c7a.../verdict791cf446.../freeze5ae2b8af.../fullrecordf39f0517....
+No network/Auth/browser/AIcalls. Same-reviewerfinalpreflightactive onrev2:
+full5assethashesBEFOREcredentials, derivedflags+27thconjunct/freeze/alloldchecks.
+**Next exact step:** receiveGO/NO-GO, resolveanyblocker, thenfreshuserpermission
+forONEexecution/5assetGETs/max1AIpost/no retry. No livepermitcurrently.
+Originalpayloadunmeasured, docsdirtyaboveapproved2c3d3ca. No formalCclaim.
+
+## November 24 — five integration blockers closed; served-build Auth gate fix active
+
+Same-reviewer confirmedfivepriorblockersclosed, NO-GOonlyremaining:
+runnercouldAuth/sendwithprefix-onlyservedfixture/no live5fullhashcomparison.
+This is engineeringpreflight, notformalGateC; no livepermit.
+Implementer`ses_df3723554ffeseVa1pW3D5NvYN` addsinpage5same-originassetGET/
+fullSHA256gateBEFOREcredentials in futureexecution, pureofflinefetch/cryptostubs
+nowonly, new27thverdictconjunct andfrozenfullrecord. Anyfetch/mismatchSTOPNOAuth/
+preview/send. Prior158assertionsretained plusservedgatecases; noactualGETnow.
+**Next exact step:** receiveofflineRED/GREEN/hashrevision, same-reviewercheck
+finalgate, independentmasterofflineverification, THENfreshuserexecutionpermit
+naming5assetGETs+max1AIpost/oneAuthpreviewsend/no retry. Pre-sendfailurewould
+consumeexecutionbudget evenifAIcount0; disclosebeforeexecution.
+No clip/footage tie-in forfuturemeasurementcall, noproductionedits/deploy.
+
+## November 24 — offline integration tests green; same-reviewer re-review active
+
+Integratedartifactroot`Temp/opencode/shiftrelay-hosted-payload-integrated-20261124/`
+reports158/158GREEN+runnerstub12/12, REDold15885fail, freeze/driftnegative.
+No network/Auth/model/browser/repochanges. Fivepreflightblockersreportedfixed;
+masterhasNOTyetacceptedGO. Same reviewer`ses_df435283affev31so1dyMcZZ25`
+checksfiles/tests/failclosedverdict/freeze/onepreviewbehavior and whether
+prefix-onlyservedfixturecanaccidentallyauthorizeAuthwithoutFULLlive5assethashes.
+**Next exact step:** receiveGO/NO-GO/exactremainingblocker, independentlyverify
+offlinecommandsafterread-onlyreview, then obtainfreshONErequestpermission.
+No livepermit now; no correctedpayloadproof. Existing2c3d3ca approval retained,
+6docdirtyworkuncertified, allreleasegatesOPEN. No statussuite/runtime rerun.
+
+## November 24 — collector engineering preflight NO-GO; five offline fixes active
+
+Same reviewer preflightNO-GO forliveintegration, GOtechniqueafter5minimumchanges:
+ONEpreviewclick/typedstop; removeorchestratorwrongprefixcounter; per-run allscript/
+SDK/servedassetfreeze+finallydriftcheck; puretypedfailclosedpassconjunction;
+removefakepacket-sentinel0/presetpartscount and deadctxAIcount.
+Measuredcomparison≠passingcomparison (e.g.429bodyparsecanbemeasured,statusfails).
+Priorrunnerhashdifference e949ce84vs154e35cf is UNATTRIBUTABLE,noexecutedbytesclaim.
+No formalGateC/repoapproval made.
+
+Implementer`ses_df3723554ffeseVa1pW3D5NvYN` correctsOFFLINEONLY innew
+`Temp/opencode/shiftrelay-hosted-payload-integrated-20261124/`, preservesoldfiles,
+addsRED/GREENintegration/verdict/hashdrift/missingpartsfixtures, retains95suite.
+No relay/hosted/Auth/network/model/browser/video/repo/Git/docs/deletion.
+**Next exact step:** inspectminimalfix/tests/hashreport, same-reviewerGO/NO-GO
+followup BEFOREaskingfreshONEcallpermit. No hiddensecondpreview/thirdsignin.
+No newlivepermit; originalpayloadstillUNMEASURED, servedmodelunknown.
+Approvedimmutable2c3d3caretained; sixlaterdocsuncertified,gatesOPEN.
+
+## November 24 — pinned-path collector fixed offline; integration preflight review active
+
+MasterreadselectorfixREPORT and independentlyran
+`node selector.test.mjs --collector collector/projector.js --label master-fixed-selector-check`
+in`Temp/opencode/shiftrelay-hosted-payload-selectorfix-20261124/`:95/95pass,
+exit0, collectorc89d55e8.../derivedpathdb75c86d... SDK3.1.0. REDoldselector58fail
+delegate-reported/preserved. ActualpathDERIVEDfrompinnedSDK:
+`/v1beta/projects/shiftrelay-hybridai-2026/models/gemini-3.5-flash-lite:generateContent`.
+HostPOSTcount1 + explicitendpoint/project/model validation nowtested, fixture
+privacyguardpassed. No live/auth/AIrequests inthisfix; no retroactivepayloadproof.
+
+Knownintegrationissues: oldflow:317stillwrongprefixcount; priorrun_one_call.py
+currentpreservedhashe949ce84 differs from recordedexecuted154e35cf, attribution
+mustnotbefaked. No newlivecollector executionuntilintegrationreview.
+Reviewer`ses_df435283affev31so1dyMcZZ25` reviewsOUTSIDE-ROOTsource/scripts/tests
+as engineeringpreflightGO/NO-GO, NOTformalGateC/dirtydocapproval. No runtime.
+**Next exact step:** receiveconcreteintegrationblockers, routeminimumoffline
+fix/re-review, THENrequestfreshONEcallpermitifneeded. AvoidthirdAuthpreview
+attempt/hiddenrepreviewloop. No repeatlivecall currentlyauthorized.
+§29recordreceived/inspectedwithsanitizedresultJSON, allunmeasureditems explicit.
+Approvedimmutable2c3d3caretained, sixlaterdoceditsuncertified; gatesOPEN.
+
+## November 24 — one hosted request succeeded; target payload proof UNMEASURED
+
+Master inspected attempt2-20261124/REPORT.md under hosted-payload-onecall root.
+Exactly1AIhostPOST200/validbrief102chars/0suggestions, no reroll; requestedmodel
+gemini3.5flashlite, servedunknown, SDKliteralfieldunobserved/appguardinference.
+Collectorselectedwrongpath `/v1beta/models/{seg}:{seg}` ->unlisted/no_ai_post,
+so EXACTpreview/payloadallowlist/system/schema/OUTBOUNDsentinelNOTMEASURED.
+Rawbodydiscardedinmemory, no permittedrecovery/dump. URL/storage/emittedsentinel
+0only, NOTwholeprivacyproof. OptionalclipSKIPPED, noAIfootage.
+35/35fixturegreenbeforeauth afterinitial4fails, but realisticSDKpathnotcovered.
+
+PROCESSdeviation:3hostedsignins/previewattempts crossed2attemptdiscipline; first2
+0AI and changedthirdstrategy doNOTcreateautomaticretrypermission. All3tabsclosed
+delegate-reported. Firstpreviewclicknoresultunexplained, no defectverdict.
+ONEAIrequestbudgetconsumed; NOnewlive/authretry or additionalAIcall authorized.
+Existingapprovedautonomydoesnoteraseexplicitrequestcaps/processlimits.
+
+Debugger`ses_df380413affeZolSs3vIA980KA` OFFLINEONLY freezes/copiescollector to
+`Temp/opencode/shiftrelay-hosted-payload-selectorfix-20261124/`, adds pinnedSDK
+realpathREDfixture thenminimumhost/method/exactcount/endpoint/modelselectorfix
+GREEN + adversarialprivacy/comparatorfixtures. No repo/runtime/cloud/browserAuth.
+Docs-only`ses_df37ff079ffeByKZMHKqomyvcy` appendsmeasurementgap/deviations§29.
+**Next exact step:** inspectofflineRED/GREEN/source/guardproofandrecorddiff,
+obtainindependentreviewofcollectorbefore ANYnewlivecallpermissionrequest.
+No fullsuite/statuscertification/recoveryrawbody/previewrerun. Lastapproved
+2c3d3caretained, laterdocsuncertified; realprivacy/AIvideogapsstillOPEN.
+
+## November 24 — user opened Chrome; same one-request task resumed
+
+User answered "done" to pairedChromeopeningrequest. Delegate
+`ses_df3938407ffeli2265S6Bwb7fk` resumes SAMEunusedone-requestscope:
+checkconnectedONCE, FIRST localcredential-shapedprojectionfixture100%pass,
+onlythenexistingauth/preview/oneconsentedAIrequest. Ifoffline/prooffailsSTOP,
+no rawoutput/bypass/retry. All priorlimits/optionalclipboundaries retained.
+**Next exact step:** receive sanitizedproof/actualcallcount/report withoutpolling,
+inspectcontractcomparison/source/build/privacy/cleanup beforeclaims. Userdone
+doesnotitselfproveconnection orauthorizeadditionalcalls/settings/publication.
+EarlierPAUSEDbrowsersection remains historical untilactualstatusresult.
+
+## PAUSED November 24 — open paired Chrome to continue hosted proof
+
+Master inspected `Temp/opencode/shiftrelay-hosted-payload-onecall-20261124/REPORT.md`.
+Delegatehashed5servedassets in memory: matchrecordedreviewed00c2b2eQAstage.
+Cloudadapter/packetbuilder/consentUI gitblobs identical00c2b2e/5f87582/HEAD;
+deployedHandover/PrivateDraftlacklatersourcefixes, no redeploy.
+This pins APPLICATIONASSETS/adaptercontract, NOT servedAI-modelidentity.
+
+Browserrelay reports paired-offline/browsers[]/0agenttabs/Chromeprocesses0.
+Route'snextStep: USERopenspaired`chrome-this-computer` Chromeprofile containing
+browseextension; it reconnectsautomatically. No navigation/Auth/credentialread/
+capture/consent/AIrequest occurred (AIhostPOSTcount0); no payload/sentinelproof.
+Preparedprojector.js/proof_projection.py outside-root are NOTtestedendtoend and
+NOTevidence. No fallbackheadlessattestation/settings/browserlaunch/bypass.
+No agents active, no ownedbrowser/tabcreated. Currentone-AIrequestpermission
+remainsUNUSED but pre-trafficprojectionproof is stillmandatory.
+
+**Exact next step:** user opensChromeprofilewithbrowseextension, then resume same
+delegate`ses_df3938407ffeli2265S6Bwb7fk`; confirmconnectedONCE, run localfixture
+projectionproof100%pass BEFOREauthtraffic, then boundedexistingaccount/taskpreview/
+oneconsent/oneAIrequest/no taskwrite/retry. Stop403/429/challenge, humanhandoff.
+Neveremitrawtransport/credentials. Optionalcliponlysamerunifsafecaptureavailable.
+Untilconnected, WAIT; do notretrybrowsercommands orlaunchuserChrome.
+
+Lastapprovedimmutable2c3d3ca full16/16/reviewapproved. Sixdocroughasset/
+operationaledits remainuncertified; don'tfullverifyforstatusonly.
+Fourtargetreaderchecksreviewed; roughmanualclipsdecodecheckednotfinal; realAI
+demo/privacy/provenance/Firestore/judge/CIreleaseconditionsstillOPEN.
+No modelcall/cloudwrite/push/merge/deploy/publication/delete occurred thisstep.
+Suggestedskills: agent-browser/firebase-ai-logic-basics for safecontinuation,
+handoff/verification-before-completion for eventualcheckpoint/review.
+
+## November 24 — renewed autonomy; one hosted payload comparison active
+
+PinnedSDKfeasibilityreceived: firebase13.3.0/@firebaseAI3.1.0 cloudadapter
+ONLY_IN_CLOUD returns{text}afterclient-sideinferenceSourceguard; servedmodel
+notexposed/pinnedmappingdropsunknownfields. Recordrequestedvsservedunknown,
+no fake literalSDKfield observation. ActualpacketEXACT`sources/context`, tasks
+`id/version/title/detail/state`; masterearlierguessedalternatepacketshapeWRONG,
+neverusedasproduction/testoracle and mustnotbeusedincollector.
+Retained§20bodydisabledcannotretroactivelycloseexactpayloadproof.
+
+Useranswered hostedcall/clipapprovalquestion with renewedautonomy:
+"You have total control. Do as you wish and continue until you are finished or a
+permission is required." Master scopes ONEconsentedhostedcloudrequest, optional
+credential-freepreview/resultclipofsamerun, no extraAIcallforfootage.
+Existingbilling/legal/destructive/publication/human-challengeboundariesremain.
+Implementer`ses_df3938407ffeli2265S6Bwb7fk` usesexistingreviewedhosteddeployment/
+syntheticoutgoingaccount/tasks; provein-processprojectionBEFOREauthtraffic,
+exactpreview/requestcomparison+allowlist/sentinelbooleans, no rawtransportoutput.
+No task/Auth/membershipedit, confirm/dismiss, retry/settings/deploy/modelupgrade.
+Max1AIhostPOST, stopchallenge/403/429/error; zero-suggestionsvalid,noreroll.
+Clipoptionalifsafeaccurateinstalledcapturepossible, no repeats; otherwise skip.
+
+Expected sanitizedreport:
+`Temp/opencode/shiftrelay-hosted-payload-onecall-20261124/REPORT.md`.
+**Next exact step:** receive report withoutpolling, inspectprojection/build/source/
+packetcomparator/actualcallcount/secretboundaries/cleanup and optionalclipQC.
+Ifblockedbeforecall, inspectexacttechnicalpermissionboundary; no silentworkaround.
+No servedmodel/wholeprivacy/hybrid/eligibility/finalgateclaim follows.
+Roughmanualassetprecisioninspected; fullrealAIdemo/Firestore/judge/CIremain.
+
+## November 24 — master reconstructed runtime gap; pinned-SDK feasibility active
+
+Plannerreducedretry also returnedNOtext; no thirdplannerrelaunch. Masterread
+summary§5-6/specAC05AC13/CONSTRAINTSQ1Q6/latestPUBLISH§12-13 and reconstructed:
+genuinelocalhostON_DEVICE + hostedON_DEVICE + oneconsentedcloudcallalreadyexist;
+real-pathsentinel/payloadcomparison, recordedcloudmodel/source and hostedlocal
+provenancereconciliationremainpartial. No optionalwirelimited_useflagproof,
+arbitrarysoak/latency/samplecount/hardwarefloor added.
+
+MasterloadedFirebaseAIbasics andqueriedofficialSDKdocs viaContext7:
+inferenceSource indicatesdevice/cloud, strictinference modesdonotfallback.
+DocsquerydidNOTestablish returnedmodelVersion; no model/config/provisioning/
+SDKupgrade/billingaction occurred. Existingcloudadapterchecks in_cloud then
+returns onlytext; configuredmodelname is NOTactualservedmodelmeasurement.
+
+Implementer`ses_df39e70c0ffeNagER8urEGEOR5` READ-ONLY inspects pinnedSDK13.3.0
+types/source + appcallers todesign smallest safe futureONEcloudcall collector,
+exactpreview/payload/sentinelbooleans andhonestmodel/sourceobservabilitylimits.
+No runtime/cloud/browser/edits. **Next exact step:** receivefield/sourcefeasibility
+andconcretesixlinepermit, inspecttrustboundaries, obtainexplicitliveauthorization
+ifneeded BEFORE anymodelrequest. No extraAIcalls merely tostagepositivesuggestions.
+Roughassetrecordprecisionreceived; nofinaldemo/fullgateclaim. Approved2c3d3ca
+retained, laterdocsuncertified; recorddoubleplannerfailureinDEBTN6.
+
+## November 24 — rough asset wording corrected; reduced runtime reconciliation retry
+
+Master inspected roughassetREADME/verification§28 and diffcheckexit0. Requested
+precisionreceived: capture-local absenceofAI/hostedcalls no longerglobalclaim,
+earlierencoderprobedeletion qualified, fullrealAIdemorequirementnotwaived by
+manualfallback. Finalcorrectedexcerpt received; no newruntime/source/Git.
+Roughretimedclips remainnotfinal, timing/framinglimitsstand.
+
+Planner`ses_df3a27686ffesOF7HGh8irOSp7` first reconciliationcompletedwithNOtext
+response. ONEreduced-scope retryactive (≤12lineevidencechain/exactmissingwritten
+requirement/nextactionpermission), read-only/nooutputfile. If it failsagain,
+masterreconstructsfromartifacts and recordsfailureinDEBT, no thirddelegationloop.
+**Next exact step:** receiveconciseruntimeanswer withoutpolling, chooseone
+actualAC13/Q6/privatepayload/provenanceprogression and obtainexactlivepermission
+onlyifneeded. No newmodelcall/recapture/deploy/metadata-onlyfullsuiteauthorized.
+Alltargetreadercapturesreviewed; approvedimmutable2c3d3ca retained,
+later6docasset/operationaleditsuncertified. No finishedsubmissiondemo/publication.
+
+## November 24 — rough manual footage exists; runtime evidence reconciliation active
+
+Replacementcapture succeeded exit0/1passed, no thirdtake. Master inspected
+retryREPORT/clips.json and fourdecodedframes(reviewhold/shareconfirmation/
+openAccept/resolvedhistory), independentlyffprobe+ffmpegdecoded bothretimedMP4s
+exit0:20.48s/12.44s,H264yuv420p1280x90025fps,onevideostream/noaudio.
+Root:`Temp/opencode/shiftrelay-demo-manual-retry-20261124/footage/`.
+Files:`clip-1-outgoing-review-share-retimed.mp4`,
+`clip-2-incoming-accept-resolve-retimed.mp4`; rawpipelinefiles retained.
+
+**Decision:** ROUGHLOCALMANUALsourceassets only, NOTapprovedfinaldemo.
+40msfloorbugslowedrawencodes; retimedderivativesapproxinternaldrift~1.4s.
+SourceJPEGsequencepreserved, output25fpscountschange; don'tclaim no added/dropped
+outputframes. clips.jsonoffsets are realcaptureevents, NOTretimedvideooffsets.
+Reviewfieldlistpartbelowfold; heading/exclusionvisible not fullpreviewlegible.
+Twoaccounts/separateclips, identityCSS-hidden/scrollframing, Authbeforecapture.
+No AI/audio/captions/hosted/full3mindemo/performance/privacypass claim.
+Frameinspection sampled not exhaustive; no furthercapture/encodeauthorized.
+
+Docs-only `ses_df3a2c232fferduUwbhmYlHaDk` records roughassets in demoREADME/
+verification§28. Read-only planner`ses_df3a27686ffesOF7HGh8irOSp7` reconciles
+retainedruntime/model/privacyevidence againstexactAC13/Q6/officialrulechain;
+no cloud/model/browser/runtime/edits. **Next exact step:** inspectassetrecord
+and evidencereconciliation, then select smallestgenuinemissinglink/permission.
+No morestatus-onlycertificationloop/sourcechange. Approved2c3d3ca retained,
+laterdocsuncertified, finalC/D/realAIdemo/judge/Firestore/CIreleaseconditionsOPEN.
+
+## November 24 — first demo capture blocked; one replacement authorized
+
+Master inspected `Temp/opencode/shiftrelay-demo-manual-20261124/REPORT.md`.
+Firstwrapperexecution failed BEFOREcapture:0frames/0video, Playwrightfailed;
+wrapperexit/log lost because Tee targetdirectory absent. Pre-fixharnesssource
+nothashedbeforeedit, exactthrownerrorunknown. Locator/readinessfix is supported
+as potentialharnesscorrection, NOT establishedhistoricalrootcause.
+Reportalso notes generatedencoderprobe directory removed, contradicting blanket
+"nothingdeleted"; preserve that deviation, do not repeat removals.
+NoAuthfootageexistsbecausecapture neverstarted; no asset/QCclaim.
+
+Master permits ONEreplacement (second/finalattempt), not a third take.
+Sameimplementer`ses_df3b61311ffeKwx9i3Bc8kOs2o` freezes correctedcopiedharness in
+new`Temp/opencode/shiftrelay-demo-manual-retry-20261124/`, createslogdirs before
+run, recordsreliableexit/sourceidentity and preservespriorfiles. Sameapproved
+wrapper/manualsynthetic/silent/noAI scope, Authbeforeeachpagecapture mandatory.
+No source/Git/cloud/audio/newinstall/deletion/extraencoderprobe/retry.
+**Next exact step:** receive actualasset/report/QC or boundedfailure, inspect
+filedecoding/metadata/representativeframes/privacyandrolecuts. Ifsecondfails,
+stopfornewstrategy/userdecision; do not callanotherfirsttake or certifyemptydirs.
+Immutable2c3d3ca remainslastapproved, sourceunchanged; no producedvideo yet.
+
+## November 24 — delivery map received; actual manual demo capture active
+
+Plannerfinitegapmap received. Nextsubstantiveassetgap is actualdemofootage,
+not morea11yreruns/staticmetadata. Runtime/privacy/modelproofpartial,
+FirestoreAppCheckbeforepublic,adminfree-tierjudgingavailability,privatejudgechannel,
+finalCI/release/rollbackconditions remain. No newwireflag/latencysoak/hardwarefloor
+invented; zero-suggestioncloudvalid/usefulnessunvalidated.
+Maptooloutput's remaininghostedcontrast list mustuse latest§25boundedcoverage,
+not reopencompletedstatesfromoldertext. FullAC12/Q4decision remainscontractual.
+
+Implementer`ses_df3b61311ffeKwx9i3Bc8kOs2o` captures ONEsilentlocalmanualdemo
+segment: syntheticnote→review→Share/serverconfirm→incomingAccept→Resolve/history.
+Approvedsafeemulatorwrapper only, outside-rootharness/assets at
+`Temp/opencode/shiftrelay-demo-manual-20261124/`.
+AuthcompletedBEFORErecording eachownedpage; no credentials/email/token input
+orAuthfootage retained, no rawnetwork/HAR/debugsnapshots/full-desktop.
+Installedrecording/encoder only; no install/cloud/model/NVDA/mic/audio/publish/
+Git/sourcechanges/delete/retry. Explicitlylocalmanualsegment, NOTrealAIdemo.
+**Next exact step:** receiveactualfootage/report/QC withoutpolling; inspect
+decodability/readability/role-cuttruthfulness/privacyguard and events before
+recordingassetmetadata in demoREADME or claimingusablefootage. Ifblocked report
+specificcapabilityboundary; no unsafecontext-startauthrecordingandtrimlater.
+Allfourtargetreaderchecks reviewed/evidenced; immutable2c3d3ca retained.
+
+## November 24 — four targeted reader checks reviewed/evidenced; delivery map active
+
+Same reviewer APPROVED `5f87582..2c3d3ca`, no blockers. FourTARGETEDsuccess
+readerreconfirmations explicitlyaccepted as evidenced: review, accept/Resolve
+control, resolve/Reopencontrol, reopen/Resolvecontrol, across2permittedruns/same
+reviewedappbytes. Textchannelonly, noacoustic/usability/WCAG/privacypass or
+wholeAC12/Q4/finalC/Dclosure. Immutable2c3d3ca full16/16okclean/stableSHA-match
+finished06:35:32Z retained; lateroperationalnotes excluded.
+
+Fourgroupednonblockingreviewnotes stayN6: staleverifierblanketmanualscope narrow
+at NEXTsubstantiveverifierchange, retain gate/sourceinferenceartifactlimits and
+unopenederrorcontext, carriedfocus/selector/identitylimits. No immediate cosmetic
+certificationloop. Priorboundedinvalidsubmit/appalertspeech retained as recorded
+sincepathunchanged; noautomaticnewSHA-onlycapture requirement. Denied/errorfocus
+unexercisedscopedlimit/unwaived. Readercontractbeyond finiteitemsunderdefined,
+do NOTinvent blanketallstates/hardwarefloor.
+
+Planner`ses_df3b82502ffeZw36c3hdbM2Ycp` READ-ONLY maps finite remainingwritten
+deliveryrequirements againstlatestartifacts/permissions (runtime/privacy/model,
+Firestorebeforepublic,judge/demo/finalCI/release/rollback). No edits/runtime/cloud.
+**Next exact step:** receive rankedmap/exactnextsafeaction withoutpolling, select
+one substantive delivery item rather than rereadingstatic7scopegroups as truth.
+Completedphone§18/zoom§19/contrast§25 mustnotreopenfromstaletext. No more
+readerexecplanned/authorized, no push/merge/deploy/video/submission occurred.
+
+## November 24 — reader evidence checkpoint verified; focused review active
+
+Saved six-doccheckpoint`2c3d3ca5a9d69650a2a0a5835e044eb70208fade`.
+Master inspectedcomplete16/16checkexits0, oktrue/dirtyfalse/treestabletrue,
+state_aftermatched, finished`2026-11-24T06:35:32Z`. HEAD/evidence/review.sha
+matched; rawbytefullreview.patch and focusedreview-reader-evidence.patch prepared
+for`5f87582..2c3d3ca`. No source/testchange fromapproved5f87582.
+Finalgateeligiblefalse/7staticgroups, no finalC/Dapproval.
+
+Same reviewer`ses_df435283affev31so1dyMcZZ25` reviews claims/provenance/process
+deviations and finitewrittenAC12/Q4remainingreaderitems. Fourtargetedsuccesschecks
+have capturedactualreadertext; wholecontractclosure not assumed.
+**Next exact step:** receiveverdict withoutpolling, inspect blockers and
+contractmapping, routeanyneededprecisioncorrection/re-review. Don'taddreader/
+hardware/acousticrequirements from genericunsampledstatelists or stale§23gaps.
+No moreruntimechecks/readerrestarts authorized; ignoredtreehygieneuncertified.
+Lateroperationalnotes outsideimmutablecheckpointcertification; no cloud/release.
 
 ## November 24 — reader consolidation inspected; six-doc checkpoint next
 

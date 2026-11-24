@@ -3796,3 +3796,208 @@ rerun of that permit.
   floor; remaining requirements stay tied to written AC12/Q4 and existing evidence. Earlier
   invalid-submit/app-alert speech from the prior RESUME report remains bounded and unchanged, and the
   completed phone/zoom/contrast evidence is not repeated. No gate closes.
+
+## 28. Rough local manual-spine clips - source inventory, not the demo asset (November 24, 2026)
+
+Scope: a docs-only record that one silent, synthetic, local manual-spine capture now exists. Master
+inspected the sanitized report and `evidence/clips.json`, and four decoded retimed frames
+(review hold, share confirmed, open/accept probe, resolved history); master independently ran
+`ffprobe` and a full `ffmpeg` decode on both retimed files. This section records a **rough source asset
+inventory**, not a final demo, not a filming-gate result, and not a privacy, accessibility, AI or
+performance claim. This capture included no narration, captions, music, audio, model call, cloud or
+hosted request, and was not published. Docs-only: no capture, encode, runtime execution, full verifier
+or Git action was performed for this entry. Sanitized sources: `Temp/opencode/shiftrelay-demo-manual-retry-20261124/REPORT.md`,
+its `evidence/` metadata and `evidence/frames-retimed/`.
+
+### Captured files (raw pipeline output and retimed derivative)
+
+| File (under `Temp/opencode/shiftrelay-demo-manual-retry-20261124/footage/`) | Raw duration | Raw frames | Retimed duration | Retimed frames | SHA-256 |
+|---|---|---|---|---|---|
+| `clip-1-outgoing-review-share.mp4` | 32.920 s | 823 | - | - | `c01f2192bdb3f4d97b0ed18ae352940c6b85701af9d1d4245c7ee61adb968ce5` |
+| `clip-1-outgoing-review-share-retimed.mp4` | - | - | **20.480 s** | 512 | `67e03d5be76493e0752aa3a17af67d6916e6659eeaa3292289f4aa70be15982f` |
+| `clip-2-incoming-accept-resolve.mp4` | 17.680 s | 442 | - | - | `e7a0fb75273a8988f286a7fd955ecf911b63f1bcbb969c508f5f280da15fa707` |
+| `clip-2-incoming-accept-resolve-retimed.mp4` | - | - | **12.440 s** | 311 | `d9acf60f500bfd7883ea3dcb852f14bd5b092c6ca1a4aa831d5961ea395b34ba` |
+
+Master's independent probe/decode of the two retimed files: H.264, `yuv420p`, 1280x900, 25 fps, one
+video stream and no audio, decode exit 0 on both. Real capture spans were 20.298 s (488 CDP frames) and
+12.479 s (113 frames); the raw encodes are the unmodified pipeline result, the retimed files are
+duration-corrected derivatives of the same captured JPEG sequence.
+
+### Content and framing limits
+
+- Two synthetic accounts in two separate contexts, with separate sign-in steps; authentication
+  completed **before** the screencast started in each. The clips are separate: no role/account change
+  between them is shown and no continuous single-user session is claimed.
+- Identity text (masthead email and role badge) was scrolled out of the recorded viewport and also
+  hidden by an injected CSS rule before capture; the UI body otherwise renders unchanged. Synthetic
+  demonstration data only; no real name, email, user ID, token or password appears in the inspected
+  frames.
+- Clip 1: private note typed by hand, two cards entered manually, `Review exact shared fields` hold,
+  then server confirmation that two open tasks exist and the note was cleared from the tab. Clip 2:
+  open/unassigned task, accept confirmation with owner at version 2, resolution, and visible
+  `History (3)` at version 3.
+- Framing is **exact shared-field list partly below the fold** at the review hold: the heading and the
+  raw-note exclusion line are visible. Do not claim the full preview field list is legible. The resolve
+  flow is fully in frame.
+
+### Timing defect and derivative status
+
+- The capture helper floored each inter-frame interval at **0.04 s**; bursty CDP screencast frames hit
+  that floor in most intervals, so the raw encodes ran slower than the session (32.92 s vs 20.30 s;
+  17.68 s vs 12.48 s). The retimed files scale the recorded interval list by real-span/encoded-span.
+- Retiming is approximate: per-frame capture timestamps were not retained, and observed internal
+  alignment drift reaches about **1.4 s** at one state boundary. `evidence/clips.json` offsets are true
+  wall-clock event offsets, **not** the retimed video's frame offsets.
+- The original JPEG sequence is preserved, but the output video is re-encoded at 25 fps and its frame
+  counts change (**823 -> 512** and **442 -> 311**). Do not repeat "no frames were added or removed" as
+  a guarantee about the output videos.
+- No latency, performance, speed or unedited-real-time proof follows; a retimed clip must not be used
+  as an unedited real-time record of the session.
+
+### First execution failure and the replacement run
+
+- The original `Temp/opencode/shiftrelay-demo-manual-20261124/` execution produced **0 frames and no
+  video**, its wrapper exit code was lost in failed logging plumbing, and the pre-fix source has no
+  recorded hash. The module-level runtime-config race remains a plausible source-level explanation,
+  **not a proven historical cause**; that run's thrown message was not retained.
+- The first run's ffmpeg encoder probe directory was removed afterwards; that deletion is disclosed.
+  Do not repeat a blanket "nothing was deleted" statement across both runs.
+- The replacement was the **second and final** execution: wrapper exit 0, harness hashes re-checked
+  unchanged after the run (frozen source), one `1 passed` Playwright run, no third take. All prior
+  capture outputs are preserved alongside this run's files; the earlier encoder probe directory was
+  removed, as disclosed above.
+
+### Privacy and evidence limits
+
+- Frame review is **sampled, not exhaustive**: master inspected four decoded retimed frames and the
+  delegate report records twelve, out of the full frame sets. No privacy certification of all frames
+  is claimed.
+- "No auth in the recording" rests on the start-after-authentication guard, not on a credential-world
+  guarantee. Logs were searched for the synthetic markers with zero matches, and no network panel,
+  HAR, console capture or raw reader buffer was collected; `preserveOutput: "never"` is a harness
+  setting, not a privacy proof.
+- The report and its metadata/frames/hashes are the evidence reference; this section does not re-run
+  the harness or re-decode every frame.
+
+### What this asset is not, and next required work
+
+Not the three-minute submission demo; no narration, captions, music or audio; no on-device or cloud AI
+capability evidence (the runtime reported neither as available/configured here); no hybrid/Nano 4,
+accessibility, privacy, performance or release certification; no hackathon gate or publication. Master
+accepts it only as a **rough source asset inventory**, not as the final filming gate.
+
+The next required asset work includes a **required** full real-runtime demo with AI output actually
+generated on screen; that criterion is not waived by the conditional manual fallback. If generation is
+absent or fails, the required AI demonstration remains **incomplete** and a manual-only recording does
+not satisfy it. Narration, captions, the `docs/demo/README.md` section 8 QC and an explicit final asset
+review also remain. There is **no mandated recapture** under the current permit, which is consumed; any
+recapture needs new scope. This entry required no tests or full verifier, only a diff review, and it
+preserves the earlier history and the non-reopened reader/contrast records.
+
+## 29. One consented hosted cloud request - served identity pinned, payload comparison unmeasured (November 24, 2026)
+
+Scope: a docs-only record of the bounded one-call permit. Master inspected the sanitized records
+`Temp/opencode/shiftrelay-hosted-payload-onecall-20261124/REPORT.md` (blocked) and
+`attempt2-20261124/REPORT.md` with `attempt2-20261124/result.json`; master did **not** replay the
+runtime, the harness or the browser run. No runtime, source, test or Git action was performed for this
+entry. Both records are kept; attempt 2 supersedes the blocked one without erasing it.
+
+### Served identity and adapter contract
+
+- Plain HTTPS GET of the origin: **5 of 5** asset hashes match the reviewed sealed QA stage
+  `00c2b2e` (`index.html`, `App-D3ukP5Gr.js`, `index-CCtoaJ7i.js`, `index-DhjtbPNK.css`,
+  `jsx-runtime-CB-FNcEI.js`). No redeploy was performed or requested.
+- `src/cloudReconcile.ts`, `src/reconciliation.ts` and `src/CloudReconciliation.tsx` are blob-identical
+  at `00c2b2e`, `5f87582` and `HEAD`; only `src/Handover.tsx` and `src/PrivateDraft.tsx` differ (the
+  accepted-focus correction), so the deployed packet builder, cloud adapter and consent/preview UI are
+  the reviewed bytes.
+- This pins the **application assets and adapter contract**, not the served AI model. The bundle
+  marker check (`__shiftrelayTestCloud` absent, etc.) is a byte check, not a behavioural test.
+
+### Route, pre-traffic proof and attempt accounting
+
+- The first run stopped before any traffic: relay `paired-offline`, `browsers: []`, 0 Chrome-family
+  processes, 0 agent tabs - therefore 0 Auth and 0 AI requests, and no projection proof could run. The
+  permit's own `nextStep` (user opens the paired Chrome profile) was followed instead of launching the
+  user's browser, substituting a headless attestation or changing settings.
+- After the user opened the profile, the projection proof ran first: frozen `projector.js`
+  `03fa2bb0…` and `proof_projection.py` `54d7ae2b…`, `py -3 proof_projection.py` exit 0, **35 passed,
+  0 failed**. The first proof run failed **4/35** (SHA-256 variable typo, wrong schema key-set
+  expectation, two over-strict raw-retention assertions) and was corrected and re-run to green
+  **before any authenticated traffic**; both logs are retained (`proof.log`, `proof-final.log`). This is
+  an offline projection proof, not a measurement of the hosted run.
+- **Process exceedance, recorded as such:** three hosted sign-ins / preview attempts against the
+  "two attempts per problem" guidance. Attempts 1 and 2 produced no AI request and no write (locator
+  click did not reach the preview; enabled button clicked with no preview element in 30 s), so the
+  one-call budget was still unspent; attempt 3 changed strategy (task-list readiness sampling, at most
+  two preview clicks) instead of repeating the same action. This is not an automatic retry right and
+  not a waiver.
+- The first preview click in attempt 3 produced nothing for 10 s and the second rendered. That is
+  **observed, not explained** - no error status, `info_clear_seen` false, no automatic clearing at that
+  point in source - and is not established as a product defect.
+
+### The consented call
+
+| Observation | Value |
+|---|---|
+| AI-host POSTs | **1**, `firebasevertexai.googleapis.com`, POST, **200** |
+| Projected path | `<unlisted-path>` (selector template did not match) |
+| Requested model (enum) | `gemini-3.5-flash-lite`; served model **unknown** |
+| `inferenceSource` | field not observed; a rendered brief only implies the adapter's client-side guard passed |
+| Result | rendered ~3 s, brief 102 chars, **0 suggestions**, accepted as a valid zero-suggestion result, no reroll |
+| Consent UI after | approval reset to unchecked, send disabled |
+| Retry / challenge / handoff | none |
+| Firestore | 9 POSTs, **0** `:commit`/`:batchWrite`, 1 zero-status entry |
+| Capture | 15 entries, 0 validation failures, 19128 body bytes |
+
+No task write was observed; that is a bounded observation of the captured POST set, not an audit of
+every write path. Console capture was deliberately not enabled (bot-detectable), so nothing about
+console output is measured. No latency, quota or reliability claim follows from one call.
+
+### Payload comparison: NOT MEASURED
+
+The comparison this permit existed for did not happen. The collector selected the AI exchange by host
++ method + path template `/v1beta/models/{seg}:{seg}`; the real SDK path does not match, so the single
+vertex POST was emitted as `<unlisted-path>` and never selected - `ai_host_posts: 0` /
+`http_error_class: no_ai_post` **despite** the generic host count of 1. The request body existed only in
+relay memory and was discarded with the run; there is no retained copy, and obtaining one would require
+a raw network dump that is out of bounds.
+
+So these stay explicitly **unmeasured**: preview string versus `contents[0].parts[0].text`, roots
+exactly `sources`/`context`, per-task key set `id/version/title/detail/state`, source 1-5 and context
+0-20 caps, distinct ids and integer versions, `systemInstruction` equality,
+`generationConfig` mimeType/maxOutputTokens/responseSchema/propertyOrdering, and private-sentinel
+absence from the outbound payload. Equality is **unknown, not "probably fine"**; no source behaviour is
+guaranteed and no green result is inferred. The rendered preview was recorded on its own (1101
+chars/bytes, `916d0bd3…`, displayed enum `gemini-3.5-flash-lite`), which is the preview half only.
+
+### Sentinel, storage and cleanup
+
+- A random 27-character sentinel was typed only into the private note: **0** occurrences in
+  `localStorage`, `sessionStorage`, the URL and the emitted document, and it was never written to a
+  shared or task field. Outbound absence is unmeasured (above), so this is not a full privacy or
+  outbound-exclusion proof. No credential, header, body, query or page text appears in any artifact.
+- Cleanup: 3 owned tabs opened and 3 closed, `tabs` after each close `[]`; no sign-out was needed
+  because the app uses `inMemoryPersistence` + `memoryLocalCache`. User tabs were not listed or
+  touched. Repo untouched (`HEAD 2c3d3ca`, same pre-existing dirty docs).
+- No raw headers, bodies, queries, console, HAR or credential values were persisted per both reports.
+  That rests on the reports and the projection guard, **not** on an independent master replay.
+- The optional clip was **skipped**: no recording was armed on the single-shot tab, no extra model call
+  was made for footage, and the existing manual timing helper's known 40 ms bug was not reused. The
+  §28 manual rough clips are unchanged by this run.
+
+### What this is not, and next required work
+
+It is one synthetic account, one machine, one interactive Chrome profile: not AC13 or Q6 closure, not
+an attested "Nano 4" or served-model identification, not App Check enforcement, not local-model
+provenance, not a privacy, WCAG, latency or release state, and not a final gate or delivery-group
+result. The named desktop OS/browser/SDK/hardware identity AC13 asks for is not recorded here either.
+The requested-versus-served distinction remains `gemini-3.5-flash-lite` requested with the served model
+**unknown**, and the literal SDK source was not observed - the App Check/guard reading is inference.
+
+A future corrected single call would select the AI exchange by host + method with an exact count of
+one, assert the path ends with `:generateContent` as a boolean and read the model segment from the path
+instead of requiring a template. That correction was identified, not applied and not exercised. A
+corrected **offline** collector/selector TDD task is active in a separate temporary directory with no
+additional live permit, and no corrected call exists yet; do not treat that offline work as a green
+proof of the hosted path. Any repeat call needs a fresh explicit permit.

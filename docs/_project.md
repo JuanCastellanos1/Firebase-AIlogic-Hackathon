@@ -11,7 +11,98 @@ DEFAULT_BRANCH=main
 BASE_SHA=538ed9f9a83b6bda18b8fb6e4bacfb712ded575f
 RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
+## Closure — November 24, 2026
+
+Orderly closure at explicit user confirmation. One local WIP documentation commit;
+no push, merge, deploy, publication or deletion; branch preserved. Last certified
+checkpoint remains `2c3d3ca` (16/16 clean/stable, `06:35:32Z`, review approved);
+the closure docs are outside it. Final Gates C/D and all release conditions remain
+open. No active delegates or owned services. Exact next step and open items are in
+`docs/HANDOFF.md`; the collector preflight GO is engineering-only and grants no live call.
+
 ## Resume — November 23, 2026
+
+Rev2masteroffline192/192+26/26exit0, finalservedgatepreflightre-reviewactive.
+No network/Auth/AIcall, no livepermit/formalC. NextGOthenfreshboundedexecution
+permission; originalpayloadUNMEASURED andapproved2c3d3caretained.
+
+Preflight5priorblockersclosed; onehardfullserved-buildgatebeforeAuthremaining.
+Minimalofflinegate/fetchstubs/27thverdictconjunctactive, no liveGET/Auth/model.
+Nextsame-reviewercheck thenindependentofflineproof/freshpermit, HANDOFFtopcontrols.
+
+Offlineintegrationreports158/158+12/12, same-reviewerre-reviewactive. Fullserved
+assetverificationmusthardgateAuth, prefixfixtureNOTproof. No technicalGOaccepted/
+livepermission yet; originalpayloadgapunmeasured. HANDOFFtopnextstep.
+
+CollectorpreflightNO-GOintegration:5minimumofflinefixes oneclick/count/freeze/
+typedverdict/fakecountremoval. Implementernewoutside-rootintegration+REDGREENactive,
+no live/Auth/modelpermission. Same-reviewerfollowupbeforefreshcallrequest.
+Originalpayloadunmeasured, approved2c3d3caunchanged; HANDOFFtopcontrols.
+
+Offlinepinnedpathcollector95/95masterrunexit0; reviewerengineeringpreflight
+GO/NO-GOactive(notformalC). Oldorchestratorprefixcount/hashattributionlimits
+underreview, no livepermit. §29record/resultJSONinspected,targetlivepayloadstill
+UNMEASURED. HANDOFFtopcontrolsnextminimumofflineintegration/reviewstep.
+
+Nov24ONEAIhostPOST200/zero-suggestionvalid butwrongcollectorpathmissedrequest:
+preview/payload/outboundsentinelUNMEASURED.3signinpreviewattemptsexceededbudget,
+recordednoretryright. AIcallpermitconsumed,nofurtherlivecall. OFFLINEpinnedpath
+collectorRED/GREENfixandbounded§29recordactive; independentreviewBEFOREnewpermit.
+NoAIclip, servedmodelunknown, HANDOFFtopcontrols.
+
+UserdoneopensChrome; sameunusedONErequesttaskresumed, connectioncheck+localproof
+BEFOREauthmandatory. No actualcallresultyet, no extraauthorization. HANDOFFtop
+recordsdelegate/nextinspection; approvedcheckpointandfinalgatesunchanged.
+
+Nov24PAUSEDhumanbrowserblocker: served5assetsmatchreviewed00c2b2estage,
+adapter/consentcontractsamecurrent; NOTAIservedmodelproof. Pairedbrowseprofile
+offline/noChromerunning. USERopensChromeprofilewithextension, thenprovefixture
+projectorbeforeAuthandONErequest. 0AIcalls/0Auth/0credentialsread; permitunused,
+preparedcollectornotyetendtoendtested. No fallback/launchuserChrome/retries.
+HANDOFFtopcontrols; approved2c3d3caretained,later6docsuncertified.
+
+Nov24userrenewsroutineautonomy afteronehostedcall/clipapprovalquestion.
+ONEboundedhostedcloudcomparisonactive/existingrevieweddeployment/account/tasks,
+in-processrawpayloadonlybooleansout; no retries/taskwrites/config/billing/legal/
+publication. Actualpacket sources/context corrected; requestedmodel≠servedunknown.
+Optionalclipofsamerunifsafe,nosecondAIcall. HANDOFFtopcontrols.
+
+Planner2ndemptyresponse; masterreconstructedexactAC13/Q1/Q6gapfromartifacts.
+OfficialSDKdocsinferenceSource/strictmodesconfirmed, returnedmodelVersionNOT
+established. Read-onlypinnedSDKcollectorfeasibilitydelegateactive, nolivecall/
+edits/config/provisioning. Nextconcretepermissionboundarybeforemodelrequest;
+zero-suggestionvalid/nomandatorywireflag/soak. HANDOFFtopcontrols.
+
+Roughassetwordingprecisionreceived,noglobal'noAIevidence'claim/manualfallbackwaiver.
+Runtimeplannerfirstresponseempty; ONEnarrowread-onlyrelaunchactive, nomore
+delegationloopifemptyagain. Nextactualmissingwrittenproof/permissiondecision,
+notnewruntime/statuscertification. HANDOFFtopcontrols; approved2c3d3caretained.
+
+Manualroughclipsproduced20.48/12.44s, masterdecoded/metadata+4frameschecked.
+NOTfinaldemo: timingderivativeapproxdrift/reviewbelowfold/twocliprolechange/
+noAI/audio/captions. Boundedassetrecordactive; parallelread-onlyruntimeAC13/Q6
+retainedproofreconciliationnext, no livecall/recaptureauthorized. HANDOFFtopcontrols.
+
+Firstmanualdemocapturefailedbefore0frames; log/exitlost, exactcauseunknown,
+readinessfixplausible/unexecuted. MasterauthorizesONEreplacementfinalattempt
+withfreshidentity/loggingroot, no thirdtake/deletion/source/cloud/audio. Noasset
+yet; HEAD2c3d3ca unchanged. HANDOFFtopcontrolsnextQCinspection.
+
+Nov24deliverymapreceived: actualdemoassetabsent,nextONEsilentlocalmanual-spine
+captureunderexistingengineeringpermit. Authbeforecapture/syntheticdata/
+approvedwrapper/installedtoolsonly, no models/cloud/audio/publication. Assets
+outside-root,QCpending; notfullrealAIdemo. HANDOFFtopcontrolsactiveimplementer.
+Otherwrittenruntime/privacy/Firestore/judge/CI/releasegapsremain,nofloorincrease.
+
+Nov24 same-reviewerAPPROVED2c3d3ca no blockers; FOURtargetsuccessreaderchecks
+explicitlyevidenced, no blanketAC12/Q4/WCAG/releaseclaim. Endreaderloop. Read-only
+planner mapsremainingwrittenrequirements vs latestproof/permits foronesubstantive
+deliverynextstep; no staleverifier7group-as-truth/no newfloor. HANDOFFtopcontrols.
+
+Nov24saved2c3d3ca sixdocs, master-inspected16/16okcleanstableSHA-matchedevidence
+finished06:35:32Z. Same-reviewerreaderclaims/contractscopefollowupactive; no
+source/testchange, no finalC/Dclaim7groupsremain. Lateroperationalnotesexcluded.
+HANDOFFtopcontrolsverdictnextstep; no more readerruntimeauthorized.
 
 Readerconsolidation/PUBLISH inspected, diffcheckexit0, sixdocsdirty/no sourcechange.
 Nextonesixdoccheckpoint/fullverifier/focusedreview; finalAC12/Q4scopeassessment

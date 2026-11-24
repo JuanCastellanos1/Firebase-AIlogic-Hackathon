@@ -10,7 +10,85 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 | Quality and fixes | 6–6.5 | 20% | Two requested Qwen 3.8 Flash reviews completed; both reject Gate C. D1–D4 and U1 are routed to one bounded correction cut with regressions and fix-only re-review. No quality threshold lowered. |
 | Delivery | 8 | 10% | Earlier CI succeeded only for `b0910d3`. Current-source CI, hosted QA, final validation/review, local demo video and gated merge pending. No push/deploy/merge during resume verification/review. |
 
+## Closure — November 24, 2026 UTC
+
+Ordered closure at explicit user confirmation: one local WIP documentation commit,
+no push/merge/deploy/publication/deletion. Branch and all work preserved. Last
+certified checkpoint remains `2c3d3ca` (16/16 clean/stable, `06:35:32Z`, review
+approved); the closure docs are outside that certification. Effort accounting is
+unchanged and labor remains unmeasured; free-tier-only spending intact. Remaining
+effort belongs to one scoped live payload permit (if granted), the real-AI demo and
+release/judge conditions — not another QA or documentation certification loop.
+
 ## Resume — November 23, 2026
+
+Rev2offline192+26independentpasses, reservefinalpreflightverdict only. No live
+budgetreplenishedbygreenfixtures. FreshoneexecutionpermitneededafterGO,
+no retries/clip/extraAIcalls/cosmeticfullsuite.
+
+Onepreflightblockerleft:5fullassetmatchbeforeAuth. Boundminimalofflinegatefix+
+regressions/re-review, no newnetwork/Auth/AIallocation. Finalfuturepermitmust
+countoneexecutionevensetupfails; don'terasebudgetwith0AIclaim.
+
+Fiveofflineblockersreportedgreen158+12; reserve SAMEreviewerboundedfollowup+
+independentofflineverification, no extraAuth/AIattempt. Servedfixturegateunder
+review beforeanyfreshcallpermit; no scope/spend/floorchange.
+
+PreflightNO-GO→ONEboundedOFFLINE5blockerfix/test+same-reviewerfollowup,
+notnewframework/liveretry. No Auth/AIbudgetavailable; originalmeasurementgap
+retained, no statusfullsuite/spend/floorchange.
+
+Offlinecollector95/95independentmasterpass; allocateboundedengineeringpreflight
+integrationreview/minimalofflinefixonly. No extraAI/auth/previewretrybudget.
+Freshlivepermitonlyafterreviewedend-to-endcollector, no status-onlyfullsuite.
+
+ONEAIcallbudgetspent200withouttargetpayloadmeasurement (selectorpathwrong).
+Stoplive/Authretry. OnlyOFFLINEpinnedpathRED/GREENcollectorfix+independentreview
+anddurablegaprecord; noextraAIspend/soak/statusfullsuite.3authattemptprocess
+deviationretained, notexcusedby0AIinthefirst2. Newlivecallneedsfreshpermit.
+
+Userdone→resumeSAMEunusedone-callbudget, not newmodelrunallocation.
+Connectioncheck/localprojectorproof first; stopfailure, no retries/certification.
+
+HostedcollectionblockedBEFOREAuth/request: pairedChromeoffline. Pauseuntiluser
+openscorrectprofile; no polling/fallback/extraattestation. ONEAIcallbudgetunused.
+Read-onlyservedassetpincompleted, projectorunproven; no newruntime/spend or
+status-onlyfullsuitewhilewaiting. Approvedcheckpointretained.
+
+RenewedroutineautonomyallowsONEscopedhostedcloudcomparison+optionalsamecallclip,
+free-tieronly, no retry/settings/spendincrease. Projectorproofpreauthmandatory,
+exactcontractpacketoracle, no servedmodelinvention. Endplanningloop; actualproof
+orconcreteblocker next. No publication/legal/destructiveapproval implied.
+
+Plannerfailedtwiceempty; masterreconstructed(no3rdplannerloop). SpendONEread-only
+pinnedSDKtechnicalfeasibilityreview toscopeexactmissingruntimeproof, notnew
+implementation/modelcalls. Free-tier/billing/qualityfloorunchanged; no runtimepermit.
+
+Assetrecordprecisioncomplete; plannerreconciliationemptyresponseconsumedone
+attempt. AllowONEreducedread-onlyretry, thenmasterreconstructsifneeded.
+No additionalcapture/modelcalls/cosmeticfullsuite; prioritizefinitewrittenproofgap.
+
+Secondfinalcaptureproducedroughmanualassets, masterdecodeQCpassed notfinalasset.
+Endcaptureloop; recordboundsinparallelwithREAD-ONLYretainedruntimeproof
+reconciliation. No additionalruntime/spend/cosmeticcertification; nextactionmust
+targetrealAIdemo/provenance/privacygap underexplicitneededpermits.
+
+Firstcaptureconsumedwithoutfootage/logexit. AllocateONEreplacement(second/final)
+withreadiness/loggingcorrection/frozenidentity, no thirdtake/encoderprobe/delete.
+Stopfailurefornewdecision; no assetclaimuntilactualQC, no spend/scopeincrease.
+
+Deliverymap→prioritizeONEactualsilentmanualdemoasset overnewstatuscertification.
+Reuserecordingplan/installedtools/localwrapper, no Authrecording/spend/models/
+audio/publication. Onecapture,stopfailure;noproducedassetclaimuntilQCinspection.
+
+Scopedreader-evidencereviewAPPROVED no blockers; fourtargetchecksevidenced.
+Enda11yruntime/statuscertificationloop. Allocate oneREAD-ONLYfinite-delivery-gap
+map then actualasset/runtimeitem underpermits, not cosmetics/staticwordingonly.
+No newreaderfloor/spend/waiver; immutable2c3d3ca evidence retained.
+
+Sixdoccheckpoint2c3d3cafull16/16clean/stableSHA-match inspected. Reservefocused
+evidence/contractreviewandblockerprecisiononly, no newa11yruntime/blanketfloor.
+FinalC/Dremainopen, no spendchange; ignoredtreehygieneuncertified.
 
 Consolidationinspected, reserveonesixdoccheckpoint/fullverification/focusedreview.
 No extraa11yruntime or rerunof§25contrastalreadymeasured; rejectstale§23inventory

@@ -1,8 +1,12 @@
 # Demo recording plan (<= 3 minutes)
 
-Status: plan only. No video, screenshot set, voice track or caption file exists. Nothing in this plan
-was recorded, and no model call, task write or deployment was made to prepare it. Times below are
-estimates that allow for real UI waits; they are not measured footage.
+Status: plan, plus one rough silent local source capture. Two separate silent manual-spine clips exist
+under `Temp/opencode/shiftrelay-demo-manual-retry-20261124/`; they are a rough source asset inventory,
+not this video, and master has not approved them as the demo. No narration, captions, voice track or
+finished submission demo exists. This manual capture made no model call or hosted request and was not
+published. `docs/verification.md` section 28
+records the paths, hashes, timing defect and limits. Times below remain estimates that allow for real
+UI waits; they are not measured footage.
 
 Scope: the required English, real-runtime demo for the Firebase #BuildHybridAI 2026 submission. Upload and
 publication are separate approvals. This file does not clear a demo asset for publication; that review
@@ -60,9 +64,10 @@ notifications or personal avatars; a window size and zoom that keep UI text read
 
 ## 3. Narration script
 
-Planned delivery at roughly 150 words per minute. No voice track or video exists. The required rows total
-310 words, reproducible with the command in section 8. The one optional inset row allowed is not part of
-that total: N9b is 13 words (about 5.2 s of speech) and N10b is 16 words (about 6.4 s).
+Planned delivery at roughly 150 words per minute. No narration, voice track or finished demo video
+exists. The required rows total 310 words, reproducible with the command in section 8. The one optional
+inset row allowed is not part of that total: N9b is 13 words (about 5.2 s of speech) and N10b is 16
+words (about 6.4 s).
 
 N1. "ShiftRelay takes a private shift note and turns it into tasks someone has accepted."
 

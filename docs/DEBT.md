@@ -17,6 +17,24 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+Closure note (November 24): the outside-root hosted collector reached engineering
+preflight GO offline (pinned-SDK path, 192/192 assertions, 26/26 runner stubs,
+full five-asset gate before credentials). That is not formal Gate C, not a live
+permit and not payload proof; the original one-call payload stays unmeasured.
+All earlier N6 groups remain; no new group is opened at closure.
+
+N6 processfollowup: runtime-evidenceplanner returnedemptytwice (oneoriginal+
+onereducedretry); masterreconstructedfromsummary/spec/CONSTRAINTS/PUBLISH and
+queriedofficialSDKdocs. No thirdplannerloop. SubsequentpinnedSDKfeasibility
+is a distinct read-only technicalquestion, not retryingmissingplanningartifact.
+
+Same reviewer APPROVED `5f87582..2c3d3ca` reader-evidence six-doc range,
+no blockers. FOURtargetedsuccessreaderchecks explicitlyevidenced, not wholeAC12/
+Q4closure. Four N6 groups: narrow staleverifierblanketmanualwording at next
+substantiveverifierchange (not immediatecosmeticloop); retain gate/sourceinference
+and outofbandposthashqualifiers; neveropenpreservederrorcontext; carriedfocus/
+selector/identitylimitsunchanged. No blanketadditionalreader/hardwarefloor.
+
 Same reviewer APPROVED `a23561a..5f87582`, no blockers. Five N6 notes retained:
 state-only effect can consume without own/enabled node in unobserved narrow
 refresh/competitor windows; denied/error accept focus unrestored (master explicitly
