@@ -3344,6 +3344,16 @@ gate evidence and `review.sha` does not cover it.
 
 ### Limits and deviations (not waivers)
 
+- **Accept focus gap — source prediction, not exercised or repaired.** The confirmed-submit fix covers
+  resolve and reopen only. `Handover`'s accept control calls `onAction(task, "accept")` directly from its
+  button, so no post-accept focus target is recorded; on success the `task.state === "open"` branch that
+  renders the focused `Accept task` button is replaced by the `"accepted"` branch that renders
+  `Resolve task`, removing the focused node with no restoration. That is a read of `src/Handover.tsx`,
+  not a measurement: it predicts focus falling to `BODY`, the outcome the sanitized report §5.3 observed
+  after a **confirmed resolve** — a different action, and the only case observed. Accept focus was
+  therefore neither exercised as a regression nor repaired here, and accept *speech* remains uncaptured
+  (instrument stopped twice, below). Both must be assessed before any reader reconfirmation, which must
+  not be described as validating accept.
 - **No reader evidence yet.** The two fixes are automation-verified only. Real-reader (NVDA)
   reconfirmation of the review-status announcement and of focus restoration after both confirmed
   resolve and reopen is still required; accept-as-owner and reopen status *speech* remain
@@ -3361,3 +3371,230 @@ gate evidence and `review.sha` does not cover it.
   effect; it is recorded above instead of being silently dropped.
 - No speech, WCAG, Q4, privacy or eligibility verdict follows. Thresholds, error handling and the
   frozen contract are unchanged; final C/D remain OPEN.
+
+### Dated addition - accept-focus prediction reproduced; candidate repair unverified (November 23, 2026)
+
+This entry preserves the **Accept focus gap** prediction above as history and records the attempt
+that followed. Scope: the predicted accept focus loss only. No threshold, AC, Rules, timing,
+SPA-transition or speech claim changes, and the two earlier fixes are untouched.
+
+Prediction status: **reproduced**. The focused assertion failed on the pre-change source. The change
+now in the tree is a **candidate repair, unverified**: two post-change accessibility failures remain
+unexplained, and no artifact records which source variant produced any given run.
+
+- Test: `e2e/accessibility.spec.ts` now asserts, immediately after the existing keyboard Accept
+  success and its status text, that the surviving own-task trigger `Resolve task: …` is focused.
+  All prior assertions (sign-in, carrier, review, 320 px, axe, Cancel, resolve, reopen) are kept.
+- Candidate change under test (`src/Handover.tsx`, smallest shared-pattern change): the accept
+  control calls a small `submitAccept` that records the existing `focusAfterSubmit` target
+  `{ taskId, state: "accepted" }` **before** awaiting `onAction`, and clears that target when the
+  action reports failure. The existing state-aware effect then focuses the per-task trigger ref once
+  `tasks` shows `accepted`. `onAction` authorization/error/pending handling, the disabled state,
+  Cancel and resolve/reopen are unchanged; no new abstraction, focus manager or test id. This is the
+  code as it stands, not an established repair.
+- No focus before confirmation: the recorded target is inert until the effect runs, and the effect
+  acts only when a task with that id reaches that exact state. That is not the same as the earlier
+  claim, now withdrawn, that a denied, stale or failing accept never reaches `accepted` and leaves
+  focus on `Accept task`. Source-supported risks, none of them an observed cause of the two failures:
+  a competitor's write can set `accepted` under another owner and satisfy the id/state match; the
+  control is disabled while an accept is pending, so a target consumed in that window has no enabled
+  own node to receive focus; and because the effect matches on task id and state only, it can consume
+  the target without an own enabled node ever rendering, which the clear-on-failure path does not
+  cover.
+
+| Run (artifact) | Scope | Result |
+|---|---|---|
+| RED (test added, no source change) | accessibility | **fail**: `Resolve task: …` inactive for the full 10 s poll; locator resolved to the present, enabled Resolve button (24.6 s) |
+| GREEN | accessibility | pass (19.6 s) |
+| GREEN2 | accessibility + conflicts | accessibility **fail** (33.6 s); conflict pass |
+| GREEN3 | accessibility + conflicts | pass (22.7 s); conflict pass |
+| GREEN4 | accessibility + conflicts | accessibility **fail** (27.3 s); conflict pass |
+| GREEN5 | accessibility, `--repeat-each` | 3 passed |
+| GREEN6 | combined, `--repeat-each` | 4 passed |
+| GREEN7 | combined, `--repeat-each` | 4 passed |
+
+The assertion is the same `Resolve task: …` `toBeFocused()` after keyboard Accept success in every
+row; all prior assertions are kept.
+
+Commands (approved wrapper only, same runner form as above):
+
+```powershell
+$env:PATH = "$PWD\node_modules\.bin;$env:PATH"
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/accessibility.spec.ts"
+```
+
+Exact ledger as recorded from the console artifacts: RED `1 failed` (24.6 s); GREEN `1 passed`
+(19.6 s); GREEN2 accessibility `1 failed` (33.6 s) plus conflict `1 passed`; GREEN3 accessibility
+`1 passed` (22.7 s) plus conflict `1 passed`; GREEN4 accessibility `1 failed` (27.3 s) plus conflict
+`1 passed`; GREEN5 `3 passed`; GREEN6 `4 passed`; GREEN7 `4 passed`. That is seven accessibility
+passes across three repeated commands against two post-change accessibility failures. The conflict
+spec passed in every combined run and does re-exercise denied/stale accept (conflict `role="alert"`,
+loser loses the Accept control), but it asserts neither focus nor the candidate effect, so passing it
+does not cover them. Console output, preserved as collected and not regenerated:
+`Temp/opencode/shiftrelay-accept-focus-20261123/` (`RED-accept-focus.txt`,
+`GREEN-accept-focus.txt`, `GREEN2-accept-and-conflict.txt`, `GREEN3-accept-and-conflict.txt`,
+`GREEN4-accept-and-conflict-rerun.txt`, `GREEN5-repeat3.txt`, `GREEN6-combined-repeat2.txt`,
+`GREEN7-final-repeat2.txt`).
+
+Static checks recorded earlier for the source change: `npm run typecheck` exit 0, `npm run lint`
+exit 0, `git diff --check` exit 0. This docs-only correction did not re-run them. No full verifier
+run, no `evidence.json` regeneration and no Git action were performed.
+
+Limits (not waivers):
+
+- **No source attribution.** No artifact records a per-run source hash, and an earlier variant
+  (target recorded after `await onAction`, no clear on failure) existed during this run set. Passes
+  and failures therefore cannot be confidently attributed to the earlier or the current variant, and
+  this account must not be read as a first-versus-final timing improvement.
+- **No failure rate.** Two post-change accessibility failures exist, but no measured failure rate is
+  asserted for the current candidate: attribution is missing and a fails-then-passes sequence with
+  reruns is not a rate. Seven repeated accessibility passes across three commands do not erase the
+  two post-change failures.
+- **Cause unknown.** The exact commit/effect ordering at the failures is unknown; the failure trace
+  was overwritten by later runs and any remaining trace directories were not inspected. No further
+  artifacts were deleted or regenerated.
+- **Blocked.** Automated acceptance of this candidate repair and real-reader reconfirmation are both
+  blocked on that missing evidence.
+- No soak (≥20 reruns), no instrumentation and no effect fix were attempted here; master is
+  requesting explicit permission for a further attempt with a new diagnostic strategy.
+- Automation only. Accept **speech** remains uncaptured, and neither the candidate focus behaviour
+  nor this assertion proves an announcement. Actual reader reconfirmation remains required before
+  any accept claim.
+- No speech, WCAG, Q4, privacy or eligibility verdict follows; final C/D remain OPEN.
+
+### Dated supersession - accept focus: one instrumented run, failing ordering uncaptured (November 24, 2026)
+
+This entry supersedes the earlier snapshot above that reads "no instrumentation" and "master is
+requesting explicit permission for a further attempt". That history is kept, not deleted. The
+**candidate unverified** status, the full ledger, the withheld failure rate and the withdrawn
+"focus stays on Accept" guarantee above are unchanged by this entry.
+
+Authorization: the user approved **one** instrumented local reproduction. It is consumed and no
+rerun is approved. Evidence artifacts were saved outside the repository. Source/test
+instrumentation was temporary and restored byte-identically; no lasting source repair, new tracked
+file or Git action occurred.
+
+Run (single attempt, approved wrapper, same command form as above, no retries, no `--repeat-each`):
+exit **0**, `1 passed` (17.3 s test / 25.0 s runner), emulators stopped by the wrapper.
+
+Measured in that one **passing** sample (bounded in-page payload: role enums, booleans, counters,
+`performance.now()`):
+
+- Accept records its `focusAfterSubmit` target before awaiting `onAction` (1701, ahead of the 1910
+  result), so a state commit cannot precede the record in this path.
+- The pending commit disables the focused `Accept task` control and Chrome moves focus to `BODY`
+  (1709 -> 1717). Measured, not inferred: waiting for confirmation does not hold focus on Accept.
+- The successful accept mounts the own, **enabled** `Resolve task` trigger in the same commit that
+  removes `Accept task` (1930); no accepted-while-pending and no disabled-trigger mount in this path.
+- Focus lands 6 ms after that mount (`fx.focus ok=true`, `focusin active=resolve`) and survives the
+  following refresh commit (2034 inert).
+
+Still not established: the ordering of a **failing** run was not captured, and no failing trace is
+retained (`trace-green4/` is an empty directory), so the cause stays unknown and no repair is
+claimed or implied. No failure rate is asserted for the current candidate: the report's aggregate
+post-change failure ratio cannot be attributed to the current candidate and is not a measured rate
+for it. The three source-supported candidates above remain open; this run falsifies none of them.
+
+Evidence handling: prior console artifacts preserved byte-identically, 10/10 files equal on SHA256
+and length, at `Temp/opencode/shiftrelay-accept-focus-diag-20261123/preserved/accept-focus-20261123/`.
+The instrumented copies were temporary and the originals restored byte-identically (pre-copy hash
+match, so no concurrent work was overwritten); the report's source-identity records hold full
+original hashes for `src/Handover.tsx`, `src/App.tsx`, `src/session.ts`, `e2e/accessibility.spec.ts`
+and `playwright.config.ts`, instrumented hashes only for `src/Handover.tsx` and
+`e2e/accessibility.spec.ts` (the two files actually instrumented), plus restored-state identity.
+Master independently verified four restored hashes: Handover, App, spec and session. Full hash
+values are left in that report rather than duplicated here. `DIAG-accept-focus.txt` and
+`DIAG2-accept-focus.txt` are preserved but sit under a separate read-only projected inspection;
+their result is not assumed here.
+
+The report also lists doc statements its measurements contradict. Those statements were already
+corrected in the section above before this entry was written: they are historical, already-corrected
+wording, not current unresolved contradictions. No credential, raw event buffer, browser profile,
+trace or log was read for this entry.
+
+Unchanged limits: accept **speech** remains uncaptured, no reader reconfirmation exists, and no
+speech, WCAG, Q4, privacy or eligibility verdict follows. Final C/D remain OPEN.
+
+### Dated supersession - Nov 24 controlled original-defect comparison; candidate admitted to verification, not accepted (November 24, 2026)
+
+This entry preserves the entries above as history and records the later bounded execution sets
+(the round-2 instrumented pair and the exact-source RED/GREEN pair) plus the master decision. The
+candidate `src/Handover.tsx` remains **unverified**; it is now **admitted** to full verification and
+independent review on original-defect regression sensitivity, not accepted as a repair. No gate
+closes and no execution was performed for this entry.
+
+#### Round 2 instrumented permission - consumed, failing ordering not captured
+
+Two approved instrumented accessibility executions (the maximum; one per command, no retries,
+`--repeat-each`, soak or timeout change) both exited 0 with `1 passed`: **21.8 s test / 32.0 s
+runner** and **22.1 s / 31.7 s**. Both passing samples show one atomic accepted commit with an
+enabled, own-owned, ref-attached `Resolve task` trigger; the one-shot effect consumes and focuses in
+that commit, `focusin resolve` occurs once, and no `focusout` follows. The later ref callback
+detach/attach and the following refresh commit did not blur (ref callback churn, no observed blur in
+these passing samples). The historical failing ordering was **not captured**, no source variant was
+identified, and no repair or failure rate follows. Permission is exhausted; no third run. Temporary
+instrumentation was restored byte-identically and per-run identities/artifacts were preserved outside
+the repository root.
+
+#### User-approved exact-source RED/GREEN comparison
+
+Exactly two accessibility executions, identical approved-wrapper command, no instrumentation or ad
+hoc scheduler mutation; the exact approved source was temporarily substituted for RED and restored to
+the candidate for GREEN; no retries. RED used the exact committed `a23561a` Handover bytes; GREEN used
+the unchanged current candidate. The spec, including the successful-accept focus assertion at line 90,
+was byte-identical in both runs.
+
+Sanitized reports read: `Temp/opencode/shiftrelay-accept-focus-round2-20261124/REPORT-sanitized.md`
+and `Temp/opencode/shiftrelay-original-defect-pair-20261124/REPORT-sanitized.md`. The unique comparison
+evidence directory is `Temp/opencode/shiftrelay-original-defect-pair-20261124/` (`IDENTITY.txt`,
+`originals/`, `original-blob/`, `run1-red/`, `run2-green/`, `artifacts-pre/`); the round-2 directory is
+`Temp/opencode/shiftrelay-accept-focus-round2-20261124/`.
+
+| item | value |
+|---|---|
+| branch / HEAD | `feat/hackathon-ideation` / `a23561a7f551729697bd4f8d9e67b90c344dda09` |
+| RED Handover | exact `a23561a:src/Handover.tsx` blob `3767f63c...`, sha256 `4218F86C...`, 12659 bytes |
+| GREEN Handover | unchanged candidate blob `e4b777f8...`, sha256 `21423D8A...` |
+| spec (both runs) | sha256 `0932DBF2...` |
+| `playwright.config.ts` | sha256 `AB908C3D...`; retries 0, workers 1, trace/screenshot only on failure |
+
+```powershell
+$env:PATH = "$PWD\node_modules\.bin;$env:PATH"
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/accessibility.spec.ts"
+```
+
+| run | source | exit | result |
+|---|---|---|---|
+| RED | exact `a23561a` blob `4218F86C...` | 1 | 1 failed at `accessibility.spec.ts:90:75` `toBeFocused()`: expected focused, received **inactive**; the locator matched a present, enabled `Resolve task` button (23 matches); the preceding status assertion passed, so failure was at the successful-accept Resolve focus step |
+| GREEN | unchanged candidate `21423D8A...` | 0 | 1 passed (20.0 s test / 28.0 s runner) |
+
+Both runs preserved per-run identities and unique artifacts in a new outside-root Nov24 directory,
+then restored the exact originals; HEAD and the same eight dirty paths were unchanged before and
+after. Raw RED trace, screenshots and error-context were preserved byte-wise and **not opened,
+parsed or projected**; this entry uses report-level assertion categories and booleans only.
+
+#### Master decision and interpretation
+
+- The pair is sufficient **original-defect regression sensitivity and control** for this one test
+  path to **admit** the candidate for full verification and independent review.
+- It is **not** final repair acceptance, **not** retrospective attribution of the earlier GREEN2 or
+  GREEN4 failures, **not** proof that no race remains, and **not** a speech, reader or gate claim.
+- Approved `a23561a` already had an effect for resolve/reopen, but its accept control called
+  `onAction` directly with no accept target; that effect therefore did not repair successful accept.
+  The candidate's new `submitAccept` records the `{taskId, state: "accepted"}` target **before**
+  awaiting `onAction`. The load-bearing original-defect difference between RED and GREEN is
+  **target recorded versus no target**, not a proven before/after-`await` race; the exact failing
+  ordering remains uncaptured.
+
+#### Retained limits (not waivers)
+
+- Historical unknowns are retained: the failing ordering, any per-run attribution of the earlier
+  failures, and any current-candidate failure rate remain unestablished.
+- Denied, stale and error accept focus behaviour is still **not proven or restored** by this
+  correction, and no blanket keyboard-focus guarantee follows for all accept outcomes.
+- No exact scheduler ordering is claimed. Official React refs/effects documentation supports only
+  the commit/ref/effect framework (refs attached during commit, effects after commit); precise
+  microtask/macrotask timing assumptions are not guaranteed.
+- No source hardening, SPA-transition, local-model or cloud status changes; accept speech remains
+  uncaptured. Final C/D remain OPEN. This entry is docs-only: no full verifier, no `evidence.json`
+  regeneration, no Git save.

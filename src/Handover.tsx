@@ -110,6 +110,14 @@ export function Handover({
     requestAnimationFrame(() => triggerRefs.current.get(taskId)?.focus());
   }
 
+  async function submitAccept(task: Task): Promise<void> {
+    // Record before awaiting: the confirmed task state can commit before this promise resumes.
+    focusAfterSubmit.current = { taskId: task.id, state: "accepted" };
+    if (!(await onAction(task, "accept"))) {
+      focusAfterSubmit.current = null;
+    }
+  }
+
   async function submitForm(task: Task, action: "resolve" | "reopen"): Promise<void> {
     const confirmed = await onAction(task, action, text);
     if (confirmed) {
@@ -194,7 +202,7 @@ export function Handover({
                         type="button"
                         className="button button-primary"
                         aria-label={`Accept task: ${task.title}`}
-                        onClick={() => void onAction(task, "accept")}
+                        onClick={() => void submitAccept(task)}
                         disabled={pending || busy}
                       >
                         {busy ? "Accepting…" : "Accept task"}

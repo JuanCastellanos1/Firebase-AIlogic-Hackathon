@@ -13,6 +13,76 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+Nov24 controlled exact-source pair inspected: approved a23561a Handover RED at
+accept-focus assertion; unchanged candidate GREEN1pass20.0s/28.0s exit0 with same
+spec/command. Admit original-defect correction for full verification/review, not
+final acceptance or attribution of historical failed variants. Bounded evidence
+recording active; then combined eight-path checkpoint/full verifier/focused review.
+No more targeted repeats, no reader/cloud/release verdict; HANDOFF top controls.
+
+Nov24 user explicitly authorizes exact-source controlled RED/GREEN pair (max2).
+Approved a23561a Handover versus unchanged candidate, same new focus assertion,
+no scheduler mutation; stop on unexpected result, preserve hashes/artifacts.
+Fresh read-only review's scheduler certainty not accepted; official React docs
+queried, precise microtask assumptions not guarantees. Historical attribution
+remains unresolved; HANDOFF top records comparison delegate and next step.
+
+Nov24 two renewed diagnostic executions passed, no failing ordering captured.
+Master inspected sanitized report; both-run permit consumed, no repair/rate claim.
+Fresh-context read-only source/test-harness assessment seeks reachable deterministic
+strategy instead of more reruns/speculative guards. HANDOFF top records delegate/
+next step; approved a23561a unchanged, later candidate dirty/unverified.
+
+November24 renewed user continuation targets intermittent accept focus. Master
+scopes at most2local instrumented diagnostic executions, stop firstfailure, no
+retries/source repair/cloud/NVDA. HEAD/eightdirtypaths and original candidate
+hashes rechecked unchanged. Debugger active; HANDOFF top controls exact scope.
+Candidate remains unverified; final C/D open.
+
+November24 PAUSED: remaining DIAG projection covers passing runs only, no causal
+evidence for failure or attributable source variant. All delegates idle; one-run
+permission exhausted. Fresh explicit diagnostic permission needed before further
+execution; no speculative repair or candidate checkpoint. Corrected verification
+record inspected. Eight dirty paths preserved above approved `a23561a`; final C/D
+and reader reconfirmation open. HANDOFF top contains decision/commands.
+
+November24 authorized instrumented sample passed but failing ordering uncaptured;
+one-run permit consumed. Master checked report and restored source hashes.
+Candidate remains unverified; corrected ledger inspected, no attributable failure
+rate. Remaining DIAG evidence read-only projection and bounded durable recording
+active; HANDOFF top controls. No new test/source repair/gate refresh authorized.
+
+User explicitly permits new diagnostic strategy: safe retained-trace inspection
+and at most ONE instrumented local-emulator reproduction, source hashes and only
+focus/readiness metadata, approved wrapper, no retry/repair/cloud/NVDA. Debugger
+continues; HANDOFF top records exact boundary/receive-report step. Candidate stays
+unverified; documentation overclaim correction received, inspection pending.
+
+STOP: accept-focus regression confirms original gap, but proposed final repair
+also failed once; repeated green reruns overwrote trace and do not establish cause.
+Master has NOT accepted repair. No further tests/checkpoint/gate metadata until
+read-only diagnosis and supported new strategy/required attempt permission.
+Verification§26 repair/failure-focus claims need correction after diagnosis.
+Approved immutable `a23561a` retained; dirty work uncertified. HANDOFF top controls.
+
+Demo correction inspected; independent count confirms310required words/base164s,
+one optional row172s, not measured footage. Provenance/license wording corrected.
+Accept focus limitation recorded as prediction; bounded local regression-first
+assessment delegated, source fix conditional on real RED. Reader collection paused,
+no new speech/gate claim; HANDOFF top has exact next step and active delegate.
+
+Focused review APPROVED cumulative `71d0871..a23561a`, no blockers: bounded
+Phase6.5 source-correction cycle closed, not final C/D or reader repair proof.
+Five nonblocking notes under N6; minimum demo timing/provenance/license corrections
+and explicit predicted accept-focus gap recording delegated before filming/reader
+reconfirmation. HANDOFF top has exact next step. No source expansion/cloud run.
+
+November 24 UTC: saved `a23561a`, master-checked complete full16/16 evidence,
+ok/clean/stable and matching review.sha, finished04:21:34Z; E2E21/21.
+Focused review of cumulative `71d0871..a23561a` is pending; final C/D remain open,
+gate_c_eligible=false/seven static groups. HANDOFF top records reviewer and next
+receive/route step. Later operational notes are outside checkpoint certification.
+
 Correction diff inspected; master independently ran approved-wrapper accessibility
 spec (1 passed, exit 0), including persistent carrier and resolve/reopen focus.
 Source repair remains unproven as actual reader output. Seven-path checkpoint/

@@ -2,6 +2,236 @@
 
 ## Active resume — November 23, 2026, local reader evidence
 
+## November 24 — controlled original-defect regression supports review admission
+
+Master inspected `Temp/opencode/shiftrelay-original-defect-pair-20261124/REPORT-sanitized.md`.
+Exact approved a23561a Handover blob3767f63c.../sha4218F86C... failed RED at the
+new successful-accept focus assertion (line90), with accept status already present
+and enabled Resolve inactive. Restored candidate blobe4b777f8.../sha21423D8A...
+passed GREEN:1pass20.0s/28.0s exit0. Same spec sha0932DBF2..., same wrapper
+command, no instrumentation/timeouts/retries. Unique RED artifacts preserved,
+raw trace/screenshots/error-context not opened. Both-permitted executions consumed.
+
+**Decision:** admit this minimal accept-target recording correction for full
+verification and independent review of the ORIGINAL defect. Not final acceptance,
+not proof of absent races, not attribution/rootcause closure of older GREEN2/
+GREEN4 failures (source identity lost), and not reader-speech evidence.
+Approved a23561a never recorded an accept target; it only reused the effect for
+resolve/reopen. Do not confuse original-defect target-versus-no-target comparison
+with proving a before/after-await scheduler race.
+
+Implementer `ses_df400988dffecBFw8JjLjlTyFs` appends bounded comparison and round2
+record to verification.md only. **Next exact step:** receive/inspect that record,
+then batch eight-path checkpoint, full clean verifier, matching review metadata
+and same-reviewer focused followup against a23561a. No further targeted repeats.
+Historical attribution and denied/stale/error focus limits stay explicit.
+Actual NVDA reconfirmation/final C/D remain open. No cloud/release action.
+
+## November 24 — explicitly authorized exact-source RED/GREEN comparison
+
+Fresh read-only assessment received. Do NOT accept its categorical "no reachable
+failure ordering" or scheduler-microtask speculation as proven; master queried
+official React docs through Context7: refs attach during commit and effects run
+after commit, but precise claimed microtask/macrotask ordering is not guaranteed.
+Master independently inspected approved a23561a Handover: accept calls onAction
+directly, no accept target recording. Existing effect there serves resolve/reopen,
+so it does not itself repair successful accept.
+
+User explicitly selected "Run controlled comparison": max TWO local executions.
+Debugger `ses_df4040fdbffeOYw3figqTV7bNB` compares exact approved Handover blob with
+current new focus assertion (expected RED at accept focus), then restores exact
+candidate bytes with same assertion (expected GREEN). No scheduler mutation,
+instrumentation, retries/repeat-each, source repair/cloud/NVDA/Git save.
+Unexpected RED symptom/pass stops before GREEN; unexpected GREEN failure stops.
+Per-run source hashes/artifacts preserved immediately; exact dirty source restored.
+**Next exact step:** receive report, inspect exact original-defect RED/candidate
+GREEN identities and restoration. This can support the original-defect regression
+only, never retroactively attribute GREEN2/GREEN4 failures or prove absent races.
+No final-gate or speech claim. Earlier read-only-assessment pending state resolved.
+
+## November 24 — bounded runs exhausted; fresh read-only assessment active
+
+Master inspected `Temp/opencode/shiftrelay-accept-focus-round2-20261124/REPORT-sanitized.md`.
+Both permitted wrapper executions passed:21.8s/32.0s and22.1s/31.7s, exit0.
+They observed enabled own Resolve mount, successful focus and no subsequent blur.
+Neither captured historical failing ordering; no repair/rate claim follows.
+Per-run identities/artifacts preserved; source restoration/zero owned listeners
+delegate-reported. No further execution is authorized by that two-run scope.
+
+Fresh-context debugger `ses_df407cbb7ffeKmwwTH938OBjD9` now reviews source,
+test harness and lifecycle READ-ONLY. Objective: identify a reachable deterministic
+regression strategy, challenge source-variant attribution assumptions and avoid
+speculative readiness hardening/blind repetitions. No tests/edits/network.
+**Next exact step:** receive this assessment, inspect whether it supports a
+deterministic RED/GREEN strategy against exact source variants, then scope any
+execution separately. Current candidate remains unverified; approved immutable
+checkpoint stays `a23561a`, later eight-path work dirty/uncertified.
+No reader/cloud/release action. Earlier ACTIVE two-run permission is consumed.
+
+## ACTIVE — November 24, renewed bounded focus diagnosis
+
+User directed "Continue working on that" after discussion of the intermittent
+accept-focus failure. Master limits renewed diagnostic execution to at most TWO
+local instrumented accessibility executions, one per command, stopping immediately
+on first failure. No retries/repeat-each/soak/source repair/cloud/NVDA/deploy.
+Debugger `ses_df41d8da6ffewkf9p0uxTPHPEH` resumes with source/run identities,
+metadata-only focus/readiness/commit/ref events and unique per-run preservation.
+Existing safe-wrapper/instrumentation restoration/credential protections remain.
+Setup failure consumes an execution; no third run under this scope.
+
+Master rechecked HEAD `a23561a`, same eight dirty paths, Handover/spec hashes
+`21423D8A...` / `0932DBF2...` unchanged from prior diagnostic originals.
+**Next exact step:** receive sanitized report and restoration identities without
+polling; inspect captured failed ordering, if any, before selecting a correction.
+If both executions pass, retain unknown-cause status rather than calling repaired.
+No source-fix acceptance, full-verifier or gate claim follows from this permission.
+Earlier pause below is superseded only by this bounded continuation.
+
+## PAUSED — November 24, 2026, diagnostic permission exhausted
+
+All delegates idle. Final projected DIAG/DIAG2 findings received: both outputs
+belong to passing runs, without admissible failure ordering or source-variant
+identity. One embeds a raw DOM fragment; values were not emitted. No causal fix
+is supported. Guard proposals are hardening hypotheses, not proven remedies.
+Both artifact hashes match preserved manifest per debugger; no extra run occurred.
+
+Master inspected the corrected verification addition and Nov24 supersession.
+It accurately leaves candidate unverified, preserves ledger and limits, records
+temporary instrumentation/restoration, and withholds any attributable failure rate.
+Its DIAG-inspection-pending sentence is a historical snapshot superseded here.
+
+**Exact next step requires user decision:** obtain fresh explicit permission before
+any further instrumented execution, with predeclared count, source identities,
+metadata-only event projection and immediate unique preservation on first failure.
+Do not run another test, speculative guard fix, full verifier or commit the candidate
+as repaired without that decision and supporting causal evidence. Alternative is
+remain paused with all dirty work preserved; never silently revert/delete it.
+No active resource is delegate-reported; no new master runtime check was performed.
+
+Last approved immutable checkpoint: `a23561a`, full16/16/E2E21, clean/stable at
+`2026-11-24T04:21:34Z`, scoped review approved. Eight dirty paths above it remain
+uncertified (Git authoritative); final C/D and actual-reader reconfirmation OPEN.
+No push/merge/deploy/recorded video/submission occurred.
+Commands for safe resume: `git status --short`; `git rev-parse HEAD`;
+`Get-FileHash src/Handover.tsx,e2e/accessibility.spec.ts -Algorithm SHA256`.
+Suggested skills: handoff, verification-before-completion,
+debugging-and-error-recovery for a newly authorized diagnostic.
+All active/pending instructions below are retained history, not execution permits.
+
+**November 24 — authorized probe consumed, cause still unknown:** master read
+`Temp/opencode/shiftrelay-accept-focus-diag-20261123/REPORT-sanitized.md`.
+One approved-wrapper instrumented accessibility execution passed (17.3s/25.0s,
+exit0). It measured pending-button blur to BODY, then enabled own Resolve mount
+and successful focus in this passing sample, not the failing ordering.
+No retained failing trace exists. Report records10/10preserved outputs and
+instrumentation restored; master independently matched restored Handover/App/spec/
+session hashes to report. Current candidate remains unverified, no attributable
+failure rate. Do not quote report's ~18% as a current-candidate measured rate.
+Corrected verification addition master-inspected: unsupported repair/failure-focus
+claims withdrawn. Report's old wording-contradiction list refers to historical text.
+
+Two disjoint tasks active: debugger `ses_df41d8da6ffewkf9p0uxTPHPEH` may read
+preserved DIAG/DIAG2 through in-process allowlisted focus/readiness-metadata
+projection only (NO execution); implementer `ses_df4118d2affeExNN68Lwp3eNJk`
+appends this bounded probe outcome to verification.md only.
+**Current next exact step:** receive projected-evidence findings and durable-record
+diff, inspect them, then decide whether evidence supports any correction or whether
+another explicit run permit is needed. No further testing authorized.
+No source repair/commit/gate refresh/reader replay/cloud/release action occurred.
+Eight-path dirty work remains uncertified above approved immutable `a23561a`.
+
+**Explicit new-strategy permission received:** user selected "Authorize bounded
+diagnosis": safe inspection of any retained synthetic trace, then at most ONE
+instrumented local-emulator reproduction with source hashes, focus/readiness-only
+metadata and preserved artifacts. No retry/soak/cloud/NVDA/deploy/source repair.
+Debugger `ses_df41d8da6ffewkf9p0uxTPHPEH` continues under that scope, approved
+safe wrapper only. Temporary instrumentation must be restored byte-identically;
+raw Auth/trace/DOM/network/credentials must never be emitted.
+**Current next exact step:** receive sanitized diagnostic report/command/exit and
+source restoration hashes without polling; inspect established ordering versus
+unknowns before selecting any fix or further run. One command consumes permission
+even if setup fails. No repair claim can follow merely from a passing diagnostic.
+
+Verification accept addition corrected by docs delegate: candidate unverified,
+eight-run ledger, two unattributed post-change failures, false failure-focus
+guarantee withdrawn. Report received; final corrected text still awaits master
+inspection. Prior no-execution instruction below is superseded ONLY by this exact
+one-attempt authorization. Immutable approved `a23561a` remains the checkpoint.
+
+**STOP — accept repair NOT accepted:** new regression reproduced original focus
+loss, but delegate also reports a failed final-implementation assertion followed
+by repeated passing reruns that overwrote its trace. Cause remains unknown.
+Do not call current accept change repaired, commit it, refresh gate metadata,
+or run more tests to seek green. The extra reruns exceeded bounded-attempt
+discipline; no further reproduction is authorized.
+
+Debugger `ses_df41d8da6ffewkf9p0uxTPHPEH` performs read-only source and remaining
+credential-free RED/GREEN test-output diagnosis. No execution/reproduction/edits.
+**Current next exact step:** receive diagnosis, inspect actual failure/run/source
+mapping and async focus/ref/disabled-state behavior, then decide a new supported
+strategy and request explicit additional-attempt permission where required.
+Preserve remaining outputs before any later authorized test.
+Verification§26's accept addition currently overstates repair and failure-focus
+guarantees; correct these through a delegate after diagnosis, not by treating
+subsequent passes as proof. Global phase instructions exist under
+`C:/Users/acer/.config/opencode/workflow/phases/`; missing repo-local copies are
+not a reason to omit them.
+Immutable approved checkpoint remains `a23561a`; later eight-path dirty work is
+uncertified. Reader collection, final C/D and release stay paused/open.
+
+**Pre-recording docs inspected:** optional-inset rule is now at most one, with
+required N2/N3 preserved; localhost/hosted provenance and font wording corrected.
+Master independently ran stdlib counts: required13/310words, optional13/16words,
+11 timed rows totalling164s (2:44), one inset172s (2:52). These are estimates,
+not filmed durations. Verification§26 explicitly records predicted accept-focus
+loss without claiming observed failure or repaired speech. Diff check exit0.
+
+**Current next task:** implementer `ses_df42caefcffeh40jmZ7RGON72q` performs bounded
+TDD assessment of keyboard successful-accept focus using approved local wrapper.
+Add regression first; only if RED reproduces loss, minimally reuse existing
+state-aware focus restoration for confirmed accept. Preserve auth/error/pending
+and existing tests. No reader/desktop/cloud/Git execution or other source expansion.
+Receive report/diff/RED-GREEN without polling, independently inspect results,
+then batch substantive changes for checkpoint/full verifier and same-reviewer
+followup. Reader collection stays paused pending this assessment and safe app-only
+capture setup; actual reader repair and accept/reopen speech remain unproven.
+Earlier docs-delegate receive instruction is now satisfied; final C/D stay open.
+
+**Focused approval received:** reviewer `ses_df435283affev31so1dyMcZZ25`
+APPROVED cumulative `71d0871..a23561a`, no blockers. The bounded source correction
+has passed re-review; its Phase 6.5 correction cycle is closed, NOT final C/D.
+Evidence remains full16/16 clean/stable SHA-matched at immutable `a23561a`.
+Actual reader repair is not proven.
+
+Five nonblocking notes are grouped under DEBT N6. Before filming/reconfirmation,
+implementer `ses_df430ed38ffekJn1gAIB3riWd4` edits ONLY demo README and verification
+§26: choose at most one optional inset with checked durations/narration preservation,
+correct inherited LOCALHOST versus hosted provenance, remove unsupported font-license
+claim, explicitly record predicted accept-focus loss alongside missing accept speech.
+No source expansion, reader/cloud run or Git action in that task.
+**Next exact step:** receive and inspect bounded docs diff/arithmetic. Then plan
+safe reader reconfirmation with approved wrapper and app-only instrument capture;
+assess accept-focus prediction explicitly instead of treating it as repaired.
+Do not rerun completed structural/full verification solely for these status notes.
+No video exists, no public release/push/merge/deploy occurred.
+
+**Saved/verified checkpoint; focused review pending (November 24 UTC):**
+`a23561a7f551729697bd4f8d9e67b90c344dda09` saved exactly seven paths.
+Master independently inspected HEAD, clean status and complete verifier report:
+16/16 exit 0, ok=true, dirty=false, tree_stable=true, finished
+`2026-11-24T04:21:34Z`. Review SHA matches; full raw-byte review.patch and
+focused `review-accessibility.patch` (`71d0871..a23561a`) prepared.
+Static seven-group list remains and gate_c_eligible=false; no final C/D approval.
+
+Reviewer `ses_df435283affev31so1dyMcZZ25` is reviewing the cumulative correction
+and previously unreviewed documentation since `71d0871`, including demo draft.
+**Next exact step:** receive focused verdict without polling, inspect blockers/
+scope/claims. Route any blockers to the same implementer, then re-review before
+closing 6.5. If approved, scope safe real-reader reconfirmation, not another
+structural test replay; accept/reopen reader speech remains incomplete.
+These later operational notes are outside immutable checkpoint certification.
+No push, merge, deployment or new reader collection occurred.
+
 **Correction diff inspected; independent targeted check passed:** PrivateDraft
 now keeps the polite feedback carrier mounted while preserving separate alerts.
 Handover waits for the confirmed task state before focusing its surviving trigger;

@@ -61,8 +61,8 @@ notifications or personal avatars; a window size and zoom that keep UI text read
 ## 3. Narration script
 
 Planned delivery at roughly 150 words per minute. No voice track or video exists. The required rows total
-310 words, reproducible with the command in section 8; the two optional insets add 29 words and are not
-part of that total.
+310 words, reproducible with the command in section 8. The one optional inset row allowed is not part of
+that total: N9b is 13 words (about 5.2 s of speech) and N10b is 16 words (about 6.4 s).
 
 N1. "ShiftRelay takes a private shift note and turns it into tasks someone has accepted."
 
@@ -109,31 +109,46 @@ N13. "The hosted build is running. Accepting a task is the action that matters."
 
 ## 4. Shot list
 
-Times are estimates that include UI waits, not measured footage: 310 words at 150 wpm is about 124 s of
-speech, and the required rows leave about 40 s for holds, so the required plan is about 2:44. The table
-below includes both optional rows, which is the 3:00 case; with one of them the later rows move about 8 s
-earlier, so about 2:52. Use at most one optional row, and when both are used delete the split card row
-(N3). Cut only by deleting a row, never by shortening a claim.
+Times are estimates that include UI waits, not measured footage. Two quantities are kept apart: spoken
+duration is a word-count estimate (310 words ÷ 150 wpm × 60 = 124.0 s), and total row duration is the
+sum of the rows below. Each row already contains its speech plus its holds, so speech is never added to
+a row sum again.
+
+Exact arithmetic from the rows, at most one optional row:
+
+- required rows only, cloud shot included: 8+23+20+11+16+14+10+20+12+22+8 = 164 s = 2:44 (all
+  thirteen rows would be 180 s; minus the two 8 s optional rows). Of the 164 s, an estimated 124.0 s is
+  speech and 40.0 s is holds and waits (164.0 − 124.0).
+- one optional row: 164 + 8 = 172 s = 2:52. N9b's 5.2 s and N10b's 6.4 s of speech are already inside
+  that 8 s row; do not add them again.
+- cloud shot cut (no call scoped for the session): remove the 20 s N10 row, and N10b is unusable
+  without it, so 164 − 20 = 144 s = 2:24, or 152 s = 2:32 with N9b.
+
+Cut only by deleting a row, never by shortening a claim. The speech figures are estimates and are not
+additive with the row sums.
+
+The table is the base case: required rows only, cloud shot included, 2:44. An optional row is inserted
+at the marked point, adds its 8 s and shifts every later row 8 s, giving 2:52.
 
 | Time (est.) | Shot | Narration | Hold or cut |
 |---|---|---|---|
 | 0:00-0:08 | Title card, own text only | N1 | Hold the card 2 s before the first word |
-| 0:08-0:31 | Signed-out screen; own split card naming the two paths | N2, N3 | First row to delete when both optional rows are used |
+| 0:08-0:31 | Signed-out screen; own split card naming the two paths | N2, N3 | Required; N2 and N3 stay in every case |
 | 0:31-0:51 | Already signed in; type the synthetic note, request local drafting, wait for the real result | N4, N5 | Speed up typing at most 1.5x; never cut a form half-filled. Hold on the drafting state while it runs, capped by its real duration |
 | 0:51-1:02 | Drafted cards as proposals: check a fact, remove the private aside | N6 | If the result is a refusal, say so and take the manual path |
 | 1:02-1:18 | Show `Review exact shared fields`, share, show the server confirmation status | N7 | Required; the review fields and the share stay |
 | 1:18-1:32 | Sign out, sign in as incoming, accept, show version and owner | N8 | Required; keep |
 | 1:32-1:42 | Resolve with a synthetic note, show the recorded history | N9 | Required; keep |
-| 1:42-1:50 | Optional: reopen, show that the owner is unchanged | N9b | Optional inset; drop it before the accept or the resolve |
-| 1:50-2:10 | `Cloud reconciliation`, `Preview exact cloud packet`, approval checkbox, one send, the response on screen | N10 | Cut this whole shot if no call is scoped for the session, and rebalance the captions |
-| 2:10-2:18 | Optional: the response that is actually on camera | N10b | Only if the filmed response is a brief with zero suggestions; otherwise say the real outcome in N10 |
-| 2:18-2:30 | Manual fields in use with local drafting left off, or the real unavailable state if that is what renders | N11 | Keep: it shows the manual path needs no model. Never stage a mock here |
-| 2:30-2:52 | Evidence card | N12 | Keep: it carries the limits |
-| 2:52-3:00 | Hosted URL and an accept action | N13 | Last frame is the real CTA |
+| insert at 1:42 | Optional: reopen, show that the owner is unchanged | N9b | Optional inset; at most one optional row; drop it before cutting the accept or the resolve row |
+| 1:42-2:02 | `Cloud reconciliation`, `Preview exact cloud packet`, approval checkbox, one send, the response on screen | N10 | Cut this whole shot if no call is scoped for the session, and rebalance the captions |
+| insert at 2:02 | Optional: the response that is actually on camera | N10b | Only if the cloud shot is kept and the filmed response is a brief with zero suggestions; otherwise say the real outcome in N10 |
+| 2:02-2:14 | Manual fields in use with local drafting left off, or the real unavailable state if that is what renders | N11 | Keep: it shows the manual path needs no model. Never stage a mock here |
+| 2:14-2:36 | Evidence card | N12 | Keep: it carries the limits |
+| 2:36-2:44 | Hosted URL and an accept action | N13 | Last frame is the real CTA |
 
-Cut order if the runtime overruns: the conditional response row (N10b), then the cloud shot, then the
-reopen. When both optional rows are kept, the split card row (N3) goes. The required spine in section 1 is
-never cut.
+Cut order if the runtime overruns: the conditional response row (N10b), then the cloud shot (which also
+removes N10b), then the reopen. At most one optional row is used in any cut, and the required spine in
+section 1 is never cut; N2, N3 and the split card stay in every case.
 
 ## 5. Caption and evidence-card cues
 
@@ -168,8 +183,8 @@ proof.
   N6 and the drafted cards. The video then shows no local generation, and N12's local sentence goes too.
 - Local generation returns a refusal, unusable text or fewer cards: show it, say what happened, and take
   the manual path. Do not re-roll until it looks better and do not splice two runs into one take.
-- No call scoped for the session: drop shot 1:50-2:10 and N10, keep the limits in N12, and rebalance
-  captions so no caption describes something off screen.
+- No call scoped for the session: drop shot 1:42-2:02 and N10 (and N10b, which has no response to show),
+  keep the limits in N12, and rebalance captions so no caption describes something off screen.
 - The filmed response is an error, a timeout or a brief with no suggestions: show the real state and say
   what came back. N10b is used only when that is what the response shows, and the confirm and dismiss
   controls are not shown at all, because they do not exist for that response.
@@ -180,9 +195,12 @@ proof.
 
 - Product usefulness is unvalidated. No impact, time-saving, comparative or competitive statement appears
   in narration, captions or cards.
-- No "Nano 4" identity claim beyond the sponsor-documented flag mapping already recorded. The model entry
-  observed on this machine is `gemma4_gpu_low_tier_model` (`gemma4-2b-it`), on loopback, with hosted
-  provenance inherited from that record rather than re-measured.
+- No "Nano 4" identity claim beyond the sponsor-documented flag mapping already recorded. The only model
+  entry recorded is `gemma4_gpu_low_tier_model` (`gemma4-2b-it`), observed once on loopback
+  (`docs/adr/0006-nano4-runtime-proof.md`). The hosted local-model evidence is a delegate's inspected
+  report, and its Gemma 4 provenance is inherited from that ADR 0006 localhost evidence, not re-measured
+  on the hosted origin; no measured AI-host request exists (`docs/PUBLISH.md` §12,
+  `docs/verification.md` §17).
 - No WCAG, accessibility-pass or privacy-pass claim. Bounded contrast, zoom, touch and reader observations
   exist as separate records and are not summarised as a pass.
 - App Check enforcement is proven at the service boundary by probe, not by the single hosted cloud call.
@@ -190,9 +208,9 @@ proof.
 - The private note stays in page memory, and the shared packet carries only `id`, `version`, `title`,
   `detail` and `state`. That is a structural statement about the contract, and it is the strongest
   privacy sentence the video may use.
-- No third-party music, logos, stock footage, memes or other third-party assets. System fonts need no
-  license and no substitution. Silent UI with English narration and captions is acceptable and is the
-  plan.
+- No third-party music, logos, stock footage, memes or other third-party assets, and no font file is
+  redistributed: the UI uses local system font stacks. Silent UI with English narration and captions is
+  acceptable and is the plan.
 
 ## 8. Recording and caption QC, run before upload
 
@@ -215,15 +233,15 @@ proof.
       or description.
 - [ ] Asset review recorded, and public upload approved separately, before the file leaves the machine.
 
-Reproduce the spoken word count:
+Reproduce the word counts behind the timing estimates:
 
 ```powershell
-py -3 -c "import io,re;t=io.open('docs/demo/README.md',encoding='utf-8').read();b=t.split('## 3. Narration script')[1].split('## 4. Shot list')[0];print(sum(len(s.split()) for s in re.findall(r'(?ms)^N[0-9]+\. (.*?)(?=\n\n)',b)))"
+py -3 -c "import io,re;q=chr(34);b=io.open('docs/demo/README.md',encoding='utf-8').read().split('## 3. Narration script')[1].split('## 4. Shot list')[0];rows=re.findall('(?ms)^(N[0-9]+[a-z]?)[^'+q+'\n]*'+q+'(.*?)'+q+'(?=\n\n)',b);r=[x for x in rows if x[0][-1].isdigit()];o=[x for x in rows if not x[0][-1].isdigit()];print('required',len(r),sum(len(x[1].split()) for x in r));print('optional',[(x[0],len(x[1].split())) for x in o])"
 ```
 
-The plan's own invariant, if the command is unavailable: the required N-lines total 310 words, which at
-150 wpm is about 124 s of speech, plus about 40 s of holds, is about 2:44. The two optional insets add 29
-words, about 16 s, and the split card is dropped when both are used.
+This prints the two numbers the plan uses: the 13 required N-lines totalling 310 words (310 ÷ 150 × 60 =
+124.0 s of estimated speech), and N9b/N10b at 13 and 16 words. Those speech estimates are not added to
+the row sums in section 4, and no row is summed twice.
 
 ## 9. Next exact action
 

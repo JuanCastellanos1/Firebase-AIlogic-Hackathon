@@ -17,6 +17,32 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+Nov24 supersession: explicit exact-source original-defect RED/GREEN pair is
+master-inspected (a23561a Handover fails new accept-focus assertion; unchanged
+candidate passes same spec/command). Candidate admitted for full verification/
+review, NOT finally accepted. Older two failed variants remain unattributable,
+not a proven current-candidate failure rate or established scheduler race.
+Denied/stale/error focus limits and actual-reader gaps remain explicit.
+
+November24 N6 followup: accept-focus regression reproduced the original loss;
+candidate correction remains UNVERIFIED, not deferred as an accepted repair.
+Two post-change failures lack variant attribution; repeated passes and one
+authorized passing instrumented sample did not capture failing ordering.
+DIAG/DIAG2 projected evidence covers passing runs only. All artifacts preserved;
+no attributable current-candidate failure rate. Attempt permission exhausted,
+further execution paused for user decision. See HANDOFF top/verification§26.
+
+Focused accessibility/delivery checkpoint `a23561a`: reviewer
+`ses_df435283affev31so1dyMcZZ25` APPROVED cumulative `71d0871..a23561a`,
+no blockers; bounded status-carrier/resolve-reopen-focus correction re-reviewed.
+Five nonblocking notes grouped under N6: contradictory optional-inset/cut arithmetic
+before filming; predicted accept-button focus loss to assess/record before reader
+reconfirmation; inherited LOCALHOST model provenance must not imply hosted measurement;
+unsupported system-font licensing assertion; deliberate structural status selector
+may need a testid only if future UI churn requires it. First four are routed to
+bounded docs correction/explicit limitation recording; no untested source expansion.
+Actual reader reconfirmation and final C/D remain open.
+
 Cumulative local-contrast/AC15metadata/preview-sync checkpoint `71d0871`: same
 reviewer APPROVED `af421ae..71d0871`, no blockers; testfix rootcause/regression
 explicitly closed, failed RED preserved. Five notes remain N6: precommit snapshots;

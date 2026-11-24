@@ -83,13 +83,14 @@ test.describe("accessible manual workflow", () => {
     await incomingPage.getByRole("button", { name: "Refresh shared tasks" }).click();
     await expect(incomingPage.getByRole("heading", { name: keyboardTitle, exact: true })).toBeVisible();
     const acceptName = `Accept task: ${keyboardTitle}`;
+    const resolveName = `Resolve task: ${keyboardTitle}`;
     await incomingPage.getByRole("button", { name: acceptName }).focus();
     await incomingPage.keyboard.press("Enter");
     await expect(incomingPage.getByText(/Accepted\. The server recorded you as owner/)).toBeVisible();
+    await expect(incomingPage.getByRole("button", { name: resolveName })).toBeFocused();
     await expectNoHorizontalOverflow(incomingPage, "incoming workspace at 320px");
     await expectNoSeriousViolations(incomingPage, "incoming task list");
 
-    const resolveName = `Resolve task: ${keyboardTitle}`;
     await incomingPage.getByRole("button", { name: resolveName }).focus();
     await incomingPage.keyboard.press("Enter");
     await expect(incomingPage.getByLabel("Resolution")).toBeVisible();

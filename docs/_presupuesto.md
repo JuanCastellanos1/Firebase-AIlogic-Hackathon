@@ -12,6 +12,63 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Exact-source control produced intended original-defect RED and candidate GREEN.
+End diagnostic reruns. Spend one bounded evidence record and combined checkpoint/
+full-verifier/focused-review cycle, preserving historical attribution limits;
+no scheduler-race closure or speech claim. No spend/floor change.
+
+Explicit controlled-comparison permission: max2executions, exact approved-source
+RED then unchanged-candidate GREEN with same assertion, no extra scheduler
+experiments. Preserve identities; cap inference to original-defect regression,
+not historical failure attribution. No speculative guard/source expansion.
+
+Both renewed diagnostic samples passed; runtime budget consumed without causal
+failure evidence. Switch to one fresh-context READ-ONLY reachability/test-strategy
+assessment, not additional executions or speculative source changes. Preserve
+unknowns and current source-variant attribution limits; no scope/floor reduction.
+
+Renewed continuation: allocate at most2instrumented local diagnostic executions,
+stop firstfailure and preserve unique artifacts/source identities immediately.
+No soak, thirdrun, speculative repair or cloud spend. If bothpass, unknown cause
+remains; next decision must follow actual evidence, not a green-run count.
+
+Paused after retained DIAG evidence yielded no failed ordering/source attribution.
+No further execution budget authorized; all delegates idle. Reserve future effort
+only after explicit bounded diagnostic decision, not speculative source hardening
+or status-only certification. Dirty work preserved, approved checkpoint unchanged.
+
+One new-strategy diagnostic consumed: pass did not reveal failed ordering.
+No more runtime allocation under that permit. Restrict next effort to preserved
+DIAG metadata inspection and one durable bounded-result append; no blind repeats,
+speculative repair, candidate failure-rate claim or quality-floor reduction.
+
+User authorized one new-strategy instrumented local diagnostic, not a soak/retry
+budget or source repair. Preserve/hash artifacts before run; even setup failure
+consumes the attempt. Spend only on causal evidence, then decide next supported
+action. No spend/quality-floor change; candidate unverified and final C/D open.
+
+Stop accept-focus rerun loop: final candidate failed once, trace overwritten;
+green repeats are not acceptance evidence. Bounded attempt discipline exceeded.
+Reserve read-only retained-output/source diagnosis only, no new reproduction or
+checkpoint until supported strategy and required user permission. No floor waiver.
+
+Pre-filming doc arithmetic/wording inspected with independent stdlib counts.
+Spend one bounded regression-first assessment of accept focus, reusing existing
+restoration only if reproduced; no speculative refactor. Batch its supported
+result with docs before checkpoint/review, avoiding repeated evidence-only loops.
+No reader/cloud spending, quality waiver or final-gate change.
+
+Focused checkpoint review APPROVED, no blockers; close bounded source-fix cycle.
+Spend one minimal docs-only pass on pre-filming timing/provenance/license findings
+and explicit accept-focus limitation, not cosmetic structural-selector polish.
+Next evidence effort belongs to safely scoped actual-reader reconfirmation, not
+another status-only full-suite loop. Final C/D and seven technical groups remain.
+
+November 24 UTC checkpoint `a23561a`: full16/16 clean/stable evidence independently
+inspected; focused cumulative review pending. Reserve only blocker correction/
+re-review if required, then safe real-reader confirmation rather than more structural
+replay. Final C/D remain open; allocations/free-tier limits unchanged, labor unmeasured.
+
 Correction and independent targeted accessibility proof received (1 pass, exit 0).
 Reserve one combined seven-path local checkpoint/full-verifier/focused-review cycle,
 including earlier unreviewed delivery docs; avoid more targeted replay. Actual reader
