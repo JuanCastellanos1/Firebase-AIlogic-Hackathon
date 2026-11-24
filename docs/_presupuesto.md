@@ -12,6 +12,30 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Correction and independent targeted accessibility proof received (1 pass, exit 0).
+Reserve one combined seven-path local checkpoint/full-verifier/focused-review cycle,
+including earlier unreviewed delivery docs; avoid more targeted replay. Actual reader
+confirmation remains separate and required; no final gate or spending change.
+
+Allocate one minimal TDD correction for established review-status structure and
+resolve/reopen submit focus, followed by targeted proof and inspection. Do not
+expand into predicted status sites or optional SPA announcements. Reader repair
+remains unproven until a later safely scoped real-reader check; no ad hoc launcher
+reuse or full-suite/status-only loop. Free-tier and quality floor unchanged.
+
+Reader report received: prioritize bounded source/requirement diagnosis of observed
+status/focus gaps, not a broad accessibility replay. Pause capture while instrument
+and launcher-safety limits are assessed; no new tool, spending or quality waiver.
+Keep missing accept/reopen evidence explicit and batch durable recording with any
+supported correction. Final C/D remain open; no fresh verifier/gate claim.
+
+Explicit resume retains allocations, completed gates and free-tier-only limits.
+Spend one bounded task on actual NVDA reader output using preserved local tooling,
+not repeated framing, contrast, phone, zoom or status-only certification.
+Current saved HEAD `3196d00` is outside `71d0871` evidence; batch substantive
+delivery records before full verification/focused review. Labor remains unmeasured.
+No new dependency, paid resource, cloud request or quality-floor reduction.
+
 Orderly closure explicitly confirmed: stop new work, preserve allchanges in one
 localWIP after delegate cleanup; no fullsuite solely for closing docs, no push/
 deploy/delete. Last certified71d0871 retained; closingwork unreviewed/uncertified.

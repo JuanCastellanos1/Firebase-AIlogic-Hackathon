@@ -1,5 +1,102 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Active resume — November 23, 2026, local reader evidence
+
+**Correction diff inspected; independent targeted check passed:** PrivateDraft
+now keeps the polite feedback carrier mounted while preserving separate alerts.
+Handover waits for the confirmed task state before focusing its surviving trigger;
+the initial rAF-only attempt lost focus during the parent update and was superseded.
+Accessibility regression covers empty-before-review carrier and resolve/reopen focus,
+with prior assertions retained. Verification §26 records RED/failed-first-fix/GREEN.
+Master independently ran the approved-wrapper accessibility spec: 1 passed,
+22.8s test / 34.6s runner, exit 0. Diff check exit 0 before that run.
+This proves structure/focus only, not repaired reader announcements.
+
+**Next exact step:** finish bounded verification-record precision, save the seven
+changed paths locally, regenerate full clean evidence, then review metadata and
+focused independent review. Include the previously unreviewed documentation range
+after `71d0871`, not just this correction. No push/merge/deploy or reader replay.
+Current dirty edits remain uncertified; final C/D OPEN.
+
+**Diagnosis received; bounded correction active:** debugger identified conditional
+polite-region insertion as the source-supported review-status cause, and missing
+post-confirmation focus restoration in shared resolve/reopen submit handling.
+Master selects fixes for these two causes under AC12; SPA transition silence remains
+an observed limitation, not a newly invented blocker. Predicted first-status gaps
+in other sites remain unverified and outside this correction.
+
+Implementer `ses_df4487261ffewgohkysV75cber` owns the minimal PrivateDraft/Handover/
+accessibility-test correction plus bounded verification record, with RED/GREEN
+tests and existing safe-wrapper commands only. No Git save/full verifier or
+NVDA/desktop/cloud execution in that task.
+**Next exact step:** receive and inspect diff, RED/GREEN outputs and requirement
+mapping; independently verify the bounded correction before checkpoint/review.
+Real-reader reconfirmation is still required before claiming announcement repair.
+
+Launcher review found allowlisted child environment but ad hoc `emulators:start`,
+not the required safe wrapper, with no wrapper post-run log scrub and host config
+directories reachable. No credential exposure was established; raw logs remain
+unopened. This was a collection deviation, NOT an authorized waiver. Do not reuse
+that launcher. Further reader collection must use the approved safe route and
+avoid collecting incidental non-app reader output.
+
+**Report received and master-inspected:** sanitized `RESUME-REPORT.md` records
+actual NVDA SpeechViewer strings for controls, native validation/app alerts,
+publish/resolve statuses and Cancel focus restoration. This is delegated reader
+output text, not master-replayed acoustic/usability evidence or whole-Q4 approval.
+Accept-as-owner/reopen remain unverified; instrument stopped appending twice.
+The report also observes review-status insertion silence with a live instrument,
+mostly silent SPA transitions, and post-resolve focus falling to BODY.
+Raw `viewer-buffer.txt` contains incidental non-app foreground text: do not open,
+copy or publish it; account files/profile are also local-only. Further capture is
+paused pending diagnosis, including inspection of safe emulator launch compliance.
+Owned-resource cleanup is delegate-reported, not independently replayed.
+
+Debugger `ses_df44cb876ffe5NIDDT6R34jEKU` is performing read-only Phase 7 diagnosis
+from sanitized report, source/callers/tests and the preserved launcher source only.
+No raw buffers/credentials/profile, reproduction, edits, cloud or desktop actions.
+**Current next exact step:** receive diagnosis without polling; inspect requirement
+mapping and root causes, then decide the smallest justified fix/regression and
+safe reader-confirmation scope. No automatic blocker/WCAG verdict is inferred from
+silence. Earlier receive-reader-report instruction below is now satisfied.
+
+User explicitly requested resumption from this handoff. Phase 8 continues;
+final C/D remain OPEN. Completed framing/build gates are retained.
+
+- Inspected clean saved HEAD `3196d00e611910e501ff49caf581b433dc106254`
+  (`chore: wip accessibility-demo-handoff`), branch `feat/hackathon-ideation`.
+  Fetch succeeded; origin URL matches `_project.md`.
+- Required framing/build/delivery artifacts exist, including the demo plan.
+  Python 3.15.2, Node 24.14.0, npm 11.9.0, Git 2.55.0.windows.5,
+  OpenCode 2.3.0; browse/context7/github connected.
+- Existing evidence/review.sha cover `71d0871`, finished `19:26:38Z`,
+  ok/clean/stable, NOT current HEAD. Seven static scope groups remain.
+  The intervening nine-file commit is documentation only. No full suite repeated
+  or current-tree gate certification claimed.
+- Partial NVDA report inspected: setup only, zero observed reader strings.
+  Existing scoped temporary-reader permission is retained; no new legal/admin/
+  installation/audio/cloud action is authorized.
+- Implementer `ses_df45c90a2ffe930SxQe7l5jkYt` is resuming the preserved portable
+  NVDA/isolated config, first proving SpeechViewer output, then bounded synthetic
+  LOCAL reader checks. No repository edits or Git/cloud actions in that task.
+  Expected sanitized artifact:
+  `C:/Users/acer/AppData/Local/Temp/opencode/shiftrelay-nvda-speech-20261123/RESUME-REPORT.md`.
+  Original report/helpers/downloads remain preserved; never print `seed.out`.
+
+**Next exact step:** receive the delegate report without polling, inspect actual
+reader strings, automatic-versus-explicit reading attribution and cleanup evidence.
+If permission/tooling blocks the route, report the exact boundary rather than
+substituting DOM evidence. Record only supported results through a bounded delivery
+documentation task, then batch substantive changes before verifier/focused review.
+Demo arithmetic/conditional shots remain pending; no produced video exists.
+These operational resume edits are outside immutable certification.
+
+Commands: `git status --short`; `git log -1 --format="%H %s"`;
+`py -3 -c "import json;d=json.load(open('.git/opencode/evidence.json'));print(d['commit'],d['ok'],d['dirty'],d['gate_c_reasons'])"`.
+Suggested skills: verification-before-completion, handoff; agent-desktop and
+accessibility for the permitted local reader task. Earlier closure sections below
+are historical and do not override this explicit resume.
+
 ## SESSION CLOSED — November 23, 2026, explicit confirmation received
 
 User explicitly confirmed orderly closure: stop work, preserve the current branch

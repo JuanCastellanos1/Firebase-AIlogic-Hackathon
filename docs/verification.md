@@ -3268,3 +3268,96 @@ are dirty and no fresh verifier report is claimed. Full reports:
 `Temp/opencode/shiftrelay-contrast-hosted-auth-20261123/REPORT.md`,
 `Temp/opencode/shiftrelay-contrast-hosted-incoming-20261123/REPORT.md`,
 `Temp/opencode/shiftrelay-contrast-stale-send-20261123/`.
+
+## 26. Phase 6.5 bounded fix - review status carrier and confirmed-submit focus (November 23, 2026)
+
+Scope: two observed accessibility defects and their regressions only. No threshold, AC, Rules,
+timing, SPA-transition or local-model/cloud status behavior changes. This section records
+**automated** evidence; it is explicitly **not** screen-reader/speech proof, and no gate closes.
+
+Trigger: the sanitized reader report
+`Temp/opencode/shiftrelay-nvda-speech-20261123/RESUME-REPORT.md`
+(delegated Speech-Viewer text, already master-inspected). Row 7 and §5.1 observe the review status
+text not being spoken twice; §5.3 observes DOM focus falling to `BODY` after a confirmed resolve.
+Only that sanitized report was read: `viewer-buffer.txt`, `accounts-seed.txt` and `chrome-profile/`
+were not opened or copied.
+
+### Diagnosis (source, not speculation)
+
+| Observed | Source cause |
+|---|---|
+| Review status silence | `PrivateDraft` mounted the feedback node only when `status !== null`, so the first review message inserted a new `role="status"` node *and* its text in one commit. A polite region created with content is an insertion, not a change; the reader that announced changed text in already-mounted regions (publish/resolve) announced nothing here. |
+| Focus to `BODY` after confirmed resolve | `submitForm` called `setForm(null)` on success, which unmounts the form and its focused submit button, but only `closeForm` (used by Cancel) restored focus. |
+| (found while correcting) restore timing | Reusing `closeForm`'s `requestAnimationFrame` restore was not deterministic in principle: the parent's post-transition task state commits asynchronously, so the frame could focus the trigger element that a later commit replaces, losing focus again. The mixed pass/fail of that intermediate attempt is consistent with this explanation but does **not** establish the exact commit timeline; the ordering is source-supported, not captured. |
+
+### Fix (minimal)
+
+- `src/PrivateDraft.tsx`: the non-error feedback node is now a permanently mounted `role="status"`
+  region (`politeStatus`), empty until a message exists; errors still render in their own separate
+  `role="alert"` node, so there is no nesting and no duplicate polite region. The empty carrier is a
+  classless `div`, so it adds no box, margin or border; with a message it uses the same
+  `status status-<tone>` classes and spacing as before. No new CSS, testid, dependency or live
+  region elsewhere.
+- `src/Handover.tsx`: a confirmed resolve/reopen records the task id and the task state that renders
+  the surviving trigger (`resolved`/`accepted`), and an effect focuses the existing per-task trigger
+  ref only after `tasks` shows that state. Cancel keeps the existing `closeForm` rAF restore
+  unchanged; accept, error and pending paths are untouched.
+
+### Regression tests (RED before GREEN)
+
+`e2e/accessibility.spec.ts` only; existing role/name scoping, axe and overflow assertions kept.
+The carrier is located as `.draft-panel > [role='status']` because several other `role="status"`
+nodes legitimately exist inside the nested local-draft section, so role alone cannot identify it;
+no new test id was added.
+
+| Run | Assertion | Result |
+|---|---|---|
+| RED 1 | carrier `toHaveCount(1)` before Review cards | **fail**: resolved to 0 elements, then `toHaveText("")` unreached |
+| RED 2 (carrier assertions temporarily disabled to reach the resolve step) | `Reopen task: …` `toBeFocused()` after confirmed resolve | **fail**: `inactive` for the full 10 s of polling; button present and enabled |
+| GREEN 1 (first fix attempt, `closeForm` reuse) | same assertions | **fail** on focus (timing explanation above); carrier assertions passed |
+| GREEN 2 (final fix) | carrier empty before review, gains review message; resolve and reopen confirmed submit focus the surviving per-task trigger (`Reopen task` then `Resolve task`) | **pass** |
+| GREEN 3 (repeat, no code change) | same | **pass** |
+
+Commands (approved wrapper only; the runner command is the wrapper's last argument because
+`scripts/firebase_safe.py` refuses trailing runner arguments, and `node_modules/.bin` is prepended to
+`PATH` exactly as the `npm run test:e2e` script does):
+
+```powershell
+$env:PATH = "$PWD\node_modules\.bin;$env:PATH"
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/accessibility.spec.ts"
+```
+
+Exact results: RED 1 `1 failed` (16.0 s, wrapper exit 1); RED 2 `1 failed` (25.1 s, exit 1);
+GREEN 1 `1 failed` (22.6 s, exit 1); GREEN 2 `1 passed` (14.9 s test, exit 0); GREEN 3 `1 passed`
+(16.6 s test, exit 0). Master's independent run of the same targeted suite through the approved
+wrapper reports `1 passed` (22.8 s test, 34.6 s runner, exit 0). The passing run also re-exercised
+the existing sign-in, keyboard path,
+320 px no-overflow, axe serious/critical scans for sign-in/draft/review/incoming/resolve/resolved,
+Cancel focus restoration and status wiring. Console output: `Temp/opencode/shiftrelay-fix-a11y-20261123/`
+(`RED-e2e-accessibility.txt`, `RED-e2e-focus-isolated.txt`, `DIAG-focus.txt`,
+`GREEN-e2e-accessibility.txt` = failed first attempt, `GREEN2-e2e-accessibility.txt`,
+`GREEN3-e2e-accessibility-rerun.txt`).
+
+Static checks on the changed tree: `npm run typecheck` exit 0; `npm run lint` exit 0. No full
+verifier run, no `evidence.json` regeneration and no Git action were performed, so this is not
+gate evidence and `review.sha` does not cover it.
+
+### Limits and deviations (not waivers)
+
+- **No reader evidence yet.** The two fixes are automation-verified only. Real-reader (NVDA)
+  reconfirmation of the review-status announcement and of focus restoration after both confirmed
+  resolve and reopen is still required; accept-as-owner and reopen status *speech* remain
+  uncaptured gaps (instrument stopped twice), SPA transition announcements were not touched, and
+  acoustic intelligibility is unverified.
+- **Collection launcher deviation.** The reader run in the cited report launched the stack through
+  `start_stack.py emulators`, i.e. raw `node firebase emulators:start --only auth,firestore`, rather
+  than `scripts/firebase_safe.py emulators:exec`. Delegated debugger source inspection of that
+  launcher records an allowlisted child environment (master did not inspect the launcher directly),
+  but the approved wrapper's post-run `firebase-debug*.log` environment-payload scrub
+  did not run on that path, so wrapper-level protection is not established for that collection run.
+  No credential exposure was established, and this is recorded as an inspection deviation, **not**
+  an authorized waiver of the wrapper.
+- First fix attempt (reusing `closeForm` for the success path) was superseded by the deterministic
+  effect; it is recorded above instead of being silently dropped.
+- No speech, WCAG, Q4, privacy or eligibility verdict follows. Thresholds, error handling and the
+  frozen contract are unchanged; final C/D remain OPEN.

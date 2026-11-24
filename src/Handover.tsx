@@ -2,7 +2,7 @@
  * Shared task queue and recorded history. The UI never renders a transition as confirmed
  * before the server acknowledges it, and never offers a role toggle.
  */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Role, Task } from "./domain";
 import type { ActivityView } from "./session";
 import { utf8Bytes } from "./validation";
@@ -77,8 +77,23 @@ export function Handover({
   const [form, setForm] = useState<OpenForm | null>(null);
   const [text, setText] = useState("");
   const triggerRefs = useRef(new Map<string, HTMLButtonElement>());
+  const focusAfterSubmit = useRef<{ taskId: string; state: Task["state"] } | null>(null);
 
   const pending = feedback?.tone === "pending";
+
+  // Resolve/reopen replace the trigger; wait until the task state that renders the surviving
+  // trigger has committed before focusing it, so the focus cannot land on the removed button.
+  useEffect(() => {
+    const target = focusAfterSubmit.current;
+    if (target === null || form !== null) {
+      return;
+    }
+    if (!tasks.some((task) => task.id === target.taskId && task.state === target.state)) {
+      return;
+    }
+    focusAfterSubmit.current = null;
+    triggerRefs.current.get(target.taskId)?.focus();
+  }, [form, tasks]);
 
   function openForm(task: Task, action: "resolve" | "reopen"): void {
     setForm({ taskId: task.id, action });
@@ -98,6 +113,10 @@ export function Handover({
   async function submitForm(task: Task, action: "resolve" | "reopen"): Promise<void> {
     const confirmed = await onAction(task, action, text);
     if (confirmed) {
+      focusAfterSubmit.current = {
+        taskId: task.id,
+        state: action === "resolve" ? "resolved" : "accepted",
+      };
       setForm(null);
       setText("");
     }

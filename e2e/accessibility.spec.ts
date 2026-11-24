@@ -46,6 +46,11 @@ test.describe("accessible manual workflow", () => {
     await expect(page.getByRole("heading", { name: "Local drafting (optional)" })).toBeVisible();
     await expectNoSeriousViolations(page, "outgoing draft with local model state");
 
+    // The review feedback region must already exist, empty, before its first message arrives.
+    const reviewStatus = page.locator(".draft-panel > [role='status']");
+    await expect(reviewStatus).toHaveCount(1);
+    await expect(reviewStatus).toHaveText("");
+
     await page.getByLabel("Private shift note (not shared)").focus();
     await page.keyboard.type("Keyboard-only private note.");
     await expect(page.getByText("Checking this device's local model…")).toHaveCount(0);
@@ -64,6 +69,7 @@ test.describe("accessible manual workflow", () => {
     await expect(page.getByRole("button", { name: "Review cards" })).toHaveCSS("outline-style", "solid");
     await page.keyboard.press("Enter");
     await expect(page.getByRole("heading", { name: "Review exact shared fields" })).toBeVisible();
+    await expect(reviewStatus).toHaveText(/Review the exact fields below/);
     await expectNoHorizontalOverflow(page, "outgoing workspace at 320px");
     await expectNoSeriousViolations(page, "outgoing review");
     await page.getByRole("button", { name: "Share handover" }).focus();
@@ -98,6 +104,16 @@ test.describe("accessible manual workflow", () => {
     await incomingPage.getByRole("button", { name: "Confirm resolution" }).focus();
     await incomingPage.keyboard.press("Enter");
     await expect(incomingPage.getByText(/Resolved\. The server recorded the resolution/)).toBeVisible();
+    const reopenName = `Reopen task: ${keyboardTitle}`;
+    await expect(incomingPage.getByRole("button", { name: reopenName })).toBeFocused();
     await expectNoSeriousViolations(incomingPage, "resolved task");
+
+    await incomingPage.keyboard.press("Enter");
+    await expect(incomingPage.getByLabel("Reason for reopening")).toBeVisible();
+    await incomingPage.getByLabel("Reason for reopening").fill("Keyboard reopen check.");
+    await incomingPage.getByRole("button", { name: "Confirm reopen" }).focus();
+    await incomingPage.keyboard.press("Enter");
+    await expect(incomingPage.getByText(/Reopened\. The owner is unchanged/)).toBeVisible();
+    await expect(incomingPage.getByRole("button", { name: resolveName })).toBeFocused();
   });
 });

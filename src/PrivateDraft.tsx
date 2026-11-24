@@ -424,6 +424,9 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
     }
   }
 
+  // Non-error feedback renders inside an already-mounted live region; errors use a separate alert.
+  const politeStatus = status !== null && status.tone !== "error" ? status : null;
+
   return (
     <section className="panel draft-panel" aria-labelledby="draft-heading">
       <div className="panel-heading">
@@ -640,11 +643,16 @@ export function PrivateDraft({ onPublish, onCheck, isCurrent }: PrivateDraftProp
         </button>
       </div>
 
-      {status !== null && (
-        <p
-          className={`status status-${status.tone}`}
-          role={status.tone === "error" ? "alert" : "status"}
-        >
+      {/* Mounted empty so this polite region exists before its first message arrives. */}
+      <div
+        className={politeStatus === null ? undefined : `status status-${politeStatus.tone}`}
+        role="status"
+      >
+        {politeStatus?.message}
+      </div>
+
+      {status !== null && status.tone === "error" && (
+        <p className="status status-error" role="alert">
           {status.message}
         </p>
       )}

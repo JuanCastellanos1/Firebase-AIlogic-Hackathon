@@ -13,6 +13,38 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+Correction diff inspected; master independently ran approved-wrapper accessibility
+spec (1 passed, exit 0), including persistent carrier and resolve/reopen focus.
+Source repair remains unproven as actual reader output. Seven-path checkpoint/
+full verifier/focused review is next; include unreviewed docs since `71d0871`.
+No current dirty-tree certification or final C/D closure.
+
+Phase 7/6.5 correction selected after read-only diagnosis: persistent review-status
+carrier and shared resolve/reopen confirmed-submit focus restoration, with TDD.
+SPA transition announcements and predicted other-site silences are out of scope.
+Automated structural/focus proof cannot establish repaired reader speech.
+Collection launcher deviated from the required safe wrapper; no exposure established,
+no waiver granted. Approved wrapper required for subsequent runs; raw logs unopened.
+HANDOFF top identifies implementer and next diff/evidence inspection step.
+
+Sanitized NVDA resume report inspected: actual reader strings support bounded
+control/error/publish/resolve/Cancel observations, not whole-Q4 or acoustic proof.
+Review-status silence and post-resolve BODY focus require read-only Phase 7
+diagnosis before any source fix. Accept/reopen remain unverified; instrument
+interruptions are not negative speech evidence. Raw reader buffer includes incidental
+non-app text and must stay unopened/unpublished; account/profile artifacts local-only.
+Further capture paused; HANDOFF top records debugger and exact next step.
+
+Explicit project resume: clean WIP-save HEAD `3196d00` inspected; fetch succeeded,
+required phase artifacts exist, toolchain and three MCP connections available.
+Phase 8 retained; final C/D and seven technical groups remain open. Evidence and
+review.sha still certify only `71d0871`, not the later documentation commit.
+Next exact task is preserved portable-NVDA/SpeechViewer local synthetic evidence,
+delegated without repository edits or new legal/admin/audio/cloud permissions.
+HANDOFF top section records the active delegate, expected artifact and receive/
+inspect step. No full verifier repeated for operational notes; no speech pass,
+video completion or current-tree certification asserted.
+
 User explicitly confirmed orderly closure: stop active work safely, preserve branch/
 changes in localWIP, no push/merge/deploy/deletion. FinalC/D and seven technical
 groups remain open. Last certified/reviewed71d0871 does not certify closing work.
