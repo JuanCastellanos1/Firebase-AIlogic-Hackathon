@@ -17,6 +17,15 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ### November 23 replacement focused review
 
+Same reviewer APPROVED `a23561a..5f87582`, no blockers. Five N6 notes retained:
+state-only effect can consume without own/enabled node in unobserved narrow
+refresh/competitor windows; denied/error accept focus unrestored (master explicitly
+retains as scoped success-path limitation, no contract waiver); future failure-path
+decision needs assertion; preserve identity/artifacts before reruns on recurrence;
+structural status selector change only if future direct-child UI churn requires it.
+Controlled original-defect correction accepted, historical failed-variant attribution
+unknown. Final C/D and actual-reader reconfirmation remain open.
+
 Nov24 supersession: explicit exact-source original-defect RED/GREEN pair is
 master-inspected (a23561a Handover fails new accept-focus assertion; unchanged
 candidate passes same spec/command). Candidate admitted for full verification/

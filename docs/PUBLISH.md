@@ -523,6 +523,21 @@ cloud `status-confirmed`, stale-consent/context-layout tone and hosted-authentic
 unmeasured. Every other item in the paragraph, including Firestore App Check enforcement, the
 screen-reader item and every gate, stands unchanged.
 
+**Dated supersession - November 24, 2026 (targeted reader status evidence).** The blanket reading that
+no manual reader evidence exists - in this paragraph and in §5.2, §5.3, §10 and §14 item 6 - is
+superseded for four targeted success states only; the older wording is kept as history. Review and
+accept have live NVDA Speech Viewer text-channel evidence from one partial local run, and resolve and
+reopen have it from the next local run at the same `5f87582` app bytes (exit 0, `1 passed`). Phrase-ID
+matches, fresh nonces and limits are in `docs/verification.md` §27. A **complete** screen-reader result
+still does not exist, and this is not a blanket "manual reader verified" claim: it is one reader and
+config, one machine, automatic text-channel output on local synthetic states - not a full AC12/Q4,
+acoustic, WCAG, privacy or release pass. The rest of the manual-reader scope beyond these four states,
+200% zoom, contrast, hosted/cloud checks, all other contractual gaps, Firestore App Check enforcement,
+judge access, the ≤3-minute demo (no produced video), PR/merge, CI for the final source and release
+remain **unchanged**.
+The earlier invalid-submit/app-alert speech and the completed phone/zoom/contrast evidence are not
+reopened; the denied/stale/error accept focus limitation is unchanged and unwaived.
+
 ## 6. Rollback — documented, not exercised
 
 - **Hosting**: the console's Release history offers **Roll back** for a chosen release, which

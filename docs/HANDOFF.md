@@ -2,6 +2,216 @@
 
 ## Active resume — November 23, 2026, local reader evidence
 
+## November 24 — reader consolidation inspected; six-doc checkpoint next
+
+Master inspected verification§27 consolidation/PUBLISHdatedsupersession and ran
+gitdiffcheck exit0. Sixmodifieddocs only: DEBT,HANDOFF,PUBLISH,_presupuesto,
+_project,verification. No source/testchange afterapproved5f87582.
+FinalreaderREPORT+JSON and priorpartialREPORT+JSON source/phrase mapping inspected,
+not independently replayed. Fourtargetedsuccessstates captured; contractreview
+still required before any fullAC12/Q4decision, no gatewaiver.
+
+**Next exact step:** add finalsanitizedreport/JSONreferences to consolidation,
+save combinedsixdoccheckpoint, fullcleanverifier then matchingreviewmetadata and
+same-reviewer focused evidence/claim review against5f87582. No more readerruns.
+Rejectstale tool-summary remainingcontrast inventory basedon§23: staleSEND and
+hostedauthenticated measuredsets were subsequentlyrecorded in§25; don'treopenthem.
+Review remainingwrittencontract scope, not speculative reportunsampledstatelists.
+Allruntimepermitsconsumed; no push/merge/deploy/audio/video/submission.
+Immutable5f87582 remains approveduntilnewcheckpointverified/reviewed.
+
+## November 24 — four targeted success-state reader checks now captured
+
+Master inspected final resolve/reopen REPORT and evidence/resolve-reopen.json at
+`Temp/opencode/shiftrelay-nvda-resolve-reopen-20261124/`.
+ONEwrappertest/ONElaunch exit0, 1pass24.8s/test22.7s. Acceptedtaskprepared through
+legitimateUI17ms BEFOREreaderlaunch (membership-onlylocaladminprovisioning).
+Resolvebaseline562 NEWsuffix matched automaticresolveStatus AND reopenControl,
+separateDOMreopenTrigger; Reopenbaseline1092 matched automaticreopenStatus AND
+resolveControl, separateDOMresolveTrigger. Perstatefreshnonceproof/runtimeknown
+SpeechViewer/completeobserver, 27pre/posthashes0drift, sameappcombinedhash/HEAD
+5f87582 as priorpartialrun. No explicitread/focusinjection.
+
+Thus four TARGETEDsuccessstates have actualreadertext evidence over two runs,
+not acoustic/usability/WCAG/Q4/AC12 closure. Priorpartialresolveabsentread remains
+preserved, not erased/silent. No need repeatcompletedreview/accept/resolve/reopen
+merely because older snapshots say unmeasured; don't invent allstates/readers
+blanketrequirements from report§9. Contract still controls remainingchecks.
+Denied/errorfocuslimit and historicalfailedvariantattribution remain explicit.
+
+Artifactgate upfrontverified separately from preserveOutput:"never" configured
+posthoccleanup; no handdeletionreported, zeroauditinventory is not proofabsence
+of automaticremoval. Futureclaims must keep that distinction. Cleanupdelegated,
+no independentmasterdesktopreplay or rawartifactinspection.
+All reader runtime permits consumed; no further runs authorized.
+
+Docs-only `ses_df3d9c73effekDEM27qTO1Knw4` consolidates verification/PUBLISH.
+**Next exact step:** inspect two-file record/remainingwrittenrequirementmapping,
+then save one combined substantive evidence checkpoint/fullcleanverifier and
+focusedreview. Do not claimfinalgatepass or run extraa11ytests for statusnotes.
+Immutableapproved5f87582 retained until latercertification; laterdocsuncertified.
+
+## November 24 — review/accept reader output captured; remaining two authorized
+
+Master inspected `Temp/opencode/shiftrelay-nvda-app-onepass-20261124/REPORT.md`,
+evidence/onepass.json and source phrase mappings. ONEwrappertest/ONElaunch exit1
+at typed document_value_absent, no retry. Review automatic NEWsuffix matched full
+reviewStatus with persistentcarrier present/emptybefore; Accept matched automatic
+acceptStatus AND Resolve control announcement, separate DOMfocus resolveTrigger.
+Both have per-state nonce/newbaseline proof and runtimeverified SpeechViewer.
+This is bounded actual-reader text evidence, not acoustic/usability/WCAG/Q4closure.
+Resolve had liveproof/readable1949baseline but firstobservationvalueabsent,
+no phrase search; NOTMEASURED, not silent. Reopenneverentered.
+
+All27source/harnesshashes pre0drift, post-intestcheckskipped(-1), outofbandpost0drift
+delegate-reported. error-context.md5864bytes preservedunopened; no-page-snapshot
+claim is source/gate inference, not inspected contents. Earlyabort JSONartifact
+counts0 are not proofemptyinventory. No deletion; cleanupdelegate-reported.
+ReaderoutputphraseIDs normalize expected strings in new suffix only; no rawtext.
+
+User explicitly approved ONE FINAL run for resolve/reopen only, prepare synthetic
+acceptedtask BEFOREreaderlaunch. Implementer `ses_df3d3687affey8QuMZW7fOKd0s`
+uses newdir `Temp/opencode/shiftrelay-nvda-resolve-reopen-20261124/`, oneapproved
+wrappertest/oneNVDAlaunch, freshperstateproof/strictstopfirstobserverfailure.
+No restart/retry/delete/cloud/model/source/Git. No remeasure review/acceptspeech.
+Docs-only `ses_df3d9c73effekDEM27qTO1Knw4` records inspectedpartialresult in
+verification§27 with pendingremainingrun.
+**Next exact step:** receive remainingreport/recorddiff withoutpolling; inspect
+actualsuffix/focus/source/artifactproof, keep unmeasuredstatesopen ifblocked.
+No automaticextraexecution or gateclose. Approved5f87582retained.
+
+## November 24 — channel preflight captured; one app reader run authorized
+
+Master inspected observer-preflight REPORT and evidence/preflight.json:
+ONElaunch/run exit0, readable full baseline14chars, append-only NEWsuffix1606
+with nonce present only in suffix. Channelcaptured, NOT app-state speech evidence.
+Package/CLI1.3.1 and envelopeschema2.6 recorded separately. Runtime titleMatched
+false, uniqueNVDAwindow titlehash resolved posthoc to esSpeechViewer; don't call
+that a runtime name-filter pass. Upfrontcapturegate/env set, runnernotloaded,
+allowlisted metadata guard/selfchecks pass, no rawreadertext persisted or deletion.
+Prior unclassified observerfailure not explained or ruledout; cleanupdelegate-reported.
+
+User explicitly authorized ONE local synthetic-app reader run. Implementer
+`ses_df3d3687affey8QuMZW7fOKd0s` uses corrected recipe, oneNVDAlaunch and ONE
+approved-wrapper outside-root test, retries0. Review/accept/resolve/reopen success
+states only with per-state freshbaselines/newnonce liveproof, typederrors and
+allowlisted actual-new-suffix phrases. Stopfirstobserver/artifactfailure, no
+restart/retry/delete/Authcloud/model/hosted/audio/newinstall/Git actions.
+Expected report:`Temp/opencode/shiftrelay-nvda-app-onepass-20261124/REPORT.md`.
+
+Docs-only delegate `ses_df3d9c73effekDEM27qTO1Knw4` records channelpreflight,
+corrects blanket-unreadability wording and notes pendingappresult in verification.
+**Next exact step:** receiveappreport/recorddiff withoutpolling; inspect actual
+per-stateproof, outputguard/sourcehash/artifact/cleanup boundaries. Channelpreflight
+alone never closes readerrequirements. No automatic additionalrun.
+Approved5f87582retained, finalC/D/appspeechstillOPEN; operationalnotesuncertified.
+
+## November 24 — harness faults diagnosed; one observer-only preflight authorized
+
+Read-only diagnosis received: stale-offset/title proof invalid, catch-all null
+collapses extraction/parse/window/completeness errors, brittle projection may drop
+punctuated labels, current harness contains mojibake unlike attempt5 UTF8 atoms.
+Attempt5 returned role/state strings: blanket reader-death inference unsupported.
+Package1.3.1 versus envelope2.6 is not proven inspector upgrade. Need explicit
+SpeechViewer window, complete tree/typed errors and NEW nonce-bearing suffix.
+AUTOMATIC_CONTROL_PROOF_MISSING occurred3times; two-attempt discipline exceeded.
+Snapshot deletion after capture has no manifest/scoped permit; privacy outcome
+unverified, no established credential exposure. Do not repeat or excuse it.
+
+User explicitly approved ONE corrected observer-only preflight, no Auth/tasks/
+cloud/emulators, reader restart/retry or deletion. Implementer
+`ses_df3da2babffeFHersBSvGsQiFb` builds/freeze-hashes a fresh outside-root harness,
+prevents raw Playwright snapshots UPFRONT via inspected capture gate, proves
+fixtures, then one portable-reader launch/owned local nonce-page run. All output
+typed metadata; raw reader contents remain in memory, no unrelated-window capture.
+Stop first selection/extraction/completeness/artifact failure; no app-state checks.
+Expected report:`Temp/opencode/shiftrelay-nvda-observer-preflight-20261124/REPORT.md`.
+
+Separate docs-only implementer `ses_df3d9c73effekDEM27qTO1Knw4` records failed
+reconfirmation/diagnosis/deviations in verification.md; preflight outcome pending.
+**Next exact step:** receive both reports without polling; inspect fresh nonce
+append proof, artifact gate, source hashes, typed failures and cleanup BEFORE
+authorizing any app reconfirmation. No automatic progression or extra run.
+Immutable5f87582approval retained, actualreader/finalC/DOPEN; laternotesuncertified.
+
+## November 24 — reader reconfirmation NOT CAPTURED; runtime stopped
+
+Master inspected `Temp/opencode/shiftrelay-nvda-reconfirmation-20261124/REPORT.md`.
+Six approved-wrapper harness commands exited1; no valid live observer/control
+proof and NONE of four requested state observations captured. Offset0 permitted
+stale-title matches, rejected by delegate. Role-only atoms not accepted as proof.
+Absent UIA document value establishes observer unreadability, NOT that NVDA
+stopped speaking; report's "instrument dead" is not a proven reader rootcause.
+No speech/Q4/AC12 pass/fail-not-announced/waiver follows.
+
+**Process deviations disclosed:** six failed harness executions despite bounded
+per-problem instructions; accounting requires review, not automatic compliance.
+Delegate deleted generated raw Playwright page-snapshot directories after capture
+without a separately scoped deletion permit. No raw artifact was master-opened;
+do not recreate/delete remaining evidence. Future harness must prevent raw snapshots
+upfront, never rely on deletion to remove transcript/exposure risk.
+Approved wrapper was used (no old ad hoc launcher). Cleanup zero ownedreader/
+browser/listeners is delegate-reported; no independent master runtime replay.
+
+Debugger `ses_df3e66935ffen7Bw2sSgcgp2Dy` inspects harness/observer source and
+local inspector documentation READ-ONLY, no reader/emulator/desktop execution.
+**Next exact step:** receive source-supported parser/liveness/config diagnosis,
+inspect distinction between UIA extraction failure and speech failure and safe
+upfront artifact design. No more harness/reader runs or source repairs authorized.
+Record bounded result/deviations durably via delegate after diagnosis.
+Approved immutable5f87582 remains full16/16/reviewapproved for original correction;
+later operational notes outside certification. Final C/D/reader evidence OPEN.
+
+## November 24 — scoped approval; safe actual-reader reconfirmation active
+
+Same reviewer APPROVED `a23561a..5f87582`, no blockers. Original successful-accept
+target recording correction/regression and demo-doc findings are accepted in scope.
+Full16/16 clean/stable evidence at immutable5f87582 remains valid for that SHA.
+Historical failed-variant attribution remains UNKNOWN; no scheduler-race closure,
+candidate failure-rate or guarantee of no recurrence. Preserve identity/artifacts
+immediately if recurrence occurs. Five nonblocking notes grouped under N6.
+Final C/D remain OPEN; no reader repair pass yet.
+
+**Explicit scope decision before reconfirmation:** denied/stale/error accept focus
+restoration is an accepted limitation of this bounded success-path correction,
+NOT accepted as meeting an unmet contractual requirement, reader coverage, or a
+release waiver. Do not silently expand the fix; any later error-path remedy gets
+its own regression. Source-supported consume-without-focus risks remain recorded.
+
+Implementer `ses_df3f4acbcffeZjstTlvRPcJyT5` reconfirms actual NVDA reader output
+on local synthetic success paths only: review status, accepted/resolve/reopen
+confirmation and surviving-trigger focus. Same temporary portable-reader permit;
+approved firebase_safe.py wrapper exclusively, no ad hoc launcher.
+App-only in-process allowlisted SpeechViewer projection and synthetic secret/
+unrelated-text exclusion proof required BEFORE output; never raw reader buffers.
+No repo edits/cloud/model/hosted/Git/audio/admin/new install/legal actions.
+Expected sanitized report:
+`Temp/opencode/shiftrelay-nvda-reconfirmation-20261124/REPORT.md`.
+**Next exact step:** receive report without polling, inspect actual strings/live
+observer/projection/cleanup and limits. If safe harness unsupported, stop with
+boundary instead of bypass. Max2attempts per problem; no third run/soak.
+Later operational notes remain outside immutable5f87582 certification.
+
+## November 24 — saved full-green checkpoint, focused review active
+
+Saved `5f87582381b3e2867385afbe0e1552185269e346` (exact8paths).
+Master inspected evidence.json: complete16/16 checks exit0, ok=true, dirty=false,
+tree_stable=true, matching state_after, finished`2026-11-24T05:29:20Z`.
+Master matched HEAD/evidence/review.sha and prepared raw-byte review.patch plus
+`review-accept-focus.patch` (`a23561a..5f87582`). E2E21passed delegate-reported.
+Static7scopegroups keep gate_c_eligible=false; no final C/D verdict.
+
+Same reviewer `ses_df435283affev31so1dyMcZZ25` reviews original-defect target
+recording/assertion, bounded diagnostic history and corrected demo plan.
+**Next exact step:** receive verdict without polling, inspect any blockers and
+original-defect-versus-historical-attribution distinction. Route blockers through
+same implementer/re-review; if approved, scope safe actual-reader reconfirmation.
+No further targeted diagnostic runs/soak are authorized or needed for statusnotes.
+Postrun combined status/clean probe was policy-denied; no bypass/retry. Clean
+tracked state is verifier-recorded; ignored-tree hygiene remains uncertified.
+Later operational notes are outside immutable checkpoint evidence.
+No push/merge/deploy/cloud/NVDA/video or submission occurred.
+
 ## November 24 — controlled original-defect regression supports review admission
 
 Master inspected `Temp/opencode/shiftrelay-original-defect-pair-20261124/REPORT-sanitized.md`.

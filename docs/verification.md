@@ -3598,3 +3598,201 @@ parsed or projected**; this entry uses report-level assertion categories and boo
 - No source hardening, SPA-transition, local-model or cloud status changes; accept speech remains
   uncaptured. Final C/D remain OPEN. This entry is docs-only: no full verifier, no `evidence.json`
   regeneration, no Git save.
+
+## 27. Actual-reader reconfirmation not captured - instrument and harness diagnosis (November 24, 2026)
+
+Scope: the authorized NVDA reconfirmation of the §26 review-status carrier and of
+accepted/resolved/reopened confirmation speech, on the local synthetic app only. This section records
+a **not-captured** result and a source-supported diagnosis of the temporary observer harness. It is not
+a reader pass or fail, not a Q4/AC12/WCAG verdict, not a contract waiver and not a source repair.
+Docs-only: no full verifier, no `evidence.json` regeneration and no Git action. Sanitized report:
+`Temp/opencode/shiftrelay-nvda-reconfirmation-20261124/REPORT.md`; its §5 keeps the exact six-run
+ledger and failure points, not duplicated here.
+
+### Outcome - all four states not captured
+
+Six approved-wrapper harness executions all exited **1** and no run reached a state observation after
+a valid live-observer and control proof. The four requested states are therefore all `notcaptured`,
+and no `pass` or `fail-not-announced` classification exists for any of them:
+
+| State | Reader output | Focus speech | Result |
+|---|---|---|---|
+| Review status (fixed persistent carrier) | none | n/a | **notcaptured** - no valid fresh observer/control proof before state |
+| Accepted confirmation | none | none | **notcaptured** - state never reached |
+| Resolved confirmation | none | none | **notcaptured** - state never reached |
+| Reopened confirmation | none | none | **notcaptured** - state never reached |
+
+Run 5 projected only role/state atoms (`edición`, `multilínea`, `en blanco`) and run 6 projected none.
+An absent UIA `document` value establishes that the **observer could not read the Speech Viewer**; it
+does not establish that NVDA stopped speaking, so an actual NVDA reader failure is **not established**.
+The projection self-check passed, but it proves only the filter (report §7), never reader output.
+
+### Source-supported diagnosis (observer harness, not the reader)
+
+| Finding | Source evidence | Consequence |
+|---|---|---|
+| Unbaselined offset | `offset` starts at `0`; the first `readDelta` returns the whole retained buffer; it resets to `0` only when `value.length < offset` | The explicit `Insert+T` title read could match a historical `ShiftRelay ...` title from an earlier Chrome session, and a viewer shrink replayed retained text. Apparent liveness is rejected; live title output was not proven. |
+| Catch-all `null` | `viewerValue()` returns `null` from one `catch` around spawn and JSON parse, and `findDocumentValue` also returns `null` for a missing document | Spawn failure, parse failure, wrong window selection, truncation and a genuinely missing value are indistinguishable; "instrument dead" is a symptom label, not a root cause. |
+| Punctuation-sensitive filter | projection splits only on runs of two or more spaces, then accepts exact entries or prefixes | A control announcement carrying a role suffix or punctuation (for example `Card 1 title, edición...`) is dropped, so `AUTOMATIC_CONTROL_PROOF_MISSING` can be a filter miss rather than absent speech. |
+| Encoding mismatch | the current harness source contains mojibake (`botÃ³n`, `ediciÃ³n`, `ShiftRelay â€” ...`), while run 5 projected correct UTF-8 atoms | Accented role/state atoms can no longer match the allowlist. No per-run harness hash was recorded, so a changed harness/source variant cannot be attributed and this mismatch remains unexplained. |
+| No blanket extraction failure | run 5 returned role/state strings through the same viewer path | UIA extraction worked at least once, so a blanket reader or extraction failure is not supported; those atoms had no control name and did not satisfy the control proof. |
+
+The report's `agent-desktop 2.6` is the envelope-schema label of the installed `agent-desktop` 1.3.1
+package, not a proven upgrade. Any further reader collection needs, at minimum: explicit Speech Viewer
+**window-id** selection, a **complete-versus-truncated** signal, **typed** error causes instead of
+`null`, a frozen per-run harness hash, and a **newly appended nonce delta** over a baselined offset
+before any state observation.
+
+### Process deviations (recorded, not waived)
+
+- Six failed executions were run under bounded per-problem instructions (maximum two attempts).
+  `AUTOMATIC_CONTROL_PROOF_MISSING` occurred on runs 3, 5 and 6 - three attempts at the same problem,
+  exceeding the two-attempt discipline. This accounting requires review; it is not compliance.
+- Six generated raw Playwright page-snapshot (`playwright-output/`) directories were deleted after
+  capture **without a separately scoped deletion permit**. No deletion manifest exists and the
+  privacy outcome is unverified. No credential exposure is established; "none exposed" cannot be
+  claimed. This docs task performed no reproduction, deletion or remediation.
+- Although harness trace/video/screenshot were off, Playwright still wrote error-context page snapshots.
+  The pinned internal `PLAYWRIGHT_NO_COPY_PROMPT` gate was identified. Future design must disable
+  capture upfront and stop on an unexpected artifact; deletion is not a privacy control.
+- The approved `scripts/firebase_safe.py` wrapper was used and no ad hoc launcher was substituted.
+  Cleanup (zero owned reader/browser/listener processes) is delegate-reported, not independently
+  replayed. No raw viewer buffer, account, profile, trace, snapshot or log was read for this entry.
+
+### Pending preflight - not evidence
+
+A new user permit allows **one** observer-only preflight on a nonce-bearing local test page: no Auth,
+tasks, emulators or cloud; no restart, retry or deletion; typed metadata-only projection; frozen
+hashes. A separate agent holds that permit and its result is **PENDING**. No preflight success is
+claimed here, and a local-page preflight cannot substitute for app-state reader evidence.
+
+### Dated supersession - observer-only preflight captured (November 24, 2026)
+
+The PENDING line above is resolved: the permit was consumed by **one** launch/run (`node harness.cjs`,
+exit **0**, `verdict=captured`) of the corrected observer-only harness on a nonce-bearing local
+`file://` test page. This proves the Speech Viewer **text channel** only. It is not an app-state
+observation, not speech/announcement evidence, not a WCAG/Q4/AC12 result and not a gate pass. Prior
+history and deviations above stand; this separately permitted run is not a waiver.
+
+Sanitized `REPORT.md` and `evidence/preflight.json` at
+`Temp/opencode/shiftrelay-nvda-observer-preflight-20261124/` were inspected as metadata; master did not
+replay the browser. Hashes and command detail are in that report, not duplicated here.
+
+| Item | Recorded result |
+|---|---|
+| Run | one reader launch, one execution, exit 0; no restart, retry, fallback or second attempt |
+| Reader | same preserved portable NVDA and isolated config hashes as the prior report |
+| Versions | package/CLI `1.3.1`; envelope schema `2.6` - separate fields, no upgrade claim |
+| Window | explicit `w-1574374`; `titleMatched=false`; single NVDA-owned window |
+| Baseline | in memory, `complete=true`, length **14**, non-empty |
+| Delta | `kind=append`, `growth=true`, new suffix length **1606**, `nonceInSuffix=true`, `nonceInBaseline=false` |
+| Persistence | five full reads; no raw reader text, control name, window title or page content persisted |
+| Upfront capture gate | `PLAYWRIGHT_NO_COPY_PROMPT` set first; pinned gate found (`envVarSet=true`); library API, `runnerLoaded=false` |
+| Artifacts | exactly three evidence files; harness would stop on any other; nothing deleted |
+| Guards | all twelve pre-launch self-checks true (UTF-8/punctuation, append-only, cached/pre-existing nonce rejection, rewrite/shrink/absent distinction, credential/unrelated blocking) |
+| Cleanup | reader browser closed, zero owned processes/listeners - delegate-reported |
+
+The channel is live and append-only for this session, and the nonce was newly appended. A **runtime
+name filter is not proven**: `titleMatched=false`; the single NVDA window's recorded title hash was
+matched *post hoc* to the Speech Viewer literal (report §5), so do not claim a runtime name-filter
+pass. This run neither explains nor prevents the earlier intermittent unreadability, does not
+attribute which event was announced, and exercises no ShiftRelay/Auth/emulator/state path.
+
+The user separately approved **one** app-reader reconfirmation run under the safe wrapper, with
+per-state fresh baselines and typed errors, no restart, retry, deletion or cloud. That result is
+**PENDING** in another agent; no success is claimed.
+
+### Unchanged status
+
+Approved immutable `5f87582` keeps full 16/16 and review approval for the original correction. Actual
+reader evidence, final C/D and Q4/AC12 remain **OPEN**. No source fix, new limit waiver or gate change
+follows; the §26 accept-speech gap and the denied/stale/error accept focus-restoration limitation
+stand unchanged.
+
+### Dated supersession - one app reader pass: review and accept captured, resolve/reopen not measured (November 24, 2026)
+
+One approved-wrapper test plus one NVDA launch, exit **1** / `1 failed` (27.0 s), stopped by design with
+typed `document_value_absent` at the resolve state-observe read. Outcome **partial**, not a pass:
+review and accept yielded live, nonce-proven reader phrases on the local synthetic pair; resolve and
+reopen have no measurement. Sanitized report and JSON:
+`Temp/opencode/shiftrelay-nvda-app-onepass-20261124/REPORT.md`, `evidence/onepass.json`; saved HEAD
+`5f87582`. Master inspected those metadata records, not an independent replay.
+
+| State | Live proof | Baseline | Reader result | DOM |
+|---|---|---|---|---|
+| Review | fresh nonce, 1 read | 867 chars | `reviewStatus` automatic; carrier present and empty before | `reviewCards` |
+| Accept | fresh nonce, 1 read | 1503 chars | `acceptStatus` automatic + `resolveControl` focus announcement | `resolveTrigger`, kept separate from the reader phrase |
+| Resolve | fresh nonce; baseline readable | 1949 chars | first observation read `document_value_absent`; **no phrase searched, not measured** | not measured |
+| Reopen | - | - | state never entered | - |
+
+- Phrase IDs map to source strings in the frozen spec: `reviewStatus` = "Review the exact fields
+  below. The private note is not part of this preview."; `acceptStatus` = "Accepted. The server
+  recorded you as owner at the next version."; `resolveControl` maps to the fixed synthetic task name
+  in the allowlist, not repeated here. Matching is a normalized word sequence with case-folding and
+  punctuation elision, in the **new suffix only**; no raw reader phrase was persisted.
+- Reader identity was runtime-verified: explicit `w-2164266`; title hash equals the known Speech Viewer
+  literal. All 27 frozen hashes had `freezeMismatchBefore=0`; the in-test post-check aborted
+  (`freezeMismatchAfter=-1`) and the out-of-band post-run check reported 0 drift (report §2).
+- Artifact limit: capture gate on and trace/screenshot/video off; a 5864-byte `error-context.md` exists
+  and was **preserved unopened**. That it contains no page snapshot is a source/gate inference, not
+  direct file inspection. Nothing was deleted; cleanup is delegate-reported.
+- The typed stop recorded `evidenceFiles=0, unexpectedArtifacts=0` from an early abort. Those audit
+  fields are **not** proof of an empty inventory and are not measured artifact absence.
+- No `fail-not-announced` verdict exists for resolve or reopen: an absent value at one read is an
+  instrument reading, not silence. Historical attribution remains unknown, and the denied/stale/error
+  accept focus limitation is unchanged and unwaived.
+- This supports review/accept reader output on one local synthetic pair only - not full Q4/AC12/WCAG,
+  acoustic, privacy, usability or release evidence. The broad "actual reader evidence OPEN" wording
+  above is narrowed for review/accept only; resolve, reopen and final C/D remain OPEN. No gate close.
+
+The user separately approved **one** final resolve/reopen run: accepted task prepared before the reader
+launch, per-state fresh proof, same strict stop on first failure, no restart, retry, deletion or cloud.
+That result is **PENDING** in another agent; no success is claimed, and the completed review/accept
+observations are not superseded by that unknown.
+
+### Dated consolidation - four targeted reader states captured across two runs (November 24, 2026)
+
+Two separately permitted approved-wrapper runs on the same saved app bytes now cover the four targeted
+success states. This consolidates them; it does not erase the first run's instrument gap or claim a
+rerun of that permit.
+
+- Sources: `Temp/opencode/shiftrelay-nvda-resolve-reopen-20261124/REPORT.md` and its
+  `evidence/resolve-reopen.json`; `Temp/opencode/shiftrelay-nvda-app-onepass-20261124/REPORT.md` and
+  `evidence/onepass.json`. Phrase IDs map to public UI strings: `resolveStatus`/`reopenStatus` in
+  `src/App.tsx:324-325`; `resolveControl`/`reopenControl` in `src/Handover.tsx:218` and `:239`;
+  `reviewStatus`/`acceptStatus` are the exact app strings quoted in the app-onepass entry above.
+
+| Run | Exit | Result | States |
+|---|---|---|---|
+| A app-onepass | 1 | `1 failed` 27.0 s, partial | review + accept captured; resolve `document_value_absent`; reopen not entered |
+| B resolve-reopen | 0 | `1 passed` 24.8 s (22.7 s test body), one reader launch | resolve + reopen captured |
+
+- Same app bytes: combined `5c2fc370...`, HEAD `5f87582`. Run A had `freezeMismatchBefore=0`, its
+  in-test post-check aborted (`-1`), and the out-of-band post was 0; run B recorded 0 before and after.
+- Run B prepared the accepted task by the legitimate UI path 17 ms before the reader launch; only the
+  local emulator membership provisioning used the administrative path; `taskWrittenByOwnerBypass=false`.
+- Review: fresh nonce, baseline 867; automatic `reviewStatus`; carrier present and empty before.
+  Accept: fresh nonce, baseline 1503; automatic `acceptStatus` plus `resolveControl`; DOM
+  `resolveTrigger` kept separate.
+- Resolve: fresh nonce, baseline 562; automatic `resolveStatus` plus `reopenControl` in the new suffix;
+  DOM `reopenTrigger` separate. Reopen: fresh nonce, baseline 1092; automatic `reopenStatus` plus
+  `resolveControl`; DOM `resolveTrigger` separate.
+- Phrase IDs map public UI strings; matching is a normalized word sequence with case-folding and
+  punctuation elision, new suffix only; raw reader text was not persisted. Reader identity was
+  runtime-verified by the known Speech Viewer title hash and explicit window id, with a typed
+  `complete` observer and no explicit read or focus injection.
+
+- The first resolve absent read remains an **instrument gap**, not a failed announcement; it is kept,
+  and no second read, retry or restart occurred under that permit. The observer-only preflight proves
+  the channel, not the app.
+- Raw-capture prevention is the upfront gate, separate from `preserveOutput: "never"` being configured;
+  no hand deletion was reported. Posthoc cleanup and zero inventory are **not** raw-capture prevention
+  and do not prove no automatic removals. Artifact claims rest on gate/source inspection only - do not
+  claim every artifact was untouched or that contents were directly inspected.
+- All four success reader checks now have evidence; this is **not** a whole AC12/Q4, WCAG, acoustic,
+  privacy or release pass. The error/denied focus limitation is unchanged, historical variant
+  attribution remains unknown, and the observer value absence remains unexplained.
+- The report's unsampled-state/hardware/reader list is not converted into a blanket mandatory retest
+  floor; remaining requirements stay tied to written AC12/Q4 and existing evidence. Earlier
+  invalid-submit/app-alert speech from the prior RESUME report remains bounded and unchanged, and the
+  completed phone/zoom/contrast evidence is not repeated. No gate closes.

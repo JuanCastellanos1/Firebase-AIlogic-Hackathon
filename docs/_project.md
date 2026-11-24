@@ -13,6 +13,55 @@ RESUME_SOURCE_SHA=dbd217cdb4e38606dc6d39285e0fcfc3f5caec78
 
 ## Resume — November 23, 2026
 
+Readerconsolidation/PUBLISH inspected, diffcheckexit0, sixdocsdirty/no sourcechange.
+Nextonesixdoccheckpoint/fullverifier/focusedreview; finalAC12/Q4scopeassessment
+requireswrittencontract, no blanketpass. Do NOTreopenstalecontrastremaininglist
+fromdelegatetoolsummary citing§23; §25latermeasurementscontrol. No runtimeplanned.
+
+Nov24 finalresolve/reopenreaderREPORT+JSON inspected: bothactualautomaticstatus/
+survivingcontrolcaptured withfreshnonce/baseline andDOMfocusseparate, 1pass exit0.
+All4TARGETEDsuccessstates nowcaptured across2runs/same5f87582appbytes; not whole
+AC12/Q4/WCAG/privacypass. Runtimepermitsconsumed, no morechecks. Bounded
+verification/PUBLISHconsolidationactive, then onecheckpoint/review; HANDOFFcontrols.
+
+Nov24 appreaderPARTIAL master-inspected: actualautomaticreviewstatus+acceptstatus/
+Resolvecontrolcaptured withfreshnonceproof; DOMfocusseparate. Resolveabsentvalue
+typedstop beforemeasurement, Reopenneverentered. No readersilence/WCAG/gateclaim.
+UserauthorizesONEfinalremainingresolve/reopenrun withacceptedtaskpreparedbefore
+readerlaunch, no retry/restart/delete/cloud; activewithboundedrecordparallel.
+HEAD5f87582unchanged, HANDOFFtopcontrols.
+
+Nov24 observer-onlychannel captured, master-inspectedREPORT+JSON freshappend/
+nonceproof, not appspeech. Userseparatelyauthorizes ONEsafe-localappreader run;
+approvedwrapper/newperstatebaseline/typederrors/rawcaptureprevention mandatory,
+no restart/retry/delete/cloud. Delegateactive, recordingboundedpreflightinparallel.
+HANDOFFtopcontrols; approved5f87582retained, actualreader/finalgatesOPEN.
+
+Nov24 diagnosis identifies harnessliveness/filter/encoding/windowselection faults,
+not proven NVDAdeath; sixrun/deletiondeviations explicit. User authorizes ONEnew
+observer-onlynoncepagepreflight, noAuth/tasks/emulators/cloud/restart/retry/delete.
+Sourcefrozen/typedmetadata/rawcapturepreventionrequired. Separateboundedrecord
+active; outcomespending, no appreaderpass/gateclaim. HANDOFFtopcontrols.
+
+Nov24 readerreconfirmation NOTCAPTURED: sixwrapperharnessfailures, no validlive
+proof/state observations. Stop runtime; read-onlyobserver/harnessdiagnosisactive.
+AbsentUIAdocumentvalue not proofreadersilence. Snapshotdeletion/attemptaccounting
+deviations disclosed, no waiver; preventcaptureupfront nexttime. HANDOFFtopcontrols.
+Approved5f87582 unchanged, actualspeech/finalC/DstillOPEN.
+
+Nov24 same-reviewer APPROVED5f87582, no blockers; original successful-accept
+correction accepted in scope, historical failed attribution stillunknown.
+Error/deniedacceptfocus retained as explicit scopedlimit, no contractwaiver.
+Safe local actualNVDAreconfirmation delegated (approvedwrapper/app-onlyprojected
+readeroutput), no source/cloud/deploy. HANDOFF top controls report/nextstep.
+Full16/16immutablecheckpoint retained; finalC/Dand speechvalidationOPEN.
+
+Nov24 saved5f87582: master-inspected full16/16ok/clean/stable evidence,
+finished05:29:20Z, matchedHEAD/state_after/reviewSHA. Same-reviewer focused
+acceptcorrection/demo-doc followup active; finalC/DremainOPEN7scopegroups.
+Historicalfailedvariantattribution not closed; NVDAconfirmation pending.
+Handofftop gives nextverdict step. Later operationalnotes outsidecertification.
+
 Nov24 controlled exact-source pair inspected: approved a23561a Handover RED at
 accept-focus assertion; unchanged candidate GREEN1pass20.0s/28.0s exit0 with same
 spec/command. Admit original-defect correction for full verification/review, not

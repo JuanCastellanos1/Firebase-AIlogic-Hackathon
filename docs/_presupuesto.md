@@ -12,6 +12,45 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 
 ## Resume — November 23, 2026
 
+Consolidationinspected, reserveonesixdoccheckpoint/fullverification/focusedreview.
+No extraa11yruntime or rerunof§25contrastalreadymeasured; rejectstale§23inventory
+asnewwork. Finalwrittencontractreviewstillrequired, no qualityfloorchange.
+
+Remainingresolve/reopenreader states captured, permittedruntimecomplete. End
+readercaptureloop; reserve oneboundedverification/PUBLISHrecord+combinedcheckpoint/
+fullverifier/focusedreview. Don'treopentargetedcaptures or inventblanketnewreader
+requirements. Preserveartifactcleanup/processlimits, no waiver/spendchange.
+
+Partialactualreaderproof nowreview/accept; don'treruncompletedstatesforspeech.
+UserallocatedONEfinalresolve/reopenexecution, acceptedtaskbeforeNVDAlaunch,
+strictstopfirstfailure/noretry/restart/delete. Recordpartialinparallel and batch
+remainingresultafterinspection; no extras/spend/qualitywaiver.
+
+Observerpreflightcaptured validnewnoncechannel; don't rerun it or claimappspeech.
+UserallocatedONEsafeappreaderexecution, stopfirstobserver/artifactfailure, no
+restart/retry/deletion. Recordpreflightinparallel, batchdurableappoutcomeafter
+inspection. No extras/spend/qualitywaiver, finalgatesremainopen.
+
+One explicit observer-onlypreflight budget authorized after sourceharnessdiagnosis.
+No appsetup/Auth/emulators/modelcalls; provechannelbefore stateworkflow. Stopfirst
+failure, norestart/retry/deletion. Separateconcisedurable record, not newstatus
+certificationloop. Sixrun/attempt/deletiondeviations remain recorded, no waiver.
+
+Readerreconfirmation produced no admissible observations after6failedharnessruns.
+Stopruntime; allocate read-onlyobserver/sourceanalysis only. Reviewattemptbudget/
+deletedrawsnapshotdeviation ratherthan retrying. No furtherreader/emulatortests,
+newtool/audio/spend or qualitywaiver; immutableapprovedcheckpointretained.
+
+ScopedreviewAPPROVED5f87582, no blockers. End source-fix/reviewcycle; allocate
+bounded safe actual-reader reconfirmation to corrected successpaths, not more
+diagnostic reruns or optional hardening. Denied/errorfocuslimit explicit, no
+qualitywaiver. Approvedwrapper/projectionproof mandatory; no cloud/audio/spend.
+
+Saved5f87582 full16/16evidence inspected, matchingSHA clean/stable. Reserve
+same-reviewer verdict/blocker routing only, then safe reader evidence scope.
+End diagnostic-runtime loop; no targetedreruns/statuscertification. Finalgates
+remainopen; ignored-treehygiene uncertified after policydenial, no bypass.
+
 Exact-source control produced intended original-defect RED and candidate GREEN.
 End diagnostic reruns. Spend one bounded evidence record and combined checkpoint/
 full-verifier/focused-review cycle, preserving historical attribution limits;
