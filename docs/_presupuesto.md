@@ -1,5 +1,91 @@
 # ShiftRelay — Time and Scope Budget
 
+Durable enforcement claims approved without blockers. Close this documentation
+task; await active read-only GitHub inspection before final-source action.
+
+Enforcementrecordadded/diffcheckgreen; same-reviewerclaimsconfirmationactive.
+Parallel READ-ONLY GitHubremote/PR/CI/visibility preflight; no push/merge.
+Next actualsourcecheckpoint/CI action based on exactSHAs, no newcloudprobes.
+
+IndependentreviewACCEPTboundedFirestore200/403headercomparison, no newprobe.
+Allocate narrowdurableverification/PUBLISHrecord only; count2pinruns=10GETs
+and retainprocessdeviations. No behavior/thresholdwaiver or finalGateC/Dclaim.
+
+Runtimepair observed200withAppCheck/403without, originaloperatorinconclusive due
+genericerror. Allocate read-only independent causal/evidence interpretation only;
+no anotherprobe/error-message chase. Record failedprepageattempt and artifact
+deletion/repin deviations, no waiver. Officialdocs checked for enforcementsemantics.
+
+User continue at04:35:55Z after recoveryhold: allocate ONE safe same-identity/
+resource valid-vs-omittedAppCheck readcomparison,max2explicitreads,zero writesAI.
+Freshprojectionguard/privatefileinprocess-only handling mandatory; stopvalidcontrol
+or safetokenroute failure, no retries/broadercredentials/policychange/publication.
+
+Judge-only field verified from platform's explicit audience notice; private-channel
+decision resolved for current draft UI. No credentials entered/form saved/submitted.
+Next live release proof remains blocked by recovery hold and safe-token prerequisites.
+
+User approved v006, verified-private-field route, and free-tier resource retention
+throughDec16. Allocate one read-only official field-visibility check; no upload/
+submission/terms/credential disclosure. Numeric quota headroom still unknown.
+No more video/voice work; runtime QA hold remains separate.
+
+Sparkbadgeobserved, numericquotasunknown; no paidtier/role/APIenable authorization.
+Timestampinreportunderretainedmetadata correction. DuringQAhold allocate OFFLINE
+credential-free judgeinstructions only; privatechannel/Dec16commitment unresolved.
+No new liveprobe/model/billing/publication budget.
+
+Extension console projectaccess confirmed without newlogin; CLIunchanged.
+Allocate READ-ONLY Spark/billing/quota inspection duringQAhold, max2ownedtabs.
+No paidresource/limit/API/terms change or modelrequest. AvailabilitythroughDec16
+still needs administratorcommitment beyond a quota snapshot.
+
+User requests extension-based admin route. Allocate ONE read-only FirebaseConsole
+tab with projected status/humanloginhandoff if needed. No settings/credentials/
+CLIrefresh/QA/model/runtime budget; recovery hold unchanged.
+
+Corrected incident report hash verified. Clock03:42Z: conservative recovery hold
+until04:32ZUTC not elapsed. No QA/model/runtime release allocation during hold;
+time passing is not runtime proof. All delegates idle; admin re-auth may be needed.
+
+Independent containment review ACCEPT/no materialblockers. One sanitizedreport
+wordingerratum only; no new QA/admin/runtime budget. Tokenexpiry and later
+administratorreauth prerequisites remain before relevant releasechecks.
+
+Containment operator reports2passwordrotations+refreshrevocations+debugreplacement
+complete03:31:41Z; master read sanitizedreport. Independentcontainmentreviewactive,
+QApaused, issuedtokensmaypersist~1h. No runtimeproof/model/releaseallocation.
+Humanadminreauth needed for latermanagementactions; no silentbroadercredentialroute.
+
+SECURITY INCIDENT: delegated private-file read exposed2syntheticQApasswords and
+AppCheckdebugtoken in transcript. StopQA/releaseverification. Prioritize narrow
+retained-permission rotation/sessionrevocation/debugtokenreplacement and secure
+privatefileupdate. No unrelatedcredentialchanges or resumedproof untilcontained.
+Containment active, not yet verified; humanadminreauth may be needed.
+
+Authorized enforcementPATCH succeeded and read-only valid hosted smoke passed.
+Allocate one bounded runtime comparison (validAppCheck then omittedAppCheck,
+sameauthorizedidentity/resource,max2testreads) only if propagation/safe-token
+prerequisites met. No retries, mutation, modelrequest or silentrelaxation.
+
+User explicitly approved Firestore enforcement plus ONE read-only hosted smoke.
+Operator active; exactly one policy PATCH, no AI/Rules/data/billing changes and
+no silent rollback on failure. Await actual policy and valid-client result.
+
+Read-only security check found AI policy ENFORCED and Firestore policy absent.
+No mutation performed. Await explicit Firestore enforcement approval and bounded
+verification scope; cached CLI access works but human re-auth may be required.
+No AI-call, Rules change, billing or publication allocation.
+
+Focused review approved checkpoint `438626a` without blockers. Do not reopen the
+docs batch for optional polish. Read-only release-security inspection remains
+active; no new cloud mutation, model request or publication allocation.
+
+November25UTCcheckpoint:438626a sixfiles localcommitted, full16/16 verifier clean/
+stable/masterSHAchecked at02:50:17Z; GateCeligibleFALSE. Focusedcheckpointreview
+and READ-ONLY AI/FirestoreAppCheckmanagementstatecheck active, no changes.
+Lateroperationalnotes outside thatimmutableevidence; no publication/releasebudget.
+
 Currentallocation: approvedv005video complete; bounded OFFLINE publicdeliverable
 safety/claims audit active. Fix concretefindings only, then actualreleaseconditions.
 No more feature/video/AIrequestbudget or impliedpublication/submissionapproval.

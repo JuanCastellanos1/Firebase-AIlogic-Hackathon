@@ -4001,3 +4001,108 @@ instead of requiring a template. That correction was identified, not applied and
 corrected **offline** collector/selector TDD task is active in a separate temporary directory with no
 additional live permit, and no corrected call exists yet; do not treat that offline work as a green
 proof of the hosted path. Any repeat call needs a fresh explicit permit.
+
+## 30. Firestore App Check enforcement - one bounded paired read (November 25, 2026 UTC)
+
+Scope: docs-only reconciliation of close-out proof records produced outside the repository. No
+runtime, source, Rules, test, deployment, browser, network, model or Git action was performed for
+this entry, and no earlier artifact, JSON, report or history was edited. Sanitized sources:
+
+| Record (outside the repository) | What it is |
+|---|---|
+| `Temp/opencode/shiftrelay-release-enforcement-readonly-20261125/REPORT.md` | two fresh read-only policy reads before the change: Firestore had no App Check Service resource; AI Logic was `ENFORCED` with its 2026-11-17 timestamp |
+| `Temp/opencode/shiftrelay-firestore-enforcement-20261125/REPORT.md` | the one policy mutation and its readback, plus a hosted signed-in smoke |
+| `Temp/opencode/shiftrelay-firestore-enforcement-proof-20261125/REPORT.md` | the blocked proof run: 0 sign-ins, 0 exchanges, 0 Firestore reads |
+| `Temp/opencode/shiftrelay-firestore-enforcement-proof-recovered-20261125/` | the accepted bounded run: `REPORT.md`, `proof_page.js`, `run_proof.py`, `proof_gate.py`, `pin_page.js`, `pin-result.json`, `proof-result.json` |
+| `Temp/opencode/shiftrelay-credential-containment-20261125/REPORT.md` | the containment that preceded it |
+
+### 30.1 Policy state, and the runtime question it does not answer
+
+- Firestore App Check `enforcementMode` was set by one `PATCH` (200 at `2026-11-25T03:09:08.110Z`),
+  read back at `2026-11-25T03:09:08.698Z` as `ENFORCED` for the `firestore.googleapis.com` App Check
+  service on `shiftrelay-hybridai-2026`, `updateTime 2026-11-25T03:09:09.272095Z`. The two earlier
+  reads (`2026-11-25T02:58:26.252Z`, `2026-11-25T02:59:32.021Z`) had returned exactly one configured
+  service, with Firestore absent; AI Logic was unchanged by the write. This is a management-policy
+  fact, not a runtime measurement.
+- The hosted smoke (owned tab opened `2026-11-25T03:11:10.312Z`, closed in the `03:12:4x` minute)
+  signed in and loaded a valid workspace (6 task rows, 12 history entries, no denied panel) after
+  the change. That is a regression observation and is **inside** the documented up-to-15-minute
+  propagation window (earliest defensible runtime probe `03:24:09.272Z`), so it is not enforcement
+  evidence.
+
+### 30.2 The paired read: what it supports, and for how long
+
+Both reads targeted the same `documentUrl`, used the same `Authorization: Bearer` value, issued
+the same default `GET` (neither `fetch` passes `method`), and differed only in that the control
+added `X-Firebase-AppCheck` (`proof_page.js` lines 149-191; `probeSameIdentity` and
+`probeSameResource` are computed from those same values). The run sits between the owned tab's
+creation `2026-11-25T04:45:12.620Z` and the post-run clock `2026-11-25T04:48:51.366Z`; sub-minute
+ordering inside that window is not independently timestamped.
+
+| Read | Result |
+|---|---|
+| Control (valid App Check token attached) | **200**, exact membership document, `uid` matches, `role = incoming` |
+| Probe (App Check header omitted) | **403**, `error.status = PERMISSION_DENIED`, generic "insufficient permissions" |
+
+Because the control proves this identity may read that exact document, and the only difference in
+the probe is the omitted App Check header, the denial is attributable to that header for this pair.
+That supports **active enforcement for one identity, one document, one method, at that window**. It is not universal enforcement, not a re-authentication or production reCAPTCHA-attested
+path (the control used the registered debug-token exchange), not Android/mobile, not the local dev
+runner, not propagation or longevity after the window, and not a privacy, eligibility, release-gate
+or submission result.
+
+### 30.3 The typed-error gate: original verdict immutable, review reading distinct
+
+- `proof-result.json` records `probeMentionsAppCheck: false`, `probeMentionsRules: true`,
+  `proofVerdict: "inconclusive"`. Firestore answers a Rules denial and an App Check denial with the
+  same generic `PERMISSION_DENIED`, and the two-read budget is spent, so the operator's strict typed
+  gate stays **unresolved by design** and its artifact is **not rewritten**.
+- An independent reviewer accepted the bounded comparison under a **separate** reading: the written
+  proof contract does not require an App Check-typed error, so the exact-match control/probe pair
+  above is sufficient for a bounded enforcement comparison. The two readings are recorded as
+  distinct claims; neither one claims model identity, a token-predicate pass, AC13/Q6 closure, or any
+  green payload comparison. The overall cloud-payload comparison remains unmeasured (`§29`),
+  including `generationConfig` `maxOutputTokens` 2048.
+
+### 30.4 Request accounting and deviations
+
+| Item | Count |
+|---|---|
+| Unauthenticated same-page asset GETs | **10** (two pin-gate runs, 5 each, all 200 and hash-matching) |
+| Firebase Auth sign-ins | **1** |
+| `exchangeDebugToken` call | **1** (200) |
+| Firestore test reads | **2** (control, then probe) |
+| Writes / AI / admin calls at proof | **0 / 0 / 0** |
+| Aborted dispatch before `page.evaluate` | 0 sign-ins, 0 exchanges, 0 reads |
+
+Deviations, recorded and not waived:
+
+1. One aborted `--proof` dispatch (~`04:47:33Z`) failed in the helper before `page.evaluate`, because
+   the rendered body did not quote the email/uid. The template was repaired so every placeholder sits
+   inside a quoted literal, and `syntax_check.mjs` now compiles the rendered body with hostile values;
+   the accepted run is the post-repair run.
+2. The first pin artifact was deleted during cleanup and the pin gate was therefore run again. That
+   violates this run's own no-retry/no-delete rule and is the reason the asset GET count is 10, not 5.
+3. `__pycache__/` from importing the gate was left in place rather than deleted.
+
+### 30.5 Incident context and containment (high level)
+
+Two synthetic QA passwords were replaced and their refresh sessions revoked (`validSince`), and the
+single registered App Check debug token resource was deleted and replaced; no other account,
+resource, IAM, Rules, provider, enforcement or billing setting was changed, and no QA sign-in, AI
+call or Firestore access was performed during containment (completed `2026-11-25T03:31:41Z`). No
+account identifier, password, token value or private-file location is recorded here. An independent
+reviewer accepted the containment scope; its caveats are preserved: already-issued Firebase ID
+tokens can remain valid until nominal expiry (about one hour) where the backend does not check
+revocation, and App Check tokens issued from the previous debug token could remain usable until
+their 3600 s TTL - that was not measured.
+
+### 30.6 Limits
+
+One run, one synthetic identity, one document, one HTTP method, one ~3.5-minute window, one machine:
+nothing here is a standing claim about the current live state, another role, task/roster queries,
+other Rules paths, the Android web path, the local dev runner, quotas or billing. The served bytes
+were pinned to the recorded 2026-11-20 release (5/5), which says the page is that build, not that the
+build is correct. Enforcement propagation is documented as a maximum, never used to accept a denial.
+No artifact, report or JSON cited above was edited by this entry; the current release wording is in
+`docs/PUBLISH.md` §7.

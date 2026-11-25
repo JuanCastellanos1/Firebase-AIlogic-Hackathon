@@ -1,5 +1,26 @@
 # ShiftRelay — Project State
 
+## User decisions — November 25, 2026 UTC
+
+- Firestore release-security milestone: policy configured ENFORCED with explicit
+  approval; valid hosted smoke passed. Independent review accepted the recovered
+  paired read (same identity/document/method, with App Check 200, without 403)
+  as bounded behavioral enforcement evidence. Original operator's stricter
+  typed-error result remains inconclusive and unchanged. No universal claim;
+  process deviations remain recorded. Final Gates C/D are not closed.
+
+- Approved replacement demo v006, SHA-256
+  `dcbbdac0fda6c44190ae67cb7a9d02c1fbe5d5e42302803c4d02307c6b74a4d8`.
+  Asset approval only; upload, submission, terms and visibility remain separate.
+- Synthetic judge credentials may use a platform testing field ONLY after its
+  judge-only visibility is verified. Never put values in public source/video/copy.
+  Visibility now verified from the existing draft's explicit Additional info
+  audience notice; Testing instructions has no public-gallery marker. Credentials
+  have not been entered and submission remains unapproved.
+- User commits to retaining the hosted app and both synthetic memberships through
+  December 16, 2026, free-tier-only. This does not guarantee quota headroom;
+  numeric quotas remain unverified. No paid billing authorized.
+
 GITHUB_SYNC=https://github.com/JuanCastellanos1/Firebase-AIlogic-Hackathon.git
 MODE=full
 REVIEW_MODEL=opencode-go/qwen3.8-flash

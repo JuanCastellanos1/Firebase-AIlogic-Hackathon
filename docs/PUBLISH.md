@@ -584,11 +584,30 @@ terms or enable billing as part of a recovery.
 | Public browser key API targets | 10: `firebase`, `logging`, `firebaseinstallations`, `firebaseappcheck`, `identitytoolkit`, `securetoken`, `firebaserules`, `datastore`, `firestore`, `firebasevertexai` | ADR 0004 |
 | Referrer restrictions | the two Hosting origins plus `localhost` / `127.0.0.1` (dev only, port 5173 variants) | ADR 0004 |
 | `generativelanguage.googleapis.com` on the public key | absent by design (AI Logic proxies with a Google-managed identity) | ADR 0004 |
-| Firestore App Check enforcement | **planned** before public release (console: Security → App Check → Enforce) | ADR 0001 decision 6, `https://firebase.google.com/docs/app-check/enable-enforcement` |
+| Firestore App Check enforcement | **configured ENFORCED** on 2026-11-25 (`PATCH` 200 at `03:09:08.110Z`, readback `updateTime 2026-11-25T03:09:09.272095Z`); runtime evidence is one bounded paired read, **release condition still open** (dated note below) | `docs/verification.md` §30; `https://firebase.google.com/docs/app-check/enable-enforcement` |
 | Debug token | secret, localhost only, registered `ShiftRelay local debug (localhost only)`, never in a build | ADR 0003, `docs/verification.md` §13.4 |
 
 New origins (a custom domain, a preview channel) need a reviewed change to the reCAPTCHA key, the API
 key referrers and `HOSTED_QA_HOSTS` together. One without the others fails closed.
+
+**Dated note — November 25, 2026 (Firestore App Check release condition).** Firestore App Check
+enforcement now exists as a policy: `firestore.googleapis.com` was set to `ENFORCED` by one `PATCH`
+(200 at `2026-11-25T03:09:08.110Z`, readback `updateTime 2026-11-25T03:09:09.272095Z`), after fresh
+reads had shown it unconfigured; the AI Logic policy was unchanged. The runtime evidence is one
+bounded paired read (`docs/verification.md` §30): same synthetic identity and bearer, same document
+URL, same default `GET`, only the App Check header differing - control `200`, header omitted generic
+`403`. It supports active enforcement for **one identity, one document, one method, at one ~04:45-04:49Z
+window**, not universal enforcement, not the production reCAPTCHA-attested or re-authenticated
+client path (the control used the debug-token exchange), not Android/mobile, not the local dev
+runner, not propagation or longevity after that window, and not a privacy, eligibility or
+submission pass. The original operator artifact stays `proofVerdict: "inconclusive"` because a
+generic `PERMISSION_DENIED` cannot be typed as App Check; the strict typed-error gate is unresolved
+by design, and an independent reviewer's separate reading (the written contract does not require a
+typed error) is recorded as a bounded comparison only. Neither reading claims model identity, a
+token-predicate pass or any green payload comparison; the `docs/verification.md` §29 payload
+comparison remains unmeasured, including `generationConfig` `maxOutputTokens` 2048. De-escalation
+remains a new, separately approved mutation (`UNENFORCED`/`OFF`), documented and not exercised. The
+release condition therefore stays **open**.
 
 ## 8. Private configuration (outside the repository)
 
@@ -699,6 +718,19 @@ naming and AC15 validation; no hosted reCAPTCHA-attested cloud request exists. O
 ratios now exist for 31 measured states (§5.2, `docs/verification.md` §18.2). Any shot of these runs
 may be described as bounded evidence, never as WCAG or hybrid/cloud proof, and no physical-phone
 footage exists.
+
+**Dated note - November 25, 2026 (v006 asset approved; publication still separate).** The user
+**approved the v006 demo asset**,
+`Temp/opencode/shiftrelay-demo-publication-v006-20261124/shiftrelay-demo-v006.mp4` (2:03.80,
+SHA-256 `dcbbdac0fda6c44190ae67cb7a9d02c1fbe5d5e42302803c4d02307c6b74a4d8`), on November 25, 2026.
+This changes only the approval state of the v006 candidate recorded above; the v005 approval and
+both files' measurements stand as written. Upload, publication, terms acceptance and submission
+remain **unapproved**. The Devpost testing field was verified as judge-only from the platform's
+explicit audience notice; **no credentials were entered**, and any such field stays out of public
+source, video and copy. The user commits to retaining the hosted app and both synthetic memberships
+through **December 16, 2026, free-tier only**; numeric quota headroom remains unverified and no paid
+billing is authorized. Asset approval is not a Gate C/D, release, privacy, eligibility or submission
+pass.
 
 ## 11. Submission draft (English, ~180 words)
 
