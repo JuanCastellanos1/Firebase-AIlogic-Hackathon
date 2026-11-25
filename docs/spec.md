@@ -2,13 +2,45 @@
 
 Status: proposed framing, November 16, 2026. User selected ShiftRelay and requested continued planning; implementation remains unauthorized. Gate A is **pending**, not passed. Skills applied to this artifact: brainstorming, spec-driven-development, mermaid-diagrams. Phase workflow overrides skill defaults about interviews, extra spec files, and stopping before the delegated plan.
 
+## Current scope change — November 23, 2026
+
+User decision, relayed by master: skip representative-coordinator/user research now.
+Continue technical delivery work with product usefulness **UNVALIDATED** and **NO-GO
+for validated usefulness/impact claims**. Recruiting, coordinator sessions, acceptance
+timing and comparison against current tools/deterministic matching are not delivery
+prerequisites. This is an explicit product-scope decision, not a research result or
+release approval. AC15/G5 below use this decision; earlier framing/status paragraphs
+and dated implementation records remain history, not renewed gates.
+
+| Area | Current contract |
+|---|---|
+| AC15 / G5 | Record the decision to proceed without research and exclude validated usefulness/impact claims; optional future research requires separate scope |
+| AC01–AC14 / Q1–Q6 | Functional, security, privacy, accessibility, hardware and genuine-runtime evidence remain independently required, with no threshold changed |
+| AC12 / Q4 reader evidence | Actual screen-reader speech, including required status/error announcements, remains required. A participant session is not the only permissible collection method if equally valid actual evidence is obtainable; DOM/live-region inspection, mocks and axe are not reader-speech evidence. Required actual hardware cannot be replaced by emulation |
+
+In-product human review, sharing approval, cloud consent and observation confirmation
+remain mandatory; “skip human validation” does not remove these controls. Master owns
+reconciliation of operational docs, CONSTRAINTS and the static verifier; until that
+work is reviewed, their older AC15 research blocker is stale wording, not a passing
+check. No existing gate or evidence result is changed by this scope note.
+
+**Cloud outcome clarification — November 23, 2026:** the response contract permits
+zero suggestions. A valid real cloud brief with zero suggestions is a genuine
+comparison, not a missing response; confirmation/dismissal is then not applicable,
+not passed. AC06/AC11 still require their deterministic fixture-based consent,
+confirmation/dismissal and stale-version tests. AC05/AC13/Q1/Q6 still require actual
+runtime privacy, preview-to-outbound allowlist, model/source and enforcement evidence.
+Do not reroll inference or create hosted observation writes solely to obtain a
+positive suggestion for a demo; a historical “confirm/dismiss” walkthrough step is
+conditional on a suggestion actually existing. No technical gate closes on HTTP200.
+
 ## Objective, users, and assumptions
 
 Close a non-emergency handover at **one community venue**: an outgoing volunteer turns private text into reviewed shared tasks; an incoming volunteer explicitly accepts responsibility, records resolution, and can reopen unfinished work. Success is recorded ownership and closure, not a polished summary.
 
 Declared defaults, not user-research findings: one venue; two pre-provisioned authenticated demonstration participants; text only; synthetic data; no public signup; outgoing/incoming are provisioned venue roles, not a client-side view switch. The user can review these defaults through master. Android delivery means responsive web with manual capture and optional consented cloud reconciliation. A future native client is not promised. No device-local Android-browser claim.
 
-Outcome hypothesis: each of two representative coordinators can identify a recurring handover failure this closes; an incoming participant can accept three seeded items within 120 seconds. These are validation targets, not measured results. Product validation does not substitute for technical/privacy checks.
+Historical outcome hypothesis (November 16, 2026; research deferred November 23): each of two representative coordinators can identify a recurring handover failure this closes; an incoming participant can accept three seeded items within 120 seconds. These are unmeasured hypotheses, no longer delivery validation targets. Product usefulness remains UNVALIDATED; technical/privacy checks remain independent.
 
 ## Scope and boundaries
 
@@ -102,7 +134,7 @@ Use server-acknowledged transactions, with expected versions captured when the u
 | AC12 | Full manual path works with keyboard and mobile layout | `npm run test:e2e -- e2e/accessibility.spec.ts`: keyboard-only capture/preview/share/accept/resolve/reopen, focus restoration, labels/errors/status, no horizontal document overflow at 320 CSS px. Manual check at 200% zoom plus screen-reader announcements and actual Android Chrome touch workflow; record browser/device, failures and ordinary-text contrast >=4.5:1. Automated accessibility scan has zero serious/critical findings |
 | AC13 | Genuine required local model and cloud runtime work on the intended hosted platform | Manual reproducible protocol: on named desktop record OS/browser/SDK/hardware, enablement/download state, App Check enforcement, actual local request through Firebase AI Logic on localhost **and hosted HTTPS**, observed source and authoritative exact Nano 4 compatibility evidence; repeat privacy sentinel; separately consent and make real cloud comparison, recording model/source and payload allowlist without secrets. Zero mocks counted; manual unsupported-local path also demonstrated |
 | AC14 | Build and public artifacts meet minimum safety/quality | `npm run typecheck`, `npm run lint`, `npm run build`, `npm audit --omit=dev --audit-level=high`, `npm run scan:secrets`, and future `py -3 scripts/verificar.py --report .git/opencode/evidence.json`: no type/lint/build errors, no high/critical production dependency findings, no credentials/debug secrets in source/build/evidence; reviewer inspects diff for weakened checks. Gate evidence format follows workflow |
-| AC15 | Audience/usefulness hypothesis gets a go/no-go, not an invented success claim | Product lead runs two representative-coordinator walkthroughs on synthetic projector/supply fixtures; record recurring failure, missed/duplicate comparison with current approach, three-item acceptance time, correction errors, and whether cloud comparison changes a useful decision versus deterministic matching. Master records continue/cut/reframe decision; no useful cloud improvement means revisit hybrid fit, not decorative AI |
+| AC15 | Explicit product decision: continue without coordinator research; usefulness UNVALIDATED, NO-GO for validated usefulness/impact claims; not a human-research release gate | Document review: master/reviewer verifies this dated decision and the matching PLAN entry, and inspects public/demo/submission wording for unsupported usefulness, timing, comparative improvement or impact claims. No recruiting, sessions or measured research result required; AC01–AC14 functionality/evidence obligations remain independent |
 
 ## Workflow source
 
@@ -157,7 +189,7 @@ These are questions to relay via **PREGUNTAS_AL_USUARIO**, not direct questions 
 | G2 — Localhost versus hosted Prompt API enablement | Device-test implementer; master closes | Verify supported SDK/browser/origin configuration on both origins before hosted-local claim. Localhost-only success is no-go for hosted hybrid claim; do not silently substitute cloud |
 | G3 — Firebase project, credentials, quota/budget and judge access | User/project administrator; master closes | Authorized project/API access, App Check setup/domains, synthetic identities/membership, selected cloud model, spending limit/monitoring and availability through December 16; before real calls/provisioning/public delivery. Unknown budget/access: emulator-only work if separately approved, no cloud-cost assumption; temporary sprint quota is not judging-window access |
 | G4 — Android-native expectation | User/product owner through master | Confirm responsive web is sufficient before build scope approval. Native-required answer is no-go for this plan and requires rescoping/ADR/budget revision, not a wrapper promise |
-| G5 — Representative users and useful reconciliation | Product lead, arranged by master | Two coordinator walkthroughs under AC15 before product-value/public impact claims; if unavailable mark unvalidated, if no recurring failure or useful cloud comparison reframe through master before final hybrid scope acceptance |
+| G5 — Product decision without research (November 23, 2026) | Product owner decision relayed by master; master/reviewer enforce claims boundary | Continue technical delivery without recruiting/coordinator sessions. Usefulness UNVALIDATED; NO-GO for validated usefulness/impact claims. Review AC15 decision and public wording, not research attendance; genuine hybrid functionality/eligibility still requires AC13/Q6 evidence |
 | G6 — Official Firebase agent skills | Master + authorized implementer | Before relevant build tasks: inspect current catalogs/upstream metadata, resolve actual names and pin reviewed revision/scope, obtain install approval, then install/load relevant skills. Not installed; names/revision unresolved despite ADR discovery candidates. No relevant Firebase build starts pretending they were adopted |
 | G7 — Framing Gate A | Master, with planner artifacts | Verify docs/criteria/owned blockers and render using `py -3 scripts/check_diagrams.py`; checker implementation belongs to implementer later under separate authorization. Until real exit/output exists: pending, not approved |
 

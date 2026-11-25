@@ -1,5 +1,11 @@
 # Phase 1 — Seven actionable hybrid-AI concepts
 
+**Dated scope clarification — November 23, 2026:** coordinator/user research is no
+longer a delivery prerequisite (`docs/spec.md` AC15/G5). Usefulness remains
+UNVALIDATED; no validated usefulness, timing, comparative-improvement or impact
+claim follows. The representative-user investigations below are historical
+proposals, not current gates. Technical/accessibility/privacy evidence is unchanged.
+
 Status: **ShiftRelay selected by the user.** Remaining Phase 1–3 framing is recorded in `docs/spec.md`, `docs/PLAN.md`, and root `CONSTRAINTS.md`; Gate A remains pending diagram evidence. Implementation is not authorized. Written November 16, 2026. Original comparison skills: brainstorming and idea-refine; interview steps are deferred to master under the delegation rules.
 
 Selection update: use the React/TypeScript/Vite/Firebase direction in `docs/adr/0001-shiftrelay-stack.md`. Default Android delivery is responsive web, not a promised native build. Hardware, exact Nano 4 compatibility, hosted enablement, access/budget, and representative-user validation remain owned checkpoints in the specification. The comparison, recommendation, and questions below are retained as **pre-selection history**, not current authorization or unresolved concept selection.

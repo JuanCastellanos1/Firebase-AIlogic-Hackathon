@@ -1,0 +1,56 @@
+{
+  "name": "shiftrelay",
+  "private": true,
+  "type": "module",
+  "description": "ShiftRelay: memory-only private shift notes become reviewed shared tasks with local on-device drafting, consented cloud reconciliation and server-confirmed ownership, resolution and reopening; it runs against Firebase emulators, a live-local dev project and a hosted QA deployment.",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.13.6"
+    },
+    "playwright-core": "1.65.1"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:live-local": "py -3 scripts/dev_live_local.py",
+    "build": "vite build",
+    "build:qa": "py -3 scripts/release_prep.py build",
+    "release:stage": "py -3 scripts/release_prep.py stage",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:unit": "vitest run --config vitest.config.mts",
+    "test:rules": "py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only firestore \"vitest run --config vitest.rules.config.mts\"",
+    "test:e2e": "py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore \"playwright test\"",
+    "test:tools": "py -3 -m unittest tests.test_check_diagrams tests.test_verificar tests.test_scan_secrets tests.test_firebase_safe tests.test_dev_live_local tests.test_dist_guard tests.test_release_prep -v",
+    "scan:secrets": "py -3 scripts/scan_secrets.py",
+    "guard:dist": "py -3 scripts/check_dist.py dist",
+    "emulators": "firebase emulators:start --project demo-shiftrelay --only auth,firestore",
+    "seed:emulator": "node scripts/seed-emulator.mjs"
+  },
+  "dependencies": {
+    "firebase": "13.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/js": "10.0.1",
+    "@firebase/rules-unit-testing": "6.0.0",
+    "@mermaid-js/mermaid-cli": "12.2.0",
+    "@playwright/test": "1.65.1",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.15.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "firebase-tools": "15.36.0",
+    "globals": "17.14.0",
+    "puppeteer": "25.17.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}

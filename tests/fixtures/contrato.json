@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "phase": 4,
+  "status": "frozen",
+  "frozenAt": "2026-11-16",
+  "authority": "docs/INTERFACES.md",
+  "enums": {
+    "role": ["outgoing", "incoming"],
+    "taskState": ["open", "accepted", "resolved"],
+    "activityAction": ["create", "accept", "resolve", "reopen", "observe"],
+    "observationKind": ["duplicate", "contradiction"]
+  },
+  "limits": {
+    "titleBytes": { "min": 1, "max": 120 },
+    "detailBytes": { "min": 0, "max": 800 },
+    "resolutionBytes": { "min": 1, "max": 800 },
+    "reopenReasonBytes": { "min": 1, "max": 400 },
+    "observationRationaleBytes": { "min": 1, "max": 400 },
+    "cardsPerPublication": { "min": 1, "max": 5 }
+  },
+  "idPattern": "^[A-Za-z0-9_-]{1,64}$",
+  "activityIdTemplate": "{taskId}__v{toVersion}",
+  "activityIdMaxLength": 83,
+  "adapter": {
+    "publication": "transaction-with-stable-id-readback",
+    "publicationStatus": ["created", "existing"],
+    "publicationConflict": "publication id conflict",
+    "readBackStatus": ["published", "absent", "mismatch"],
+    "offline": "reject-no-queue",
+    "publicationWritesMax": 11
+  },
+  "collections": {
+    "member": "venues/{venueId}/members/{uid}",
+    "handover": "venues/{venueId}/handovers/{handoverId}",
+    "task": "venues/{venueId}/tasks/{taskId}",
+    "activity": "venues/{venueId}/activities/{activityId}"
+  },
+  "errors": [
+    "not_an_object",
+    "unknown_key",
+    "missing_key",
+    "invalid_type",
+    "invalid_identifier",
+    "duplicate_identifier",
+    "identifier_count_mismatch",
+    "card_count_out_of_range",
+    "blank_required",
+    "byte_limit_exceeded",
+    "unpaired_surrogate",
+    "invalid_role",
+    "invalid_state",
+    "invalid_action",
+    "invalid_version",
+    "stale_version",
+    "forbidden_transition",
+    "actor_not_owner",
+    "invalid_observation_kind",
+    "missing_target",
+    "duplicate_target",
+    "stale_target",
+    "target_state_not_observable"
+  ],
+  "transitions": [
+    {
+      "action": "accept",
+      "roles": ["incoming"],
+      "from": "open",
+      "owner": "none",
+      "to": "accepted",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "resolve",
+      "roles": ["incoming"],
+      "from": "accepted",
+      "owner": "actor",
+      "to": "resolved",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "reopen",
+      "roles": ["incoming"],
+      "from": "resolved",
+      "owner": "actor",
+      "to": "accepted",
+      "ownerAfter": "actor",
+      "versionDelta": 1
+    },
+    {
+      "action": "observe",
+      "roles": ["outgoing", "incoming"],
+      "from": "open",
+      "owner": "any",
+      "to": "open",
+      "ownerAfter": "unchanged",
+      "versionDelta": 1
+    },
+    {
+      "action": "observe",
+      "roles": ["outgoing", "incoming"],
+      "from": "accepted",
+      "owner": "any",
+      "to": "accepted",
+      "ownerAfter": "unchanged",
+      "versionDelta": 1
+    }
+  ],
+  "localDraft": {
+    "status": "frozen",
+    "frozenAt": "2026-11-16",
+    "authority": "docs/INTERFACES.md §9",
+    "responseBytes": 12000,
+    "noteBytes": 4000,
+    "cards": { "min": 1, "max": 5 },
+    "cardKeys": ["title", "detail", "sourceStart", "sourceEnd"],
+    "sourceSpan": "utf16-no-surrogate-split",
+    "inferenceMode": "only_on_device",
+    "inferenceSource": "on_device",
+    "errors": [
+      "not_an_object",
+      "unknown_key",
+      "missing_key",
+      "invalid_type",
+      "card_count_out_of_range",
+      "blank_required",
+      "byte_limit_exceeded",
+      "unpaired_surrogate",
+      "empty_response",
+      "invalid_json",
+      "response_too_large",
+      "invalid_source_span",
+      "note_empty",
+      "note_too_large"
+    ]
+  },
+  "reconciliation": {
+    "status": "frozen",
+    "frozenAt": "2026-11-17",
+    "authority": "docs/INTERFACES.md §10",
+    "responseBytes": 12000,
+    "briefBytes": { "min": 0, "max": 1200 },
+    "rationaleBytes": { "min": 1, "max": 400 },
+    "sourceTasks": { "min": 1, "max": 5 },
+    "contextTasks": { "min": 0, "max": 20 },
+    "suggestions": { "min": 0, "max": 5 },
+    "packetKeys": ["sources", "context"],
+    "taskKeys": ["id", "version", "title", "detail", "state"],
+    "resultKeys": ["brief", "suggestions"],
+    "suggestionKeys": ["kind", "taskId", "taskVersion", "targetTaskId", "targetVersion", "rationale"],
+    "inferenceMode": "only_in_cloud",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "purpose": "Compare published shift-handover tasks for duplicates and contradictions. Read-only suggestions; the shared tasks are not changed.",
+    "errors": [
+      "not_an_object",
+      "unknown_key",
+      "missing_key",
+      "invalid_type",
+      "invalid_identifier",
+      "invalid_version",
+      "invalid_observation_kind",
+      "duplicate_target",
+      "unknown_task_id",
+      "stale_task_version",
+      "blank_required",
+      "byte_limit_exceeded",
+      "unpaired_surrogate",
+      "empty_response",
+      "invalid_json",
+      "response_too_large",
+      "suggestion_count_out_of_range"
+    ],
+    "planErrors": [
+      "invalid_input",
+      "source_count_out_of_range",
+      "context_count_out_of_range",
+      "unknown_task_id",
+      "duplicate_task_id",
+      "task_state_not_reconcilable"
+    ]
+  },
+  "runtime": {
+    "status": "frozen",
+    "frozenAt": "2026-11-17",
+    "authority": "docs/INTERFACES.md §11",
+    "modes": ["emulator", "live-local", "hostedQA"],
+    "defaultMode": "emulator",
+    "demoProjectId": "demo-shiftrelay",
+    "liveProjectId": "shiftrelay-hybridai-2026",
+    "liveAppId": "1:1013230596333:web:a0b89365ee59732eb85ce4",
+    "localHosts": ["127.0.0.1", "localhost"],
+    "hostedQaHosts": [
+      "shiftrelay-hybridai-2026.web.app",
+      "shiftrelay-hybridai-2026.firebaseapp.com"
+    ],
+    "hostedInitPath": "/__/firebase/init.json",
+    "liveFlag": "VITE_FIREBASE_LIVE_LOCAL",
+    "liveEnvNames": [
+      "VITE_FIREBASE_API_KEY",
+      "VITE_FIREBASE_AUTH_DOMAIN",
+      "VITE_FIREBASE_PROJECT_ID",
+      "VITE_FIREBASE_MESSAGING_SENDER_ID",
+      "VITE_FIREBASE_APP_ID",
+      "VITE_FIREBASE_APPCHECK_SITE_KEY",
+      "VITE_FIREBASE_APPCHECK_DEBUG_TOKEN"
+    ],
+    "appCheck": {
+      "emulator": "none",
+      "live-local": "debug-token",
+      "hostedQA": "recaptcha-enterprise"
+    },
+    "errors": [
+      "unknown_origin",
+      "non_local_emulator",
+      "wrong_project",
+      "wrong_app",
+      "live_local_incomplete",
+      "site_key_missing",
+      "hosted_config_unavailable",
+      "hosted_config_invalid"
+    ]
+  },
+  "rulesBudget": {
+    "atomicOperationAccessCallLimit": 20,
+    "singleDocumentAccessCallLimit": 10,
+    "publicationWritesPerCards": "2N + 1",
+    "publicationUncachedCallsPerCards": "5N + 1",
+    "publicationDistinctPathsPerCards": "2N + 2",
+    "observationWrites": 2,
+    "observationUncachedCalls": 5,
+    "observationDistinctPaths": 4
+  },
+  "outOfScopeThisPhase": [
+    "private draft capture and raw note limits",
+    "local model output contract and 12000 byte response cap",
+    "cloud reconciliation request/response contract and brief limit",
+    "firestore.rules authoring",
+    "Firebase adapters, UI, emulator wiring"
+  ]
+}

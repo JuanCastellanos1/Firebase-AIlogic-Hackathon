@@ -1,0 +1,125 @@
+name: Verification
+
+# Phase 8 CI for the reviewed checkpoint. It runs the repository's own evidence command
+# (`py -3 scripts/verificar.py`), which builds, tests, scans and renders locally. There are no
+# cloud credentials, Firebase auth, deployment steps or real project calls: the emulator suites
+# go through scripts/firebase_safe.py with the `demo-shiftrelay` project only. A green run is an
+# implemented-code check, not device proof (Gemini Nano 4, Android hardware, hosted QA).
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "verification-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verifier
+    # The pinned Gitleaks asset is windows-x64 only; windows-2025 is x64 and ships Chrome 157.
+    runs-on: windows-2025
+    timeout-minutes: 45
+    env:
+      CI: "true"
+      # @mermaid-js/mermaid-cli pulls puppeteer; the browser is installed below instead.
+      PUPPETEER_SKIP_DOWNLOAD: "1"
+      # Python 3.13 is not UTF-8 by default (PEP 686 only lands in 3.15) and a redirected stdout
+      # uses the runner's ANSI code page. The verifier re-prints captured Vite/Vitest output
+      # containing U+2713, so make the piped streams UTF-8 deterministically.
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node.js 24.14.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.14.0"
+          cache: npm
+
+      - name: Python 3.13
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+
+      - name: Java 21 (Temurin)
+        uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      # Every npm script and the verifier call Python through the Windows `py -3` launcher, and
+      # the verifier refuses to start without `java`. Fail here with a readable cause instead of
+      # failing later inside a check.
+      - name: Check toolchain prerequisites
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          if (-not (Get-Command py -ErrorAction SilentlyContinue)) {
+            throw "py launcher not found; the npm scripts and scripts/verificar.py require py -3"
+          }
+          py -3 --version
+          if ($LASTEXITCODE -ne 0) { throw "py -3 --version failed" }
+          py -3 -c "import sys; ok = sys.version_info >= (3, 13); print(sys.version); sys.exit(0 if ok else 'py -3 must be Python 3.13 or newer')"
+          if ($LASTEXITCODE -ne 0) { throw "py -3 must be Python 3.13 or newer" }
+          node --version
+          if ($LASTEXITCODE -ne 0) { throw "node --version failed" }
+          java -version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install pinned Playwright Chromium
+        run: npx playwright install chromium
+
+      # scripts/check_diagrams.py reads MERMAID_PUPPETEER_CONFIG and passes it to mermaid-cli as
+      # `-p`. Prefer the runner's Chrome; otherwise use the Chromium that Playwright just pinned.
+      - name: Configure Mermaid browser
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $candidates = @(
+            "C:\Program Files\Google\Chrome\Application\chrome.exe",
+            "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+          )
+          $browser = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $browser) {
+            $browser = node -e "console.log(require('@playwright/test').chromium.executablePath())"
+          }
+          if (-not (Test-Path -LiteralPath $browser)) {
+            throw "No Chrome or Chromium executable available for Mermaid rendering"
+          }
+          $config = Join-Path $env:RUNNER_TEMP "mmdc-puppeteer.json"
+          @{ executablePath = $browser } | ConvertTo-Json | Set-Content -LiteralPath $config -Encoding utf8
+          "MERMAID_PUPPETEER_CONFIG=$config" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Host "Mermaid browser: $browser"
+
+      - name: Install pinned Gitleaks
+        run: npm run scan:secrets -- --install
+
+      - name: Run full verifier
+        run: py -3 scripts/verificar.py --report .git/opencode/evidence.json
+
+      # Sanitized outputs only: the verifier report has exit codes and output hashes, the scanner
+      # report is redacted by Gitleaks, the diagram report has paths and hashes. No debug logs,
+      # traces, screenshots, private config or credentials.
+      - name: Upload sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: verification-evidence
+          path: |
+            .git/opencode/evidence.json
+            .git/opencode/secret-scan.json
+            .git/opencode/diagram-check.json
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 7
