@@ -2,6 +2,119 @@
 
 ## Resume check — November 24, 2026
 
+### Durable regression RED measured; fix checkpoint/full verification authorized
+
+Exact unchanged durable spec failed on pre-fix Handover at line66 focus assertion:
+enabledResolveinactive; preconditionspassed. One safe-wrapper execution06:07:23–
+06:07:47Z exit1, no setupfailure. Source21423D8A, spec35138B9E, fixtureFF6A2EE7.
+Candidate restored in finally to F4E3D1A83B9AEB29237E00508C0393FD5FF3D4395A00CA1869D3ADCF46E445AD;
+master independently matched candidate/spec/fixture hashes and exactstatus.
+Newreport `Temp/opencode/shiftrelay-durable-focus-red-20261125/REPORT.md`;
+rawtrace/errorcontext preservedunopened. This proves regression sensitivity for
+forced ordering only, not historicalfailedrunordering or recurrenceabsence.
+
+Next implementer records narrow missingREDleg in verification§31, stages EXACT
+8paths (DEBT,HANDOFF,PLAN,budget,verification,Handover,newfocus spec/fixture),
+localcommit then ONE fullverifier. Preserve failedfe0evidence first. On success
+regenerate matchingSHA/rawpatch and same-reviewerconfirmation; on failureSTOP.
+No full-greenclaim/push/merge/deploy/publication before actualchecks/review.
+
+### Fix code accepted; missing durable RED leg active before checkpoint
+
+Reviewer found no code blocker but withheld closure for exact durable-spec RED,
+fresh clean-commit verifier/review SHA, and debt registration. Outside-root RED
+fence observes an effect attempt; durable spec uses DOM+RAF, so equivalence is
+not assumed. N6 retention risk now recorded in DEBT: later tasks/feedback commits
+may focus a retained target. No scope/contract waiver.
+Debugger `ses_deeb15795ffeD30v4q3rSYJHOB` owns ONE exact durable-spec command
+against baselinefe0 Handover, frozen tests unchanged. Candidate bytes backed up
+and must restore exactly in finally; no gitcheckout/reset or new fix. RED counts
+only finalfocus failure with enabledResolveinactive; any other result STOP.
+Report `Temp/opencode/shiftrelay-durable-focus-red-20261125/`.
+Next inspect result/restoration before localcommit+fullverifier. No push/merge.
+
+### Candidate focus correction passes targeted checks; independent review active
+
+Implementer changed only existing effect: retain target if node absent or focus
+didn't land, feedback dependency retries enabling commit. Deliberately no disabled
+precheck (frozen observational fence expects disabled focus attempt); actual
+consume requires activeElement===node. No new state/poll/timeout/refresh changes.
+Frozen baseline RED then candidate GREEN measured, no historical attribution.
+Added durable real-component fixture/spec and PLAN/verification§31 record.
+Originalaccessibilityspec/assertions/Refresh unchanged. Delegate reports one
+wrapper command2tests passed, typecheck/lint/unit121 passed. No fullverifier/commit.
+
+Reviewer `ses_deeb66053ffe82hBe4FpqEf02y` checks semantics/retained-targetrisk/
+testproofincludingasneverfixtureanddurablespecREDgap. Master read actual effect/
+test/fixture diff; no candidate full-suite evidence yet. Next receive review
+before committing/fullverification. No push/deploy/cloud/reader/newrecording.
+
+### Real deterministic RED established; minimal correction authorized
+
+IPv4 fixture ran one browser command exit1 at finalfocus assertion only. Actual
+unchanged Handover hash21423D8A: accepted-while-pending rendered disabledResolve,
+effect calledfocus once (did notland), later confirmed enabledResolve but no retry;
+activeBODY. This proves reachable componentdefect, not exactfe0failureordering.
+RED metadata/artifacts preserved, errorcontext notopened.
+
+Implementer `ses_deec10c83ffe9sqMmAJrgQKWZ7` changes only existingrestoreeffect:
+require presentownenablednode, clearonlyafterfocuslands, rerunonfeedbackchange.
+No refresh/testassertion removal/newstate/retrypolling/errorpathscope expansion.
+First samefrozenfixturecandidateGREEN once; ifpassed, add minimaldurableactual-
+component regression and run ONE safe-wrapper originalaccessibility+newregression
+command, then lint/typecheck/relevantunits. No fullsuite/commit/push yet.
+Report `Temp/opencode/shiftrelay-focus-fix-20261125/`. Newtestpaths must be
+recordedPLAN. Next inspect results and independentreview; unexpectedfailureSTOP.
+
+### Deterministic test blocked at server setup; second/final harness attempt active
+
+First isolated actual-component Playwright command never launched browser:
+Vite boundIPv6localhost, readiness URL used127.0.0.1. No focus assertion ran,
+so no RED/GREEN/component claim. Build17modules and test-list1 passed, but not
+runtime proof. Original fixture/artifacts frozen and retained.
+Master authorizes exactly ONE replacement to same debugger
+`ses_deedaeee1ffehV0TMp2j5J68f9`, new
+`Temp/opencode/shiftrelay-focus-red-fixture-ipv4-20261125/`:
+explicitVitehost127.0.0.1 only, same real unchanged Handover/ordering/assertion,
+re-freeze, one Playwrightcommand retries0. No production/repo test changes.
+If setup fails or unexpected pass, stop—no third harness execution. Next inspect
+actual assertion/booleans before authorizing any fix. No release/push.
+
+### Failure preserved; deterministic component regression authorized (one RED run)
+
+Debugger preserved verifier JSON, failure directory/trace/screenshots/errorcontext
+by byte-copy/hash WITHOUT opening raw contents. Exact Handover/test/config blobs
+match passing438626a/5f87582; docs-only commit did not alter them. This excludes a
+new source change as cause, NOT a latent code defect or run-specific interleaving.
+No exact failed ordering measured; stdout log absent, only report/hash retained.
+
+Same debugger `ses_deedaeee1ffehV0TMp2j5J68f9` may create isolated controlled
+ACTUAL Handover component regression, force accepted+pending then confirmed+enabled
+commits, and run EXACTLY ONE browser RED command against unchanged production.
+Pure predicate alone insufficient; no Refresh removal/assertion weakening, no fix
+yet. Freeze identities and retain unique sanitized evidence; setup failure/pass
+stops without retry. This can prove a reachable component path, not retroactively
+attribute preserved failure. No cloud/AI/reader run. Next inspect RED/proposal.
+
+### STOP THE LINE — verifier focus failure at fe0c1d3
+
+Local docs checkpoint `fe0c1d32c081de27546d1de844f62628663b1bf0` saved exactly
+five intended documents; no push. Master independently read verifier evidence:
+ok=false, dirty=false/tree_stable=true at immutable commit, finished
+2026-11-25T05:18:28Z; 15 checks exit0, e2e-tests exit1. Keyboard accessibility
+test expected Resolve focus after Enter accept, got inactive; 20 other tests pass.
+Do not call flaky, repaired or green. Review.sha remains438626a (intentionally
+not refreshed on failing evidence); GateC/D closed to progression.
+These operational notes are outside that immutable failing checkpoint.
+
+Debugger `ses_deedaeee1ffehV0TMp2j5J68f9` first preserves/hash-copies failure
+artifacts and exact source/test identities in
+`Temp/opencode/shiftrelay-focus-recurrence-fe0c1d3-20261125/`, without opening
+raw traces/snapshots/errorcontext/private files. Then offline source/caller
+analysis only. No rerun/repair/instrumentation/browser/emulator/commit yet.
+Next inspect causal report and deterministic regression proposal before assigning
+bounded reproduction. No push, merge, deployment or publication while check red.
+
 ### Durable enforcement record added; focused review and remote CI inspection active
 
 Focused reviewer APPROVED the durable claims with no blockers: bounded acceptance

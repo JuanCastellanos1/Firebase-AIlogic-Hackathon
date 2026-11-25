@@ -1,5 +1,34 @@
 # ShiftRelay — Time and Scope Budget
 
+DurablebaselineRED measured at finalfocusassertion; candidate restored/hashchecked.
+Allocate local8filefixcheckpoint+ONEfullverification, preservefailedfe0evidence.
+No blindrerun/repaironfailure, no push untilsame-reviewerSHAconfirmation.
+
+Fixreview accepts code but requires exactdurableRED leg+cleansourceevidence+N6debt.
+Debt registered; allocate ONE baseline durablespec run, candidatebyte-restoration
+mandatory, no testchanges/repair/rerun. No fullsuite/commit/push yet.
+
+Candidateeffectfix targetedGREEN+originalaccessibility/durableregression passed;
+unit121/typecheck/lint reportedgreen. Allocate independentfixreview only, no
+fullsuite/commit/push beforeverdict. Historicalfailureordering remainsunmeasured.
+
+RealcontrolledRED provesdisabledtriggerfocusconsumptionpath. Allocate minimal
+existingeffectfix+durableregression, oneidenticalfixtureGREEN thenoneoriginal+
+newregressionsafe-wrappercommand. No blindretry/fullsuite/commit/pushyet.
+Historicalfailureorderingstillunknown; no waivederrorfocus/accessibilityfloor.
+
+Firstcontrolledfocusattempt consumed by IPv6/IPv4servermismatch,no browser/test.
+Allocate ONE replacement(second/final) with onlyfixturehostcorrected/re-frozen;
+sameassertion/source, no productionfix. Stop nextsetupfailure/unexpectedpass.
+
+Failure/sourceartifacts preserved; exactunchangedsource excludes newdocregression,
+not latentdefect. Allocate ONE controlled actualcomponentRED regression, nofix,
+nooriginalE2Eretry/soak. Keep Refresh and focusassertion, preserveidentities.
+
+STOPTHELINE:fe0c1d3checkpointfullverifier15/16,keyboardaccept→Resolvefocusfailed.
+No rerun/push. Allocate artifactpreservation+OFFLINErootcauseanalysis only, exact
+sourceidentity retained; don't dismiss flake or repeatuntilgreen. Gatesstayopen.
+
 Durable enforcement claims approved without blockers. Close this documentation
 task; await active read-only GitHub inspection before final-source action.
 

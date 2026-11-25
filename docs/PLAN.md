@@ -464,3 +464,33 @@ Measured in this cut: 17 new tool tests (74 tool tests total), typecheck, lint a
 build pass; `npm run build:qa` produced the keyed artifact and its three gates passed with the one
 classified public-identifier finding; `npm run release:stage` refused the intentionally dirty tree.
 `firebase deploy` was never run and no Hosting or Rules resource was touched.
+
+## Phase 6.5 bounded fix - accept-focus restore ordering (November 25, 2026)
+
+Cause-specific repair of one defect, preceded by its own deterministic reproduction. Trigger: the
+preserved verifier failure at `fe0c1d3` where the keyboard accessibility test expected the surviving
+`Resolve task` trigger focused after a confirmed accept and received `inactive`. No new feature, no
+threshold or contract change, and no historical attribution: the frozen reproduction forces an
+ordering the application can produce (accepted task committed while the acceptance feedback is still
+pending), which the preserved run does not establish.
+
+Files in this cut:
+
+- `src/Handover.tsx` - existing restore effect only: keep the matched target until
+  `document.activeElement` is the own trigger after `focus()` (a disabled trigger cannot be, so the
+  consume needs an enabled trigger), and re-run on `feedback` because the confirming commit is the
+  one that enables that trigger. No new state, ref, timeout, polling or abstraction.
+- `e2e/focus-regression.spec.ts` (new) - mounts the real component through a route-fulfilled page and
+  forces the pending-then-confirmed commit order; final assertion is the surviving trigger focus.
+- `e2e/fixtures/handover-focus-harness.tsx` (new) - prop-commit mount of `../../src/Handover`; a test
+  fixture only, not imported by the app and not a component test hook.
+- `e2e/accessibility.spec.ts` - unchanged, including its `Refresh shared tasks` click, timeouts and
+  every accept/resolve/reopen assertion.
+- `docs/verification.md` §31 - bounded RED, candidate GREEN, combined-command and limit record.
+
+Verification: one outside-root frozen RED (exit 1, 6.6 s, disabled-trigger attempt consumed the
+target), one candidate run of the same frozen harness (exit 0, 1.4 s test), one approved wrapper
+command with the original accessibility spec plus the new regression (`--retries=0`, 2 passed,
+23.1 s, exit 0), plus typecheck, lint and unit checks all exit 0. No new dependency, no test id, no
+production test hook. Denied/stale/error focus paths, speech and reader evidence remain open, and
+the diff needs review before commit.

@@ -15,6 +15,12 @@ Reviewed source: `dbd217cdb4e38606dc6d39285e0fcfc3f5caec78`, November 19, 2026. 
 
 ## November 20 fix-review reconciliation
 
+November 25 — N6 focus-retention correction: a later tasks or feedback commit can
+focus a retained target if the own enabled trigger did not render at the matching
+commit. The successful-accept fix retains this scoped limitation; no denial/error
+focus coverage or contract waiver is implied. Reassess only if that path is
+observed or focus behavior is next changed.
+
 ### November 23 replacement focused review
 
 Closure note (November 24): the outside-root hosted collector reached engineering

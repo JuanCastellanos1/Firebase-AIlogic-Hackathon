@@ -81,8 +81,11 @@ export function Handover({
 
   const pending = feedback?.tone === "pending";
 
-  // Resolve/reopen replace the trigger; wait until the task state that renders the surviving
-  // trigger has committed before focusing it, so the focus cannot land on the removed button.
+  // Resolve/reopen/accept replace the trigger; wait until the task state that renders the surviving
+  // trigger has committed before focusing it, so the focus cannot land on the removed button. While
+  // the acceptance is still pending that trigger renders disabled and cannot take focus, so keep the
+  // target until focus actually lands: consuming it there would strand focus on BODY for the
+  // confirmed commit that enables the same button. `feedback` is a dependency for that commit.
   useEffect(() => {
     const target = focusAfterSubmit.current;
     if (target === null || form !== null) {
@@ -91,9 +94,15 @@ export function Handover({
     if (!tasks.some((task) => task.id === target.taskId && task.state === target.state)) {
       return;
     }
-    focusAfterSubmit.current = null;
-    triggerRefs.current.get(target.taskId)?.focus();
-  }, [form, tasks]);
+    const node = triggerRefs.current.get(target.taskId);
+    if (node === undefined) {
+      return;
+    }
+    node.focus();
+    if (document.activeElement === node) {
+      focusAfterSubmit.current = null;
+    }
+  }, [form, tasks, feedback]);
 
   function openForm(task: Task, action: "resolve" | "reopen"): void {
     setForm({ taskId: task.id, action });

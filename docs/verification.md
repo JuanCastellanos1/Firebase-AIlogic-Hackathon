@@ -4106,3 +4106,153 @@ were pinned to the recorded 2026-11-20 release (5/5), which says the page is tha
 build is correct. Enforcement propagation is documented as a maximum, never used to accept a denial.
 No artifact, report or JSON cited above was edited by this entry; the current release wording is in
 `docs/PUBLISH.md` §7.
+
+## 31. Phase 6.5 bounded fix - accept-focus restore ordering (November 25, 2026)
+
+Scope: the accept-focus restore path of `src/Handover.tsx` only. No threshold, AC, Rules, timing,
+SPA-transition, denial/error-path, speech or local-model/cloud status behavior changes, and the
+`e2e/accessibility.spec.ts` assertions (including its `Refresh shared tasks` click) are unmodified.
+This section records bounded **automated** evidence; it is not a screen-reader claim and no gate
+closes.
+
+Trigger: the preserved verifier failure at `fe0c1d3` (keyboard accessibility expected the surviving
+`Resolve task` trigger focused after a confirmed accept, received `inactive`; 15 checks exit 0,
+`e2e-tests` exit 1). A deterministic reproduction was required before any repair, precisely because
+that failure's ordering was never captured.
+
+### 31.1 RED - the unchanged component, exact ordering, one execution
+
+Harness (outside the repository, frozen before its single execution) and artifacts:
+`Temp/opencode/shiftrelay-focus-red-fixture-ipv4-20261125/` and `...-artifacts/`
+(`RUN-RECORD.md`, `FREEZE.txt`). It mounts the unchanged `src/Handover.tsx` (`sha256 21423D8A…`,
+blob `e4b777f8…`) and forces an order the application can produce: the accepted task is committed
+while the acceptance feedback is still `pending`, then the confirmed feedback is committed.
+
+| item | value |
+|---|---|
+| command | `node node_modules/@playwright/test/cli.js test --config <red fixture>/playwright.config.ts` |
+| result | exit **1**, `1 failed`, 6.6 s; failing line is the final `toBeFocused()` only |
+| measured at the pending commit | one `resolve` focus attempt: `disabled: true`, `focusedAfterCall: false`, phase `accepted-while-pending` |
+| after the confirmed commit | `resolveFocusAttempts: 1` (no retry), `resolvePresent/resolveDisabled: true/false`, `activeElementTag: BODY` |
+
+That is the reachable defect: the restore effect consumed its one-shot target on a disabled trigger,
+and nothing re-ran it when the confirmed feedback enabled the same button. It does **not** establish
+that the historical `fe0c1d3` failure (or the earlier unexplained run failures) occurred in this
+ordering, and it says nothing about a failure rate.
+
+### 31.2 Fix - the existing restore effect only
+
+`src/Handover.tsx` (`sha256 F4E3D1A8…`, blob `a48545a3…`), inside `useEffect`, with no new state,
+ref, timeout, polling or abstraction:
+
+- the target is still matched on task id **and** state, and `form !== null` still defers;
+- the target is no longer consumed unconditionally: it is cleared only when
+  `document.activeElement === node` after `node.focus()`, so a focus that cannot land keeps the
+  target (a disabled control can never become the active element - that is what makes an enabled own
+  trigger the effective consume condition);
+- `feedback` is added to the dependency list, because the commit that clears `pending` is the same
+  commit that re-enables the surviving trigger; `tasks`, `form` and the element identity do not
+  change there;
+- one comment records why pending matters (the trigger renders disabled while the acceptance is
+  pending, so consuming the target there strands focus on `BODY`).
+
+`submitAccept`/`submitForm`, the clear-on-failure path, `closeForm`'s Cancel restore, disabled
+states and the provider's pending/confirmed/error feedback are unchanged.
+
+### 31.3 Candidate GREEN - same frozen fixture, one execution
+
+A copy of the frozen harness in `Temp/opencode/shiftrelay-focus-fix-20261125/` (`fixture/`,
+`FREEZE-candidate.txt`) points only its output-path constants at the new artifact root
+(`RESULTS`/`here`/`artifacts`); `git diff --no-index` proves `index.html`, `main.tsx` and
+`tsconfig.json` byte-identical and every other delta a path constant, so the commit ordering,
+fences and assertions are the RED ones. Exactly one execution:
+
+| item | value |
+|---|---|
+| command | `node node_modules/@playwright/test/cli.js test --config <candidate fixture>/playwright.config.ts` |
+| result | exit **0**, `1 passed` (1.4 s test / 7.8 s runner) |
+| attempts | two: `disabled: true / focusedAfterCall: false / accepted-while-pending`, then `disabled: false / focusedAfterCall: true / confirmed` |
+| after the confirmed commit | `activeElementTag: BUTTON`, `activeElementIsResolve: true`, `acceptPresent: false` |
+
+The disabled-trigger attempt is a no-op, as in RED; the difference that produces GREEN is that the
+target survives it and is consumed only by the attempt that lands.
+
+### 31.4 Durable in-repository regression
+
+| path | role |
+|---|---|
+| `e2e/focus-regression.spec.ts` (new, `sha256 35138B9E…`, blob `7ea69921…`) | forces the same three commits against the real component and asserts the final `Resolve task` focus; `HARNESS_HTML` is route-fulfilled by the spec |
+| `e2e/fixtures/handover-focus-harness.tsx` (new, `sha256 FF6A2EE7…`, blob `b67573b8…`) | mounts the real `../../src/Handover` with a prop-commit API; not a production hook and not imported by the app |
+| `e2e/accessibility.spec.ts` (unchanged, `sha256 0932DBF2…`, blob `ab89f0cd…`) | original keyboard path, refresh click, axe and overflow assertions |
+
+No dependency, test id or component test hook was added; the spec needs no emulator data and reads
+only the harness page. Its one browser execution is the combined command below.
+
+### 31.5 Commands and exact results
+
+```powershell
+$env:PATH = "$PWD\node_modules\.bin;$env:PATH"
+py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/accessibility.spec.ts e2e/focus-regression.spec.ts --retries=0"
+```
+
+Exit **0**, `2 passed` (23.1 s): accessibility 15.1 s, focus regression 760 ms. Log:
+`Temp/opencode/shiftrelay-focus-fix-20261125/artifacts/wrapper-accessibility-plus-focus.log`
+(`sha256 CEB22EA3…`). Static/unit checks on this tree: `npm run typecheck` exit 0, `npm run lint`
+exit 0, `npm run test:unit` 7 files / 121 tests exit 0. The RED and candidate Playwright outputs are
+in their own roots (`RED-run.log` `sha256 ACE7815E…`; `artifacts/CANDIDATE-run.log`
+`sha256 6F4094B2…`, `artifacts/RESULTS/red-state.json` `sha256 D90EE16A…`,
+`artifacts/playwright-output/.last-run.json` `sha256 91D1C430…`). RED raw failure outputs
+(`error-context.md` and traces) were neither opened nor re-parsed.
+
+### 31.6 Limits (not waivers)
+
+- One execution each of the outside-root RED, the candidate GREEN, the combined command and (per
+  §31.7) the durable in-repo RED, one machine, loopback only.
+  No recurrence-absence, soak, failure-rate or scheduler-ordering claim follows, and the historical
+  `fe0c1d3` and earlier unexplained failures are not attributed to this ordering.
+- Only the acceptance path was forced. Denied, stale and error accept focus, resolve/reopen under a
+  pending window, and any other focus-stranding path were neither exercised nor repaired; the §26
+  limits for those paths stand.
+- Residual risk, kept visible: if a matching task state commits but no own enabled trigger ever
+  renders, the target is retained and a later feedback commit could focus that trigger. Not
+  observed, not repaired here.
+- Accept **speech** and real-reader reconfirmation remain uncaptured; no WCAG, Q4, privacy,
+  eligibility or gate verdict follows. No full verifier run, no `evidence.json` regeneration, no
+  Git save, no commit/push. Reviewer inspection of this diff is still required.
+
+### 31.7 Dated addition - durable in-repo regression measured RED against the pre-fix blob (November 25, 2026)
+
+The reviewer approved the code as-is but required the in-repo spec's own RED before closure. Exactly
+one targeted run of the unchanged new spec was executed against the exact pre-fix
+`src/Handover.tsx`. Report and artifacts: `Temp/opencode/shiftrelay-durable-focus-red-20261125/`
+(`REPORT.md`, `FREEZE-pre-run.txt`, `artifacts/`).
+
+| item | value |
+|---|---|
+| command | `py -3 scripts/firebase_safe.py emulators:exec --project demo-shiftrelay --only auth,firestore "playwright test e2e/focus-regression.spec.ts --retries=0"` |
+| source under test | pre-fix blob `e4b777f8…`, `sha256 21423D8A…`, 12 974 B, swapped in from a saved copy for the run only (checked inside the run) |
+| spec / fixture | `sha256 35138B9E…` / `FF6A2EE7…`, unchanged by the run |
+| window | started `06:07:23Z`, finished `06:07:47Z`; exit **1**, browser-run failure (`1 failed`, 10.8 s), no setup failure |
+| failure | only line 66 `await expect(resolve).toBeFocused()`: `Expected: focused`, `Received: inactive` after the 10 s expect timeout |
+| target at failure | present and enabled (`23 × locator resolved to <button … aria-label="Resolve task: Fixture task">`, no `disabled`) |
+| earlier fences | pending `accept` disabled, accepted-while-pending `resolve` disabled, `accept` count 0, confirmed `resolve` enabled: all passed |
+
+Restoration ran in `finally`, including on failure: `src/Handover.tsx` rewritten from the saved
+candidate copy, `sha256 F4E3D1A8…`, 13 412 B, byte-identical; `HEAD` and the working-tree status list
+were the same before and after.
+
+Fence differences against the outside-root RED, recorded rather than equated:
+
+- The outside-root fixture patched `HTMLElement.prototype.focus` and fenced on a recorded attempt via
+  `page.waitForFunction`; this in-repo spec observes DOM state only and fences the two commits with
+  one `requestAnimationFrame`.
+- The legs are therefore independent: the fixture leg shows the effect's attempt ordering, the
+  in-repo leg shows the user-visible focus outcome. Equivalence between the two harnesses is not
+  assumed, and each now has its own measured RED on the same pre-fix bytes.
+
+Limits: one forced ordering, one run. The historical `fe0c1d3` verifier failure is still not
+attributed to this ordering, and no failure rate, flakiness or recurrence-absence claim follows;
+denied, stale and error accept paths remain unexercised. The raw RED artifacts
+(`error-context.md`, `test-failed-1.png`, `trace.zip`) were byte-copied and hashed only, never
+opened, read or parsed; the original failure directory under `.git/opencode/playwright/` was
+untouched.
