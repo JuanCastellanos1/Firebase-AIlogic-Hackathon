@@ -1,12 +1,54 @@
 # Demo recording plan (<= 3 minutes)
 
-Status: plan, plus one rough silent local source capture. Two separate silent manual-spine clips exist
-under `Temp/opencode/shiftrelay-demo-manual-retry-20261124/`; they are a rough source asset inventory,
-not this video, and master has not approved them as the demo. No narration, captions, voice track or
-finished submission demo exists. This manual capture made no model call or hosted request and was not
-published. `docs/verification.md` section 28
-records the paths, hashes, timing defect and limits. Times below remain estimates that allow for real
-UI waits; they are not measured footage.
+Status: plan, plus real captures and review assemblies; no finished submission demo. The rough silent
+manual-spine clips under `Temp/opencode/shiftrelay-demo-manual-retry-20261124/` remain an asset
+inventory, not this video, and master has not approved any cut as the demo. A voiced, captioned manual
+walkthrough (v002) and the v005 review assembly below exist; both are review cuts with limits recorded.
+The AI shots are narrated only in the v005 review cut, which has no asset approval, and nothing has
+been published. `docs/verification.md` section 28
+records the paths, hashes, timing defect and limits of the manual capture. Times below remain estimates
+that allow for real UI waits; they are not measured footage.
+
+Latest silent cut: `%LOCALAPPDATA%\Temp\opencode\shiftrelay-demo-voicehandoff-20261124\footage\shiftrelay-demo-silent-review.mp4`
+(49.04 s, 1280x900, no audio, no captions) with its read-aloud script in `VOICEOVER.md` beside it and
+the execution/QC record in that root's `REPORT.md`. That take is the manual spine only: the recording
+browser reported on-device drafting unavailable, so it contains neither AI shot (§4.1), it made no
+hosted request of its own, and it has no voice track.
+
+Latest review assembly (v005, captioned):
+`%LOCALAPPDATA%\Temp\opencode\shiftrelay-demo-ai-v005-20261124\shiftrelay-review-v005.mp4`
+(2:03.80, 1280x1020, SHA-256 `dd1641b0d62f074b02a41913974ea88df53bc47ec539ddce04bc9529946f9095`), with a
+clean voiced reference `shiftrelay-review-v005-clean-voiced-reference.mp4` beside it
+(`0e2419e878007947887c75cd9f232a6096cb31ab55d052bff56f4536cf3be620`).
+It plays the approved manual segment, then the two real AI captures: one on-device request whose output
+the app rejected (no draft cards produced, not retried) and one human-consented hosted request that
+returned a 95-character brief with zero suggestions, then the closing limits card. The three pickup
+segments now carry burned white subtitles whose text is the user-confirmed script ("I read it exactly as
+you sent it to me"), with word timing estimated from measured speech blocks; the audio is the v004 AAC
+stream copied unchanged. Sidecars `captions/captions-v005.srt` / `.vtt`, transcript and cue JSON are in
+that root, and `REPORT.md` / `QC-REPORT.md` hold the measurements and limits. It is a review cut: no human
+asset review, no approval, no publication; A1/A2 have real footage and narration but no sign-off.
+
+**Dated correction — November 24, 2026 (asset approval and current status; supersedes the "no
+approval" clause above and the "that review remains future" clause below).** The user approved that
+v005 asset by its exact SHA
+`dd1641b0d62f074b02a41913974ea88df53bc47ec539ddce04bc9529946f9095`. Asset approval is not
+publication: upload, hackathon submission, legal-term acceptance and any visibility change remain
+separate approvals, none requested or given. A candidate v006 lives at
+`%LOCALAPPDATA%\Temp\opencode\shiftrelay-demo-publication-v006-20261124\shiftrelay-demo-v006.mp4`
+(2:03.80, SHA-256 `dcbbdac0fda6c44190ae67cb7a9d02c1fbe5d5e42302803c4d02307c6b74a4d8`); it changes
+only the title-card tag (now `DEMO`, no `REVIEW CUT`) and drops "Not published" from the limits
+card, over the approved picture plan and audio copied unchanged (verified byte-identical, and
+pixel-identical outside those two card lines). Its QC (`ok=true`, 151 checks) is measurement, not
+asset approval: **it is not approved**. Unchanged current status for the AI rows: A1 is a real
+on-device run whose output the app rejected, with no draft cards produced and no retry; A2 is one
+consented hosted request that returned zero suggestions, so no confirm or dismiss exists on film;
+the payload measurement remains **FAIL on the token predicate alone**, and that predicate is
+**unmeasured** because the wire scalar was not retained. No gate, delivery group or publication
+clearance follows from any of this.
+
+Earlier review assemblies are retained under their own roots: v004 (same picture, voiced but uncaptioned
+pickups, amber runtime notes) and v003 (silent AI segments labelled `REVIEW VO PENDING`).
 
 Scope: the required English, real-runtime demo for the Firebase #BuildHybridAI 2026 submission. Upload and
 publication are separate approvals. This file does not clear a demo asset for publication; that review
@@ -27,7 +69,9 @@ Known correction to the earlier outline in `docs/PUBLISH.md` section 10. The one
 request observed on November 23, 2026 returned a brief with zero suggestions
 (`docs/verification.md` section 20). That is an inspected report, not footage. So no video may present a
 duplicate or contradiction suggestion, a confirm or a dismiss from that run, and the script never promises
-one. If a future run does return a suggestion, that is a new observation and needs its own record.
+one. A later real run was filmed on November 24, 2026 and is shown in the v003 assembly (§4.1): 95-character
+brief, zero suggestions, nothing written. If a future run does return a suggestion, that is a new
+observation and needs its own record.
 
 Not claimed anywhere in this video: Gemini Nano 4 identity as an independent fact, WCAG conformance,
 a privacy pass, request latency, quota, coverage, or any comparison with another tool. Product usefulness
@@ -64,8 +108,10 @@ notifications or personal avatars; a window size and zoom that keep UI text read
 
 ## 3. Narration script
 
-Planned delivery at roughly 150 words per minute. No narration, voice track or finished demo video
-exists. The required rows total 310 words, reproducible with the command in section 8. The one optional
+Planned delivery at roughly 150 words per minute. The manual spine has a voiced v002 take (review only);
+the AI shots are voiced only inside the unapproved v005 review cut, and no finished demo video exists.
+The required rows total 310 words,
+reproducible with the command in section 8. The one optional
 inset row allowed is not part of that total: N9b is 13 words (about 5.2 s of speech) and N10b is 16
 words (about 6.4 s).
 
@@ -139,13 +185,13 @@ at the marked point, adds its 8 s and shifts every later row 8 s, giving 2:52.
 |---|---|---|---|
 | 0:00-0:08 | Title card, own text only | N1 | Hold the card 2 s before the first word |
 | 0:08-0:31 | Signed-out screen; own split card naming the two paths | N2, N3 | Required; N2 and N3 stay in every case |
-| 0:31-0:51 | Already signed in; type the synthetic note, request local drafting, wait for the real result | N4, N5 | Speed up typing at most 1.5x; never cut a form half-filled. Hold on the drafting state while it runs, capped by its real duration |
+| 0:31-0:51 | Already signed in; type the synthetic note, request local drafting, wait for the real result | N4, N5 | Speed up typing at most 1.5x; never cut a form half-filled. Hold on the drafting state while it runs, capped by its real duration. **AI shot captured and voiced in v005 (4.1)** |
 | 0:51-1:02 | Drafted cards as proposals: check a fact, remove the private aside | N6 | If the result is a refusal, say so and take the manual path |
 | 1:02-1:18 | Show `Review exact shared fields`, share, show the server confirmation status | N7 | Required; the review fields and the share stay |
 | 1:18-1:32 | Sign out, sign in as incoming, accept, show version and owner | N8 | Required; keep |
 | 1:32-1:42 | Resolve with a synthetic note, show the recorded history | N9 | Required; keep |
 | insert at 1:42 | Optional: reopen, show that the owner is unchanged | N9b | Optional inset; at most one optional row; drop it before cutting the accept or the resolve row |
-| 1:42-2:02 | `Cloud reconciliation`, `Preview exact cloud packet`, approval checkbox, one send, the response on screen | N10 | Cut this whole shot if no call is scoped for the session, and rebalance the captions |
+| 1:42-2:02 | `Cloud reconciliation`, `Preview exact cloud packet`, approval checkbox, one send, the response on screen | N10 | Cut this whole shot if no call is scoped for the session, and rebalance the captions. **AI shot captured and voiced in v005 (4.1)** |
 | insert at 2:02 | Optional: the response that is actually on camera | N10b | Only if the cloud shot is kept and the filmed response is a brief with zero suggestions; otherwise say the real outcome in N10 |
 | 2:02-2:14 | Manual fields in use with local drafting left off, or the real unavailable state if that is what renders | N11 | Keep: it shows the manual path needs no model. Never stage a mock here |
 | 2:14-2:36 | Evidence card | N12 | Keep: it carries the limits |
@@ -154,6 +200,24 @@ at the marked point, adds its 8 s and shifts every later row 8 s, giving 2:52.
 Cut order if the runtime overruns: the conditional response row (N10b), then the cloud shot (which also
 removes N10b), then the reopen. At most one optional row is used in any cut, and the required spine in
 section 1 is never cut; N2, N3 and the split card stay in every case.
+
+### 4.1 Required real-runtime AI shots — captured, voiced in v005, not approved
+
+Both AI rows now exist as real footage, recorded November 24, 2026 and assembled into the v005 review cut
+above. Their narration is the user-confirmed pickup script, burned as captions with estimated word timing
+(v005); the rows are captured and voiced but not approved as the demo. The retained rough clips under
+`Temp/opencode/shiftrelay-demo-manual-retry-20261124/` still show the app's own unavailable states and are
+not used for these rows (`docs/verification.md` §28).
+
+| id | Shot row | Must be real output in this take | Evidence that exists now | Status |
+|---|---|---|---|---|
+| A1 | 0:31-0:51 | Draft cards returned by the on-device model in the recording take, with the setup/provenance state visible | One real on-device request whose output the app rejected ("cited a source range that does not match the note"), no cards produced, not retried: `Temp/opencode/shiftrelay-local-ai-ready-capture-20261124/footage/clip-ai-local-ondevice-draft.mp4` (22.28 s, silent) | **CAPTURED / REJECTION SHOWN / VOICED IN v005 / NOT APPROVED** |
+| A2 | 1:42-2:02 | One scoped consented cloud request and the response the service actually returned; a zero-suggestion brief is a valid outcome | One consented hosted request, POST 200, 95-character brief, 0 suggestions, nothing written, served model unknown: `Temp/opencode/shiftrelay-cloud-response-capture-ready-20261124/footage/shiftrelay-cloud-consent-response-silent.mp4` (21.90 s, silent) | **CAPTURED / VOICED IN v005 / NOT APPROVED** |
+
+A1 does not satisfy the original wish for returned cards: that run produced none, and no reroll was made
+to stage a positive one. If either row cannot be produced on camera that day, record it absent in that
+take rather than filling the row from the rough clips, an earlier result, a screenshot or a labelled mock.
+In that case the required AI demonstration remains incomplete, and N12 must say so.
 
 ## 5. Caption and evidence-card cues
 

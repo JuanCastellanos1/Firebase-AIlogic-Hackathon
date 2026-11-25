@@ -1,5 +1,592 @@
 # ShiftRelay — closure handoff (November 19, 2026)
 
+## Resume check — November 24, 2026
+
+**Checklistpointer inspected:** master read PUBLISH870–873 confirming dateddemo/
+v005approval/v006candidate/§10pointer and separateupload. Same reviewer final
+B3confirmation RECEIVED: closed, no newfindings. No morepubliccopy/videoedits
+planned; onlyv006approval
+decision remains within this packageaudit. Releaseconditions unchanged.
+
+**Publicaudit followup:** reviewer closes cloudclaims/package/datedapproval fixes,
+except PUBLISH§14item5 needs onepointer to recorded-demo correction. Same
+implementer `ses_def8565afffeIFyymqoHpyekVR` applies that singleclause only,
+no videochange. v006labels verifiedcorrect/candidate publiccopy, but NEWassetSHA
+dcbbdac0… still needs userapproval. Next inspectoneclause+same-reviewerconfirm,
+then recorduserdecision; no optionalpolish/newvoicerecording.
+
+**Publicationcleanup candidate v006 built; same-reviewer confirmation active.**
+Root `Temp/opencode/shiftrelay-demo-publication-v006-20261124/`,
+shiftrelay-demo-v006.mp4 SHA
+dcbbdac0fda6c44190ae67cb7a9d02c1fbe5d5e42302803c4d02307c6b74a4d8.
+Only2cardlines changed from approvedv005: REVIEWCUT→DEMO, droppedNotpublished.
+Delegate reports unchangedAAC/PCM/subtitles/timing; master independentlyprobe
+123.8s1280x1020h264+AAC/full-decodeexit0/noerrors/gitdiffcheckexit0.
+README/PUBLISH evidenceclaims clarified; datedv005approval/v006candidate state
+and package description corrected, no dependencies/lockdescriptionmirrorneeded.
+Same reviewer `ses_def8a0e46ffeGMf2LEHgB2dKgZ` checks prior4findings closure;
+not formalGateC. v006requires userapproval, no upload/publication permission.
+Current6dirtyrepo files:README,HANDOFF,PUBLISH,budget,demoREADME,package.json.
+Next receive review, hand user v006 for limitedlabelchangeapproval, then actual
+releaseconditions/checkpoint work—not more optionalvideo/copy polish.
+
+**Publicpackage audit received; bounded cleanup active.** Reviewer found stale
+public cloudconfirmdismiss evidence claims, package'emulatoronly/nodeployment'
+description, demo/PUBLISH approvalstatus. Mainvideo behavior/captions consistent;
+reviewer could not inspect imagepixels/audio/remote/secret-scanner. Historical
+evidence not currentGateC. “REVIEWCUT/Notpublished” label is publicationcleanup,
+not proof video behavior false; master chooses minimal removal for clarity.
+
+Implementer `ses_def8565afffeIFyymqoHpyekVR` corrects only README/package metadata/
+PUBLISH publiccopy and dateddemoapprovalstatus, plus LOCAL v006 two-cardlabel
+cleanup in `Temp/opencode/shiftrelay-demo-publication-v006-20261124/`.
+No newvoice/picturebehavior/AIcalls/conditionswaived. Multiplelivecloudruns exist,
+so don't introduce “only one live run” error; recordedresults0suggestions.
+v005approval retained, v006newSHA requires userassetapproval before upload.
+Next inspect diff/render/QC then SAME reviewer confirm publicclaims fixes.
+No commit/push/deploy/visibility/legal/upload/submission authorized by this task.
+
+**Remainingrelease map received; publicpackage audit active.** Planner identifies
+officialeligibilityprovenance/AC13Q6tokenpredicate, aggregatewrittenAC12Q4limits,
+FirestoreAppCheck/releaseAIcheck,adminfree-tieravailabilitythroughDec16,
+privatejudgechannel,finalsourceCI/review/release/postdeploy/rollback,publicrepo/
+YouTube/submissionfields as unresolved/partial. Retain completed physical/zoom/
+contrast/4targetreaderchecks; no blanketnewtestfloor. Officialrules/remote current
+state not refreshed; do not claim eligibility from localnotes/assetapproval.
+
+Reviewer `ses_def8a0e46ffeGMf2LEHgB2dKgZ` now bounded read-only Q5/publicclaims
+audits intendedREADME/license/v005transcript/cards/sampleframes, not broadprivate
+artifacts. No edits/network/runtime. Next receive concrete findings, fix only
+requiredpubliccopy/safetyissues then reconcile actualreleasecondition owners.
+No more features/video unless concreteissue. Upload/submission/legal/visibility
+approval still separate; no active live resources.
+
+**v005 DEMO ASSET APPROVED by user:** “I approve it, now what?”
+Approval covers exact v005review123.800s SHA
+dd1641b0d62f074b02a41913974ea88df53bc47ec539ddce04bc9529946f9095
+at `Temp/opencode/shiftrelay-demo-ai-v005-20261124/shiftrelay-review-v005.mp4`.
+No more video/voice work required unless newnotes. Upload/YouTubepublication/
+hackathonsubmission/legalterms/visibilitychange NOT authorized by assetapproval.
+No inference that rejectedlocaloutput satisfies successfuldraftcard criterion.
+
+Planner `ses_def8b66d7ffe1wGXZ2v7YvTKQU` now read-only reconciles finite
+remaining officialvsprojectrelease conditions against newest actualevidence;
+no edits/runtime. Next receive rankedmustfinish/action/permissionmap, select
+ONE safe release task (not feature/polish) and record baseline before gatework.
+CurrentHEADbe44293/3dirtydocs, historical2c3d3caevidence notcurrentcertification.
+FinalGatesC/D remainopen; no release/merge/push/publication performed.
+
+**v005 captioned review delivered:** user explicitly says “I read it exactly as you
+sent it to me.” All3newspoken scripts userconfirmed (latest master wording,
+not stale PICKUPS expectedtext). P3 starts “The app rejected the local output”;
+no modelrefusal conflation. Implementer `ses_defa22268ffe1NUYbZ1nxVAkkI`
+completed `Temp/opencode/shiftrelay-demo-ai-v005-20261124/`: captionedMP4,
+cleanreference,SRT/VTT/transcript/QC, preserves approvedv004audio/timing123.8s,
+removes temporaryverificationnotes. No newvoice/ASR/network/install/model/browser/
+delete/Git/publication. Master independently probed123.800s h2641280x1020+AAC,
+full-decoded exit0/noerrors,gitdiffcheck exit0; inspected72.75s frame showing
+localvalidatorrejection and unobscuring two-lineuserconfirmedcaption.
+File shiftrelay-review-v005.mp4 SHA dd1641b0d62f074b02a41913974ea88df53bc47ec539ddce04bc9529946f9095.
+SRT/VTT/transcript under captions/. Delegate reports139checks green and audio
+bit-identical to v004; no newvoiceprocessing. Wordtiming estimated, no ASR claim.
+Next exact step: user watches/listens fullv005 and approves asset or gives timed
+notes. No more voice required unless requested. No publication/fullsubmission/
+gateapproval; tokenmeasurement/releasesafeguards remain open. Delegates idle.
+
+**v004 voiced review ready — corrected filename mapping applied.**
+User supplied pickups then corrected mistaken attachment-order assumption:
+LOCAL=`C:/Users/acer/Downloads/record_out.wav`;
+CLOUD=`C:/Users/acer/Downloads/record_out (1).wav`;
+LIMITS=`C:/Users/acer/Downloads/record_out (2).wav`.
+Implementer `ses_defb54eacffeFa8UufbNuoIWyL` creates local-only
+`Temp/opencode/shiftrelay-demo-ai-v004-20261124/`, preserves originalWAVs/v003/
+approvedmanualvoice. Inspect actualaudio, sync3pickups naturally, extend honest
+holds if needed<=3min. No newmodel/browser/network/install/delete/Git/publication.
+Newspokenwords NOT confirmed yet; localverification only. If no localASR/listening
+support, output voicedreview plus DRAFTUNVERIFIED captions, not burned assumedtext.
+Master independently probed123.800s h2641280x1020+AAC and full-decoded exit0/noerrors.
+Review `shiftrelay-review-v004.mp4` exists; correct3pickupmapping applied, final
+limits hold extended for completeP3, no voiceacceleration/truncation reported.
+No localASR available; newsegments voiced but UNCAPTIONED, draftSRT/VTT expected
+text not verifiedspokenwords. Runtime notes explicitly not subtitles. Manual
+captions remain userconfirmed. Delegate flags P3 longerthanexpected; pace alone
+does not prove changedwords.
+Next user listens and confirms exactscript or provides actualwordcorrections,
+especiallyP3; then finalcaptionexport/removeruntimeverificationnotes in newversion.
+No newvoice take automatically needed; all originals preserved, no publication.
+Do not confuse localoutputvalidationrejection with modelrefusal. Releasegaps remain.
+
+**v003 AI-inclusive review assembled; awaiting3voice pickups.**
+`Temp/opencode/shiftrelay-demo-ai-v003-20261124/shiftrelay-review-v003.mp4`,
+PICKUPS.md and REPORT/editmap/QC exist. Master independently probed120.240s
+h2641280x1020+AAC and full-decoded exit0/noerrors;gitdiffcheck exit0.
+Approved manualvoice0–49.04 retained; separate localrealinference/rejectedoutput
+56.04–78.32, hostedhumanconsent/actual0suggestions83.32–105.24,
+updatedlimits105.24–120.24. New scenes silent/editorial VO PENDING, not final
+spoken captions. No newmodelrequest or generatedspeech. Master has not full-frame/
+ear-reviewed assembly; no finalassetapproval/publication.
+Next user records onlyP1/P2/P3 (don't redo manualtake), then delegate v004
+sync/subtitles from actual voice andQC. Correct narration distinction:
+app rejected local OUTPUT, model did not necessarily refuse request.
+P3 should say “The app rejected the local output” rather than conflating model
+refusal with validator rejection. All release/payloadpredicate gaps remainopen.
+
+**Cloud response filmed; AI-inclusive v003 assembly active.** Same-session finish
+once returned exit1 verdictfail solely tokenpredicate, not transportfailure.
+Delegate reports exactly1AIhostPOST200,0suggestions/brief95chars,preview1101bytes
+matches request, outboundcanary absent measuredfields,no taskcommitPOST,modelunknown.
+Master independently probed/full-decoded
+`Temp/opencode/shiftrelay-cloud-response-capture-ready-20261124/footage/shiftrelay-cloud-consent-response-silent.mp4`
+(21.9s,h2641920x970,videoonly,exit0/noerrors) and inspected review-qc-11.jpg
+showing real0suggestion brief. Actual preview→humanconsent→waiting→response
+filmed; waiting trim disclosed, lowVFR/no latencyclaim. Ownedtab closed.
+Overall payload verdictFAIL remains; no redactionhypothesis→pass rewrite.
+
+Implementer `ses_df027b88bffe1iBz3og945ftz8` now assembles LOCAL-ONLY
+`Temp/opencode/shiftrelay-demo-ai-v003-20261124/`: approved manualvoice kept
+under matching scenes, separate honest localinference/refusal and hostedresponse,
+clear runtimelabels, no AI-generated-card claim. New PICKUPS.md minimaluserVO for
+newshots; placeholder/editorialtext NOT spoken subtitles. Next receive render/
+editmap/QC and independently inspect before giving user minimalpickupscript.
+No new model/browserrequest/repo/Git/delete/publication. Gates/release stillopen.
+
+**ACTIVE same-session finish after human done:** current runV1-67d1991d7c1f
+at `Temp/opencode/shiftrelay-cloud-response-capture-ready-20261124/`.
+Delegate reached ready6sources/5pins/privatepreview1101chars/privacy passed and
+recorder900s. Master relayed human checkbox/send once; user now says done.
+Same delegate `ses_df02f2cf3ffedq6BdYymgxD7QW` runs existing finish ONCE,
+no sessiondatarepair/retry/newrequest, then verifies actual response frames,
+exports honest waiting-trim clip and closes owned tab. Next receive actual
+result/MP4/QC, independently inspect before claiming cloud footage exists.
+No user further action unless result reports specific failure. No publication.
+
+**ACTIVE cloud capture, human available:** user says “I am available”.
+Implementer `ses_df02f2cf3ffedq6BdYymgxD7QW` owns ONE fresh session/maxone
+humanconsented cloudPOST at
+`Temp/opencode/shiftrelay-cloud-response-capture-ready-20261124/`.
+Use reviewed full readiness-gated flow,5pins before credentials, fixtures/privacy,
+one signin/preview, recorder900s immediately before humanhandoff. No new features/
+tokeninstrumentation; no retries/livefix/sessiondatarepair/taskwrites/publication.
+Next exact step: relay actual tab/runID/consent instructions immediately when
+delegate reports ready; user told wait for “click Send now”. After done, resume
+same delegate finish ONCE; no fresh request. Prior READY is not future guarantee.
+
+**Hosted readiness observed READY; await human availability for capture.**
+Master read `shiftrelay-cloud-readiness-observation-20261124/REPORT.md`.
+One delegated read-only run V1-d7b61ccb2aca exit0 reports6tasks/4open/2accepted/
+0resolved/6sourcecheckboxes/outgoing,5/5pageasset hashes before credentials.
+No seed needed; contexts0 before selection does not imply missing context.
+No note/preview/AI/recording/write; owned tab closed. Source selectors observed
+for this snapshot only, no retrospective explanation of take2 or future guarantee.
+Next exact step: coordinate human availability then scope ONE reviewed readiness-
+gated capture session with immediate preview handoff and actual response filming.
+No recorder or live delegate active now. No model request inferred from readiness.
+
+**ACTIVE readiness observation only:** reviewer GO/no blockers; earlier reported
+26.8KB/25.3KB are TOTAL sizes, actual additions5.8KB/3.3KB, no bloat finding.
+Master assigns implementer `ses_df03e3cd7ffe1AEPSMrA3IgW8G` ONE hosted read-only
+session, new root `Temp/opencode/shiftrelay-cloud-readiness-observation-20261124/`.
+Entry+5samepage pins, one sign-in, reviewed bounded classifier, stop BEFORE
+note/recording/preview/send; no AI/taskswrite/seeding. Must offline-test/freeze
+readiness-only stop path before live (full preview helper cannot run unmodified).
+Fixture/privacy/securestdin/identity gates unchanged, no retry. Return safe enum/
+counts and close owned tab; user need not wait. Next decide data preparation vs
+capture only after actual evidence. No formal gate or cloud-response footage yet.
+
+**Readiness fix independently green; engineering review active.** Master ran
+Node253/253 exit0, Python98/98 exit0, V3-67d1991d7c1f freezeverify exit0/no drift
+in `Temp/opencode/shiftrelay-cloud-ready-capture-20261124/`.
+Reviewer `ses_df0429ccbffeKStnx2tOlMgG8k` checks actual integration/privacy/
+sandbox/selectors and disproportionate reported size (+26.8KB/+25.3KB) against
+baseline; do not assume pin hashes prove local source-selector compatibility.
+No formalGateC/live run. Next: receive GO/NO-GO and resolve blocking issues before
+assigning actual workspace readiness session. User need not wait in browser.
+
+**OFFLINE cloud readiness fix active:** diagnosis root
+`Temp/opencode/shiftrelay-take2-ready-diag-20261124/` reports the blind source
+checkbox wait lacked classification. No retained DOM establishes actual live cause.
+Source supports zero eligible tasks or workspace loss; do not call arbitrary
+load-delay/empty-task guesses proven. V1 manifest alone does not prove another
+preview execution; invocation attribution UNKNOWN. take2 REPORT.md absent (earlier
+delegation named it incorrectly); phase-a log/flow are actual retained artifacts.
+
+Implementer `ses_df04ce826ffeGyiquVd18JuulR` wires tested safe readiness into
+new `Temp/opencode/shiftrelay-cloud-ready-capture-20261124/`, OFFLINE ONLY.
+After sign-in BEFORE note/capture/preview, classify workspace/permission/task
+counts; positive evidence required for empty enums. Notready stops without
+recording/awaiting/result; no raw text/IDs/secret values. RED/GREEN actual flow/
+runner integration, freeze and prior checks required; no new live main/seeding.
+Next: inspect diff/evidence, independently verify and engineering-review before
+any browser session. Human should not wait while prerequisites are unknown.
+
+**Cloud take2 STOPPED before recorder/preview.** Delegate reports V2-9d25d03dfa70:
+5/5 samepage hashes, one sign-in, sourcecheckbox wait30s expired.0preview/consent/
+send/AI/taskwrites/frames. No awaiting record, no finish applicable; tab closed.
+Actual cause unknown (empty eligible set vs load/session/permission), do not infer
+empty data from timeout. User was ready but no human action required now.
+Offline finish-shape fix/fixtures200Node+70Python and35projection checks reported;
+not independent formal gate evidence. Recorder cap raised900s but never started.
+Root `Temp/opencode/shiftrelay-cloud-ai-response-take2-20261124/`.
+
+Debugger `ses_df05243efffen1pI887y6pwebQ` owns OFFLINE source/retained-flow
+diagnosis of task readiness prerequisites. No liveAuth/cloud/taskwrite/repoedit.
+Next: inspect deterministic preflight/classification proposal before another
+recording session; do not bring user back to wait until capture prerequisites
+are actually established. No repeated blind attempt or current live allocation.
+
+**ACTIVE cloud response take2 — user ready now:** user says “ready to record.”
+Implementer `ses_df0570a21ffe5oCrKYLreBX9SV` owns ONE new hosted capture session
+under `Temp/opencode/shiftrelay-cloud-ai-response-take2-20261124/`.
+Before live, fix known finish/session-shape mismatch in copy with regression,
+freeze and run fixtures; no live repair/rerun.5pinned samepage assetGETs before
+credentials, one sign-in/preview/maxone human-consented cloudPOST. No retries/
+rerolls/taskwrites/settings/delete/publication. Recorder starts only once preview
+ready; immediately hand off to user, use supported result-stop observer or <=15min
+cap rather than silently losing response at600s. No raw transport/secret capture.
+No new token instrumentation; existing scalar predicate may remain unmeasured.
+Next exact step: receive actual tab/consent handoff, relay to user immediately,
+then same-session finish after done. If preflight fails, stop without live retry.
+
+**Offline token diagnosis received (not independently accepted as proven):**
+debugger reports pinned served adapter config2048 and synthetic projector cases
+show numeric2048 passes, strings/different numbers fail. Browser capture's
+documented secret-name redaction includes “token”, plausibly destroying the
+maxOutputTokens scalar. Actual redactor not executed; original scalar/marker
+not retained. Therefore redaction is a SUPPORTED HYPOTHESIS, not observed fact;
+do not exclude other wire changes categorically. V10 verdict remains FAIL,
+token predicate UNMEASURED. No new request or gate waiver.
+Diagnostic artifacts `Temp/opencode/shiftrelay-v10-diag-20261124/`.
+Debugger's broad artifact scan not needed to establish causal proof; do not
+repeat broad private-root searches or recover raw bodies.
+
+Next actual footage step: coordinate human readiness BEFORE opening recorder,
+then a separately scoped cloud capture preserving actual consent/response.
+No recorder running and no fresh cloud request currently assigned. Do not spend
+time on another token-only rerun; future safe pre-redaction boolean measurement
+would need offline fixture/review and approved runtime scope. User need not redo
+voice until new AI footage is real and reviewed.
+
+**V10 finished: request measured, response NOT filmed.** Master read cloud REPORT.
+Delegate reports exactly1AIhostPOST200, valid brief102chars/0suggestions;1101byte
+preview/request hashes equal, allowlisted schema/system match, outbound canary
+absent in measured fields, no taskcommitPOST. These are delegated bounded
+measurements pending independent claim review, NOT whole privacy certification.
+Verdict FAIL solely gen_tokens_2048=false; actual wire scalar not retained,
+served model UNKNOWN. Do not waive conjunct or invent value.
+
+600s recording ended BEFORE user's send: only preview footage exists, no cloud
+response shot. Recording orchestration failed; don't blame user or stage response.
+Finish had TWO attempts despite no-retry instruction: first rejected redundant
+verified key; delegate edited session record to remove bool then reran. Runtime
+bytes unchanged claimed, but process deviation/data mutation must be independently
+reviewed, not excused because first attempt made no browser action. One model
+request consumed; no repeat recording/request authorized. Owned tab/capture closed.
+
+Debugger `ses_df062dd5bffeTicKIfZSPkE40l` now inspects token-conjunct failure
+OFFLINE/source+synthetic only, no raw body recovery/new request/repo edits.
+Next: receive source-supported findings and review V10 claim/provenance; actual
+cloud footage still missing. Any future handoff must start recording only once
+human is ready, not silently spend a10min recorder before action. No automatic
+retry or new voice demand. v002/local refusal footage preserved.
+
+**ACTIVE cloud V10 finish after human consent:** phaseA delegate reports
+same-page served hashes5/5 before credentials, privacy gate, one sign-in/preview,
+pixel recording active; zero AIPOST at handoff. Run V10-a537a3e1ad92 owned tab
+shiftrelay-cloud-a537a3e1ad92. User instructed read preview/tick/send ONCE and
+now says “done”. Same implementer `ses_df07fc77dffe4k4NQkfSi8OOh3` continues
+ONLY `--stage finish --run-id V10-a537a3e1ad92`, no fresh request/tab/retry.
+Next: receive sanitized actual outcome/POST count/projection verdict and real
+MP4/QC; assess whether600s recorder cap captured response. No reroll/staging if not.
+Cloud root `Temp/opencode/shiftrelay-cloud-ai-footage-20261124/`.
+Delegate explains old bare fetch ran in tool sandbox rather than page; offline
+reproduction supports mechanism, not retroactive proof of every prior run.
+No taskwrites/publication authorized. Preserve artifacts and close owned resources.
+
+**Local inference footage exists, output rejected; cloud capture preparation active.**
+Master independently probed/full-decoded
+`Temp/opencode/shiftrelay-local-ai-ready-capture-20261124/footage/clip-ai-local-ondevice-draft.mp4`
+(22.28s,h2641280x900,video-only,exit0/no errors). Delegate reports one ready
+probe, one ONLY_ON_DEVICE generation (~40.7s wall), validator invalid_source_span,
+no cards changed. Do not substitute for A1 successful draft cards or claim fixed
+extraction. Clip's frame-duration cap compresses wait; no latency/speed claim.
+Local model identity/network/privacy certification remain unmeasured.
+Prelaunch missing deps.now argument corrected with offline proof and re-freeze;
+not blindly unchanged harness. Chrome auto-pruned old payload; no agent deletion.
+
+Implementer `ses_df07fc77dffe4k4NQkfSi8OOh3` now owns ONE cloud capture session,
+output `Temp/opencode/shiftrelay-cloud-ai-footage-20261124/`, under user autonomy:
+source-supported correct browser execution context, privacy fixture, same-browser
+five full asset hashes BEFORE credentials, one sign-in/preview/maxone cloudPOST.
+No bypass via NodeGET/localdist, no retry/reroll/taskwrite/settings/delete/publish.
+Safe capture must be ready before request. Human must perform real consent/send;
+handoff actual tab/control rather than silently automate it. If gate fails STOP.
+Next exact step: receive either human-consent handoff or sanitized bounded blocker/
+real clip, inspect evidence before inserting into approved manual video.
+
+**ACTIVE single fresh-session local capture:** offline debugger established reload
+signs out by contract (`src/firebase.ts:76` inMemoryPersistence), NOT auth-restore
+timing. Master independently read that line and ran seven helper regression tests
+(7/7 exit0). Corrected source root
+`Temp/opencode/shiftrelay-local-ai-capture-sessionfix-20261124/`.
+Under user's delegated autonomy, master authorizes ONE fresh-launch/execution to
+implementer `ses_df087f8f8ffeovkwGrQ02GmQGg`, output
+`Temp/opencode/shiftrelay-local-ai-ready-capture-20261124/`.
+One nav/fresh synthetic sign-in/projection/privacy gate/app probe, no reload,
+enable/download wait or profile changes. If ready, maxONE real local generation
+with pixel footage; otherwise stop immediately.3min owned runtime ceiling.
+No taskwrites/cloud/delete/config/Git/publication. Setup failure consumes execution.
+Next: receive actual clip/QC/counts or bounded blocker, no automatic reroll.
+
+**Preparation finished without footage; OFFLINE session diagnosis active:**
+master read `shiftrelay-local-ai-prepared-capture-20261124/REPORT.md`.
+One launch/wrapper, 15min bounded wait, model files/profile grew ~6.3GiB;
+zero generations/frames/cloud requests. App remained downloading before reload.
+Reload introduced second mount probe and sign-in screen; neither reload nor
+second probe was explicitly granted by master's brief despite report wording
+“permitted reload”. Record scope deviation. Current readiness UNKNOWN.
+Do not accept “auth restore timing” as rootcause without checking in-memory Auth
+persistence: a reload may legitimately discard session rather than restore it.
+
+Debugger `ses_df08f1230ffeug0s0IoTKUrqBO` now inspects source and fixes capture
+session logic OFFLINE ONLY in new
+`Temp/opencode/shiftrelay-local-ai-capture-sessionfix-20261124/`, with behavioral
+RED/GREEN stub and frozen harness. No runtime retry/download/generation authorized.
+Next: inspect causal evidence/tests, verify offline, then decide whether a single
+fresh-session capture is justified under delegated autonomy. No long wait loop.
+
+**ACTIVE delegated autonomy — local model preparation/capture:** user grants
+“Do what you think is best, you have total control” after explicit download and
+secure-cloud blockers. Master scopes one browser-managed model preparation and
+one genuine local generation capture to implementer
+`ses_df0a2a7a8ffe0em22cHo6OWu7X`, new root
+`Temp/opencode/shiftrelay-local-ai-prepared-capture-20261124/`.
+ONE wrapper/Chrome launch; setup failure consumes execution. Require20GiB free
+before, stop if below10GiB or15min preparation wait; maxone enable/maxone generation.
+No manual model download/flags/variant/install/source changes/cloud/taskwrites/
+billing/delete/publication. Runtime/projection/credential-free capture gates apply.
+Next: receive actual footage/QC or bounded failure, no relaunch/automatic reroll.
+
+Parallel planner `ses_df0a27fd6ffeFeg5tyvflUMdAE` reconstructs existing secure
+hosted credential helper route OFFLINE ONLY (existence/key-name booleans, never
+secret values). No cloud/Auth/browser actions. Receive route before scoping cloud
+shot; human consent and precredential identity remain required. User autonomy
+does not authorize legal acceptance, billing, destructive action or publication.
+
+Offline credential-route reconstruction received: approved private file exists at
+`Temp/opencode/shiftrelay-private/firebase-development.env`; contents/required-key
+presence/value validity NOT inspected. Safe retained runner is refusal-counters
+root `run_preview_once.py`; browser bridge `~/.local/bin/browse.exe`.
+Required names OUTGOING_EMAIL/OUTGOING_PASSWORD with SHIFTRELAY_QA_ prefix.
+Do not infer missing credentials from absent env/vault entries. No fresh sign-in
+or cloud request performed/allocated. Local preparation delegate remains active;
+do not poll or duplicate its task. Cloud path still needs safe served-identity
+verification before credential entry and genuine consent.
+
+**Real-AI capture blocked:** user explicitly requests recording real AI.
+Implementer `ses_df0c7081affelEAnHdcEtikmHa` owns ONE bounded capture session at
+`Temp/opencode/shiftrelay-real-ai-footage-20261124/`: at most one genuine local
+generation and one separately consented cloud request, no retries/rerolls.
+Use supported existing real-browser/runtime recipe, not blind repetition of
+automated Chrome's unavailable path. Runtime identity and credential-shaped
+projection preflight mandatory; up to entry+5 pinned asset GETs authorized for
+identity, no guard weakening/bypass. Authenticate outside pixel-only capture.
+No task/config/settings/model/download/install/billing/deploy/delete/publication.
+Master read `shiftrelay-real-ai-footage-20261124/REPORT.md`: no MP4,
+one app availability probe reported downloading, zero generations/cloud requests.
+Plain Chrome158/CDP attach differed from automated launch's unsupported state;
+cause/model replacement not established. Existing weights unchanged and no new
+large file observed does NOT prove zero download bytes; background component
+traffic was not measured. Stop before authorizing any prepare/download.
+
+Process deviation: THREE wrapper executions/Chrome launches despite no-retry
+scope (two launcher faults before app, then one probe). Setup failures do not
+grant an automatic retry exemption. Harness revisions retained; no further run.
+Cloud credentials were absent from environment/vault, but this does not establish
+the approved outside-root private config lacks them; prior safe runner used it.
+Do not request secret values in chat or infer credentials lost.
+Next exact step: user decision on browser-managed model preparation/download
+(size/variant unknown); safely locate retained credential route without revealing
+values and hand off actual hosted sign-in/consent as required. No runtime retry
+currently authorized. v002 preserved; no full-submission/gate claim.
+
+**Captioned v002 ready:** user responded “yes, it is correct” to voice/
+sync/script confirmation. Treat narration text as USER-CONFIRMED, not ASR-verified;
+retain approved picture/audio timing including closing hold. Implementer
+`ses_df0d061a8ffekVCZ9MmoXY1he8` completed new
+`Temp/opencode/shiftrelay-demo-vo-v002-20261124/`: captioned manual walkthrough,
+SRT/VTT/transcript and local QC. No overwrite/delete/network/install/publication.
+Deliverable `shiftrelay-manual-walkthrough-captioned-v002.mp4`, with final
+SRT/VTT under captions/ and clean voiced reference. Master independently probed
+49.040s h2641280x1020+AAC48k and full decoded exit0/no error output; inspected
+frame at36s showing unobscured UI with two-line caption in added lower band.
+Delegate reports identical copied AAC and successful caption/QC checks. Not a
+master full-frame or acoustic audit. Existing title “Silent cut for voice-over”
+remains baked in; not relabelled as submission-final. Phone readability untested.
+Next exact step: user reviews captioned manual cut; substantive next delivery work
+is missing real-AI footage and unresolved payload/release conditions, not another
+voice take. No publication or fresh capture/runtime permit implied. Delegates idle.
+
+**Voice v001 review ready:** user supplied
+`C:/Users/acer/Downloads/shiftrelay-vo.wav` (first take). Implementer
+`ses_df0e5b548ffepsDZW6rwBnLV7V` completed local-only audio inspection/sync/render
+under `Temp/opencode/shiftrelay-demo-vo-v001-20261124/`, preserving all inputs.
+Review MP4 `shiftrelay-demo-vo-review-v001.mp4` exists. Master independently probed
+49.040s h264 1280x900 + AAC48k mono and full-decoded exit0/no error output.
+Delegate reports -14.1LUFS/-1.2dBTP, unchanged picture, no voice tempo/pitch change.
+No offline recognition model was available; caption SRT/VTT and transcript are
+explicitly DRAFT-UNVERIFIED from planned script, not verified spoken words.
+No burned captions. No upload/download/install/publication.
+Next exact step: user watches/listens to review MP4, confirms spoken transcript
+or supplies corrections, and checks sync/voice quality. Delegate flags 3.6s hold
+37.9–41.5s and potentially audible limiting (not ear-checked). Do not call audio
+quality/caption accuracy finally approved. Preserve original WAV and prior assets.
+Manual footage still has no local/cloud AI output; submission gaps unchanged.
+
+**Recorded manual cut / awaiting user voice:** master read REPORT.md and
+VOICEOVER.md under `Temp/opencode/shiftrelay-demo-voicehandoff-20261124/`.
+Deliverable `footage/shiftrelay-demo-silent-review.mp4`; master independently ran
+ffprobe (49.04s, h264, 1280x900, one video/no audio) and ffmpeg full decode (exit0,
+no error output), plus git diff --check exit0. No master full-frame privacy review
+or final asset approval. Script has eight cue paragraphs for user's voice.
+
+Footage is emulator/manual workflow ONLY, honest role-separated clips. Same-session
+browser reported local drafting unavailable; zero model generations/cloud requests.
+Required real-AI shots still absent. Do not call this finished hackathon demo.
+Delegate reports pre-capture privacy assertions and sampled frame review; those
+are not whole-file privacy certification.
+
+Process deviations retained from REPORT§7: delegate deleted a new duration probe
+and abandoned draft despite no-deletion instruction. No retained prior artifact
+reported deleted; this is not waived. Projection fixture omitted because no traffic
+was collected; capture scope had demanded fixture before authenticated traffic,
+so do not claim full procedural compliance. No exposure is established by this note.
+
+Next exact step: user records/sends voice, then delegate sync/edit/captions from
+actual spoken audio and run final audiovisual QC/review. No publication authorized.
+Local/cloud AI capture and payload proof remain separate unresolved delivery work;
+no automatic repeat session. All delegates idle.
+
+**Final run stopped; diagnostic loop ended:** master read
+`Temp/opencode/shiftrelay-hosted-measurement-v7-20261124/MEASUREMENT-V7-20261124.md`.
+V7 exit 7, counters expected5/fetched0/matched0/mismatches0/errors5/truncated0.
+Delegate reports zero credential entry/Auth/preview/send/AI POST and owned tab closed.
+Execution permit consumed, no retry. V6 runtime hashes unchanged; V7 manifest added.
+Payload proof and final gates remain OPEN; no workaround or waiver.
+
+Master source check of `flow_preview_once.js:89–111` qualifies the report:
+`fetch_errors` also counts non-OK/null responses and body-read exceptions, not just
+thrown fetch calls. `paths_fetched` increments only AFTER arrayBuffer completes.
+Thus “all fetches threw / zero responses obtained” is NOT established; only zero
+successfully read bodies and five failed asset checks. Exact cause stays UNKNOWN.
+
+**Demo preparation received:** `docs/demo/README.md` now explicitly marks both
+required real-runtime AI shots NOT RECORDED; existing narration/timing/caption cues
+are preserved. Master inspected exact +21/-2 diff and ran `git diff --check`
+(exit 0, line-ending warnings only). No capture/audio/model request or final video
+was produced. Three dirty docs: HANDOFF, budget, demo README; no commit/review/gate.
+
+**Next exact delivery step:** scope one real-runtime demo capture using the existing
+section 9 procedure and section 8 QC, first resolving recording-machine on-device
+availability and the specific runtime/build to film. Do not assume local dist is
+the served build or use rough unavailable-state clips as AI footage. A single cloud
+request for capture needs its own explicit scoped authorization; no live budget
+remains from V7. Credentials must stay entirely outside capture, including role
+switches; use honest editorial role cuts rather than implying continuity. Narration,
+burned captions/sidecar and final asset review remain missing. No active delegates;
+no more diagnostic loop or automatic model reroll. Release/payload gaps stay open.
+
+**Diagnostic received; OFFLINE tooling fix active:** master read
+`Temp/opencode/shiftrelay-hosted-served-asset-diag-20261124/REPORT.md`.
+One approved direct-HTTP run reports six GETs, all 200, five pinned hashes matching.
+This later sample does NOT establish the earlier V4 cause or categorically rule
+out transient changes/browser conditions; reject stronger exclusions in the report.
+V4's specific failure counter remains UNKNOWN. No pin refresh or runtime retry.
+
+Offline fix received at
+`Temp/opencode/shiftrelay-hosted-payload-refusal-counters-20261124/REPORT.md`.
+Master independently ran `py -3 py_stub_check.py` (43/43 exit 0),
+`node selector.test.mjs --label master-refusal-counters` (192/192 exit 0) and
+`node freeze.mjs --verify --manifest runs/V6-8e3744c24964.manifest.json`
+(exit 0, `ok=true`, `drift=[]`). Original V3/V4 tree preserved; new revision
+adds safe refusal counters without a live run. Stub suite separately hashed,
+not part of freeze's runtime set.
+
+Reviewer `ses_df15f7007ffem1t7Qtmk14I9uH` now performs read-only engineering
+preflight, NOT formal Gate C. Next exact step: receive GO/NO-GO, resolve and
+re-review blockers before asking any fresh runtime permit. RED report arithmetic
+(43 total versus 26 pass + 16 fail) needs precise accounting, not invented totals.
+The separate payload-execution permit below remains consumed.
+
+Preflight update: reviewer returned GO, no code blockers; RED log is actually
+27 PASS + 16 FAIL = 43, with the retained invariant passing on old source.
+Same implementer is correcting two report tallies/inventory and refreshing report
+hashes, plus aligning the offline test with the inclusive 10000 counter cap.
+Runtime/gate/pin unchanged. Next: inspect corrected evidence, independently verify
+offline test and V6 identity, then same-reviewer confirmation. Future execution
+must explicitly verify V6 before running and check the separately hashed stub
+suite; a newly generated manifest alone is not a prior-approved-byte check.
+
+Corrections received: report RED 27/16/43 and inventory corrected; existing stub
+check now exercises inclusive 10000 and rejects 10001. Master freshly reran Python
+43/43 exit 0 and V6 verify exit 0/no drift, and matched report/stub/HASHFREEZE
+SHA-256 values `2eb841b2…` / `4b60c156…` / `e1b6d73a…`.
+Same reviewer final confirmation is active. Next exact step: receive verdict,
+then ask a fresh single-execution permit only if engineering GO stands.
+No runtime budget is currently available.
+
+Final same-reviewer confirmation received: engineering GO, no blockers. Residual
+prose erratum: REPORT says six older logs; authoritative HASHFREEZE lists eight.
+Record this here rather than starting another cosmetic hash/edit cycle.
+Next exact step: obtain fresh explicit permission for ONE V6-based hosted runner
+execution (five asset GETs before credentials, one tab/sign-in/preview/send,
+max one AI POST, no retry; pre-send failure consumes execution).
+Pre-run explicitly verify V6, separately verify stub hash `4b60c156…`, and pass
+the fixture before authenticated traffic. No live permit follows from review.
+
+**STOPPED — execution permit consumed:** implementer
+`ses_df171e966ffeQY4EOS3jjiHViy` returned runner exit 7,
+`reason=served_identity_not_verified`, `run_id=V4-9446fcc150da`,
+`stage=served_identity_mismatch`. Master read the outside-root sanitized
+`shiftrelay-hosted-payload-integrated-20261124/MEASUREMENT-V4-20261124.md`.
+Delegate reports one execution/tab, five attempted asset GETs, zero credentials,
+Auth, preview clicks, sends and AI POSTs, and owned tab closed. The GET count and
+pre-Auth ordering rely on frozen-source control flow; refusal emitted no detailed
+match/fetch-error breakdown. No result/verdict file exists. Cause class is UNKNOWN,
+not an established changed deployment or bad hash. Fixture 192/192 and post-run
+V3/V4 no-drift checks are delegate-reported, not master-replayed.
+
+**Next exact step:** ask for a separately scoped diagnostic permission before any
+further origin GET, browser/Auth or model execution. Prefer read-only served-asset
+diagnosis with zero Auth/model calls; do not silently refresh expected hashes or
+weaken the gate. No rerun is authorized, despite zero AI POSTs. Payload proof and
+final Gates C/D remain OPEN. No follow-on delegate is active.
+
+Resumed at local WIP `be44293c604f7ec1eea80afac4dbd0769c97b0f5`,
+branch `feat/hackathon-ideation`, origin unchanged. Initial `git status --short`
+was empty. Phase 8 / final Gates C/D remain OPEN; completed phases are not repeated.
+Required delivery, contract, demo-plan and verification artifacts exist.
+
+Retained evidence and `review.sha` agree on `2c3d3ca`, with 16 checks,
+`ok=true`, `dirty=false`, `tree_stable=true`, finished `2026-11-24T06:35:32Z`.
+This is historical checkpoint evidence, not current-HEAD certification: six
+documentation files changed in the WIP commit. No full verifier was rerun for status.
+
+The outside-root integrated collector and V3 manifest exist. Fresh read-only command
+`node freeze.mjs --verify --manifest runs/V3-9446fcc150da.manifest.json`
+returned exit 0, `ok=true`, `drift=[]` in the integrated collector directory.
+This establishes retained-byte integrity only, not a fresh test or live result.
+
+**Exact next step:** obtain explicit permission for ONE execution of
+`run_preview_once.py`, five same-origin asset GETs before credentials, one tab,
+one sign-in, one preview click, one send and at most one AI-host POST; no retry,
+even after a pre-send failure. Until granted, no browser/Auth/model execution.
+After approval, delegate this single objective to implementer with the existing
+projection-fixture, frozen-source and fail-closed boundaries. No demo capture,
+task writes, configuration changes, deployment, push, merge or publication implied.
+Suggested skills: agent-browser and firebase-ai-logic-basics for execution;
+verification-before-completion and handoff for evidence inspection/closure.
+The closure below and older sections remain dated history.
+
 ## SESSION CLOSED — November 24, 2026, explicit confirmation received
 
 User explicitly confirmed orderly closure: one local WIP commit of the six pending

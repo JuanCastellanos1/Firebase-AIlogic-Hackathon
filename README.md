@@ -34,9 +34,12 @@ mode, so no credential or private draft survives a reload, sign-out or member re
 - Incoming membership accepts open work, resolves it with a recorded resolution, and reopens it
   with a reason. Every change is versioned with exactly one activity.
 - Role comes from the venue membership document. The UI has no role toggle.
-- Optional cloud reconciliation: an exact bounded preview, a distinct consent click, one in-flight
-  request, validated duplicate/contradiction suggestions, and a human confirm (one observation
-  activity) or dismiss (no write). No merged records, no owner changes, no automatic retry.
+- Optional cloud reconciliation: an exact bounded preview, a distinct consent click and one
+  in-flight request. Validated duplicate/contradiction suggestions can be confirmed (one
+  observation activity) or dismissed (no write); those two paths are implemented and covered by
+  unit and emulator tests plus a self-labelling mock UI, not by a live run — the recorded live
+  hosted runs returned zero suggestions, so no confirm or dismiss has been observed. No merged
+  records, no owner changes, no automatic retry.
 - Responsive semantic UI, keyboard operation at 320 CSS px, and automated axe serious/critical
   checks.
 

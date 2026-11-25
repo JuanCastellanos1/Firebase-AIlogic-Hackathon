@@ -647,6 +647,25 @@ boundary are `docs/verification.md` §13.3 and `docs/adr/0007-appcheck-enforceme
 and never to be staged on camera: a hosted HTTPS on-device request, Android Chrome touch,
 screen-reader/200% zoom, and AC15.
 
+**Dated correction — November 24, 2026 (demo asset and current status).** The "not recorded"
+framing above is dated history: a captioned review assembly exists outside the repository,
+`Temp/opencode/shiftrelay-demo-ai-v005-20261124/shiftrelay-review-v005.mp4` (2:03.80, SHA-256
+`dd1641b0d62f074b02a41913974ea88df53bc47ec539ddce04bc9529946f9095`), and the user **approved that
+v005 asset** on November 24, 2026. Asset approval is not publication, upload, submission or a
+legal/visibility decision: all four remain separate and none has been requested or given. A
+further candidate lives at
+`Temp/opencode/shiftrelay-demo-publication-v006-20261124/shiftrelay-demo-v006.mp4` (2:03.80,
+SHA-256 `dcbbdac0fda6c44190ae67cb7a9d02c1fbe5d5e42302803c4d02307c6b74a4d8`); it changes only the
+title-card tag (`DEMO`) and removes "Not published" from the limits card over the approved
+picture plan and byte-identical audio, its QC (`ok=true`, 151 checks) is measurement and not
+asset approval, and it is **not approved**. Current status of the two AI rows is unchanged by
+either file: on-device drafting ran once and the app **rejected the local output** (no draft cards
+produced, not retried); one human-consented hosted request returned a 95-character brief with
+**zero suggestions**, so no confirm/dismiss footage exists; the payload verdict for that
+measurement remains **FAIL on the token predicate alone**, and that predicate stays
+**unmeasured** because the wire scalar was not retained. No demo claim, gate or delivery group
+follows.
+
 | Time | Shot | Note |
 |---|---|---|
 | 0:00–0:08 | Title card: "ShiftRelay: private shift notes become reviewed tasks" | own text only |
@@ -655,7 +674,7 @@ screen-reader/200% zoom, and AC15.
 | 0:30–0:55 | Sign in (synthetic identity), type a synthetic shift note, show the local model state, generate, show drafted cards with source links | real app, real local request |
 | 0:55–1:15 | Edit a card, delete the private aside, show the exact reviewed packet, share; show the incoming session seeing only approved fields | real app |
 | 1:15–1:35 | Incoming accepts, resolves with a resolution, reopen with a reason; version and activity visible | real app |
-| 1:35–2:05 | Cloud consent: exact packet preview, separate approve click, real duplicate/contradiction suggestion, human confirm (no merge) and dismiss alternative | real app; needs the reviewed Rules release — until then only labelled-mock UI evidence exists |
+| 1:35–2:05 | Cloud consent: exact packet preview, separate approve click, and the response the service actually returned; confirm (no merge) and dismiss only if a suggestion exists | real app. The reviewed Rules release is deployed, and the recorded live hosted runs returned zero suggestions, so no recorded suggestion exists to show. Confirm and dismiss are implemented and covered by unit and emulator tests plus a self-labelling mock UI, not by a live run |
 | 2:05–2:25 | Honesty shot: local model unavailable case keeps manual entry and never uploads; unsupported state is a real state, not a mock | real app |
 | 2:25–2:45 | Evidence card: repo, commit SHA, verifier report name, what is still unverified | no invented numbers |
 | 2:45–2:55 | Close on the running hosted URL and the accept/resolve action | last frame is the real CTA |
@@ -692,8 +711,10 @@ footage exists.
 > page memory, the model is initialized only on an explicit user action, and there is no
 > local-to-cloud fallback. Sharing is a separate, exact-field approval; ownership, resolution and
 > reopening are human actions with append-only history. Cloud reconciliation is optional, separately
-> consented, bounded to current shared task versions, and returns duplicate/contradiction observations
-> that a human confirms or dismisses — never automatic merges or writes. Firestore Rules, not the UI,
+> consented, bounded to current shared task versions, and returns validated duplicate/contradiction
+> observations that a human confirms or dismisses — never automatic merges or writes; those two
+> paths are covered by tests and a labelled mock, and the live hosted runs so far returned zero
+> suggestions. Firestore Rules, not the UI,
 > enforce roles, versions and one owner.
 >
 > Built with React/TypeScript, Firebase AI Logic, App Check, Auth, Firestore, Rules and Hosting, using
@@ -847,6 +868,9 @@ Status as of November 20, 2026 (earlier wording kept where still true):
    unverified, and no group is closed.
 4. Decide the private judge-credential channel; keep values out of the repo.
 5. Record the ≤3 minute demo on the real runtime; upload is a separate user approval.
+   **November 24, 2026:** a real-runtime, captioned, voiced demo now exists and the user approved
+   the v005 asset; the v006 candidate is not approved. See §10's dated correction for both files,
+   their SHAs and the asset-approval/upload separation.
 6. Probe the ordinary Chrome profile for the flag/model; real device, screen-reader, zoom and user
    checks. **Updated November 20, 2026 (later):** desktop 200% zoom/keyboard, submit-time native
    validation, emulator touch, a **user-observed physical Android 16 phone walkthrough of the touch

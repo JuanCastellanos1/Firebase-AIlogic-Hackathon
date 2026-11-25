@@ -2,7 +2,7 @@
   "name": "shiftrelay",
   "private": true,
   "type": "module",
-  "description": "ShiftRelay local demo: memory-only private shift notes become reviewed shared tasks with server-confirmed ownership, resolution and reopening. Firebase emulators only; no cloud deployment.",
+  "description": "ShiftRelay: memory-only private shift notes become reviewed shared tasks with local on-device drafting, consented cloud reconciliation and server-confirmed ownership, resolution and reopening; it runs against Firebase emulators, a live-local dev project and a hosted QA deployment.",
   "engines": {
     "node": ">=22.13.0"
   },

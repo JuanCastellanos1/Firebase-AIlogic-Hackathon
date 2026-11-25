@@ -1,5 +1,23 @@
 # ShiftRelay — Time and Scope Budget
 
+Currentallocation: approvedv005video complete; bounded OFFLINE publicdeliverable
+safety/claims audit active. Fix concretefindings only, then actualreleaseconditions.
+No more feature/video/AIrequestbudget or impliedpublication/submissionapproval.
+
+Auditfound stalepublicclaims/approvalmetadata. Allocate ONEboundedcleanup plus
+two-labelv006 publicationcopyrender, no newvoice/AIcapture. Preservev005approval;
+v006newbytes need userapproval. Defer optionalhistoricalpath/Nodeprosepolish.
+
+Cleanup/v006 delivered; masterdecode/probe/diffcheck exit0. Same-reviewer bounded
+confirmation active, then usernewSHAapproval. No newvideo/voice/AIcapturework.
+Sixdirtyfiles remainuncertified; latercleansourceverification/review stillneeded.
+
+Reviewclosedclaims/metadatafixes except ONEchecklistpointer; boundedclausefix
+assigned, no render. v006userapproval remainspending. No extraaudit/polishscope.
+
+Same-reviewerfinalconfirmedchecklistpointerclosed; publicpackagecopyfixes reviewed.
+Onlyv006assetdecision remainsinthisaudit; separatefinalsource/releaseconditionsopen.
+
 Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentages allocate available effort, not invented full-time working hours. No measured labor totals were supplied. Firebase spending remains free-tier-only; no billing changes authorized.
 
 | Block | Phases | Planned effort | Actual evidence / status |
@@ -11,6 +29,198 @@ Official cutoff: November 30, 2026, 2 PM Pacific. Resumed November 19. Percentag
 | Delivery | 8 | 10% | Earlier CI succeeded only for `b0910d3`. Current-source CI, hosted QA, final validation/review, local demo video and gated merge pending. No push/deploy/merge during resume verification/review. |
 
 ## Closure — November 24, 2026 UTC
+
+Resume check (November 24): no phase or test budget reopened. Retained collector
+V3 integrity verified read-only, exit 0 / no drift. Current WIP documentation is
+not certified by the older checkpoint evidence. User subsequently approved ONE
+bounded hosted execution, delegated to implementer; no additional budget granted.
+pre-send failure consumes that execution, no retry or extra AI budget is implied.
+No spend, quality-floor or deadline change.
+
+Result: the single execution is consumed, exit 7 at served-identity verification
+before Auth/preview/send (zero AI POSTs delegate-reported). Cause breakdown was not
+emitted; no diagnostic GET or retry performed. Reserve no further live execution
+until separately approved. Payload proof remains unmeasured; final Gates C/D open.
+
+User subsequently approved ONE read-only asset diagnostic: entry page plus up to
+five pinned same-origin asset GETs, no Auth/AI/retry/pin change. Debugger assigned;
+this does not replenish the payload-execution budget or authorize release changes.
+
+Diagnostic consumed: six direct GETs, all 200 / five pinned hashes match in that
+later sample; V4 cause remains unknown. Allocate one minimal OFFLINE refusal-counter
+fix with regression and engineering review, not another live attempt. Preserve
+prior collector revisions; no release, pin, spend or quality-floor change.
+
+Offline fix independently checked: Python 43/43, Node 192/192, V6 freeze no drift,
+all exit 0. Allocate one read-only engineering preflight review and blockers only;
+no full-project status certification, live retry or new AI budget.
+
+Preflight GO, zero code blockers. Batch required RED-count/inventory/hash precision
+and one offline cap-boundary test alignment, then same-reviewer confirmation.
+No separate polish cycle or runtime allocation; payload permission stays consumed.
+
+Corrected evidence independently checked (43/43, V6 no drift, three hashes match);
+same-reviewer final confirmation pending. Runtime/gate/pin unchanged, no live spend.
+
+Final engineering GO received, no blockers. Record older-log prose count erratum
+without further cosmetic cycle. Await explicit ONE-execution permit; no retry or
+extra AI allocation from offline approval.
+
+User delegated next execution decision to master. Allocate ONE final bounded V6
+measurement, no retry; implementer assigned. If blocked again, stop this diagnostic
+loop and prioritize other delivery artifacts without waiving missing proof.
+
+Final V7 execution consumed: exit7, five failed asset checks, zero completed body
+reads, no Auth/AI. Counter does not distinguish thrown fetch/non-OK/body-read error.
+End diagnostic loop. Allocate existing demo-package readiness work offline only,
+no capture/model/spend/publication allocation and no payload-proof waiver.
+
+Demo plan updated narrowly (+21/-2) to mark two missing real-AI shots; master
+diff-check exit0. Narration/timing/cues retained; no finished asset or runtime
+progress claimed. Next effort is actual bounded recording/voice/captions/QC,
+not further script polish. No remaining cloud-call permit.
+
+New user request: assistant records, user supplies voice. Allocate ONE bounded
+demo capture session: max1 local generation +1 separately consented cloud request,
+synthetic UI workflow, silent local render and outcome-matched voice script.
+No retries/rerolls/paid resources/publication; runtime/privacy gates unchanged.
+This is a new scoped capture budget, not renewal of the failed payload-proof loop.
+
+Capture session produced49.04s silent manual/emulator cut and eight-paragraph voice
+script; master independently verified format/full decode. No AI footage: local
+unavailable, cloud not attempted. Await user voice for sync/captions/QC; do not
+spend another capture or diagnostics budget automatically. Deviations in HANDOFF.
+
+User delivered first WAV. Allocate local-only voice sync, light measured audio
+finishing, captions only from verified spoken content, and review export/QC in new
+v001 directory. No recording/cloud budget, upload/install/publication or source change.
+
+v001 review rendered; master verified49.040s video+audio/full decode exit0.
+Caption text remains unverified (no installed local ASR model); no burned copy.
+Await user's listening/transcript corrections before final sync/caption/QC approval.
+No publication or full-submission completion claim.
+
+User confirms voiced cut/script correct. Allocate one local v002 captioned export
+with sidecars/QC, preserving approved sync/audio and v001. Caption provenance is
+user confirmation, not ASR; no new live/model/capture/publication budget.
+
+v002 captioned manual walkthrough delivered; master probe/full decode exit0 and
+sample caption frame inspected. User voice work complete for this cut. No full
+submission/gate claim; next effort belongs to missing AI/runtime/release work.
+
+User explicitly requests realAI capture. Allocate ONE bounded supported-browser
+session, max1 local generation+1 separately consented cloud request, entry+5
+identity assetGET preflight, no retry/reroll/install/settings/publication.
+If blocked, return exact human action rather than expend further manual takes.
+Existing voiced v002 unchanged; runtime/privacy/release floor preserved.
+
+RealAI capture blocked, no footage: local reports downloading, zero generation/
+cloud requests. Three wrapper/Chrome attempts exceeded bounded no-retry scope;
+record deviation, don't replenish budget because setup failed. Download size/
+variant unconfirmed. Await scoped download decision; secure credential recovery
+must use retained private route, not secrets in chat. No automatic recapture.
+
+User renewed full routine autonomy. Allocate ONE Chrome-managed model preparation
+and local generation capture: single launch,20GiB initial/10GiB stop disk floor,
+15min max wait, no relaunch/reroll. Parallel offline existing credential-route
+reconstruction only; no cloud request allocated yet. Free-tier and gates unchanged.
+
+Offline route recovered: retained outside-root private config/helper exist; no
+secret contents read, no runtime spent. Local preparation/capture still active.
+
+Preparation consumed: ~6.3GiB downloaded, no generation/footage, readiness unknown.
+Reload/second mount probe not explicitly approved; record deviation. Allocate
+OFFLINE source-grounded auth/session harness correction with behavioral regression
+before any runtime decision. No new long download wait or blind retry.
+
+Offline regression7/7 master verified; rootcause in-memory Auth reload loss,
+not slow restoration. Allocate ONE corrected fresh-session capture,3min runtime
+cap, single probe/maxone generation if ready, no reload/enable/download wait.
+No cloud or publication allocation; stop all setup/notready failures without retry.
+
+Local session produced real generation/refusal clip (22.28s decoded by master),
+not valid draft cards; no reroll. Wait compression precludes latency claim.
+Allocate ONE cloud footage session from user's requested AI capture/autonomy,
+maxone request after human consent, strict same-browser identity/privacy gates.
+No retry/taskwrite/publication. Successful-local A1 remains absent.
+
+Cloud phaseA reached genuine human consent boundary (5/5 page identity hashes,
+privacy gate, recording). User now says done after send instructions; allocate
+same-session finish only, zero additional request/retry budget. Await actual
+outcome/footage/QC; elapsed recording limit may constrain usable frames.
+
+V10 consumed1cloudrequest200; bounded payload equality/canary measurements reported
+but overall verdict fails token cap conjunct. Response NOT filmed (recorder expired).
+Two finish attempts/session-record repair violated no-retry scope; retain deviation.
+Allocate OFFLINE token-conjunct diagnosis only; no further model/capture budget.
+
+Offline diagnosis supports capture redaction hypothesis, not direct original-wire
+measurement. Keep V10 fail/unmeasured predicate; no token-only rerun. Next capture
+must coordinate human readiness before recorder starts to avoid repeat timeout.
+No live execution assigned; existing voice/manual cut preserved.
+
+User ready now: allocate ONE cloud-response capture take2, offline known finish
+bug regression first, one humanconsented request, immediate preview handoff,
+result-aware/15min bounded recording. No retries/rerolls/token-only rerun/taskwrite/
+publication. Existing voice remains until actual footage reviewed.
+
+Take2 setup consumed with no sourcecheckbox/preview/request/recording. User wait
+did not yield footage; no automatic retry. Allocate OFFLINE source-task readiness
+diagnosis/classification only; cloud actual cause unknown, no synthetic write yet.
+
+Readiness diagnosis received; allocate one OFFLINE integrated readiness correction
+with regression/freeze and review. No data mutation/live request/capture budget
+yet; no assumption extra V1 manifest proves an undisclosed live attempt.
+
+Master verified readiness Node253/Python98/V3freeze all exit0. One engineering
+review assigned for safe integration and minimality; no further code churn or
+live request/capture allocated until verdict.
+
+Reviewer GO/no blockers; size concern was total-vs-delta reporting error.
+Allocate ONE READ-ONLY hosted readiness observation (no note/recording/preview/
+AI/write), with offline stop-path assertions first. User wait not required.
+
+Read-only observation exit0 reports READY,6eligible sources,5/5pins; no seed/
+AI/write/capture. Next effort actual cloud-response recording coordinated with
+human availability, not further readiness tooling. No live delegate active.
+
+User available now: allocate ONE reviewed full cloud capture session/maxone
+humanconsented request, immediate handoff and900s recorder. No repeated readiness
+planning/features/tokenrerun/live repair/taskwrites/publication.
+
+Current session reached preview/recording, user clicked and says done. Same-session
+finish/export/QC only allocated; no extra request/retry/datarepair. Await actual
+response-frame proof before calling cloud footage captured.
+
+Cloudresponse now filmed; master decode/frameinspection confirms actual0suggestion
+result. Allocate LOCAL v003 AI-inclusive assembly+minimalvoicepickups, preserve
+approved manualVO and actuallocalrefusal. No more livecalls/rerolls. Tokenpredicate
+remainsfail/unmeasured; assetassembly does not waive finalgates/releaseconditions.
+
+v003120.24s review assembled; master decode/probe/diffcheck exit0. Three short
+voicepickups needed for new AI/limits scenes, approved49s manualVO retained.
+No more live/model budget; next local v004 finishing after useraudio.
+
+User supplied3pickups, correctedmapping no-numberLOCAL/(1)CLOUD/(2)LIMITS.
+Allocate localv004 sync/QC, originalmanualvoice preserved; newcaptions finalonly
+after actualwordverification/userconfirmation. No livecalls/install/publication.
+
+v004123.8s voicedreview delivered/masterdecodeverified, corrected3filemapping,
+limitscard extended ratherthan cut speech. Newcaptions draftonly; await user's
+spokenwordconfirmation/corrections before finalcaptionrender. No newrecordingneeded
+unless userrequests; no publication/gateclaim.
+
+User confirms3scripts verbatim. Allocate LOCALv005 finalcaptionexport/QC only,
+approvedaudio/timing preserved; no more voicerecording or externalASR needed.
+Assetfinalization is not gate/release/submissionapproval.
+
+v005123.8s captionedreview delivered; master probe/decode/diffcheck exit0 plus
+samplecaptionframeinspection. Await finalhumanassetreview, not anothervoice take.
+No publication or releasegateclosure; remainingprojectconditions unchanged.
+
+UserAPPROVED exactv005demoasset. Close videoediting/voiceallocation; no automatic
+furtherpolish. Allocate finite remainingrelease/submissionreconciliation and then
+ONE actualrelease-readiness task. Assetapproval not upload/submissionpermission.
 
 Ordered closure at explicit user confirmation: one local WIP documentation commit,
 no push/merge/deploy/publication/deletion. Branch and all work preserved. Last
